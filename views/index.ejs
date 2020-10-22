@@ -21,6 +21,14 @@
 			<div class="col-12 col-md-6 align-self-center">
 				
 				<!-- <div class="circle-1"></div> -->
+				<table>
+					<% for(var i=0; i < continents.length; i++) { %>
+					   <tr>
+						 <td><%= continents[i].id %></td>
+						 <td><%= continents[i].name %></td>
+					   </tr>
+					<% } %>
+					</table>
 
 				<div class="network-box">
 					<h2>Our network of Experienced Trademark Attorneys</h2>

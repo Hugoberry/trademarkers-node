@@ -8,12 +8,13 @@ var logger = require('morgan');
 var publicRouter = require('./routes/public');
 var customerRouter = require('./routes/customer');
 
+// CALL ENV FILE
+require('dotenv').config()
+
 // DATABASE CONNECT
 var db = require('./config/database');
 
 var app = express();
-
-require('dotenv').config()
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -48,7 +49,7 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-// db.getDb();
-db.getUserById(3);
+db.connectToServer();
+// db.getUserById(3);
 
 module.exports = app;

@@ -1,15 +1,12 @@
 // DATABASE CONNECTION
 const mysql = require('mysql');
 const connection = mysql.createConnection({
-    host     : 'localhost',
-	user     : 'root',
-	password : '',
-	database : 'trd-dev'
+    host     : process.env.DBHOST,
+	user     : process.env.DBUSER,
+	password : process.env.DBPASS,
+	database : process.env.DBNAME
 });
 
-// require('../repositories/users');
-
-// require('./repositories/users');
 
 module.exports = {
 
@@ -21,24 +18,24 @@ module.exports = {
     
     },
 
-    getUserById: function( id ) {
+    // getUserById: function( id ) {
         
-        connection.query('SELECT * FROM users WHERE id = ?', [id],function(error, results, fields) {
-			if (results.length > 0) {
-				console.log(results);
-			} 
-		});
+    //     connection.query('SELECT * FROM users WHERE id = ?', [id],function(error, results, fields) {
+	// 		if (results.length > 0) {
+	// 			console.log(results);
+	// 		} 
+	// 	});
     
-    },
+    // },
 
-    getCountries: function( callback ) {
+    // getCountries: function( callback ) {
         
-        connection.query('SELECT * FROM users WHERE id = ?', [id],function(error, results, fields) {
-			if (results.length > 0) {
-				console.log(results);
-			} 
-		});
+    //     connection.query('SELECT * FROM users WHERE id = ?', [id],function(error, results, fields) {
+	// 		if (results.length > 0) {
+	// 			console.log(results);
+	// 		} 
+	// 	});
     
-    }
+    // }
 
 };

@@ -9,14 +9,14 @@ const connection = mysql.createConnection({
 
 module.exports = {
 
-    // getUserById: function( id ) {
+    getContinents: function( id ) {
         
-    //     return connection.query('SELECT * FROM users WHERE id = ?', [id], function(error, results, fields) {
+        return connection.query('SELECT * FROM continents', function(error, results, fields) {
 			
-	// 		return results;
-	// 	});
+			return results;
+		});
 
-	// 	// return res;
+		// return res;
     
-    // }
+    }
 };
