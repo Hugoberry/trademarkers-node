@@ -1,3 +1,6 @@
+// CALL ENV FILE
+require('dotenv').config()
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -8,11 +11,11 @@ var logger = require('morgan');
 var publicRouter = require('./routes/public');
 var customerRouter = require('./routes/customer');
 
-// CALL ENV FILE
-require('dotenv').config()
+
 
 // DATABASE CONNECT
 var db = require('./config/database');
+var rpoContinents = require('./repositories/continents');
 
 var app = express();
 
@@ -49,7 +52,8 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-db.connectToServer();
+// var continents = rpoContinents.getContinents();
+// console.log(continents);
 // db.getUserById(3);
 
 module.exports = app;

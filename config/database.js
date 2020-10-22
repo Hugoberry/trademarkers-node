@@ -1,6 +1,6 @@
 // DATABASE CONNECTION
-const mysql = require('mysql');
-const connection = mysql.createConnection({
+var mysql = require('mysql');
+var connection = mysql.createConnection({
     host     : process.env.DBHOST,
 	user     : process.env.DBUSER,
 	password : process.env.DBPASS,
@@ -8,34 +8,8 @@ const connection = mysql.createConnection({
 });
 
 
-module.exports = {
-
-    connectToServer: function( callback ) {
-        connection.connect((err) => {
-            if (err) throw err;
-            console.log('Connected!');
-        });
-    
-    },
-
-    // getUserById: function( id ) {
-        
-    //     connection.query('SELECT * FROM users WHERE id = ?', [id],function(error, results, fields) {
-	// 		if (results.length > 0) {
-	// 			console.log(results);
-	// 		} 
-	// 	});
-    
-    // },
-
-    // getCountries: function( callback ) {
-        
-    //     connection.query('SELECT * FROM users WHERE id = ?', [id],function(error, results, fields) {
-	// 		if (results.length > 0) {
-	// 			console.log(results);
-	// 		} 
-	// 	});
-    
-    // }
-
-};
+connection.connect(function(err) {
+    if (err) throw err;
+    console.log('Database is connected successfully !');
+  });
+module.exports = connection;

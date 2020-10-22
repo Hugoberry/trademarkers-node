@@ -2,17 +2,18 @@ var express = require('express');
 
 var router = express.Router();
 
-// var rpoUsers = require('../repositories/users');
-var rpoContinents = require('../repositories/continents');
+var db = require('../config/database');
+// var rpoContinents = require('../repositories/continents');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
   
-  res.render('index', 
-      { 
-        title: 'Express',  
-        continents: rpoContinents.getContinents(), 
-      });
+  var sql='SELECT * FROM continents';
+  db.query(sql, function (err, data, fields) {
+    if (err) throw err;
+    res.render('index', { title: 'Trademarkers LLC', continents: data});
+  });
+  
 });
 
 router.get('/about', function(req, res, next) {
