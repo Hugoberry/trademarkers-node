@@ -22,13 +22,15 @@
 				<%= title %>
 				<!-- <div class="circle-1"></div> -->
 				<table>
-					<% for(var i=0; i < continents.length; i++) { %>
+					
+					<% continents.forEach(function(continent,key) { %>
+						<% console.log( continent ) %>
 					   <tr>
-						 <td><%= continents[i].id %></td>
-						 <td><%= continents[i].name %></td>
+						 <td><%= continent['id'] %></td>
+						 <td><%= continent['name'] %></td>
 					   </tr>
-					<% } %>
-					</table>
+					<% }) %>
+				</table>
 
 				<div class="network-box">
 					<h2>Our network of Experienced Trademark Attorneys</h2>
