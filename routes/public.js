@@ -4,7 +4,7 @@ const _ = require( 'lodash' );
 var router = express.Router();
 
 var db = require('../config/database');
-// var rpoContinents = require('../repositories/continents');
+var rpoContinents = require('../repositories/continents');
 
 var groupBy = function(xs, key) {
   return xs.reduce(function(rv, x) {
@@ -21,20 +21,18 @@ router.get('/', function(req, res, next) {
     if (err) throw err;
 
     var i;
-
-    // for (i = 0; i < data.length; i++) {
-    //   console.log(data[i].continent_id);
-    // }
     var result = groupBy(data,'continent_id');
-    // console.log(result[1]);
-    // for (i = 0; i < result.length; i++) {
-    //   console.log(result[i]);
-    //   break;
-    // }
-    
+    var continents; 
+
     if ( !result.isArray ) {
       result = Object.entries(result);
     } 
+
+    // FETCH CONTINENTS 
+    for (i=0; i<=result.length; i++) {
+
+    }
+
 
     // console.log( groupBy(data,'continent_id') );
     res.render('index', { title: 'Trademarkers LLC', continents: result});
