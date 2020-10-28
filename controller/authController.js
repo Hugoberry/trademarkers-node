@@ -11,11 +11,14 @@ exports.login = async function(req, res){
     let username = req.body.username
     let password = req.body.password
 
-    let user = await rpoUsers.validateUser(username, password);
-console.log(user);
+    let validateLogin = await rpoUsers.validateLogin(username, password);
+
+//     let thisUser = await rpoUsers.getUserByEmail(username);
+// console.log(validateLogin);
     // validate user login
-    if (!user){
-        return res.status(401).send()
+    if (!validateLogin){
+        res.status(401).send({ status:false, response: 'Email or Password Mismatch' });
+        res.send();
     }
 // console.log(user);
 //     if (!rpoUsers.validateUser(user[0],password)) {
@@ -38,7 +41,7 @@ console.log(user);
     // res.redirect('/users');
 
     res.status(res.statusCode || 200)
-        .send({ status: true, response: user });
+        .send({ status: true, response: 'user' });
     res.send()
     // console.log(req.cookies.jwt);
     // res.redirect('/users'); 

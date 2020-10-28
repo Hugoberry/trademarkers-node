@@ -47,6 +47,34 @@ module.exports = {
 				}
 			});
 		});
+	},
+
+	getUserByEmail : function(email) {
+		return new Promise(function(resolve, reject) {
+			
+			connection.query('SELECT * FROM users WHERE email = ?',[email],function(err,res,fields) {
+				if (err) {
+					reject(err);
+			   } else {
+					resolve(res);
+			   }
+			});
+
+		});
+	},
+
+	validateLogin : async function(email, password) {
+		
+		let user = await this.getUserByEmail(email);
+		let isValid = false;
+		let hash = user[0].password;
+			hash = hash.replace(/^\$2y(.+)$/i, '$2a$1');
+
+		if ( user.length > 0 )
+			isValid = await this.compareAsync(password,hash);
+		
+
+		return isValid;
 	}
 	
 	
