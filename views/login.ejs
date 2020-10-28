@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('partials/head'); %>
+</head>
+<body >
+
+<header>
+    
+    <%- include('partials/header-default'); %>
+</header>
+
+<main>
+
+	<div class="container" style="max-width:550px;">
+		<div class="row justify-content-center box-bg-container">
+			<div class="col-md-12">
+				<div style="max-width:400px;margin:auto;padding-bottom:20px;">
+	
+						
+						
+						<form class="custom-frm" method="POST" action="/login">
+	
+							
+							<div class="form-group row">
+                                <label for="email">E-Mail Address</label>
+                                <input id="email" type="text" class="form-control" name="email" value="" required autofocus>
+							</div>
+							
+							<div class="form-group row">
+								<label for="password">Password</label>
+								<input id="password" type="password" class="form-control" name="password" required>
+							</div>
+	
+							<div class="form-group row mb-0">
+								<div class="col-md-12 ">
+									<button type="submit" class="btn btn-primary btn-rounded-primary" style="padding-left:40px;padding-right:40px;">
+										Login
+									</button>
+	
+									<a class="btn btn-link" style="color:#000;font-weight:600;" href="#">
+										Forgot Your Password?
+									</a>
+								</div>
+							</div>
+						</form>
+				</div>
+			</div>
+			<br>
+			<div class="form-box" style="text-align: center; height: 60px;">
+				<div class="">
+					<h5 style="margin:0;color:#000;">New to Trademarkers? <a href="/register">Create an account</a></h5>
+				</div>
+				
+			</div>
+		</div>
+		   
+	</div>
+
+
+
+</main>
+
+<footer>
+    <%- include('partials/footer'); %>
+</footer>
+
+</body>
+</html>
