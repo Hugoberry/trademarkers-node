@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken')
 var rpoUsers = require('../repositories/users');
 
 exports.showLogin = function(req, res, next) {
-    res.render('login', { title: 'Login Form' });
+    res.render('public/login', { title: 'Login Form' });
 }
 
 exports.login = async function(req, res){

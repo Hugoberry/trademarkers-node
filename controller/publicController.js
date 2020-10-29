@@ -29,11 +29,11 @@ exports.home = function(req, res, next) {
       }
   
       // console.log( groupBy(data,'continent_id') );
-      res.render('index', { title: 'Trademarkers LLC', continents: result});
+      res.render('public/index', { title: 'Trademarkers LLC', continents: result});
     });
     
 }
 
 exports.about = function(req, res, next) {
-    res.render('about', { title: 'About' });
+    res.render('public/about', { title: 'About' });
 }
