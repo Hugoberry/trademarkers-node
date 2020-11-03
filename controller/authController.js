@@ -18,7 +18,7 @@ exports.login = async function(req, res){
     // validate user login
     if (!validateLogin){
         res.status(401).send({ status:false, response: 'Email or Password Mismatch' });
-        res.send();
+        // res.redirect('/login'); 
     }
 // console.log(user);
 //     if (!rpoUsers.validateUser(user[0],password)) {
@@ -42,7 +42,11 @@ exports.login = async function(req, res){
 
     res.status(res.statusCode || 200)
         .send({ status: true, response: 'user' });
-    res.send()
+
+    
+    // next()
+    // res.redirect('/users'); 
+    // res.send()
     // console.log(req.cookies.jwt);
     // res.redirect('/users'); 
 

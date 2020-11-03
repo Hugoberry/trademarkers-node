@@ -14,8 +14,8 @@ var customerRouter = require('./routes/customer');
 var loginRouter = require('./routes/auth');
 
 // DATABASE CONNECT
-var db = require('./config/database');
-var rpoContinents = require('./repositories/continents');
+// var db = require('./config/database');
+// var rpoContinents = require('./repositories/continents');
 
 var app = express();
 
@@ -42,8 +42,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use('/', publicRouter);
-app.use('/about', publicRouter);
 app.use('/login', loginRouter);
+app.use('/customer', customerRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
