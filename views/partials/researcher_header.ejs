@@ -1,0 +1,22 @@
+<nav class="navbar navbar-inverse" style="margin-bottom:50px">
+    <div class="    container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/researcher">Trademarkers</a>
+        </div>
+
+        <ul class="nav navbar-nav navbar-right">
+            
+            <li><a class="dropdown-item" href="{{ route('logout') }}"
+                onclick="event.preventDefault();
+                                document.getElementById('logout-form').submit();">
+                    <span class="glyphicon glyphicon-log-out"></span>Logout</a>
+                </a>
+
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
+            </li>
+        </ul>
+
+    </div>
+</nav>
