@@ -12,25 +12,26 @@ var groupBy = function(xs, key) {
 exports.home = function(req, res, next) {
   
     var sql='SELECT c.name as contName, cc.* FROM continents c JOIN countries cc on c.id=cc.continent_id order by continent_id DESC';
-    db.query(sql, function (err, data, fields) {
-      if (err) throw err;
+    // db.query(sql, function (err, data, fields) {
+    //   if (err) throw err;
   
-      var i;
-      var result = groupBy(data,'continent_id');
-      var continents; 
+    //   var i;
+    //   var result = groupBy(data,'continent_id');
+    //   var continents; 
   
-      if ( !result.isArray ) {
-        result = Object.entries(result);
-      } 
+    //   if ( !result.isArray ) {
+    //     result = Object.entries(result);
+    //   } 
   
-      // FETCH CONTINENTS 
-      for (i=0; i<=result.length; i++) {
+    //   // FETCH CONTINENTS 
+    //   for (i=0; i<=result.length; i++) {
   
-      }
+    //   }
   
-      // console.log( groupBy(data,'continent_id') );
-      res.render('public/index', { title: 'Trademarkers LLC', continents: result});
-    });
+    //   // console.log( groupBy(data,'continent_id') );
+    //   res.render('public/index', { title: 'Trademarkers LLC', continents: result});
+    // });
+    res.render('public/index', { title: 'Trademarkers LLC'});
     
 }
 
