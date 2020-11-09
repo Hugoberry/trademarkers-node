@@ -12,7 +12,9 @@ const connection = mysql.createConnection({
 var rpoUsers = require('../repositories/users');
 
 exports.showLogin = function(req, res, next) {
-    
+    // clear cookie is for logout function
+    // res.clearCookie("__session");
+    res.clearCookie("jwt");
     res.render('public/login', { title: 'Login Form' });
 }
 
@@ -72,6 +74,7 @@ exports.refresh = function (req, res){
         payload = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET)
     }
     catch(e){
+        console.log(e);
         return res.status(401).send()
     }
 
@@ -102,7 +105,7 @@ exports.login = function(req,res){
     var username=req.query.username;
     var password=req.query.password;
 
-    console.log(req.query);
+    // console.log(req.query);
     connection.query('SELECT * FROM users WHERE email = ?',[username], function (error, results, fields) {
       if (error) {
           res.json({
@@ -124,17 +127,16 @@ exports.login = function(req,res){
                 }else{     
                     
                     //use the payload to store information about the user such as username, user role, etc.
-                    let payload = {username: username}
+                    let payload = {user: JSON.stringify(results[0])}
 
                     //create the access token with the shorter lifespan
                     let accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-                        algorithm: "HS256",
-                        expiresIn: process.env.ACCESS_TOKEN_LIFE
+                        expiresIn: (60 * 60) * 6
                     })
 
                     //send the access token to the client inside a cookie
                     res.setHeader('Cache-Control', 'private');
-                    res.cookie("jwt", accessToken, {secure: true, httpOnly: false});
+                    res.cookie("jwt", accessToken);
                    res.send();
 
                 

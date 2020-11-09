@@ -11,10 +11,24 @@ const connection = mysql.createConnection({
 
 module.exports = {
 
-	getUserTask : function() {
+	getUserTask : async function(id) {
 		return new Promise(function(resolve, reject) {
 			
-			connection.query('SELECT * FROM users WHERE email = ?',[email],function(err,res,fields) {
+			connection.query('SELECT * FROM tasks WHERE researcher_id = ? limit 1',[id],function(err,res,fields) {
+				if (err) {
+					reject(err);
+			   } else {
+					resolve(res);
+			   }
+			});
+
+		});
+	},
+
+	getUserTaskDetails : async function(id) {
+		return new Promise(function(resolve, reject) {
+			
+			connection.query('SELECT * FROM task_details WHERE task_id = ?',[id],function(err,res,fields) {
 				if (err) {
 					reject(err);
 			   } else {

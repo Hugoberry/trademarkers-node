@@ -6,8 +6,8 @@ const {index, tasks, leads} = require('../controller/researcherController')
 
 
 /* GET users listing. */
-router.get('/', index);
-router.get('/tasks', tasks);
+router.get('/', verify, index);
+router.get('/tasks', verify, tasks);
 router.get('/leads', leads);
 
 module.exports = router;
