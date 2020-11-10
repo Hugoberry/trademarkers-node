@@ -79,3 +79,15 @@ exports.registration = function(req, res, next) {
   res.render('public/registration', { title: 'registration' });
 }
 
+exports.redirect = function(req, res, next) {
+
+  res.redirect("https://trademarkers.com" + req.params[0]);
+}
+
+exports.ytVideo = function(req, res, next) {
+
+  let ytId = req.params.ytId;
+
+  res.render('video/index', { title: 'Youtube Videos', ytId: ytId });
+}
+
