@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken')
 const mysql = require('mysql');
 var bcrypt = require('bcrypt');
 
+
 const connection = mysql.createConnection({
     host     : process.env.DBHOST,
 	user     : process.env.DBUSER,
@@ -132,7 +133,9 @@ exports.login = function(req,res){
                     //create the access token with the shorter lifespan
                     let accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
                         expiresIn: (60 * 60) * 6
-                    })
+                    });
+
+                    rpoUsers.putUser(results[0]);
 
                     //send the access token to the client inside a cookie
                     res.setHeader('Cache-Control', 'private');

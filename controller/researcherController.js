@@ -26,9 +26,8 @@ exports.tasks = async function(req, res, next) {
   let task = await rpoTask.getUserTask(user.id);
   task[0].details = await rpoTask.getUserTaskDetails(task[0].id);
 
-  let userExist = await rpoMongoTask.check(user);
-
-  console.log(userExist);
+  // let userExist = await rpoMongoTask.check(user);
+  let taskMongo = await rpoMongoTask.putTask(task[0]);
 
   res.render('researcher/tasks', { title: 'Researcher', task: task[0] });
     

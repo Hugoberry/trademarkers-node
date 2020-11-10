@@ -11,14 +11,14 @@ const mongoConnection = mongoose.createConnection(mongoDb, mongoDbOptions);
 
 module.exports = {
 
-	check : async function(user) {
+	putTask : async function(task) {
 		return new Promise(function(resolve, reject) {
 
 
 			// db.mongoConnection
 
-			mongoConnection.collection("users").findOne({
-				id: user.id
+			mongoConnection.collection("tasks").findOne({
+				id: task.id
 			}, 
 			function(err, result) {
 				if (err) {
@@ -26,8 +26,8 @@ module.exports = {
 				} else {
 					
 					if (!result) {
-						mongoConnection.collection("users").insertOne({
-							user
+						mongoConnection.collection("tasks").insertOne({
+							...task
 						}, 
 						function(err, res2) {
 							if (err) throw err;
