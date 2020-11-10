@@ -38,3 +38,44 @@ exports.home = function(req, res, next) {
 exports.about = function(req, res, next) {
     res.render('public/about', { title: 'About' });
 }
+
+exports.terms = function(req, res, next) {
+  res.render('public/terms', { title: 'terms' });
+}
+
+exports.privacy = function(req, res, next) {
+  res.render('public/privacy', { title: 'privacy' });
+}
+
+exports.service = function(req, res, next) {
+  res.render('public/service', { title: 'service' });
+}
+
+exports.cookies = function(req, res, next) {
+  res.render('public/cookies', { title: 'cookies' });
+}
+
+exports.blog = function(req, res, next) {
+  res.render('public/blog', { title: 'blog' });
+}
+
+exports.contact = function(req, res, next) {
+  res.render('public/contact', { title: 'contact' });
+}
+
+exports.classes = function(req, res, next) {
+  res.render('public/classes', { title: 'classes' });
+}
+
+exports.resources = function(req, res, next) {
+  res.render('public/resources', { title: 'resources' });
+}
+
+exports.prices = function(req, res, next) {
+  res.render('public/prices', { title: 'prices' });
+}
+
+exports.registration = function(req, res, next) {
+  res.render('public/registration', { title: 'registration' });
+}
+

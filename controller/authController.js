@@ -137,7 +137,10 @@ exports.login = function(req,res){
                     //send the access token to the client inside a cookie
                     res.setHeader('Cache-Control', 'private');
                     res.cookie("jwt", accessToken);
-                   res.send();
+                    res.json({
+                        status:true,
+                        message:"Success"
+                    });
 
                 
                 // res.cookie('jwt', accessToken);

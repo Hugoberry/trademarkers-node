@@ -11,7 +11,12 @@ $( document ).ready(function() {
           },
           contentType: "application/json",
           success: function( result ) {
-            console.log(result, 'result');
+
+            if ( result.status == true ) {
+              document.location.href = '/researcher';
+            } else {
+              conssole.log('sayup');
+            }
           }
         });     
         
