@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken')
 const mysql = require('mysql');
 var bcrypt = require('bcrypt');
 
-
+// MYSQL
 const connection = mysql.createConnection({
     host     : process.env.DBHOST,
 	user     : process.env.DBUSER,
@@ -10,6 +10,10 @@ const connection = mysql.createConnection({
 	database : process.env.DBNAME
 });
 
+// MONGO
+
+
+var rpoUsersMongo = require('../repositories/usersMongo');
 var rpoUsers = require('../repositories/users');
 
 exports.showLogin = function(req, res, next) {
@@ -100,63 +104,90 @@ exports.refresh = function (req, res){
     res.send()
 }
 
-exports.login = function(req,res){
+exports.login = async function(req,res){
 
     // return 'asd';
     var username=req.query.username;
     var password=req.query.password;
 
-    // console.log(req.query);
-    connection.query('SELECT * FROM users WHERE email = ?',[username], function (error, results, fields) {
-      if (error) {
-          res.json({
-            status:false,
-            message:'there are some error with query'
-            })
-      }else{
-        if(results.length >0){
+    // CHECK MONGODB IF EXIST AND VALIDATE
+    let userExistMongo = await rpoUsersMongo.findUser(username);
 
-            var hash = results[0].password;
-            hash = hash.replace(/^\$2y(.+)$/i, '$2a$1');
-                    
-            bcrypt.compare(password, hash, function(err, ress) {
-                if(!ress){
-                    res.json({
-                      status:false,                  
-                      message:"Email and password does not match"
-                    });
-                }else{     
-                    
-                    //use the payload to store information about the user such as username, user role, etc.
-                    let payload = {user: JSON.stringify(results[0])}
+    // if (userExistMongo)
+    console.log(userExistMongo);
 
-                    //create the access token with the shorter lifespan
-                    let accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-                        expiresIn: (60 * 60) * 6
-                    });
+    // check in mongo db
+    if ( userExistMongo && userExistMongo[0]) {
 
-                    rpoUsers.putUser(results[0]);
+        console.log('Validating Via mongo DB...');
+        validateHashUser(password, userExistMongo[0], res);
 
-                    //send the access token to the client inside a cookie
-                    res.setHeader('Cache-Control', 'private');
-                    res.cookie("jwt", accessToken);
-                    res.json({
-                        status:true,
-                        message:"Success"
-                    });
+    } else {
 
-                
-                // res.cookie('jwt', accessToken);
-                // res.send();
+        connection.query('SELECT * FROM users WHERE email = ?',[username], function (error, results, fields) {
+            if (error) {
+                res.json({
+                  status:false,
+                  message:'there are some error with query'
+                  })
+            }else{
+
+                if(results.length >0){
+                    console.log('Validating Via MYSQL DB...');
+                    validateHashUser(password, results[0], res);
+
                 }
-            });         
-        }
-        else{
+                else{
+
+                    res.json({
+                        status:false,
+                        message:"Email does not exits"
+                    });
+
+                }
+
+            }
+        });
+
+    } // END ELSE
+
+}
+
+function validateHashUser(pass, obj, res){
+
+    var hash = obj.password;
+    hash = hash.replace(/^\$2y(.+)$/i, '$2a$1');
+
+    bcrypt.compare(pass, hash, function(err, ress) {
+
+        if(!ress){
+            
             res.json({
-                status:false,
-                message:"Email does not exits"
+            status:false,                  
+            message:"Email and password does not match"
             });
+
+        }else{     
+
+            //use the payload to store information about the user such as username, user role, etc.
+            let payload = {user: JSON.stringify(obj)}
+
+            //create the access token with the shorter lifespan
+            let accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
+            expiresIn: (60 * 60) * 6
+            });
+
+            rpoUsers.putUser(obj);
+
+            //send the access token to the client inside a cookie
+            res.setHeader('Cache-Control', 'private');
+            res.cookie("jwt", accessToken);
+            res.json({
+            status:true,
+            message:"Success"
+        });
+
         }
-      }
-    });
+    });   
+
 }

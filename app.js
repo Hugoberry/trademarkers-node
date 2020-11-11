@@ -46,11 +46,11 @@ app.use(lessMiddleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-
-app.use('/', publicRouter);
 app.use('/login', loginRouter);
 app.use('/customer', customerRouter);
 app.use('/researcher', researcherRouter);
+
+app.use('/', publicRouter);
 
 // LOGS HERE 
 // NEED MORE CLEANING CODE

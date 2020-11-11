@@ -22,13 +22,14 @@ var router = express.Router();
 
 // DECLARE ROUTES WITH ASSIGNED CONTROLLERS
 
-router.get('/about', about);
+
 router.get('/video/:ytId', ytVideo);
 
 // redirect
 router.get('*', redirect);
 
 router.get('/', home);
+router.get('/about', about);
 router.get('/terms', terms);
 router.get('/privacy', privacy);
 router.get('/service', service);
