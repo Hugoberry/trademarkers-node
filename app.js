@@ -14,6 +14,11 @@ var customerRouter = require('./routes/customer');
 var loginRouter = require('./routes/auth');
 var researcherRouter = require('./routes/researcher');
 
+
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
+const mongoose = require('mongoose');
+
 // DATABASE CONNECT
 // var db = require('./config/database');
 // var rpoContinents = require('./repositories/continents');
@@ -35,7 +40,7 @@ app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(lessMiddleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -46,6 +51,33 @@ app.use('/', publicRouter);
 app.use('/login', loginRouter);
 app.use('/customer', customerRouter);
 app.use('/researcher', researcherRouter);
+
+// LOGS HERE 
+// NEED MORE CLEANING CODE
+// MONGO : DATABASE CONNECTION
+const mongoDb = process.env.MongoURILOCAL;
+const mongoDbOptions = { 
+  useNewUrlParser: true, 
+  useUnifiedTopology: true 
+};
+
+// DB Connect
+const mongoConnection = mongoose.createConnection(mongoDb, mongoDbOptions);
+
+const sessionStore = new MongoStore({
+  mongooseConnection: mongoConnection,
+  collection: 'sessions'
+});
+
+app.use(session({
+    secret: 'secret',
+    resave: false,
+    saveUninitialized: true,
+    store: sessionStore,
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 24
+    }
+}))
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -63,8 +95,5 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-// var continents = rpoContinents.getContinents();
-// console.log(continents);
-// db.getUserById(3);
 
 module.exports = app;

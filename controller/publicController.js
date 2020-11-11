@@ -88,6 +88,8 @@ exports.ytVideo = function(req, res, next) {
 
   let ytId = req.params.ytId;
 
+  console.log(req.session);
+
   res.render('video/index', { title: 'Youtube Videos', ytId: ytId });
 }
 
