@@ -101,7 +101,7 @@ exports.ytVideo = function(req, res, next) {
 
   // console.log(req.session);
 
-  res.render('video/index', { layout: 'layouts/public-layout-default', title: 'Youtube Videos', ytId: ytId });
+  res.render('video/index', { layout: 'layouts/public-layout', title: 'Youtube Videos', ytId: ytId });
 }
 
 
