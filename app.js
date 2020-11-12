@@ -13,26 +13,20 @@ var publicRouter = require('./routes/public');
 var customerRouter = require('./routes/customer');
 var loginRouter = require('./routes/auth');
 var researcherRouter = require('./routes/researcher');
-
+var interceptRouter = require('./routes/routerInterceptor');
 
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const mongoose = require('mongoose');
 
-// DATABASE CONNECT
-// var db = require('./config/database');
-// var rpoContinents = require('./repositories/continents');
+const expressLayouts = require('express-ejs-layouts');
+
+
 
 var app = express();
 
-
-
 app.use(bodyParser.json())
 app.use(cookieParser())
-
-// app.post('/login', login)
-// app.post('/refrsh', refresh)
-
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -44,7 +38,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(lessMiddleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(expressLayouts);
 
+
+app.set('layout', 'layouts/public-layout');
+app.set('layout2', 'layouts/public-layout2');
 
 app.use('/login', loginRouter);
 app.use('/customer', customerRouter);
@@ -54,29 +52,28 @@ app.use('/', publicRouter);
 
 // LOGS HERE 
 // NEED MORE CLEANING CODE
-// MONGO : DATABASE CONNECTION
-const mongoDb = process.env.MongoURILOCAL;
-const mongoDbOptions = { 
+const mongoYRI = process.env.MongoURILOCAL;
+const mongoOptions = { 
   useNewUrlParser: true, 
   useUnifiedTopology: true 
 };
 
-// DB Connect
-const mongoConnection = mongoose.createConnection(mongoDb, mongoDbOptions);
+const mongoConnection = mongoose.createConnection(mongoYRI, mongoOptions);
 
 const sessionStore = new MongoStore({
   mongooseConnection: mongoConnection,
-  collection: 'sessions'
+  collection: process.env.TBLEXT + 'sessions'
 });
 
+// 
 app.use(session({
-    secret: 'secret',
-    resave: false,
-    saveUninitialized: true,
-    store: sessionStore,
-    cookie: {
-        maxAge: 1000 * 60 * 60 * 24
-    }
+  secret: 'secretshhhhhh',
+  resave: false,
+  saveUninitialized: true,
+  store: sessionStore,
+  cookie: {
+      maxAge: 1000 * 60 * 60 * 24
+  }
 }))
 
 // catch 404 and forward to error handler

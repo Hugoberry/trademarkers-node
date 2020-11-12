@@ -17,6 +17,9 @@ var rpoUsersMongo = require('../repositories/usersMongo');
 var rpoUsers = require('../repositories/users');
 
 exports.showLogin = function(req, res, next) {
+
+    
+
     // clear cookie is for logout function
     // res.clearCookie("__session");
     res.clearCookie("jwt");

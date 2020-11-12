@@ -1,5 +1,4 @@
 var express = require('express');
-const _ = require( 'lodash' );
 
 const { 
     home, 
@@ -15,18 +14,17 @@ const {
     prices,
     registration,
     ytVideo,
-    redirect
+    redirect,
+    service_contract
     } = require('../controller/publicController')
 
 var router = express.Router();
 
 // DECLARE ROUTES WITH ASSIGNED CONTROLLERS
-
-
 router.get('/video/:ytId', ytVideo);
 
 // redirect
-router.get('*', redirect);
+// router.get('*', redirect);
 
 router.get('/', home);
 router.get('/about', about);
@@ -39,6 +37,7 @@ router.get('/contact', contact);
 router.get('/classes', classes);
 router.get('/resources', resources);
 router.get('/prices', prices);
+router.get('/service_contract', service_contract);
 
 // WITH WILD CARD 
 router.get('/trademark-registration-in-:countryName', registration);    

@@ -1,3 +1,4 @@
+const { NetworkAuthenticationRequire } = require('http-errors');
 var db = require('../config/database');
 var rpoContinents = require('../repositories/continents');
 
@@ -7,6 +8,8 @@ var groupBy = function(xs, key) {
     return rv;
   }, {});
 };
+
+var log = require('../services/activityLogService');
 
 
 exports.home = function(req, res, next) {
@@ -31,65 +34,75 @@ exports.home = function(req, res, next) {
     //   // console.log( groupBy(data,'continent_id') );
     //   res.render('public/index', { title: 'Trademarkers LLC', continents: result});
     // });
-    res.render('public/index', { title: 'Trademarkers LLC'});
+
+
+    res.render('public/index', { layout: 'layouts/public-layout', title: 'Trademarkers LLC'});
     
 }
 
 exports.about = function(req, res, next) {
-    res.render('public/about', { title: 'About' });
+  console.log(req.params[0]);
+    res.render('public/about', { layout: 'layouts/public-layout-default', title: 'About' });
 }
 
 exports.terms = function(req, res, next) {
-  res.render('public/terms', { title: 'terms' });
+  res.render('public/terms', { layout: 'layouts/public-layout-default', title: 'terms' });
 }
 
 exports.privacy = function(req, res, next) {
-  res.render('public/privacy', { title: 'privacy' });
+  res.render('public/privacy', { layout: 'layouts/public-layout-default', title: 'privacy' });
 }
 
 exports.service = function(req, res, next) {
-  res.render('public/service', { title: 'service' });
+  res.render('public/service', { layout: 'layouts/public-layout-default', title: 'service' });
 }
 
 exports.cookies = function(req, res, next) {
-  res.render('public/cookies', { title: 'cookies' });
+  res.render('public/cookies', { layout: 'layouts/public-layout-default', title: 'cookies' });
 }
 
 exports.blog = function(req, res, next) {
-  res.render('public/blog', { title: 'blog' });
+  res.render('public/blog', { layout: 'layouts/public-layout-default', title: 'blog' });
 }
 
 exports.contact = function(req, res, next) {
-  res.render('public/contact', { title: 'contact' });
+  res.render('public/contact', { layout: 'layouts/public-layout-default', title: 'contact' });
 }
 
 exports.classes = function(req, res, next) {
-  res.render('public/classes', { title: 'classes' });
+  res.render('public/classes', { layout: 'layouts/public-layout-default', title: 'classes' });
 }
 
 exports.resources = function(req, res, next) {
-  res.render('public/resources', { title: 'resources' });
+  res.render('public/resources', { layout: 'layouts/public-layout-default', title: 'resources' });
 }
 
 exports.prices = function(req, res, next) {
-  res.render('public/prices', { title: 'prices' });
+  res.render('public/prices', { layout: 'layouts/public-layout-default', title: 'prices' });
 }
 
 exports.registration = function(req, res, next) {
-  res.render('public/registration', { title: 'registration' });
+  res.render('public/registration', { layout: 'layouts/public-layout-default', title: 'registration' });
+}
+
+exports.service_contract = function(req, res, next) {
+  res.render('public/service_contract', { layout: 'layouts/public-layout-default', title: 'service_contract' });
 }
 
 exports.redirect = function(req, res, next) {
 
-  res.redirect("https://trademarkers.com" + req.params[0]);
+next();
+  // res.redirect("https://trademarkers.com" + req.params[0]);
 }
 
 exports.ytVideo = function(req, res, next) {
 
   let ytId = req.params.ytId;
 
-  console.log(req.session);
+  // console.log(req.session);
 
-  res.render('video/index', { title: 'Youtube Videos', ytId: ytId });
+  res.render('video/index', { layout: 'layouts/public-layout-default', title: 'Youtube Videos', ytId: ytId });
 }
+
+
 

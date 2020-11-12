@@ -1,4 +1,4 @@
-let _table = process.env.TBLEXT + "users";
+let _table = process.env.TBLEXT + "activity_logs";
 
 // MONGO : DATABASE CONNECTION
 const mongoose = require('mongoose');
@@ -13,20 +13,30 @@ const mongoConnection = mongoose.createConnection(mongoDb, mongoDbOptions);
 
 module.exports = {
 
-	findUser : async function(email) {
+	addLogs : async function(obj) {
 		return new Promise(function(resolve, reject) {
 
-			let query = { email: email };
-			
 
-			mongoConnection.collection(_table).find(query).toArray(function(err, result) {
-					
+
+			mongoConnection.collection(_table).findOne({
+				id: obj.id
+			}, 
+			function(err, result) {
 				if (err) {
 					reject(err);
 				} else {
+					
+					if (!result) {
+						mongoConnection.collection(_table).insertOne({
+							obj
+						}, 
+						function(err, res2) {
+							if (err) throw err;
+						});
+					}
+
 					resolve(result);
 				}
-
 			});
 
 		});

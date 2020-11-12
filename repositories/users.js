@@ -1,3 +1,5 @@
+let _table = process.env.TBLEXT + "users";
+
 // DATABASE CONNECTION
 const mysql = require('mysql');
 const util = require('util');
@@ -22,6 +24,7 @@ const connection = mysql.createConnection({
 	database : process.env.DBNAME
 });
 
+
 module.exports = {
 
     validateUser: async function ( email, password ) {
@@ -30,7 +33,7 @@ module.exports = {
 		var isValid = false;
 	
 			try {
-				const rows = await query('SELECT * FROM users WHERE email = ?', [email]);
+				const rows = await query('SELECT * FROM ? WHERE email = ?', [_table,email]);
 				// return rows;
 				if ( rows.length > 0 ) {
 					
@@ -64,7 +67,7 @@ module.exports = {
 	getUserByEmail : function(email) {
 		return new Promise(function(resolve, reject) {
 			
-			connection.query('SELECT * FROM users WHERE email = ?',[email],function(err,res,fields) {
+			connection.query('SELECT * FROM ? WHERE email = ?',[_table,email],function(err,res,fields) {
 				if (err) {
 					reject(err);
 			   } else {
@@ -100,7 +103,7 @@ module.exports = {
 
 			// db.mongoConnection
 
-			mongoConnection.collection("users").findOne({
+			mongoConnection.collection(_table).findOne({
 				id: user.id
 			}, 
 			function(err, result) {
@@ -109,12 +112,11 @@ module.exports = {
 				} else {
 					
 					if (!result) {
-						mongoConnection.collection("users").insertOne({
+						mongoConnection.collection(_table).insertOne({
 							...user
 						}, 
 						function(err, res2) {
 							if (err) throw err;
-							// res2.json(res2);
 						});
 					}
 
