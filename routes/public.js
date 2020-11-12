@@ -22,22 +22,23 @@ var router = express.Router();
 
 // DECLARE ROUTES WITH ASSIGNED CONTROLLERS
 router.get('/video/:ytId', ytVideo);
-
-// redirect
-// router.get('*', redirect);
-
-router.get('/', home);
 router.get('/about', about);
 router.get('/terms', terms);
 router.get('/privacy', privacy);
 router.get('/service', service);
 router.get('/cookies', cookies);
+router.get('/service_contract', service_contract);
+router.get('/resources', resources);
+
+// redirect
+router.get('*', redirect);
+
+router.get('/', home);
 router.get('/blog', blog);
 router.get('/contact', contact);
 router.get('/classes', classes);
-router.get('/resources', resources);
 router.get('/prices', prices);
-router.get('/service_contract', service_contract);
+
 
 // WITH WILD CARD 
 router.get('/trademark-registration-in-:countryName', registration);    

@@ -91,8 +91,8 @@ exports.service_contract = function(req, res, next) {
 
 exports.redirect = function(req, res, next) {
 
-next();
-  // res.redirect("https://trademarkers.com" + req.params[0]);
+// next();
+  res.redirect("https://trademarkers.com" + req.params[0]);
 }
 
 exports.ytVideo = function(req, res, next) {
