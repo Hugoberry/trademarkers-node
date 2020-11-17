@@ -6,15 +6,10 @@ const util = require('util');
 var bcrypt = require('bcrypt');
 
 // MONGO : DATABASE CONNECTION
-const mongoose = require('mongoose');
-const mongoDb = process.env.MongoURILOCAL;
-const mongoDbOptions = { 
-  useNewUrlParser: true, 
-  useUnifiedTopology: true 
-};
+let conn = require('../config/DbConnect');
 
 // DB Connect
-const mongoConnection = mongoose.createConnection(mongoDb, mongoDbOptions);
+// const mongoConnection = mongoose.createConnection(mongoDb, mongoDbOptions);
 
 
 const connection = mysql.createConnection({
@@ -101,9 +96,9 @@ module.exports = {
 		return new Promise(function(resolve, reject) {
 
 
-			// db.mongoConnection
+			// let db = conn.getDb();
 
-			mongoConnection.collection(_table).findOne({
+			conn.getDb().collection(_table).findOne({
 				id: user.id
 			}, 
 			function(err, result) {
@@ -112,7 +107,7 @@ module.exports = {
 				} else {
 					
 					if (!result) {
-						mongoConnection.collection(_table).insertOne({
+						conn.getDb().collection(_table).insertOne({
 							...user
 						}, 
 						function(err, res2) {

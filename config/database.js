@@ -1,7 +1,9 @@
-
-
+const _variables = require( './variables' );
 // MYSQL : DATABASE CONNECTION
 const mysql = require('mysql');
+// MONGO : DATABASE CONNECTION
+const mongoose = require('mongoose');
+
 var mysqlConnection = mysql.createConnection({
   host     : process.env.DBHOST,
 	user     : process.env.DBUSER,
@@ -9,16 +11,10 @@ var mysqlConnection = mysql.createConnection({
 	database : process.env.DBNAME
 });
 
-// MONGO : DATABASE CONNECTION
-const mongoose = require('mongoose');
-const mongoDb = process.env.MongoURILOCAL;
-const mongoDbOptions = { 
-  useNewUrlParser: true, 
-  useUnifiedTopology: true 
-};
+
 
 // DB Connect
-const mongoConnection = mongoose.createConnection(mongoDb, mongoDbOptions);
+const mongoConnection = mongoose.createConnection(_variables.mongoURL, _variables.mongoOptions);
 
 // 
 mongoConnection
@@ -28,7 +24,7 @@ mongoConnection
 mysqlConnection.connect(function(err) {
     if (err) throw err;
     console.log('MySQL Database is connected successfully !');
-  });
+});
   
 module.exports = mysqlConnection;
 module.exports = mongoConnection;

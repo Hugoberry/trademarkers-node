@@ -9,18 +9,14 @@ var cookieParser = require('cookie-parser');
 var lessMiddleware = require('less-middleware');
 var logger = require('morgan');
 
-var publicRouter = require('./routes/public');
-var customerRouter = require('./routes/customer');
-var loginRouter = require('./routes/auth');
-var researcherRouter = require('./routes/researcher');
-var interceptRouter = require('./routes/routerInterceptor');
-
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const mongoose = require('mongoose');
 
 const expressLayouts = require('express-ejs-layouts');
+var flash = require('express-flash-2');
 
+let variable = require('./config/variables');
 
 
 var app = express();
@@ -41,56 +37,71 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(expressLayouts);
 
 
-app.set('layout', 'layouts/public-layout');
-app.set('layout2', 'layouts/public-layout2');
+// APP  CONTAINER =========== >> 
+let conn = require('./config/DbConnect');
+conn.connectToServer( function( err, client ) {
 
-app.use('/login', loginRouter);
-app.use('/customer', customerRouter);
-app.use('/researcher', researcherRouter);
+  if (err) console.log(err);
+  // start the rest of your app here
 
-app.use('/', publicRouter);
+  var publicRouter = require('./routes/public');
+  var customerRouter = require('./routes/customer');
+  var loginRouter = require('./routes/auth');
+  var researcherRouter = require('./routes/researcher');
+  var interceptRouter = require('./routes/routerInterceptor');
 
-// LOGS HERE 
-// NEED MORE CLEANING CODE
-const mongoYRI = process.env.MongoURILOCAL;
-const mongoOptions = { 
-  useNewUrlParser: true, 
-  useUnifiedTopology: true 
-};
+  // SESSION STORE ============ >>
+  const mongoConnection = mongoose.createConnection(variable.mongoURL, variable.mongoOptions);
+  const sessionStore = new MongoStore({
+    mongooseConnection: mongoConnection,
+    collection: process.env.TBLEXT + 'sessions'
+  });
+  app.use(session({
+    secret: 'secretshhhhhh',
+    resave: false,
+    saveUninitialized: true,
+    store: sessionStore,
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 24
+    }
+  }))
+  // SESSION STORE ============ <<
 
-const mongoConnection = mongoose.createConnection(mongoYRI, mongoOptions);
+  app.use(flash());
 
-const sessionStore = new MongoStore({
-  mongooseConnection: mongoConnection,
-  collection: process.env.TBLEXT + 'sessions'
+
+
+  // ROUTE HANDLER ============ >>
+
+  app.set('layout', 'layouts/public-layout');
+  app.use('/login', loginRouter);
+  app.use('/customer', customerRouter);
+  app.use('/researcher', researcherRouter);
+  app.use('/', publicRouter);
+
+  // ROUTE HANDLER ============ <<
+
+  // catch 404 and forward to error handler
+  app.use(function(req, res, next) {
+    next(createError(404));
+  });
+
+  // error handler
+  app.use(function(err, req, res, next) {
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+    // render the error page
+    res.status(err.status || 500);
+    res.render('error');
+  });
+
+
 });
+// APP  CONTAINER =========== << 
 
-// 
-app.use(session({
-  secret: 'secretshhhhhh',
-  resave: false,
-  saveUninitialized: true,
-  store: sessionStore,
-  cookie: {
-      maxAge: 1000 * 60 * 60 * 24
-  }
-}))
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
-
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
 
 
 module.exports = app;

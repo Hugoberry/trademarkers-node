@@ -165,6 +165,8 @@ function validateHashUser(pass, obj, res){
 
         if(!ress){
             
+            res.flash('error', 'Email and password does not match!');
+
             res.json({
             status:false,                  
             message:"Email and password does not match"

@@ -6,7 +6,11 @@
 		<div class="row justify-content-center box-bg-container">
 			<div class="col-md-12">
 				<div style="max-width:400px;margin:auto;padding-bottom:20px;">
-	
+					<% if (flash.error) { %>
+						<div class="alert alert-warning" role="alert">
+							<strong><%= flash.error %></strong>
+						</div>
+					<% } %>
 					<form id="login-from" class="custom-frm" method="POST" action="/login">
 						<div class="form-group row">
 							<!-- <label for="email">E-Mail Address</label> -->

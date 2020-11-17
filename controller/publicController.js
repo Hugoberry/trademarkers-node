@@ -2,6 +2,7 @@ const { NetworkAuthenticationRequire } = require('http-errors');
 var db = require('../config/database');
 var rpoContinents = require('../repositories/continents');
 
+
 var groupBy = function(xs, key) {
   return xs.reduce(function(rv, x) {
     (rv[x[key]] = rv[x[key]] || []).push(x);
@@ -66,6 +67,7 @@ exports.blog = function(req, res, next) {
 }
 
 exports.contact = function(req, res, next) {
+  console.log(res.flash('info'), 'asd');
   res.render('public/contact', { layout: 'layouts/public-layout-default', title: 'contact' });
 }
 
@@ -102,6 +104,26 @@ exports.ytVideo = function(req, res, next) {
   // console.log(req.session);
 
   res.render('video/index', { layout: 'layouts/public-layout', title: 'Youtube Videos', ytId: ytId });
+}
+
+exports.submitContact = async function(req, res, next) {
+
+  let info = require('../services/mailerService');
+  
+  // console.log(req.body);
+
+  let mailInfo = await info.contact(req.body);
+
+  console.log(mailInfo);
+  if (mailInfo && mailInfo.accepted) {
+    res.flash('success', 'Your Inquiry has been sent!');
+  } else {
+    res.flash('error', 'Sorry, something went wrong, try again later!');
+  }
+
+  res.redirect("/contact");
+
+  // next();
 }
 
 

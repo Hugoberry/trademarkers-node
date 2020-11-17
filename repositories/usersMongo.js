@@ -1,15 +1,6 @@
 let _table = process.env.TBLEXT + "users";
 
-// MONGO : DATABASE CONNECTION
-const mongoose = require('mongoose');
-const mongoDb = process.env.MongoURILOCAL;
-const mongoDbOptions = { 
-  useNewUrlParser: true, 
-  useUnifiedTopology: true 
-};
-
-// DB Connect
-const mongoConnection = mongoose.createConnection(mongoDb, mongoDbOptions);
+let conn = require('../config/DbConnect');
 
 module.exports = {
 
@@ -17,9 +8,10 @@ module.exports = {
 		return new Promise(function(resolve, reject) {
 
 			let query = { email: email };
-			
 
-			mongoConnection.collection(_table).find(query).toArray(function(err, result) {
+			let db = conn.getDb();
+			
+			db.collection(_table).find(query).toArray(function(err, result) {
 					
 				if (err) {
 					reject(err);

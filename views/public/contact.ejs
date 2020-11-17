@@ -1,12 +1,90 @@
+
+
 <div class="container">
-	<div class="row justify-content-center box-bg-container">
+    <div class="row justify-content-center align-items-center box-bg-container">
+
 		<div class="col-md-12">
 					
 			<h2>Contact us </h2>
 
-			<p> on-going </p>
 		</div>
 
+        <div class="col-md-6">
+            <table class="table tbl-contact-info">
+                <tr>
+                    <th rowspan="2">Trademarkers LLC</th>
+                    <td>45 Essex Street, Suite 202</td>
+                </tr>
+                <tr>
+                    <td>Millburn NJ 07041</td>
+                </tr>
 
-	</div>
+                <tr>
+                    <td></td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <th>Email Us</th>
+                    <td>info@trademarkers.com</td>
+                </tr>
+                <tr>
+                    <th>Toll-Free</th>
+                    <td>1-800-293-3166</td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <th>Office</th>
+                    <td>212-468-5500</td>
+                </tr>
+                <tr>
+                    <th>Fax</th>
+                    <td>212-504-0888</td>
+                </tr>
+
+            </table>
+
+        </div>
+        <div class="col-md-6">
+			
+			<% if (flash.success) { %>
+			<div class="alert alert-success" role="alert">
+				<strong><%= flash.success %></strong>
+			</div>
+			<% } %>
+
+			<% if (flash.error) { %>
+				<div class="alert alert-warning" role="alert">
+					<strong><%= flash.error %></strong>
+				</div>
+			<% } %>
+                    
+			<form id="contact-form" class="custom-frm" action="" method="POST">
+				
+				<div class="form-group">
+					<input type="name" class="form-control" id="name" value="" placeholder="Name" required name="name">
+				</div>
+				<div class="form-group">
+					<input type="email" class="form-control" value="" placeholder="Email" id="email" name="email" required>
+				</div>
+				<div class="form-group">
+					<input type="text"  class="form-control" value="" id="phone" placeholder="Phone No." name="phone" >
+				</div>
+				<div class="form-group">
+					<textarea class="form-control" value="" rows="7" name="message" placeholder="Message" required></textarea>
+				</div>
+				<p class="text-center">
+					<button id="contact-btn-submit" type="submit" class="btn btn-primary btn-rounded-primary" style="padding-left:40px;padding-right:40px;">Submit</button>
+				</p>
+			
+			</form>
+
+               
+        </div>
+    </div>
 </div>

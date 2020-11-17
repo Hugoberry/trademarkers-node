@@ -15,7 +15,8 @@ const {
     registration,
     ytVideo,
     redirect,
-    service_contract
+    service_contract,
+    submitContact
     } = require('../controller/publicController')
 
 var router = express.Router();
@@ -30,12 +31,14 @@ router.get('/cookies', cookies);
 router.get('/service_contract', service_contract);
 router.get('/resources', resources);
 
+router.get('/contact', contact);
+router.post('/contact', submitContact);
 // redirect
 router.get('*', redirect);
 
 router.get('/', home);
 router.get('/blog', blog);
-router.get('/contact', contact);
+
 router.get('/classes', classes);
 router.get('/prices', prices);
 
