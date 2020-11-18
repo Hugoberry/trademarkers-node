@@ -33,10 +33,12 @@ router.get('/resources', resources);
 
 router.get('/contact', contact);
 router.post('/contact', submitContact);
-// redirect
-router.get('*', redirect);
-
 router.get('/', home);
+
+// redirect
+// router.get('*', redirect);
+
+
 router.get('/blog', blog);
 
 router.get('/classes', classes);

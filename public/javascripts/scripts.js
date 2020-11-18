@@ -28,4 +28,17 @@ $( document ).ready(function() {
     $("#contact-btn-submit").prop('disabled', false);
   });
 
+  $(document).on('click','#continentsToggle li',function(e) {
+    // alert($(this).attr('data-abbr'));
+
+    $("#continentsToggle li").removeClass('active');
+    $(this).addClass('active');
+
+    $(".continent").removeClass('show');
+    $(".continent-"+$(this).attr('data-abbr') ).addClass('show');
+    $("#selectedContinent").text($(this).attr('data-name'));
+    $('#continentsToggle').collapse('hide');
+
+});
+
 })

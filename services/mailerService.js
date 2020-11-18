@@ -9,7 +9,7 @@ console.log('called', data);
     let transporter = nodemailer.createTransport({
     host: process.env.MAIL_HOST,
     port: process.env.MAIL_PORT,
-    secure: false, // true for 465, false for other ports
+    secure: true, // true for 465, false for other ports
     auth: {
       user: process.env.MAIL_USERNAME, // generated ethereal user
       pass: process.env.MAIL_PASSWORD, // generated ethereal password
@@ -17,7 +17,7 @@ console.log('called', data);
     });
   
 //   send mail with defined transport object
-    return info = transporter.sendMail({
+    return transporter.sendMail({
     from: process.env.MAIL_FROM, // sender address
     to: process.env.MAIL_TO, // list of receivers
     subject: "New Contact from client", // Subject line

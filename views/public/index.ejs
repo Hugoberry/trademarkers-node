@@ -55,17 +55,36 @@
 				</div> -->
 
 			
-				
+				<ul id="continentsToggle" class="continentsToggle ">
+				<% for (var key in continent) { %>
+					<li class="<%= (continentCountries[key].name == 'Europe' ? 'active':'') %>" data-abbr="<%= continent[key].id %>" data-name="<%= continent[key].name %>"><%= continent[key].name %></li>
+				<% } %>
+				</ul>
+
 			</div>
 
 			<div class="country-contents">
 				
 			
-			
-
 				
+				<% for (var key in continentCountries) { %>
+				<div class="row continent continent-<%= continentCountries[key]['id'] %> <%= (continentCountries[key].name == 'Europe' ? 'show':'') %>" >
+					<% for ( var ckey in continentCountries[key].countries ) { %>
+					
+					<div class="col-md-3">
+						<a href="/trademark-registration-in-<%= continentCountries[key].countries[ckey].name.replace(' ', '_').toLowerCase() %>" >
+							<img src="images/<%= continentCountries[key].countries[ckey].avatar %>"><%= continentCountries[key].countries[ckey].name %>
+						</a>
+					</div>
+	
+					<% } %>
+				</div>
+				<% } %>
 				
-			</div>
+	
+					
+					
+				</div>
 
 		</div>
 
@@ -238,33 +257,24 @@
 					<span class="title-separator"></span>
 					<!-- <span class="title-separator"></span> -->
 				</div>
-				<form class="custom-frm" method="POST" action="/contact">
-	
+				<form id="contact-form" class="custom-frm" action="/contact" method="POST">
+				
 					<div class="form-group">
-						<label>Name</label>
-						<input type="name" class="form-control" id="name" value="" name="name" required>
-
-
+						<input type="name" class="form-control" id="name" value="" placeholder="Name" required name="name">
 					</div>
 					<div class="form-group">
-						<label for="email">Email</label>
-						<input type="email" class="form-control" value="" id="email" name="email" required>
-
+						<input type="email" class="form-control" value="" placeholder="Email" id="email" name="email" required>
 					</div>
 					<div class="form-group">
-						<label for="phone">Phone</label>
-						<input type="text"  class="form-control" value="" id="phone" name="phone" required>
-
-		
+						<input type="text"  class="form-control" value="" id="phone" placeholder="Phone No." name="phone" >
 					</div>
 					<div class="form-group">
-						<label for="msg">Message</label>
-						<textarea class="form-control" value="" rows="7" name="message" required></textarea>
-
-			
+						<textarea class="form-control" value="" rows="7" name="message" placeholder="Message" required></textarea>
 					</div>
-
-					<button type="submit" class="btn btn-primary btn-register" style="font-size:18px;width:100%">Submit</button>
+					<p class="text-center">
+						<button id="contact-btn-submit" type="submit" class="btn btn-primary btn-rounded-primary" style="padding-left:40px;padding-right:40px;">Submit</button>
+					</p>
+				
 				</form>
 
 			</div>

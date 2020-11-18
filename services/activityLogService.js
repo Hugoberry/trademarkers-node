@@ -1,14 +1,33 @@
-// let rpoActivityLog = require('../repositories/activityLog');
+let rpoActivity = require('../repositories/activityLog');
 
-exports.logger = function(req, res, next) {
+exports.logger = function(ip, page, msg) {
     // console.log('this', req.ip);
 
     let geoip = require('geoip-lite');
 
-    var ip = "207.97.227.239";
-    var geo = geoip.lookup(ip);
+    // let ip = "207.97.227.239";
+    let geo = geoip.lookup(ip);
+
+    if ( geo ) {
+
+        let _data = {
+            ip      : ip,
+            uri     : page,
+            country : geo.country,
+            city    : geo.city,
+            region  : geo.region,
+            activity: msg
+        };
+
+        console.log(_data);
+
+        rpoActivity.activity(_data);
+    }
     
-    console.log(geo);
+
+    // rpoActivity.activity()
+    
+    
     // console.log(req.params);
-    next()
+    // next()
 }

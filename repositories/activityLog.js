@@ -1,44 +1,23 @@
-let _table = process.env.TBLEXT + "activity_logs";
+let _table = process.env.TBLEXT + "activities";
+let conn = require('../config/DbConnect');
 
-// MONGO : DATABASE CONNECTION
-const mongoose = require('mongoose');
-const mongoDb = process.env.MongoURILOCAL;
-const mongoDbOptions = { 
-  useNewUrlParser: true, 
-  useUnifiedTopology: true 
-};
-
-// DB Connect
-const mongoConnection = mongoose.createConnection(mongoDb, mongoDbOptions);
+// dirty connection MYSQL
+const mysql = require('mysql');
+const connection = mysql.createConnection({
+    host     : process.env.DBHOST,
+	user     : process.env.DBUSER,
+	password : process.env.DBPASS,
+	database : process.env.DBNAME
+});
 
 module.exports = {
 
-	addLogs : async function(obj) {
-		return new Promise(function(resolve, reject) {
+    activity: function(data) {
 
-
-
-			mongoConnection.collection(_table).findOne({
-				id: obj.id
-			}, 
-			function(err, result) {
-				if (err) {
-					reject(err);
-				} else {
-					
-					if (!result) {
-						mongoConnection.collection(_table).insertOne({
-							obj
-						}, 
-						function(err, res2) {
-							if (err) throw err;
-						});
-					}
-
-					resolve(result);
-				}
-			});
-
+        conn.getDb().collection(_table).insertOne(data, 
+		function(err, res2) {
+			if (err) throw err;
 		});
-	},
+
+    }
 };
