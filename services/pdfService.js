@@ -62,6 +62,7 @@ exports.generate = function(data) {
 
     // STORE RECORD FOR FUTURE RETRIEVAL
     rpoGeneratedPdf.putGeneratedPdf({
+        office: 'EUIPO',
         type: 'opposition',
         url: pdfName,
         created: now,
