@@ -35,17 +35,6 @@ module.exports = {
 				if (err) {
 					reject(err);
 				} else {
-					
-					// if (result) {
-
-                        
-					// 	conn.getDb().collection(_table).insertOne({
-					// 		...user
-					// 	}, 
-					// 	function(err, res2) {
-					// 		if (err) throw err;
-					// 	});
-					// }
 
 					resolve(result);
 				}

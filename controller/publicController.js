@@ -1,8 +1,12 @@
 const { NetworkAuthenticationRequire } = require('http-errors');
 var db = require('../config/database');
+
 var rpoContinents = require('../repositories/continents');
 var rpoCountries = require('../repositories/countries');
+var rpoPdfs = require('../repositories/generatedPdf');
+
 var activityService = require('../services/activityLogService');
+var pdfService = require('../services/pdfService');
 
 
 var groupBy = function(xs, key) {
@@ -167,6 +171,24 @@ exports.submitContact = async function(req, res, next) {
   res.redirect("/contact");
 
   // next();
+}
+
+exports.generatePdf = async function(req, res, next) {
+
+  let pdfs = await rpoPdfs.getGeneratedPdfs();
+  console.log(pdfs);
+  activityService.logger(req.ip, req.originalUrl, "Visited pdf generator Page");
+
+  res.render('public/generate_pdf', { layout: 'layouts/public-layout-default', title: 'Generate Pdf', pdfs: pdfs });
+}
+
+exports.generatePdfView = function(req, res, next) {
+
+  activityService.logger(req.ip, req.originalUrl, "Generate pdf");
+
+  pdfService.generate(req.body);
+
+  res.redirect("/generate-pdf");
 }
 
 

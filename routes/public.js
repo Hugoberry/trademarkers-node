@@ -16,7 +16,9 @@ const {
     ytVideo,
     redirect,
     service_contract,
-    submitContact
+    submitContact,
+    generatePdf,
+    generatePdfView,
     } = require('../controller/publicController')
 
 var router = express.Router();
@@ -33,10 +35,12 @@ router.get('/resources', resources);
 
 router.get('/contact', contact);
 router.post('/contact', submitContact);
+router.get('/generate-pdf', generatePdf);
+router.post('/generate-pdf', generatePdfView);
 router.get('/', home);
 
 // redirect
-// router.get('*', redirect);
+router.get('*', redirect);
 
 
 router.get('/blog', blog);
