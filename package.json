@@ -21,6 +21,7 @@
     "express-ejs-layouts": "^2.5.0",
     "express-flash-2": "^1.0.1",
     "express-session": "^1.17.1",
+    "formidable": "^1.2.2",
     "geoip-lite": "^1.4.2",
     "http-errors": "~1.6.3",
     "jquery": "^3.5.1",

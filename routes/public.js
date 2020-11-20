@@ -1,56 +1,40 @@
 var express = require('express');
 
-const { 
-    home, 
-    about,
-    terms,
-    privacy,
-    service,
-    cookies,
-    blog,
-    contact,
-    classes,
-    resources,
-    prices,
-    registration,
-    ytVideo,
-    redirect,
-    service_contract,
-    submitContact,
-    generatePdf,
-    generatePdfView,
-    } = require('../controller/publicController')
+const publicController = require('../controller/publicController')
 
 var router = express.Router();
 
 // DECLARE ROUTES WITH ASSIGNED CONTROLLERS
-router.get('/video/:ytId', ytVideo);
-router.get('/about', about);
-router.get('/terms', terms);
-router.get('/privacy', privacy);
-router.get('/service', service);
-router.get('/cookies', cookies);
-router.get('/service_contract', service_contract);
-router.get('/resources', resources);
+router.get('/video/:ytId', publicController.ytVideo);
+router.get('/about', publicController.about);
+router.get('/terms', publicController.terms);
+router.get('/privacy', publicController.privacy);
+router.get('/service', publicController.service);
+router.get('/cookies', publicController.cookies);
+router.get('/service_contract', publicController.service_contract);
+router.get('/resources', publicController.resources);
 
-router.get('/contact', contact);
-router.post('/contact', submitContact);
-router.get('/generate-pdf', generatePdf);
-router.post('/generate-pdf', generatePdfView);
-router.get('/', home);
+router.get('/contact', publicController.contact);
+router.post('/contact', publicController.submitContact);
+router.get('/generate-pdf', publicController.generatePdf);
+router.post('/generate-pdf', publicController.generatePdfView);
+// router.get('/add-sender-pdf', publicController.addSenderPdf);
+router.post('/add-sender-pdf', publicController.addSenderPdf);
+
+router.get('/', publicController.home);
 
 // redirect
-router.get('*', redirect);
+router.get('*', publicController.redirect);
 
 
-router.get('/blog', blog);
+router.get('/blog', publicController.blog);
 
-router.get('/classes', classes);
-router.get('/prices', prices);
+router.get('/classes', publicController.classes);
+router.get('/prices', publicController.prices);
 
 
 // WITH WILD CARD 
-router.get('/trademark-registration-in-:countryName', registration);    
+router.get('/trademark-registration-in-:countryName', publicController.registration);    
 
 
 module.exports = router;

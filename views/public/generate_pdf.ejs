@@ -4,12 +4,29 @@
         <div class="col-md-12">
             <h2> Generate PDF</h2>
 
-            
+            <% if (flash.success) { %>
+                <div class="alert alert-success" role="alert">
+                    <strong><%= flash.success %></strong>
+                </div>
+            <% } %>
         </div>
 
         <div class="col-md-9">
             <form id="gen-pdf-form" class="custom-frm" action="" method="POST">
-				
+                
+                <div class="form-group d-flex justify-content-between align-items-center">
+                    <% if (senders.length) { %>
+                    <select class="form-control" name="sender">
+                        <% for ( var key in senders ) { %>
+                        <option value="<%= senders[key]._id %>"><%= senders[key].name %></option>
+                        <% } %>
+                    </select>
+                    <% } else { %>
+                        <p>Please add sender</p>
+                    <% } %>
+                    <span class="btn-new" data-toggle="modal" data-target="#newSenderModal"><i class="fa fa-plus"></i> New Sender</span>
+				</div>
+                
 				<div class="form-group">
 					<input type="text" class="form-control" id="trademark_number" value="" placeholder="Trademark Number" required name="trademark_number">
 				</div>
@@ -44,4 +61,61 @@
 
   
 	</div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="newSenderModal" tabindex="-1" role="dialog" aria-labelledby="newSenderModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+        <div class="modal-header">
+            <h5 class="modal-title">Sender Form</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="modal-body">
+
+            <form action="/add-sender-pdf" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <input class="form-control" type="text" name="name" placeholder="name">
+                </div>
+                
+                <div class="form-group">
+                    <input class="form-control" type="text" name="address" placeholder="Address">
+                </div>
+
+                <div class="form-group">
+                    <input class="form-control" type="text" name="code" placeholder="Post Code">
+                </div>
+
+                <div class="form-group">
+                    <input class="form-control" type="text" name="state" placeholder="State">
+                </div>
+
+                <div class="form-group">
+                    <input class="form-control" type="text" name="country" placeholder="Country">
+                </div>
+
+                <div class="form-group">
+                    <input class="form-control" type="file" name="logo" placeholder="logo">
+                </div>
+
+                <div class="form-group">
+                    <input class="form-control" type="file" name="signature" placeholder="signature">
+                </div>
+
+                <p class="text-center">
+					<button type="submit" class="btn btn-primary btn-rounded-primary" style="padding-left:40px;padding-right:40px;">Submit</button>
+				</p>
+
+            </form>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+        </div>
+    </div>
 </div>

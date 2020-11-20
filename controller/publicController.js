@@ -1,9 +1,13 @@
 const { NetworkAuthenticationRequire } = require('http-errors');
+const variables = require('../config/variables');
 var db = require('../config/database');
+var formidable = require('formidable');
+var fs = require('fs');
 
 var rpoContinents = require('../repositories/continents');
 var rpoCountries = require('../repositories/countries');
 var rpoPdfs = require('../repositories/generatedPdf');
+var rpoSenders = require('../repositories/senders');
 
 var activityService = require('../services/activityLogService');
 var pdfService = require('../services/pdfService');
@@ -176,10 +180,16 @@ exports.submitContact = async function(req, res, next) {
 exports.generatePdf = async function(req, res, next) {
 
   let pdfs = await rpoPdfs.getGeneratedPdfs();
-  console.log(pdfs);
+  let senders = await rpoSenders.getSenders();
+  // console.log(pdfs);
   activityService.logger(req.ip, req.originalUrl, "Visited pdf generator Page");
 
-  res.render('public/generate_pdf', { layout: 'layouts/public-layout-default', title: 'Generate Pdf', pdfs: pdfs });
+  res.render('public/generate_pdf', { 
+    layout  : 'layouts/public-layout-default', 
+    title   : 'Generate Pdf', 
+    pdfs    : pdfs,
+    senders : senders
+  });
 }
 
 exports.generatePdfView = function(req, res, next) {
@@ -188,8 +198,65 @@ exports.generatePdfView = function(req, res, next) {
 
   pdfService.generate(req.body);
 
+  // console.log(pdfName,'name');
+  res.flash('success', 'Generated PDF!');
+
   res.redirect("/generate-pdf");
 }
+
+exports.addSenderPdf = async function(req, res, next) {
+
+  let now = Date.now();
+
+  let form = new formidable.IncomingForm();
+    form.parse(req, function (err, fields, files) {
+      
+ 
+      if (files.logo.name) {
+
+        let oldLogopath = files.logo.path;
+        let newLogopath = variables.filePathUpload + now + "-" +files.logo.name;
+
+        fs.rename(oldLogopath, newLogopath, function (err) {
+          if (err) throw err;
+
+        });
+
+        fields.logo = now + "-" +files.logo.name;
+
+      } else {
+        fields.logo = '';
+      }
+
+      if (files.signature.name) {
+
+        let oldsignaturepath = files.signature.path;
+        let newsignaturepath = variables.filePathUpload + now + "-" +files.signature.name;
+
+        fs.rename(oldsignaturepath, newsignaturepath, function (err) {
+          if (err) throw err;
+     
+        });
+
+        fields.signature = now + "-" +files.signature.name;
+
+      } else {
+        fields.signature = '';
+      }
+
+      rpoSenders.putSenders(fields);
+      
+      res.flash('success', 'Created new Sender!');
+      res.redirect("/generate-pdf");
+
+      
+    });
+
+    // res.end();
+
+  // res.render('public/generate_pdf', { layout: 'layouts/public-layout-default', title: 'Generate Pdf', pdfs: pdfs });
+}
+
 
 
 

@@ -50,4 +50,5 @@ Thumbs.db
 
 .env
 public/pdf/*
+public/uploads/*
 package-lock.json

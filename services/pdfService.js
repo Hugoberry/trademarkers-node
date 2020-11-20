@@ -3,24 +3,29 @@ const blobStream  = require('blob-stream');
 const fs  = require('fs');
 
 const rpoGeneratedPdf = require('../repositories/generatedPdf');
+const rpoSenders = require('../repositories/senders');
 
-exports.generate = function(data) {
+exports.generate = async function(data) {
 
 
     let now = Date.now();
     let pdfName = now +'-'+ data.trademark_number + '.pdf';
 
+    let sender = await rpoSenders.getSenderById(data.sender);
+
+    console.log(sender);
+
     const PDFDocument = require('pdfkit');
 
     // Create a document
     const doc = new PDFDocument;
-    var stream = doc.pipe(blobStream());
+    // var stream = doc.pipe(blobStream());
 
     // Pipe its output somewhere, like to a file or HTTP response
     // See below for browser usage
     doc.pipe(fs.createWriteStream('public/pdf/'+ pdfName));
 
-    doc.image ('public/images/ncubator.logo.png', 330, 20, { "width": 250 });
+    doc.image ('public/uploads/'+sender[0].logo, 330, 20, { "width": 250 });
 
     doc.moveTo (30, 68);
     doc.lineTo (500,68);
@@ -28,10 +33,10 @@ exports.generate = function(data) {
 
     doc.font('public/fonts/Franklin Gothic Medium Regular.ttf')
     .fontSize(14)
-    .text('N-Cubator B.V. | Markt 19 | NL-6071 Swalmen', 31, 48);
+    .text(`${sender[0].name} | ${sender[0].address} | ${sender[0].code} ${sender[0].state}`, 31, 48);
 
     doc.fontSize (8.5);
-    doc.text ('N-Cubator B.V. | Markt 19 | NL-6071 Swalmen | The Netherlands', 69, 146);
+    doc.text (`${sender[0].name} | ${sender[0].address} | ${sender[0].code} ${sender[0].state} | ${sender[0].country}`, 69, 146);
     doc.moveTo (64, 156);
     doc.lineTo (330, 156);
     doc.stroke ();
@@ -42,9 +47,9 @@ exports.generate = function(data) {
     doc.text ('Av. de Europa, 4');
     doc.text ('E-03008 Alicante');
     doc.text ('Espana');
-    doc.text ('Swalmen, Nov. 17, 2020', 375, 275);
-    doc.text ('European Union Trademark Application No. '+data.trademark_number+' "'+data.trademark_name+'"', 78, 335);
-    doc.text ('Opposition '+data.opposition_number+' by BAUDI Europe B.V."');
+    doc.text (`${sender[0].state}, Nov. 17, 2020`, 375, 275);
+    doc.text (`European Union Trademark Application No. ${data.trademark_number} "${data.trademark_name}"`, 78, 335);
+    doc.text (`Opposition ${data.opposition_number} by ${data.opponent}`);
     doc.moveDown ();
     doc.moveDown ();
     doc.text ('Dear Sirs, ');
@@ -58,7 +63,12 @@ exports.generate = function(data) {
     doc.moveDown ();
     // doc.image ('mg-signature.png', { "fit": [160, 999], "align": "left" });
 
+    const stream = doc.pipe(blobStream());
+
     doc.end ();
+
+    
+
 
     // STORE RECORD FOR FUTURE RETRIEVAL
     rpoGeneratedPdf.putGeneratedPdf({
@@ -68,4 +78,5 @@ exports.generate = function(data) {
         created: now,
         name: data.trademark_name
     });
+    
 }
