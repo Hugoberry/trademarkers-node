@@ -28,6 +28,7 @@
     "jsonwebtoken": "^8.5.1",
     "less-middleware": "~2.2.1",
     "lodash": "^4.17.20",
+    "moment": "^2.29.1",
     "mongoose": "^5.10.13",
     "morgan": "~1.9.1",
     "mysql": "^2.18.1",

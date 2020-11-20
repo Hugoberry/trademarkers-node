@@ -1,6 +1,7 @@
 const PDFDocument = require('pdfkit');
 const blobStream  = require('blob-stream');
 const fs  = require('fs');
+const moment = require('moment');
 
 const rpoGeneratedPdf = require('../repositories/generatedPdf');
 const rpoSenders = require('../repositories/senders');
@@ -47,7 +48,7 @@ exports.generate = async function(data) {
     doc.text ('Av. de Europa, 4');
     doc.text ('E-03008 Alicante');
     doc.text ('Espana');
-    doc.text (`${sender[0].state}, Nov. 17, 2020`, 375, 275);
+    doc.text (`${sender[0].state}, ${moment(Date.now()).format('MMM D, YYYY')}`, 375, 275);
     doc.text (`European Union Trademark Application No. ${data.trademark_number} "${data.trademark_name}"`, 78, 335);
     doc.text (`Opposition ${data.opposition_number} by ${data.opponent}`);
     doc.moveDown ();
@@ -61,7 +62,7 @@ exports.generate = async function(data) {
     doc.moveDown ();
     doc.text ('Respectfully, ');
     doc.moveDown ();
-    // doc.image ('mg-signature.png', { "fit": [160, 999], "align": "left" });
+    doc.image ('public/uploads/'+sender[0].signature, { "fit": [160, 999], "align": "left" });
 
     const stream = doc.pipe(blobStream());
 
