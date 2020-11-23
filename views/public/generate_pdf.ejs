@@ -2,7 +2,7 @@
     <div class="row justify-content-center box-bg-container">
 
         <div class="col-md-12">
-            <h2> Generate PDF</h2>
+            <h2 style="margin-bottom:30px"> Generate PDF</h2>
 
             <% if (flash.success) { %>
                 <div class="alert alert-success" role="alert">
@@ -11,9 +11,9 @@
             <% } %>
         </div>
 
-        <div class="col-md-9">
-            <form id="gen-pdf-form" class="custom-frm" action="" method="POST">
-                
+        <form id="gen-pdf-form" class="custom-frm row" action="" method="POST">
+
+            <div class="col-md-12">
                 <div class="form-group d-flex justify-content-between align-items-center">
                     <% if (senders.length) { %>
                     <select class="form-control" name="sender">
@@ -26,8 +26,11 @@
                     <% } %>
                     <span class="btn-new" data-toggle="modal" data-target="#newSenderModal"><i class="fa fa-plus"></i> New Sender</span>
 				</div>
-                
-				<div class="form-group">
+            </div>
+
+            <div class="col-md-6">
+        
+                <div class="form-group">
 					<input type="text" class="form-control" id="trademark_number" value="" placeholder="Trademark Number" required name="trademark_number">
 				</div>
 				<div class="form-group">
@@ -39,25 +42,30 @@
                 <div class="form-group">
 					<input type="text"  class="form-control" value="" id="opponent" placeholder="Opponent" name="opponent" required>
 				</div>
-				<p class="text-center">
+                
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+					<input type="text" class="form-control" value="" placeholder="Supporting Opposition" name="opposition1">
+				</div>
+				<div class="form-group">
+					<input type="text" class="form-control" value="" placeholder="Supporting Opposition" name="opposition2" >
+				</div>
+				<div class="form-group">
+					<input type="text"  class="form-control" value="" placeholder="Supporting Opposition" name="opposition3" >
+                </div>
+                <div class="form-group">
+					<input type="text"  class="form-control" value="" placeholder="Supporting Opposition" name="opposition4" >
+				</div>
+            </div>
+
+            <div class="col-md-12">
+                <p class="text-center">
 					<button id="gen-pdf-submit" type="submit" class="btn btn-primary btn-rounded-primary" style="padding-left:40px;padding-right:40px;">Submit</button>
 				</p>
-			
-			</form>
-        </div>
-
-        <div class="col-md-3">
-            <% if (pdfs.length) { %>
-                <ul class="list-group">
-                    <!-- <li class="list-group-item d-flex justify-content-between align-items-center">Cras justo odio<span class="badge badge-primary badge-pill">14</span></li> -->
-                    <% for ( var key in pdfs ) { %>
-                    <li class="list-group-item d-flex justify-content-between align-items-center"><a target="_blank" href="/pdf/<%= pdfs[key].url %>"><%= pdfs[key].type %> - <%= pdfs[key].name %></a></li>
-                    <% } %>
-                </ul>
-            <% } else { %>
-                <p>No Record Found</p>
-            <% } %>
-        </div>
+            </div>
+        </form>
 
   
 	</div>

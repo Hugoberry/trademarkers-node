@@ -3,6 +3,7 @@ const variables = require('../config/variables');
 var db = require('../config/database');
 var formidable = require('formidable');
 var fs = require('fs');
+var open = require('open');
 
 var rpoContinents = require('../repositories/continents');
 var rpoCountries = require('../repositories/countries');
@@ -192,14 +193,18 @@ exports.generatePdf = async function(req, res, next) {
   });
 }
 
-exports.generatePdfView = function(req, res, next) {
+exports.generatePdfView = async function(req, res, next) {
 
   activityService.logger(req.ip, req.originalUrl, "Generate pdf");
 
-  pdfService.generate(req.body);
+  let pdfName = await pdfService.generate(req.body);
+  let fullUrl = req.protocol + '://' + req.get('host') + '/pdf/' + pdfName;
 
-  // console.log(pdfName,'name');
   res.flash('success', 'Generated PDF!');
+  
+  open( fullUrl, function (err) {
+    if ( err ) throw err;    
+  });
 
   res.redirect("/generate-pdf");
 }
