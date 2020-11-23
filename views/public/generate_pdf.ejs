@@ -7,8 +7,12 @@
             <% if (flash.success) { %>
                 <div class="alert alert-success" role="alert">
                     <strong><%= flash.success %></strong>
+                    <p>If pdf is not opening you may directly open it by clicking this <a href="<%= flash.fullUrl %>" target="_blank">link</a></p>
                 </div>
             <% } %>
+
+
+            
         </div>
 
         <form id="gen-pdf-form" class="custom-frm row" action="" method="POST">

@@ -201,6 +201,7 @@ exports.generatePdfView = async function(req, res, next) {
   let fullUrl = 'https://' + req.get('host') + '/pdf/' + pdfName;
 console.log(fullUrl);
   res.flash('success', 'Generated PDF!');
+  res.flash('fullUrl', fullUrl);
 
   open( fullUrl, function (err) {
     if ( err ) {
