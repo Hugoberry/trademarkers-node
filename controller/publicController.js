@@ -198,10 +198,10 @@ exports.generatePdfView = async function(req, res, next) {
   activityService.logger(req.ip, req.originalUrl, "Generate pdf");
 
   let pdfName = await pdfService.generate(req.body);
-  let fullUrl = req.protocol + '://' + req.get('host') + '/pdf/' + pdfName;
-
+  let fullUrl = req.protocol + '://www.' + req.get('host') + '/pdf/' + pdfName;
+console.log(fullUrl);
   res.flash('success', 'Generated PDF!');
-  
+
   open( fullUrl, function (err) {
     if ( err ) throw err;    
   });
