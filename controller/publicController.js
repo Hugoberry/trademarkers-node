@@ -199,11 +199,14 @@ exports.generatePdfView = async function(req, res, next) {
 
   let pdfName = await pdfService.generate(req.body);
   let fullUrl = 'https://' + req.get('host') + '/pdf/' + pdfName;
-// console.log(fullUrl);
+console.log(fullUrl);
   res.flash('success', 'Generated PDF!');
 
   open( fullUrl, function (err) {
-    if ( err ) throw err;    
+    if ( err ) {
+      console.log(err,'error')
+      throw err;
+    }    
   });
 
   res.redirect("/generate-pdf");
