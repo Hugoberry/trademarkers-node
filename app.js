@@ -79,10 +79,12 @@ conn.connectToServer( function( err, client ) {
   app.set('layout', 'layouts/public-layout');
 
   app.use('/api/v1', apiRouter);
-  app.use('/login', loginRouter);
+
   app.use('/customer', customerRouter);
   app.use('/researcher', researcherRouter);
   app.use('/', publicRouter);
+
+  app.use('/login', loginRouter);
 
   // ROUTE HANDLER ============ <<
 
