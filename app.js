@@ -50,6 +50,7 @@ conn.connectToServer( function( err, client ) {
   var customerRouter = require('./routes/customer');
   var loginRouter = require('./routes/auth');
   var researcherRouter = require('./routes/researcher');
+  var apiRouter = require('./routes/api');
   var interceptRouter = require('./routes/routerInterceptor');
 
   // SESSION STORE ============ >>
@@ -76,6 +77,8 @@ conn.connectToServer( function( err, client ) {
   // ROUTE HANDLER ============ >>
 
   app.set('layout', 'layouts/public-layout');
+
+  app.use('/api/v1', apiRouter);
   app.use('/login', loginRouter);
   app.use('/customer', customerRouter);
   app.use('/researcher', researcherRouter);

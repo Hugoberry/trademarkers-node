@@ -50,14 +50,12 @@
 		<div class="network-box-form">
 			<div id="continent" class="box-form">
 				<h5> I would like to register a trademark in : <span></span> </h5>
-				<!-- <div class="box-search-rounded-select" aria-controls="continentsToggle">
-					<span id="selectedContinent">Europe</span>
-				</div> -->
-
-			
+				
 				<ul id="continentsToggle" class="continentsToggle ">
-				<% for (var key in continent) { %>
-					<li class="<%= (continentCountries[key].name == 'Europe' ? 'active':'') %>" data-abbr="<%= continent[key].id %>" data-name="<%= continent[key].name %>"><%= continent[key].name %></li>
+				<% for (var key in continents) { %>
+					<% if(continents[key].countries) { %>
+					<li class="<%= (continents[key].name == 'Europe' ? 'active':'') %>" data-abbr="<%= continents[key].id %>" data-name="<%= continents[key].name %>"><%= continents[key].name %></li>
+					<% } %>
 				<% } %>
 				</ul>
 
@@ -65,15 +63,13 @@
 
 			<div class="country-contents">
 				
-			
-				
-				<% for (var key in continentCountries) { %>
-				<div class="row continent continent-<%= continentCountries[key]['id'] %> <%= (continentCountries[key].name == 'Europe' ? 'show':'') %>" >
-					<% for ( var ckey in continentCountries[key].countries ) { %>
+				<% for (var key in continents) { %>
+				<div class="row continent continent-<%= continents[key]['id'] %> <%= (continents[key].name == 'Europe' ? 'show':'') %>" >
+					<% for ( var ckey in continents[key].countries ) { %>
 					
 					<div class="col-md-3">
-						<a href="/trademark-registration-in-<%= continentCountries[key].countries[ckey].name.replace(' ', '_').toLowerCase() %>" >
-							<img src="images/<%= continentCountries[key].countries[ckey].avatar %>"><%= continentCountries[key].countries[ckey].name %>
+						<a href="/trademark-registration-in-<%= continents[key].countries[ckey].name.replace(' ', '_').toLowerCase() %>" >
+							<img src="images/<%= continents[key].countries[ckey].avatar %>"><%= continents[key].countries[ckey].name %>
 						</a>
 					</div>
 	
@@ -81,14 +77,9 @@
 				</div>
 				<% } %>
 				
-	
-					
-					
-				</div>
+			</div>
 
 		</div>
-
-		
 
 	</div>
 </div>

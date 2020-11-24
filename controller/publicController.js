@@ -30,32 +30,34 @@ exports.home = async function(req, res, next) {
 
     let continentCountries=[];
     let continentsMysql = await rpoContinents.getContinentsMysql();
+    let continents = await rpoContinents.getContinents();
 
 
-    for (var key in continentsMysql) {
+    // for (var key in continentsMysql) {
       
-      // check if the property/key is defined in the object itself, not in parent
-      if (continentsMysql.hasOwnProperty(key)) {
+    //   // check if the property/key is defined in the object itself, not in parent
+    //   if (continentsMysql.hasOwnProperty(key)) {
         
-        rpoContinents.putContinents(continentsMysql[key]);
+    //     rpoContinents.putContinents(continentsMysql[key]);
         
-        continentCountries[key] = continentsMysql[key];
-        let countries = await rpoContinents.getCountryPerContinentMysql(key);
+    //     continentCountries[key] = continentsMysql[key];
+    //     let countries = await rpoContinents.getCountryPerContinentMysql(key);
 
-        continentCountries[key].countries = countries;
+    //     continentCountries[key].countries = countries;
 
-        // put countries
-        countries.forEach(country => {
-          rpoCountries.putCountry(country);
-        });
-      }
-    }
+    //     // put countries
+    //     countries.forEach(country => {
+    //       rpoCountries.putCountry(country);
+    //     });
+    //   }
+    // }
+
+    console.log(continents);
 
     res.render('public/index', { 
       layout: 'layouts/public-layout', 
       title: 'Trademarkers LLC', 
-      continentCountries: continentCountries,
-      continent : continentsMysql
+      continents: continents
     });
     
 }

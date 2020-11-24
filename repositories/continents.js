@@ -30,7 +30,7 @@ module.exports = {
 
             // });
             
-            conn.getDb().collection(_table).find(
+            conn.getDb().collection(_table).find().toArray(
 			function(err, result) {
 				if (err) {
 					reject(err);
