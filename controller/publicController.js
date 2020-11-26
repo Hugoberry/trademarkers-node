@@ -28,8 +28,8 @@ exports.home = async function(req, res, next) {
 
     activityService.logger(req.ip, req.originalUrl, "Visited Homepage");
 
-    let continentCountries=[];
-    let continentsMysql = await rpoContinents.getContinentsMysql();
+    // let continentCountries=[];
+    // let continentsMysql = await rpoContinents.getContinentsMysql();
     let continents = await rpoContinents.getContinents();
 
 
@@ -52,7 +52,7 @@ exports.home = async function(req, res, next) {
     //   }
     // }
 
-    console.log(continents);
+    // console.log(continents);
 
     res.render('public/index', { 
       layout: 'layouts/public-layout', 
