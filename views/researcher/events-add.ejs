@@ -1,0 +1,70 @@
+<div class="col-md-12" style="margin-bottom:20px;">    
+    <h2>Add Event</h2>
+
+    <form class="row" action="/researcher/events/add" method="post">
+
+        <div class="col-md-12">
+            <div class="form-group">
+                <label>Select Task</label>
+                <select class="form-control" name="task_id">
+                    <option>-</option>
+                    
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+
+            <div class="form-group">
+                <label>Applicant Name</label>
+                <input type="text" class="form-control" value="" placeholder="" name="applicant_name" required>
+            </div>
+
+            <div class="form-group">
+                <label>Word Mark</label>
+                <input type="text" class="form-control" value="" placeholder="" name="applicant_word_mark" required>
+            </div>
+
+            <div class="form-group">
+                <label>Trademark Number</label>
+                <input type="text" class="form-control" value="" placeholder="" name="trademark_number" required>
+            </div>
+
+            <div class="form-group">
+                <label>Trademark Application Date</label>
+                <input type="text" class="form-control" value="" placeholder="" name="trademark_application_date" required>
+            </div>
+
+        </div>
+
+        <div class="col-md-6">
+
+            <div class="form-group">
+                <label>Applicant City</label>
+                <input type="text" class="form-control" value="" placeholder="" name="applicant_city" required>
+            </div>
+
+            <div class="form-group">
+                <label>Opposition Expiry Date</label>
+                <input type="date" class="form-control" value="" placeholder="" name="opposition_expiry_date" required>
+            </div>
+            <div class="form-group">
+                <label>Oppositing Word Mark</label>
+                <input type="text" class="form-control" value="" placeholder="" name="opposing_mark" required>
+            </div>
+            <div class="form-group">
+                <label>Oppositing Trademark Number</label>
+                <input type="text" class="form-control" value="" placeholder="" name="opposing_number" required>
+            </div>
+
+        </div>
+
+        <div class="col-md-12">
+            <p class="text-center">
+                <button type="submit" class="btn btn-primary btn-rounded-primary" style="padding-left:40px;padding-right:40px;">Add Event</button>
+            </p>
+        </div>
+
+    </form>
+</div>
+        

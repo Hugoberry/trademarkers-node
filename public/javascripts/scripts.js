@@ -39,6 +39,8 @@ $( document ).ready(function() {
     $("#selectedContinent").text($(this).attr('data-name'));
     $('#continentsToggle').collapse('hide');
 
-});
+  });
+
+
 
 })

@@ -50,6 +50,8 @@ conn.connectToServer( function( err, client ) {
   var customerRouter = require('./routes/customer');
   var loginRouter = require('./routes/auth');
   var researcherRouter = require('./routes/researcher');
+  var adminRouter = require('./routes/admin');
+
   var apiRouter = require('./routes/api');
   var interceptRouter = require('./routes/routerInterceptor');
 
@@ -82,6 +84,7 @@ conn.connectToServer( function( err, client ) {
 
   app.use('/customer', customerRouter);
   app.use('/researcher', researcherRouter);
+  app.use('/njs-admin', adminRouter);
   app.use('/', publicRouter);
 
   app.use('/login', loginRouter);

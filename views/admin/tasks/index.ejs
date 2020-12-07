@@ -1,0 +1,34 @@
+<div class="col-md-12" style="margin-bottom:20px;">  
+    <h2>Manage Task 
+        <span class="create-btn"><a href="/njs-admin/manage/tasks/add"><i class="fa fa-plus"></i></a></span>
+    </h2>
+
+    <% if (flash.success) { %>
+    <div class="alert alert-success" role="alert">
+        <strong><%= flash.success %></strong>
+    </div>
+    <% } %>
+</div>
+                    
+<div clss="col-md-12">
+    <table id="myListDataTable" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Task Name</th>
+                <th>Task Complication Date</th>
+                <th>Task Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% tasks.forEach(function(task,key) { %>
+            <tr>
+                <th><%= task.task_name %></th>
+                <th><%= task.complication_date %></th>
+                <th><%= task.task_status %></th>
+                <th>icon</th>
+            </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>

@@ -1,43 +1,66 @@
-// DATABASE CONNECTION
-const mysql = require('mysql');
-const util = require('util');
+let _table = process.env.TBLEXT + "tasks";
+let conn = require('../config/DbConnect');
 
-const connection = mysql.createConnection({
-    host     : process.env.DBHOST,
-	user     : process.env.DBUSER,
-	password : process.env.DBPASS,
-	database : process.env.DBNAME
-});
+
 
 module.exports = {
 
-	getUserTask : async function(id) {
+
+	getAllTask : async function() {
 		return new Promise(function(resolve, reject) {
+
 			
-			connection.query('SELECT * FROM tasks WHERE researcher_id = ? limit 1',[id],function(err,res,fields) {
+			
+			conn.getDb().collection(_table).find().toArray(function(err, result) {
+					
 				if (err) {
 					reject(err);
-			   } else {
-					resolve(res);
-			   }
+				} else {
+					resolve(result);
+				}
+
 			});
 
 		});
 	},
 
-	getUserTaskDetails : async function(id) {
+	getResearcherTask : async function(user_id) {
 		return new Promise(function(resolve, reject) {
+
+			let query = { task_id: user_id, task_status: "pending" };
 			
-			connection.query('SELECT * FROM task_details WHERE task_id = ?',[id],function(err,res,fields) {
+			conn.getDb().collection(_table).find(query).toArray(function(err, result) {
+					
 				if (err) {
 					reject(err);
-			   } else {
-					resolve(res);
-			   }
+				} else {
+					resolve(result);
+				}
+
 			});
 
 		});
-	}
+	},
+	
+	putTask: function(data) {
+
+        conn.getDb().collection(_table).insertOne(data, 
+			function(err, res2) {
+				if (err) throw err;
+			}
+		);
+
+	},
+	
+	putTaskDetails: function(data) {
+
+        conn.getDb().collection(_table).insertOne(data, 
+			function(err, res2) {
+				if (err) throw err;
+			}
+		);
+
+    }
 
 	
 	

@@ -1,64 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <%- include('../partials/researcher_head'); %>
-</head>
-<body >
+<div class="col-md-12" style="margin-bottom:20px;">    
+    <h2>My Task</h2>
 
-    <div id="researcher-app">
-
-
-
-
-
-        <%- include('../partials/researcher_header'); %>
-
-        <div class="container">
-            <div class="row justify-content-center ">
-        
-                <div class="col-md-3">
-                    <%- include('../partials/researcher_side_nav'); %>
+    <h3 class="text-center">Completion Date</h3>
+    <ul class="task-list">
+        <li>
+            <div class="card card-b">
+                <div class="card-body">
+                    <h4 class="card-title"><span class="numLabel">1</span>asdsadasd<span class="task-status pending">pending</span></h4>
+                    <p class="card-text">asdasdsad</p>
+                    <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#taskDescModal">This Task</a>
                 </div>
-        
-                <div class="col-md-9">
-
-                    <div class="col-md-12" style="margin-bottom:20px;">    
-                        <h2>My Task</h2>
-        
-                        <h3 class="text-center">Completion Date <%= task.completion_date %></h3>
-                        <ul class="task-list">
-                            <% task.details.forEach(function(detail,key) { %>
-                            <li>
-                                <div class="card card-b">
-                                    <div class="card-body">
-                                        <h4 class="card-title"><span class="numLabel"><%=(key + 1)%></span><%=detail.task_name%><span class="task-status <%=detail.status%>"><%=detail.status%></span></h4>
-                                        <p class="card-text"><%=detail.task_description%></p>
-                                        <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#taskDescModal">This Task</a>
-                                    </div>
-                                </div>
-                            </li>
-                            <% }) %>
-
-                        </ul>
-                    </div>
-        
-        
-                </div>
-        
-                
             </div>
-        </div>
+        </li>
 
+    </ul>
+</div>
         
-            
-        
-        <%- include('../partials/researcher_footer'); %>
-
-    </div>
-
-    
-
-
-    </body>
-    
-</html>

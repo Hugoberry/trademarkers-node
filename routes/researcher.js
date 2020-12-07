@@ -2,12 +2,15 @@ var express = require('express');
 var router = express.Router();
 const {verify} = require('../controller/middleware');
 
-const {index, tasks, leads} = require('../controller/researcherController')
+const researcher = require('../controller/researcherController')
 
 
 /* GET users listing. */
-router.get('/', verify, index);
-router.get('/tasks', verify, tasks);
-router.get('/leads', leads);
+router.get('/', verify, researcher.index);
+router.get('/tasks', verify, researcher.tasks);
+router.get('/leads', researcher.leads);
+router.get('/events', researcher.events);
+router.get('/events/add', researcher.eventsAdd);
+router.post('/events/add', researcher.eventsAddSubmit);
 
 module.exports = router;
