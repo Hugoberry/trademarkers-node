@@ -13,9 +13,18 @@ $( document ).ready(function() {
         success: function( result ) {
 
           if ( result.status == true ) {
-            document.location.href = '/researcher';
+            console.log(result.user);
+            if ( result.user.role_id == 4 ){
+              document.location.href = '/researcher';
+            } else if ( result.user.role_id == 5 ) {
+              document.location.href = '/njs-admin';
+            } else {
+              document.location.href = '/home';
+            }
+            // document.location.href = '/researcher';
           } else {
-            conssole.log('sayup');
+            $(".alert-warning strong").html(result.message);
+            $(".alert-warning").show();
           }
         }
       });     

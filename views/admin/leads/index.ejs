@@ -1,0 +1,55 @@
+<div class="col-md-12" style="margin-bottom:20px;">    
+    <h2>Lead Lists</h2>
+    
+    <% if (flash.success) { %>
+        <div class="alert alert-success" role="alert">
+            <strong><%= flash.success %></strong>
+        </div>
+    <% } %>
+
+    <% if (flash.error) { %>
+        <div class="alert alert-warning" role="alert">
+            <strong><%= flash.error %></strong>
+        </div>
+    <% } %>
+
+    <% if(leads) {%>
+    <table id="myListDataTable" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Applicant Name</th>
+                <th>Word Mark</th>
+                <th>Serial Number</th>
+                <th>Registration Number</th>
+                <th>Office Status</th>
+                <th>Lead Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        
+            <tbody>
+            <% leads.forEach(function(lead,key) { %>
+                <tr>
+                    <td><%= lead.applicant_name %></td>
+                    <td><%= lead.word_mark %></td>
+                    <td><%= lead.trademark_number %></td>
+                    <td><%= lead.trademark_registration_number %></td>
+                    <td><%= lead.trademark_status %></td>
+                    <td><%= lead.lead_status %></td>
+                   
+                    <td>
+                        <a href="/njs-admin/manage/leads/view/<%= lead._id %>"><i class="fa fa-eye"></i></a>
+                        <a href="/njs-admin/manage/leads/edit/<%= lead._id %>"><i class="fa fa-pen"></i></a>
+                        <!-- <a href=""><i class="fa fa-trash"></i></a> -->
+                    </td>
+                </tr>
+            <% }) %>
+                    
+            </tbody>
+        
+    </table>
+    <% } else { %>
+        <p>Sorry, No Lead(s) Found!</p>
+    <% } %>
+</div>
+        

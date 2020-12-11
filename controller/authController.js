@@ -189,7 +189,8 @@ function validateHashUser(pass, obj, res){
             res.cookie("jwt", accessToken);
             res.json({
                 status:true,
-                message:"Success"
+                message:"Success",
+                user: obj
             });
 
         }

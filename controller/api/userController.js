@@ -16,7 +16,7 @@ exports.add = async function(req, res, next) {
     // let accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
     //   expiresIn: (60 * 60) * 6
     // });
-    console.log(accessToken);
+    // console.log(accessToken);
     if ( user.length <= 0 ) {
 
       rpoUsers.putUser(req.body);
@@ -31,9 +31,8 @@ exports.add = async function(req, res, next) {
       });
 
     } else {
-
-      // res.setHeader('Cache-Control', 'private');
-      // res.cookie("jwt", accessToken);
+      // update
+      rpoUsers.updateUser(user.id,req.body);
 
       res.json({
         status:false,

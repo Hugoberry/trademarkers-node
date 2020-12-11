@@ -11,6 +11,10 @@
 							<strong><%= flash.error %></strong>
 						</div>
 					<% } %>
+
+					<div class="alert alert-warning" role="alert" style="display:none">
+						<strong><%= flash.error %></strong>
+					</div>
 					<form id="login-from" class="custom-frm" method="POST" action="/login">
 						<div class="form-group row">
 							<!-- <label for="email">E-Mail Address</label> -->

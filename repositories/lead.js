@@ -1,12 +1,12 @@
 let _table = process.env.TBLEXT + "leads";
 let conn = require('../config/DbConnect');
-
+var ObjectID = require('mongodb').ObjectID;
 
 
 module.exports = {
 
 
-	getAllLead : async function() {
+	getAllLeads : async function() {
 		return new Promise(function(resolve, reject) {
 
 			
@@ -45,9 +45,9 @@ module.exports = {
 	getResearcherLeadById : async function(id) {
 		return new Promise(function(resolve, reject) {
 
-			// let query = { _id: id };
+			let query = { _id: ObjectID(id) };
 			
-			conn.getDb().collection(_table).find(id).toArray(function(err, result) {
+			conn.getDb().collection(_table).find(query).toArray(function(err, result) {
 					
 				if (err) {
 					reject(err);
@@ -80,9 +80,9 @@ module.exports = {
 	
 	updateDetails: function(id,data) {
 
-		var ObjectID = require('mongodb').ObjectID;
+		
 		let query = { _id: ObjectID(id) };
-		console.log(id,data);
+
 		conn.getDb().collection(_table).updateOne(query,{$set: data }, function(err, result) {
 			if (err) {
 				console.log('Error updating user: ' + err);

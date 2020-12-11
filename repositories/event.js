@@ -45,9 +45,9 @@ module.exports = {
 	getResearcherEventById : async function(id) {
 		return new Promise(function(resolve, reject) {
 
-			// let query = { _id: id };
+			let query = { _id: ObjectID(id) };
 			
-			conn.getDb().collection(_table).find(id).toArray(function(err, result) {
+			conn.getDb().collection(_table).find(query).toArray(function(err, result) {
 					
 				if (err) {
 					reject(err);
@@ -82,7 +82,7 @@ module.exports = {
 
 		
 		let query = { _id: ObjectID(id) };
-		console.log(id,data);
+		
 		conn.getDb().collection(_table).updateOne(query,{$set: data }, function(err, result) {
 			if (err) {
 				console.log('Error updating user: ' + err);

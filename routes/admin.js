@@ -4,6 +4,7 @@ const {verify} = require('../controller/middleware');
 
 const adminTask = require('../controller/adminTaskController')
 const adminEvent = require('../controller/adminEventController')
+const adminLead = require('../controller/adminLeadController')
 
 
 /* GET users listing. */
@@ -18,11 +19,13 @@ router.get('/manage/tasks/edit/:id', verify, adminTask.taskEdit);
 router.post('/manage/tasks/edit/:id', verify, adminTask.taskEditSubmit);
  
 router.get('/manage/events', verify, adminEvent.events);
-// router.get('/manage/events/add', verify, adminEvent.add);
-// router.post('/manage/events/add', verify, adminEvent.addSubmit);
-
 router.get('/manage/events/view/:id', verify, adminEvent.show);
 router.get('/manage/events/edit/:id', verify, adminEvent.edit);
 router.post('/manage/events/edit/:id', verify, adminEvent.editSubmit);
+
+router.get('/manage/leads', verify, adminLead.leads);
+router.get('/manage/leads/view/:id', verify, adminLead.show);
+router.get('/manage/leads/edit/:id', verify, adminLead.edit);
+router.post('/manage/leads/edit/:id', verify, adminLead.editSubmit);
 
 module.exports = router;
