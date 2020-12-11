@@ -1,5 +1,5 @@
 <div class="col-md-12" style="margin-bottom:20px;">  
-    <h2>Manage Task 
+    <h2>Tasks List 
         <span class="create-btn"><a href="/njs-admin/manage/tasks/add"><i class="fa fa-plus"></i></a></span>
     </h2>
 
@@ -28,8 +28,8 @@
                 <td><%= task.task_name %></td>
                 <td><%= task.complication_date %></td>
                 <td><%= task.task_status %></td>
-                <td><a href="/researcher/events/view/<%= task._id %>"><i class="fa fa-eye"></i></a>
-                    <a href="/researcher/events/edit/<%= task._id %>"><i class="fa fa-pen"></i></a></td>
+                <td><a href="/njs-admin/manage/tasks/view/<%= task._id %>"><i class="fa fa-eye"></i></a>
+                    <a href="/njs-admin/manage/tasks/edit/<%= task._id %>"><i class="fa fa-pen"></i></a></td>
             </tr>
             <% }) %>
         </tbody>

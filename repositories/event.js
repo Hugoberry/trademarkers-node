@@ -1,12 +1,12 @@
 let _table = process.env.TBLEXT + "events";
 let conn = require('../config/DbConnect');
-
+let ObjectID = require('mongodb').ObjectID;
 
 
 module.exports = {
 
 
-	getAllTask : async function() {
+	getAllEvents : async function() {
 		return new Promise(function(resolve, reject) {
 
 			
@@ -80,7 +80,7 @@ module.exports = {
 	
 	updateDetails: function(id,data) {
 
-		var ObjectID = require('mongodb').ObjectID;
+		
 		let query = { _id: ObjectID(id) };
 		console.log(id,data);
 		conn.getDb().collection(_table).updateOne(query,{$set: data }, function(err, result) {

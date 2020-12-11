@@ -188,9 +188,9 @@ function validateHashUser(pass, obj, res){
             res.setHeader('Cache-Control', 'private');
             res.cookie("jwt", accessToken);
             res.json({
-            status:true,
-            message:"Success"
-        });
+                status:true,
+                message:"Success"
+            });
 
         }
     });   

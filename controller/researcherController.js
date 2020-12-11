@@ -3,21 +3,9 @@ var bcrypt = require('bcrypt');
 var rpoTask = require('../repositories/task');
 var rpoEvent = require('../repositories/event');
 var rpoLead = require('../repositories/lead');
-// var rpoMongoTask = require('../repositories/taskMongo');
-// var rpoUsersMongo = require('../repositories/usersMongo');
-var rpoUsers = require('../repositories/users');
-
-var groupBy = function(xs, key) {
-  return xs.reduce(function(rv, x) {
-    (rv[x[key]] = rv[x[key]] || []).push(x);
-    return rv;
-  }, {});
-};
-
+var rpoUsers = require('../repositories/usersMongo');
 
 exports.index = function(req, res, next) {
-
-  // console.log(db.mongoConnection);
   
   res.render('researcher/', { layout: 'layouts/public-layout-researcher', title: 'Researcher' });
     
@@ -42,11 +30,6 @@ exports.taskEditDetail = async function(req, res, next) {
   let user = JSON.parse(decode.payload.user);
   
   let task = await rpoTask.getResearcherTask(user._id);
-  // console.log(req.params['id']);
-  // console.log(req.params['n']);
-  // console.log(task[0]);
-
-  
 
   res.render('researcher/tasks/tasks-number-detail', { 
     layout: 'layouts/public-layout-researcher', 
@@ -58,8 +41,6 @@ exports.taskEditDetail = async function(req, res, next) {
 }
 
 exports.taskUpdateDetail = async function(req, res, next) {
-  
-  // console.log(req.body);
 
   let decode = jwt.decode(req.cookies.jwt, {complete: true});
   let user = JSON.parse(decode.payload.user);
@@ -67,7 +48,7 @@ exports.taskUpdateDetail = async function(req, res, next) {
   let task = await rpoTask.getResearcherTask(user._id);
   let detail = [];
   let statusCount = 0;
-  // console.log(req.body);
+
 
   task[0].details.forEach(function(taskDetail,key) {
     detail[key] = taskDetail;
@@ -127,7 +108,10 @@ exports.leadsAdd = async function(req, res, next) {
 
 exports.leadsAddSubmit = async function(req, res, next) {
   
-  console.log(req.body);
+
+  let selectedTask = await rpoTask.getTaskById(req.body.task_id);
+
+  req.body.task = selectedTask;
 
   let add = await rpoLead.putLead(req.body);
 
@@ -159,10 +143,7 @@ exports.leadsEditSubmit = async function(req, res, next) {
 
   res.flash('success', 'Lead updated successfully!');
   res.redirect('/researcher/leads');
-  // let event = await rpoEvent.getResearcherEventById(req.params['id']);
-  
-  // res.render('researcher/events-view', { layout: 'layouts/public-layout-researcher', title: 'Researcher', event: event[0] });
-    
+
 }
 
 exports.events = async function(req, res, next) {
@@ -171,7 +152,7 @@ exports.events = async function(req, res, next) {
   let user = JSON.parse(decode.payload.user);
   
   let events = await rpoEvent.getResearcherEvents(user._id);
-  // console.log(events);
+
   res.render('researcher/events/', { 
     layout: 'layouts/public-layout-researcher', 
     title: 'Researcher', 
@@ -198,8 +179,9 @@ exports.eventsAdd = async function(req, res, next) {
 }
 
 exports.eventsAddSubmit = async function(req, res, next) {
-  
-  console.log(req.body);
+
+  let selectedTask = await rpoTask.getTaskById(req.body.task_id);
+  req.body.task = selectedTask;
 
   let add = await rpoEvent.putEvent(req.body);
 
@@ -226,16 +208,13 @@ exports.eventsEdit = async function(req, res, next) {
 
 exports.eventsEditSubmit = async function(req, res, next) {
 
-  console.log(req.body);
+
   rpoEvent.updateDetails(req.params['id'],req.body);
 
   res.flash('success', 'Event updated successfully!');
 
   res.redirect('/researcher/events');
-  // let event = await rpoEvent.getResearcherEventById(req.params['id']);
-  
-  // res.render('researcher/events-view', { layout: 'layouts/public-layout-researcher', title: 'Researcher', event: event[0] });
-    
+
 }
 
 // temporary login auto redirect from php

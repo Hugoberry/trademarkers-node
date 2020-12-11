@@ -1,0 +1,82 @@
+<div class="col-md-12" style="margin-bottom:20px;">    
+    <h2>View Event</h2>
+    
+    <div class="row">
+        
+        <div class="col-md-12">
+            <div class="form-group">
+                <label>Task Number (<%= event.task_number %>)</label>
+            </div>
+        </div>
+        
+       
+        <div class="col-md-6">
+
+            <div class="form-group">
+                <label>Applicant Name</label>
+                <input type="text" class="form-control" value="<%= event.applicant_name %>" placeholder="" name="applicant_name" disabled>
+            </div>
+
+            <div class="form-group">
+                <label>Word Mark</label>
+                <input type="text" class="form-control" value="<%= event.applicant_word_mark %>" placeholder="" name="applicant_word_mark" disabled>
+            </div>
+
+            <div class="form-group">
+                <label>Trademark Number</label>
+                <input type="text" class="form-control" value="<%= event.trademark_number %>" placeholder="" name="trademark_number" disabled>
+            </div>
+
+            <div class="form-group">
+                <label>Trademark Application Date</label>
+                <input type="date" class="form-control" value="<%= event.trademark_application_date %>" placeholder="" name="trademark_application_date" disabled>
+            </div>
+
+            <div class="form-group">
+                <label>Applicant Email</label>
+                <input type="text" class="form-control" value="<%= event.applicant_email %>" placeholder="" name="applicant_email" disabled>
+            </div>
+            
+
+        </div>
+
+        <div class="col-md-6">
+
+            <div class="form-group">
+                <label>Applicant City</label>
+                <input type="text" class="form-control" value="<%= event.applicant_city %>" placeholder="" name="applicant_city" disabled>
+            </div>
+
+            <div class="form-group">
+                <label>Opposition Expiry Date</label>
+                <input type="date" class="form-control" value="<%= event.opposition_expiry_date %>" placeholder="" name="opposition_expiry_date" disabled>
+            </div>
+            
+            <div class="form-group">
+                <label>Oppositing Word Mark</label>
+                <input type="text" class="form-control" value="<%= event.opposing_mark %>" placeholder="" name="opposing_mark" disabled>
+            </div>
+            <div class="form-group">
+                <label>Oppositing Trademark Number</label>
+                <input type="text" class="form-control" value="<%= event.opposing_number %>" placeholder="" name="opposing_number" disabled>
+            </div>
+            <div class="form-group">
+                <label>Oppositing Email</label>
+                <input type="text" class="form-control" value="<%= event.opposing_email %>" placeholder="" name="opposing_email" disabled>
+            </div>
+
+        </div>
+
+        <div class="col-md-12">
+            <p class="text-center">
+                <a class="btn btn-primary btn-rounded-primary" href="/njs-admin/manage/events/edit/<%= event._id %>">Edit Event</a>
+            </p>
+        </div>
+
+
+
+
+    </div>
+
+</div>
+        

@@ -1,6 +1,6 @@
 let _table = process.env.TBLEXT + "tasks";
 let conn = require('../config/DbConnect');
-
+let ObjectID = require('mongodb').ObjectID;
 
 
 module.exports = {
@@ -41,6 +41,25 @@ module.exports = {
 
 		});
 	},
+
+	getTaskById : async function(id) {
+		return new Promise(function(resolve, reject) {
+
+			
+			let query = { _id: ObjectID(id) };
+			
+			conn.getDb().collection(_table).find(query).toArray(function(err, result) {
+					
+				if (err) {
+					reject(err);
+				} else {
+					resolve(result);
+				}
+
+			});
+
+		});
+	},
 	
 	putTask: function(data) {
 
@@ -64,14 +83,25 @@ module.exports = {
 	
 	updateDetails: function(id,data) {
 
-		let query = { _id: id };
+		let query = { _id: ObjectID(id) };
 
-        // conn.getDb().collection(_table).insertOne(data, 
-		// 	function(err, res2) {
-		// 		if (err) throw err;
-		// 	}
-		// );
 		conn.getDb().collection(_table).updateOne(query,  {$set:{details: data}}, function(err, result) {
+			if (err) {
+				console.log('Error updating user: ' + err);
+				// res.send({'error':'An error has occurred'});
+			} else {
+				console.log('' + result + ' document(s) updated');
+				// res.send(result);
+			}
+		});
+
+	},
+	
+	updateTask: function(id,data) {
+
+		let query = { _id: ObjectID(id) };
+
+		conn.getDb().collection(_table).updateOne(query,  {$set:data}, function(err, result) {
 			if (err) {
 				console.log('Error updating user: ' + err);
 				// res.send({'error':'An error has occurred'});

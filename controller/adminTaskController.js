@@ -45,7 +45,7 @@ exports.tasksAddSubmit = async function(req, res, next) {
 
   // console.log(req.body, 'asd');
 
-  let userAssign = await rpoUsers.getResearchersById(req.body.task_id);
+  let userAssign = await rpoUsers.getResearchersById(req.body.user_id);
 
   req.body.researcher = userAssign;
 
@@ -56,6 +56,54 @@ exports.tasksAddSubmit = async function(req, res, next) {
   res.redirect("/njs-admin/manage/tasks");
     
 }
+
+exports.taskShow = async function(req, res, next) {
+
+  let users = await rpoUsers.getResearchers();
+  let id = req.params['id'];
+  let selectedTask = await rpoTask.getTaskById(id);
+
+  res.render('admin/tasks/view', { 
+    layout: 'layouts/admin-layout', 
+    title: 'Admin Dashboard',
+    task: selectedTask[0],
+    users: users
+  });
+    
+}
+
+exports.taskEdit = async function(req, res, next) {
+
+  let users = await rpoUsers.getResearchers();
+  let id = req.params['id'];
+  let selectedTask = await rpoTask.getTaskById(id);
+
+
+
+  res.render('admin/tasks/edit', { 
+    layout: 'layouts/admin-layout', 
+    title: 'Admin Dashboard',
+    task: selectedTask[0],
+    users: users
+  });
+    
+}
+
+exports.taskEditSubmit = async function(req, res, next) {
+
+
+  rpoTask.updateTask(req.params['id'],req.body);
+
+  res.flash('success', 'Task updated successfully!');
+  res.redirect('/njs-admin/manage/tasks/');
+  // let event = await rpoEvent.getResearcherEventById(req.params['id']);
+  
+  // res.render('researcher/events-view', { layout: 'layouts/public-layout-researcher', title: 'Researcher', event: event[0] });
+    
+}
+
+// ====================== EVENT FUNCTIONS ======================
+// =============================================================
 
 exports.events = function(req, res, next) {
 
