@@ -1,19 +1,23 @@
 <div class="col-md-12" style="margin-bottom:20px;">    
     <h2>Add Event</h2>
-
+    <% if (task) { %>
     <form class="row" action="/researcher/events/add" method="post">
+        
+     
+        
+        <input type="hidden" class="form-control" value="<%= task.user_id %>" placeholder="" name="user_id">
+        <input type="hidden" class="form-control" value="<%= task._id %>" placeholder="" name="task_id">
+        <!-- <input type="hidden" class="form-control" value="<%= task._id %>" placeholder="" name="task_id"> -->
+        <div class="col-md-6">
 
-        <div class="col-md-12">
             <div class="form-group">
-                <label>Select Task</label>
-                <select class="form-control" name="task_id">
-                    <option>-</option>
-                    
+                <label>Select Task Number (<%= task.task_name %>)</label>
+                <select class="form-control" name="task_number">
+                    <% task.details.forEach(function(userTask,key) { %>
+                        <option><%= userTask.task_number %></option>
+                    <% }) %>
                 </select>
             </div>
-        </div>
-
-        <div class="col-md-6">
 
             <div class="form-group">
                 <label>Applicant Name</label>
@@ -32,12 +36,26 @@
 
             <div class="form-group">
                 <label>Trademark Application Date</label>
-                <input type="text" class="form-control" value="" placeholder="" name="trademark_application_date" required>
+                <input type="date" class="form-control" value="" placeholder="" name="trademark_application_date" required>
             </div>
+
+            <div class="form-group">
+                <label>Applicant Email</label>
+                <input type="text" class="form-control" value="" placeholder="" name="applicant_email" required>
+            </div>
+            
 
         </div>
 
         <div class="col-md-6">
+
+            <div class="form-group">
+                <label>Event Status</label>
+                <select class="form-control" name="event_status">
+                    <option value="draft">Draft</option>
+                    <option value="review">For Review</option>
+                </select>
+            </div>
 
             <div class="form-group">
                 <label>Applicant City</label>
@@ -48,6 +66,7 @@
                 <label>Opposition Expiry Date</label>
                 <input type="date" class="form-control" value="" placeholder="" name="opposition_expiry_date" required>
             </div>
+            
             <div class="form-group">
                 <label>Oppositing Word Mark</label>
                 <input type="text" class="form-control" value="" placeholder="" name="opposing_mark" required>
@@ -56,6 +75,12 @@
                 <label>Oppositing Trademark Number</label>
                 <input type="text" class="form-control" value="" placeholder="" name="opposing_number" required>
             </div>
+            <div class="form-group">
+                <label>Oppositing Email</label>
+                <input type="text" class="form-control" value="" placeholder="" name="opposing_email">
+            </div>
+
+            
 
         </div>
 
@@ -66,5 +91,8 @@
         </div>
 
     </form>
+    <% } else { %>
+        <p>Sorry, no active task found</p>p>
+    <% } %>
 </div>
         

@@ -1,0 +1,90 @@
+<div class="col-md-12" style="margin-bottom:20px;">    
+    <h2>Edit Event</h2>
+    
+    <form class="row" action="/researcher/events/edit/<%= event._id %>" method="post">
+        
+
+        
+       
+        <div class="col-md-6">
+
+            <div class="form-group">
+                <label>Select Task Number </label>
+                <input type="text" class="form-control" value="<%= event.task_number %>" placeholder="" disabled >
+            </div>
+
+            <div class="form-group">
+                <label>Applicant Name</label>
+                <input type="text" class="form-control" value="<%= event.applicant_name %>" placeholder="" name="applicant_name" >
+            </div>
+
+            <div class="form-group">
+                <label>Word Mark</label>
+                <input type="text" class="form-control" value="<%= event.applicant_word_mark %>" placeholder="" name="applicant_word_mark" >
+            </div>
+
+            <div class="form-group">
+                <label>Trademark Number</label>
+                <input type="text" class="form-control" value="<%= event.trademark_number %>" placeholder="" name="trademark_number" >
+            </div>
+
+            <div class="form-group">
+                <label>Trademark Application Date</label>
+                <input type="date" class="form-control" value="<%= event.trademark_application_date %>" placeholder="" name="trademark_application_date" >
+            </div>
+
+            <div class="form-group">
+                <label>Applicant Email</label>
+                <input type="text" class="form-control" value="<%= event.applicant_email %>" placeholder="" name="applicant_email" >
+            </div>
+            
+
+        </div>
+
+        <div class="col-md-6">
+
+            <div class="form-group">
+                <label>Event Status</label>
+                <select class="form-control" name="event_status">
+                    <option value="draft" <%= event.event_status == 'draft' ? 'selected' : '' %>>Draft</option>
+                    <option value="review" <%= event.event_status == 'review' ? 'selected' : '' %>>For Review</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Applicant City</label>
+                <input type="text" class="form-control" value="<%= event.applicant_city %>" placeholder="" name="applicant_city" >
+            </div>
+
+            <div class="form-group">
+                <label>Opposition Expiry Date</label>
+                <input type="date" class="form-control" value="<%= event.opposition_expiry_date %>" placeholder="" name="opposition_expiry_date" >
+            </div>
+            
+            <div class="form-group">
+                <label>Oppositing Word Mark</label>
+                <input type="text" class="form-control" value="<%= event.opposing_mark %>" placeholder="" name="opposing_mark" >
+            </div>
+            <div class="form-group">
+                <label>Oppositing Trademark Number</label>
+                <input type="text" class="form-control" value="<%= event.opposing_number %>" placeholder="" name="opposing_number" >
+            </div>
+            <div class="form-group">
+                <label>Oppositing Email</label>
+                <input type="text" class="form-control" value="<%= event.opposing_email %>" placeholder="" name="opposing_email" >
+            </div>
+
+            
+
+        </div>
+
+        <div class="col-md-12">
+            <p class="text-center">
+                <button type="submit" class="btn btn-primary btn-rounded-primary" style="padding-left:40px;padding-right:40px;">Update Event</button>
+            </p>
+        </div>
+
+    </form>
+
+</div>
+        

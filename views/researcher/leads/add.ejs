@@ -1,0 +1,127 @@
+<div class="col-md-12" style="margin-bottom:20px;">    
+    <h2>Add Lead</h2>
+    <% if (task) { %>
+    <form class="row" action="/researcher/leads/add" method="post">
+        
+     
+        
+        <input type="hidden" class="form-control" value="<%= task.user_id %>" placeholder="" name="user_id">
+        <input type="hidden" class="form-control" value="<%= task._id %>" placeholder="" name="task_id">
+        <!-- <input type="hidden" class="form-control" value="<%= task._id %>" placeholder="" name="task_id"> -->
+        <div class="col-md-6">
+
+            <div class="form-group">
+                <label>Select Task Number (<%= task.task_name %>)</label>
+                <select class="form-control" name="task_number">
+                    <% task.details.forEach(function(userTask,key) { %>
+                        <option><%= userTask.task_number %></option>
+                    <% }) %>
+                </select>
+            </div>
+
+            
+
+            <div class="form-group">
+                <label>Word Mark</label>
+                <input type="text" class="form-control" value="" placeholder="" name="word_mark" required>
+            </div>
+
+            <div class="form-group">
+                <label>Trademark Serial Number</label>
+                <input type="text" class="form-control" value="" placeholder="" name="trademark_number" required>
+            </div>
+
+            <div class="form-group">
+                <label>Trademark Registration Number</label>
+                <input type="text" class="form-control" value="" placeholder="" name="trademark_registration_number" required>
+            </div>
+
+            <div class="form-group">
+                <label>Trademark Registration Date</label>
+                <input type="date" class="form-control" value="" placeholder="" name="trademark_registration_date" required>
+            </div>
+
+            <div class="form-group">
+                <label>Trademark Application Date</label>
+                <input type="date" class="form-control" value="" placeholder="" name="trademark_application_date" required>
+            </div>
+
+            <div class="form-group">
+                <label>Trademark Status</label>
+                <input type="text" class="form-control" value="" placeholder="" name="trademark_status" required>
+            </div>
+
+            <div class="form-group">
+                <label>Trademark Status Date</label>
+                <input type="date" class="form-control" value="" placeholder="" name="trademark_status_date" required>
+            </div>
+
+            
+            
+
+        </div>
+
+        <div class="col-md-6">
+
+            <div class="form-group">
+                <label>Applicant Name</label>
+                <input type="text" class="form-control" value="" placeholder="" name="applicant_name" required>
+            </div>
+
+            <div class="form-group">
+                <label>Lead Status</label>
+                <select class="form-control" name="event_status">
+                    <option value="draft">Draft</option>
+                    <option value="review">For Review</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Address</label>
+                <input type="text" class="form-control" value="" placeholder="" name="applicant_address" required>
+            </div>
+
+            <div class="form-group">
+                <label>Postal Code</label>
+                <input type="text" class="form-control" value="" placeholder="" name="applicant_postal" required>
+            </div>
+
+            <div class="form-group">
+                <label>City</label>
+                <input type="text" class="form-control" value="" placeholder="" name="applicant_city" required>
+            </div>
+
+            <div class="form-group">
+                <label>Country</label>
+                <input type="text" class="form-control" value="" placeholder="" name="applicant_country" required>
+            </div>
+
+            <div class="form-group">
+                <label>Trademark Class(es) <span><i style="font-size:10px">(Separate class with comma)</i></span></label>
+                <input type="text" class="form-control" value="" placeholder="" name="trademark_class" required>
+            </div>
+
+            <div class="form-group">
+                <label>Applicant Email</label>
+                <input type="text" class="form-control" value="" placeholder="" name="applicant_email" required>
+            </div>
+            
+            
+
+
+            
+
+        </div>
+
+        <div class="col-md-12">
+            <p class="text-center">
+                <button type="submit" class="btn btn-primary btn-rounded-primary" style="padding-left:40px;padding-right:40px;">Add Lead</button>
+            </p>
+        </div>
+
+    </form>
+    <% } else { %>
+        <p>Sorry, no active task found</p>p>
+    <% } %>
+</div>
+        

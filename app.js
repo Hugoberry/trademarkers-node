@@ -21,6 +21,24 @@ let variable = require('./config/variables');
 
 var app = express();
 
+// test
+// var server = require('http').createServer(app);
+// var io = require('socket.io')(server);
+// var socketioJwt = require('socketio-jwt');
+
+// // Accept connection and authorize token
+// io.on('connection', socketioJwt.authorize({
+//   secret: process.env.JWT_SECRET,
+//   timeout: 15000
+// }));
+// // When authenticated, send back name + email over socket
+// io.on('authenticated', function (socket) {
+//   console.log(socket.decoded_token);
+//   socket.emit('name', socket.decoded_token.name);
+//   socket.emit('email', socket.decoded_token.email);
+// });
+// test end
+
 app.use(bodyParser.json())
 app.use(cookieParser())
 
@@ -85,9 +103,10 @@ conn.connectToServer( function( err, client ) {
   app.use('/customer', customerRouter);
   app.use('/researcher', researcherRouter);
   app.use('/njs-admin', adminRouter);
+  app.use('/login', loginRouter);
   app.use('/', publicRouter);
 
-  app.use('/login', loginRouter);
+  
 
   // ROUTE HANDLER ============ <<
 

@@ -1,0 +1,55 @@
+<div class="col-md-12" style="margin-bottom:20px;">    
+    <h2>My Events <span class="create-btn"><a href="/researcher/events/add"><i class="fa fa-plus"></i></a></span></h2>
+    
+    <% if (flash.success) { %>
+        <div class="alert alert-success" role="alert">
+            <strong><%= flash.success %></strong>
+        </div>
+    <% } %>
+
+    <% if (flash.error) { %>
+        <div class="alert alert-warning" role="alert">
+            <strong><%= flash.error %></strong>
+        </div>
+    <% } %>
+
+    <% if(events) {%>
+    <table id="myListDataTable" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Applicant Name</th>
+                <th>Applicant Word Mark</th>
+                <th>Applicant Serial Number</th>
+                <th>Opposing Mark</th>
+                <th>Opposing Serial Number</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        
+            <tbody>
+            <% events.forEach(function(event,key) { %>
+                <tr>
+                    <td><%= event.applicant_name %></td>
+                    <td><%= event.applicant_word_mark %></td>
+                    <td><%= event.trademark_number %></td>
+                    <td><%= event.opposing_mark %></td>
+                    <td><%= event.opposing_number %></td>
+                    <td><%= event.event_status %></td>
+                   
+                    <td>
+                        <a href="/researcher/events/view/<%= event._id %>"><i class="fa fa-eye"></i></a>
+                        <a href="/researcher/events/edit/<%= event._id %>"><i class="fa fa-pen"></i></a>
+                        <!-- <a href=""><i class="fa fa-trash"></i></a> -->
+                    </td>
+                </tr>
+            <% }) %>
+                    
+            </tbody>
+        
+    </table>
+    <% } else { %>
+        <p>Sorry, no found event(s)</p>
+    <% } %>
+</div>
+        

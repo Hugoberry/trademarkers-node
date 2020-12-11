@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 var rpoTask = require('../repositories/task');
 var rpoMongoTask = require('../repositories/taskMongo');
+var rpoUsers = require('../repositories/usersMongo');
 
 var groupBy = function(xs, key) {
   return xs.reduce(function(rv, x) {
@@ -30,17 +31,25 @@ exports.tasks = async function(req, res, next) {
     
 }
 
-exports.tasksAdd = function(req, res, next) {
+exports.tasksAdd = async function(req, res, next) {
 
-  res.render('admin/tasks/add', { layout: 'layouts/admin-layout', title: 'Admin Dashboard' });
+  let users = await rpoUsers.getResearchers();
+
+  // console.log(users);
+
+  res.render('admin/tasks/add', { layout: 'layouts/admin-layout', title: 'Admin Dashboard', users: users });
     
 }
 
-exports.tasksAddSubmit = function(req, res, next) {
+exports.tasksAddSubmit = async function(req, res, next) {
 
   // console.log(req.body, 'asd');
 
-  rpoTask.putTask(req.body);
+  let userAssign = await rpoUsers.getResearchersById(req.body.task_id);
+
+  req.body.researcher = userAssign;
+
+  let task = await rpoTask.putTask(req.body);
 
   res.flash('success', 'Task Saved!');
 

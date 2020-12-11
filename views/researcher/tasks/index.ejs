@@ -1,0 +1,40 @@
+<div class="col-md-12" style="margin-bottom:20px;">    
+    <h2>My Task</h2>
+
+    <% if (flash.success) { %>
+        <div class="alert alert-success" role="alert">
+            <strong><%= flash.success %></strong>
+        </div>
+    <% } %>
+
+    <% if (flash.error) { %>
+        <div class="alert alert-warning" role="alert">
+            <strong><%= flash.error %></strong>
+        </div>
+    <% } %>
+    
+    <% if (task) { %>
+    <h3 class="text-center">Completion Date</h3>
+    <ul class="task-list">
+        
+        <% task.details.forEach(function(userTask,key) { %>
+        <li>
+            <div class="card card-b">
+                <div class="card-body">
+                    <h4 class="card-title">
+                        <span class="numLabel"><%= userTask.task_number %></span>
+                        <span class="task-status pending"><%= userTask.task_status %></span>
+                    </h4>
+                    <p class="card-text"><%= userTask.task_description %></p>
+                    <a href="/researcher/tasks/<%= task._id %>-<%= userTask.task_number %>" class="btn btn-primary" >Update Task</a>
+                </div>
+            </div>
+        </li>
+        <% }) %>
+        
+    </ul>
+    <% } else { %>
+        <p>Sorry, no task found!</p>
+    <% } %>
+</div>
+        

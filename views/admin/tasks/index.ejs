@@ -14,6 +14,7 @@
     <table id="myListDataTable" class="display" style="width:100%">
         <thead>
             <tr>
+                <th>Researcher</th>
                 <th>Task Name</th>
                 <th>Task Complication Date</th>
                 <th>Task Status</th>
@@ -23,10 +24,12 @@
         <tbody>
             <% tasks.forEach(function(task,key) { %>
             <tr>
-                <th><%= task.task_name %></th>
-                <th><%= task.complication_date %></th>
-                <th><%= task.task_status %></th>
-                <th>icon</th>
+                <td><%= task.researcher[0].name %></td>
+                <td><%= task.task_name %></td>
+                <td><%= task.complication_date %></td>
+                <td><%= task.task_status %></td>
+                <td><a href="/researcher/events/view/<%= task._id %>"><i class="fa fa-eye"></i></a>
+                    <a href="/researcher/events/edit/<%= task._id %>"><i class="fa fa-pen"></i></a></td>
             </tr>
             <% }) %>
         </tbody>

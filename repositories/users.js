@@ -72,6 +72,7 @@ module.exports = {
 
 		});
 	},
+	
 
 	validateLogin : async function(email, password) {
 		

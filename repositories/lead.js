@@ -1,4 +1,4 @@
-let _table = process.env.TBLEXT + "tasks";
+let _table = process.env.TBLEXT + "leads";
 let conn = require('../config/DbConnect');
 
 
@@ -6,7 +6,7 @@ let conn = require('../config/DbConnect');
 module.exports = {
 
 
-	getAllTask : async function() {
+	getAllLead : async function() {
 		return new Promise(function(resolve, reject) {
 
 			
@@ -24,10 +24,10 @@ module.exports = {
 		});
 	},
 
-	getResearcherTask : async function(user_id) {
+	getResearcherLeads : async function(user_id) {
 		return new Promise(function(resolve, reject) {
 
-			let query = { user_id: user_id, task_status: "pending" };
+			let query = { user_id: user_id };
 			
 			conn.getDb().collection(_table).find(query).toArray(function(err, result) {
 					
@@ -41,37 +41,49 @@ module.exports = {
 
 		});
 	},
-	
-	putTask: function(data) {
 
+	getResearcherLeadById : async function(id) {
+		return new Promise(function(resolve, reject) {
+
+			// let query = { _id: id };
+			
+			conn.getDb().collection(_table).find(id).toArray(function(err, result) {
+					
+				if (err) {
+					reject(err);
+				} else {
+					resolve(result);
+				}
+
+			});
+
+		});
+	},
+	
+	putLead: async function(data) {
+		return new Promise(function(resolve, reject) {
         conn.getDb().collection(_table).insertOne(data, 
 			function(err, res2) {
-				if (err) throw err;
+				if (err) {
+					reject(err);
+				}
+
+				resolve(res2);
 			}
 		);
 
+		});
+
 	},
 	
-	putTaskDetails: function(data) {
 
-        conn.getDb().collection(_table).insertOne(data, 
-			function(err, res2) {
-				if (err) throw err;
-			}
-		);
-
-	},
 	
 	updateDetails: function(id,data) {
 
-		let query = { _id: id };
-
-        // conn.getDb().collection(_table).insertOne(data, 
-		// 	function(err, res2) {
-		// 		if (err) throw err;
-		// 	}
-		// );
-		conn.getDb().collection(_table).updateOne(query,  {$set:{details: data}}, function(err, result) {
+		var ObjectID = require('mongodb').ObjectID;
+		let query = { _id: ObjectID(id) };
+		console.log(id,data);
+		conn.getDb().collection(_table).updateOne(query,{$set: data }, function(err, result) {
 			if (err) {
 				console.log('Error updating user: ' + err);
 				// res.send({'error':'An error has occurred'});

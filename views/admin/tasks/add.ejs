@@ -11,8 +11,10 @@
 
             <div class="form-group">
                 <label>Select Researcher</label>
-                <select class="form-control" name="task_id">
-                    <option value="1123">user</option>
+                <select class="form-control" name="user_id">
+                    <% users.forEach(function(user,key) { %>
+                        <option value="<%= user._id %>"><%= user.name %></option>
+                    <% }) %>
                 </select>
             </div>
 

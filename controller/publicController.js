@@ -150,7 +150,10 @@ exports.redirect = function(req, res, next) {
 
   activityService.logger(req.ip, req.originalUrl, "Visitor redirected to laravel: " + req.params[0]);
 
-  res.redirect("https://trademarkers.com" + req.params[0]);
+  // let urlNode = process.env.APP_URL;
+  let urlPhp = process.env.APP_URL_PHP;
+
+  res.redirect(urlPhp + req.params[0]);
 }
 
 exports.ytVideo = function(req, res, next) {

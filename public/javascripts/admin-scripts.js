@@ -18,7 +18,7 @@ $( document ).ready(function() {
                       </div>
                       <div class="form-group">
                           <label>Task Description/Scope</label>
-                          <textarea class="form-control" name="details[${taskCounter}][taskDescription]"></textarea>
+                          <textarea class="form-control" name="details[${taskCounter}][task_description]"></textarea>
                       </div>
                       <input type="hidden" class="form-control" value="pending" name="details[${taskCounter}][task_status]">
                   </div>`);

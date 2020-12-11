@@ -6,11 +6,27 @@ const researcher = require('../controller/researcherController')
 
 
 /* GET users listing. */
+// router.get('/log-:e-:p', researcher.login);
 router.get('/', verify, researcher.index);
+
 router.get('/tasks', verify, researcher.tasks);
-router.get('/leads', researcher.leads);
-router.get('/events', researcher.events);
-router.get('/events/add', researcher.eventsAdd);
-router.post('/events/add', researcher.eventsAddSubmit);
+router.get('/tasks/:id-:n', verify, researcher.taskEditDetail);
+router.post('/tasks/update', verify, researcher.taskUpdateDetail);
+
+router.get('/leads', verify, researcher.leads);
+router.get('/leads/add', verify, researcher.leadsAdd);
+router.post('/leads/add', verify, researcher.leadsAddSubmit);
+
+router.get('/leads/view/:id', verify, researcher.leadsShow);
+router.get('/leads/edit/:id', verify, researcher.leadsEdit);
+router.post('/leads/edit/:id', verify, researcher.leadsEditSubmit);
+
+router.get('/events', verify, researcher.events);
+router.get('/events/add', verify, researcher.eventsAdd);
+router.post('/events/add', verify, researcher.eventsAddSubmit);
+
+router.get('/events/view/:id', verify, researcher.eventsShow);
+router.get('/events/edit/:id', verify, researcher.eventsEdit);
+router.post('/events/edit/:id', verify, researcher.eventsEditSubmit);
 
 module.exports = router;
