@@ -18,12 +18,12 @@ var rpoUsers = require('../repositories/users');
 
 exports.showLogin = function(req, res, next) {
 
-    
+    let urlPhp = process.env.APP_URL_PHP;
 
-    // clear cookie is for logout function
-    // res.clearCookie("__session");
-    res.clearCookie("jwt");
-    res.render('public/login', { title: 'Login Form' });
+    res.redirect(urlPhp + '/login');
+
+    
+    // res.render('public/login', { title: 'Login Form' });
 }
 
 exports.login2 = async function(req, res){
@@ -185,7 +185,7 @@ function validateHashUser(pass, obj, res){
             rpoUsers.putUser(obj);
 
             //send the access token to the client inside a cookie
-            res.setHeader('Cache-Control', 'private');
+            // res.setHeader('Cache-Control', 'private');
             res.cookie("jwt", accessToken);
             res.json({
                 status:true,
@@ -195,5 +195,50 @@ function validateHashUser(pass, obj, res){
 
         }
     });   
+
+}
+
+exports.loginApi = async function(req, res, next) {
+    
+    let email = urldecode(req.params['email'])
+    let hash = urldecode(req.params['hash'])
+
+    let userExistMongo = await rpoUsersMongo.findUser(email);
+
+    if ( userExistMongo && userExistMongo[0]) {
+
+        let payload = {user: JSON.stringify(userExistMongo[0])}
+
+            //create the access token with the shorter lifespan
+            let accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
+            expiresIn: (60 * 60) * 6
+            });
+
+            res.cookie("jwt", accessToken);
+
+            // rpoUsers.putUser(obj);
+
+    }
+    res.redirect('/home'); 
+    next()
+}
+
+exports.logoutApi = async function(req, res, next) {
+    
+    res.clearCookie("jwt");
+    let urlPhp = process.env.APP_URL_PHP;
+
+    res.redirect(urlPhp + '/loggedout');
+    // res.redirect('/login'); 
+    next()
+}
+
+function urldecode (str) {
+
+    return decodeURIComponent((str + '')
+      .replace(/%(?![\da-f]{2})/gi, function () {
+        return '%25'
+      })
+      .replace(/\+/g, '%20'))
 
 }

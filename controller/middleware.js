@@ -19,6 +19,7 @@ exports.verify = function(req, res, next){
     catch(e){
         console.log(e);
         //if an error occured return request unauthorized error
+        res.redirect('/login'); 
         return res.status(401).send()
     }
 }
