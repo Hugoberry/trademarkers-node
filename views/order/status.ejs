@@ -1,0 +1,36 @@
+<div class="container">
+	<div class="row justify-content-center box-bg-container">
+		<div class="col-md-12">
+		
+			<h2>Order Status </h2>
+			<% if (order) { %>
+				
+				<p style="font-weight:600; margin:0">Order #: <%= order.order_number %></p>
+				<p style="font-weight:600">Date Ordered: <%= moment(order.date_created).format('MMM D, YYYY') %></p>
+				
+				<% order.trademarks.forEach(function(trademark,key) { %>
+				<div class="card card-status">
+					
+					<div class="col-md-12">
+						<p>Service: <%= trademark.service %></p>
+						<p>Type: <%= trademark.type %></p>
+
+						<% if ( trademark.service == 'Fedex Delivery') { %>
+							<p>FedEx Tracking: <%= trademark.tracking_number ? trademark.tracking_number : '-' %></p>
+						<% } else { %>
+							<p>Name: <%= trademark.name %></p>
+							<p>Office Status: <span><%= trademark.office_status == 'UnPaid' ? 'On hold - waiting for payment' : trademark.office_status %></span></p>
+						<% } %>
+						
+					</div>
+				</div>
+				<% }) %>
+
+			<% } else { %>
+				<p>Sorry, Order not found!</p>
+			<% } %>
+		</div>
+
+
+	</div>
+</div>

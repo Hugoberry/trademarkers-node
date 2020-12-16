@@ -45,10 +45,10 @@ module.exports = {
 
 	},
 	
-	fetchOrder: function ( order_number ) {
+	fetchTmByOrder: function ( order_id ) {
 
 		return new Promise(function(resolve, reject) {
-			connection.query('SELECT * FROM orders WHERE order_number = ?',[order_number],function(err,res,fields) {
+			connection.query('SELECT * FROM trademarks WHERE order_id = ?',[order_id],function(err,res,fields) {
 				if (err) {
 					reject(err);
 			} else {
