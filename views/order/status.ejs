@@ -6,7 +6,7 @@
 			<% if (order) { %>
 				
 				<p style="font-weight:600; margin:0">Order #: <%= order.order_number %></p>
-				<p style="font-weight:600">Date Ordered: <%= moment(order.date_created).format('MMM D, YYYY') %></p>
+				<p style="font-weight:600">Date Ordered: <%= moment(order.created_at).format('MMM D, YYYY') %></p>
 				
 				<% order.trademarks.forEach(function(trademark,key) { %>
 				<div class="card card-status">
@@ -20,6 +20,7 @@
 						<% } else { %>
 							<p>Name: <%= trademark.name %></p>
 							<p>Office Status: <span><%= trademark.office_status == 'UnPaid' ? 'On hold - waiting for payment' : trademark.office_status %></span></p>
+							<p>Last Update: <%= moment(trademark.updated_at).format('MMM D, YYYY') %></p>
 						<% } %>
 						
 					</div>
