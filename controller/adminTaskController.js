@@ -3,6 +3,8 @@ var rpoTask = require('../repositories/task');
 var rpoMongoTask = require('../repositories/taskMongo');
 var rpoUsers = require('../repositories/usersMongo');
 
+var mailService = require('../services/mailerService');
+
 var groupBy = function(xs, key) {
   return xs.reduce(function(rv, x) {
     (rv[x[key]] = rv[x[key]] || []).push(x);
@@ -50,6 +52,13 @@ exports.tasksAddSubmit = async function(req, res, next) {
   req.body.researcher = userAssign;
 
   let task = await rpoTask.putTask(req.body);
+  let notif = await mailService.researcherNotify(
+    `<p>Hi ${userAssign[0].name}</p>
+    <p>You are currently assigned to a new task.</p>
+    `,
+    userAssign[0].email,
+    'New Task Assigned'
+    )
 
   res.flash('success', 'Task Saved!');
 

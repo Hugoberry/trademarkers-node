@@ -5,6 +5,8 @@ var rpoEvent = require('../repositories/event');
 var rpoLead = require('../repositories/lead');
 var rpoUsers = require('../repositories/usersMongo');
 
+var mailService = require('../services/mailerService');
+
 exports.index = function(req, res, next) {
   
   res.render('researcher/', { layout: 'layouts/public-layout-researcher', title: 'Researcher' });
@@ -47,7 +49,7 @@ exports.taskUpdateDetail = async function(req, res, next) {
   
   let task = await rpoTask.getResearcherTask(user._id);
   let detail = [];
-  let statusCount = 0;
+  let statusUpdate = true;
 
 
   task[0].details.forEach(function(taskDetail,key) {
@@ -58,16 +60,35 @@ exports.taskUpdateDetail = async function(req, res, next) {
     }
 
     // count
-    if ( taskDetail.task_status == 'review' || req.body['task_status'] == 'review') {
-      statusCount++;
+    if ( taskDetail.task_status != 'review' || req.body['task_status'] != 'review') {
+      statusUpdate = false;
     }
+
 
   });
   // console.log("detail", detail);
 
   // let taskStatus = statusCount == 4 ? 
 
-  let update = await rpoTask.updateDetails(task[0]._id,detail);
+  if ( statusUpdate ) {
+    task[0].task_status = "review";
+    await rpoTask.updateTask(task[0]._id,task[0]);
+
+    await mailService.researcherNotify(
+      `<p>Hi Admin</p>
+      <p>Researcher ${task[0].researcher[0].name} updated a task ${task[0].task_name}</p>
+      `,
+      process.env.MAIL_TO,
+      `Researcher updated task | ${task[0].researcher[0].name}`
+    );
+  } else {
+    await rpoTask.updateDetails(task[0]._id,detail);
+  }
+ 
+  // let update = await rpoTask.updateDetails(task[0]._id,detail);
+
+
+  
 
   res.flash('success', 'Task status updated successfully!');
   
