@@ -23,6 +23,8 @@ router.post('/add-sender-pdf', publicController.addSenderPdf);
 
 router.get('/', publicController.home);
 
+router.get('/what-is-the-uniform-domain-name-dispute-resolution-policy', publicController.udrp);
+
 // redirect
 router.get('*', publicController.redirect);
 

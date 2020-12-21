@@ -146,6 +146,13 @@ exports.service_contract = function(req, res, next) {
   res.render('public/service_contract', { layout: 'layouts/public-layout-default', title: 'service_contract' });
 }
 
+exports.udrp = function(req, res, next) {
+
+  activityService.logger(req.ip, req.originalUrl, "Visited UDRP Page");
+
+  res.render('public/udrp', { layout: 'layouts/public-layout-default', title: 'Uniform Domain-Name Dispute-Resolution Policy' });
+}
+
 exports.redirect = function(req, res, next) {
 
   activityService.logger(req.ip, req.originalUrl, "Visitor redirected to laravel: " + req.params[0]);

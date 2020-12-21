@@ -23,3 +23,65 @@ exports.verify = function(req, res, next){
         return res.status(401).send()
     }
 }
+
+exports.guardResearcher = function(req, res, next){
+    let accessToken = req.cookies.jwt
+
+    //if there is no token stored in cookies, the request is unauthorized
+    if (!accessToken){
+        // return res.status(403).send()
+        res.redirect('/login'); 
+    }
+
+    let payload
+    try{
+        payload = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET)
+
+        let user = JSON.parse(payload.user);
+        
+        console.log(user.role_id);
+
+        if ( user.role_id != 4 ) {
+            return res.status(403).send()
+        }
+
+        next()
+    }
+    catch(e){
+        console.log(e);
+
+        res.redirect('/home'); 
+        return res.status(401).send()
+    }
+}
+
+exports.guardReviewer = function(req, res, next){
+    let accessToken = req.cookies.jwt
+
+    //if there is no token stored in cookies, the request is unauthorized
+    if (!accessToken){
+        // return res.status(403).send()
+        res.redirect('/login'); 
+    }
+
+    let payload
+    try{
+        payload = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET)
+
+        let user = JSON.parse(payload.user);
+        
+        console.log(user.role_id);
+
+        if ( user.role_id != 5 ) {
+            return res.status(403).send()
+        }
+
+        next()
+    }
+    catch(e){
+        console.log(e);
+
+        res.redirect('/login'); 
+        return res.status(401).send()
+    }
+}

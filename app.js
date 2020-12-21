@@ -1,6 +1,8 @@
 // CALL ENV FILE
 require('dotenv').config()
 
+const middleware = require('./controller/middleware');
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -18,26 +20,12 @@ var flash = require('express-flash-2');
 
 let variable = require('./config/variables');
 
+// var cron = require('node-cron');
+// var oppositionCronService = require('./services/oppositionCronService')
+
 
 var app = express();
 
-// test
-var server = require('http').createServer(app);
-// var io = require('socket.io')(server);
-// var socketioJwt = require('socketio-jwt');
-
-// Accept connection and authorize token
-// io.on('connection', socketioJwt.authorize({
-//   secret: process.env.JWT_SECRET,
-//   timeout: 15000
-// }));
-// // When authenticated, send back name + email over socket
-// io.on('authenticated', function (socket) {
-//   console.log(socket.decoded_token);
-//   socket.emit('name', socket.decoded_token.name);
-//   socket.emit('email', socket.decoded_token.email);
-// });
-// test end
 
 app.use(bodyParser.json())
 app.use(cookieParser())
@@ -102,8 +90,8 @@ conn.connectToServer( function( err, client ) {
   app.use('/api/v1', apiRouter);
 
   app.use('/customer', customerRouter);
-  app.use('/researcher', researcherRouter);
-  app.use('/njs-admin', adminRouter);
+  app.use('/researcher', middleware.guardResearcher, researcherRouter);
+  app.use('/njs-admin', middleware.guardReviewer, adminRouter);
   app.use('/login', loginRouter);
   app.use('/status', orderRouter);
   app.use('/', publicRouter);
@@ -111,6 +99,17 @@ conn.connectToServer( function( err, client ) {
   
 
   // ROUTE HANDLER ============ <<
+
+  
+  // CRON JOB SCHEDULER =========== >>
+  // cron.schedule("* * * * *", async () => {
+  //   oppositionCronService.generateAndSend();
+  //   console.log(`this message logs every minute`);
+  // });
+
+  // CRON JOB SCHEDULER << =========== 
+
+
 
   // catch 404 and forward to error handler
   app.use(function(req, res, next) {
