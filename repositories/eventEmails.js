@@ -1,6 +1,6 @@
-let _table = "published_for_opposition";
+let _table = process.env.TBLEXT + "event_emails";
 let conn = require('../config/DbConnect');
-let ObjectID = require('mongodb').ObjectID;
+var ObjectID = require('mongodb').ObjectID;
 
 
 module.exports = {
@@ -11,7 +11,7 @@ module.exports = {
 
 			
 			
-			conn.getDb().collection(_table).find().limit(10).toArray(function(err, result) {
+			conn.getDb().collection(_table).find().toArray(function(err, result) {
 					
 				if (err) {
 					reject(err);
@@ -24,12 +24,10 @@ module.exports = {
 		});
 	},
 
-	getAll1word : async function() {
+	getByOppositionId : async function(id) {
 		return new Promise(function(resolve, reject) {
 
-			let query = { 
-				"name":{$ne: '', $regex : /^[a-zA-Z0-9]\S+$/}
-			};
+			let query = { opposition_id: ObjectID(id), status: "pending" };
 			
 			conn.getDb().collection(_table).find(query).toArray(function(err, result) {
 					
@@ -44,53 +42,37 @@ module.exports = {
 		});
 	},
 
-	getlimitData : async function($limit) {
+
+
+	
+	put : async function(data) {
 		return new Promise(function(resolve, reject) {
 
-			let query = { 
-				"name":{$exists:true, $ne: ''},
-				"lead_status": true,
-				"domain_generated": {$ne: true}
-			};
-			
-			conn.getDb()
-				.collection(_table)
-				.find(query)
-				.limit($limit)
-				.sort( { "name": 1, "_id": 1 } )
-				.toArray(function(err, result) {
+
+			// let db = conn.getDb();
+
+			conn.getDb().collection(_table).findOne({
+				email: data.email
+			}, 
+			function(err, result) {
+				if (err) {
+					reject(err);
+				} else {
 					
-					if (err) {
-						reject(err);
-					} else {
-						resolve(result);
+					if (!result) {
+						conn.getDb().collection(_table).insertOne(data, 
+						function(err, res2) {
+							if (err) throw err;
+						});
 					}
 
-				});
-
-		});
-	},
-
-
-	getById : async function(id) {
-		return new Promise(function(resolve, reject) {
-
-			let query = { _id: ObjectID(id) };
-			
-			conn.getDb().collection(_table).find(query).toArray(function(err, result) {
-					
-				if (err) {
-					reject(err);
-				} else {
 					resolve(result);
 				}
-
 			});
+
 
 		});
 	},
-	
-
 	
 
 	
@@ -98,7 +80,7 @@ module.exports = {
 
 		
 		let query = { _id: ObjectID(id) };
-		
+
 		conn.getDb().collection(_table).updateOne(query,{$set: data }, function(err, result) {
 			if (err) {
 				console.log('Error updating user: ' + err);

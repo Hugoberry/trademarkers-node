@@ -29,5 +29,26 @@ $( document ).ready(function() {
       $("#add-block").hide();
     }
   });
+// alert();
+  $('.markLead').change(function(){
+    // alert(this.checked);
+    let value = this.checked;
+    $.ajax({
+      url: "/api/v1/olead/update",
+      type:"post",
+      dataType:"json",
+      data: JSON.stringify({
+        id: $(this).attr('data-id'),
+        status : value
+      }),
+      contentType: "application/json",
+      success: function( result ) {
+
+        console.log(result);
+      }
+    });     
+    
+    // return false;
+  });
 
 })

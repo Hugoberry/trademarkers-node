@@ -1,0 +1,52 @@
+<div class="col-md-12" style="margin-bottom:20px;">    
+    <h2>Opposition Lead Lists</h2>
+    
+    <% if (flash.success) { %>
+        <div class="alert alert-success" role="alert">
+            <strong><%= flash.success %></strong>
+        </div>
+    <% } %>
+
+    <% if (flash.error) { %>
+        <div class="alert alert-warning" role="alert">
+            <strong><%= flash.error %></strong>
+        </div>
+    <% } %>
+
+    <% if(leads) {%>
+    <table id="myListDataTable" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Applicant Name</th>
+                <th>Word Mark</th>
+                <th>Serial Number</th>
+                <th>Office Status</th>
+                <!-- <th>Lead Status</th> -->
+                <th>Mark Lead For Mailing</th>
+            </tr>
+        </thead>
+        
+            <tbody>
+            <% leads.forEach(function(lead,key) { %>
+                <tr>
+                    <td><%= lead.applicantname %></td>
+                    <td><%= lead.name %></td>
+                    <td><%= lead.number %></td>
+                    <td><%= lead.status %></td>
+                    <!-- <td><%= lead.lead_status %></td> -->
+                   
+                    <td>
+                        <!-- <a href="/njs-admin/manage/opposition-leads/view/<%= lead._id %>"><i class="fa fa-eye"></i></a> -->
+                        <!-- <a href="/njs-admin/manage/opposition-leads/edit/<%= lead._id %>"><%= lead.lead_status ? 'Unmark' : 'Mark' %></a> -->
+                        <input type="checkbox" value="true" class="markLead" data-id="<%= lead._id %>" <%= lead.lead_status ? 'checked' : '' %>>
+                    </td>
+                </tr>
+            <% }) %>
+                    
+            </tbody>
+        
+    </table>
+    <% } else { %>
+        <p>Sorry, No Lead(s) Found!</p>
+    <% } %>
+</div>

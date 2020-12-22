@@ -3,6 +3,7 @@ var router = express.Router();
 const {verify} = require('../controller/middleware');
 
 const researcher = require('../controller/researcherController')
+const adminOppositionLead = require('../controller/adminOppositionLeadsController')
 
 
 /* GET users listing. */
@@ -28,5 +29,10 @@ router.post('/events/add', verify, researcher.eventsAddSubmit);
 router.get('/events/view/:id', verify, researcher.eventsShow);
 router.get('/events/edit/:id', verify, researcher.eventsEdit);
 router.post('/events/edit/:id', verify, researcher.eventsEditSubmit);
+
+router.get('/opposition-leads', verify, adminOppositionLead.leads);
+router.get('/opposition-leads/view/:id', verify, adminOppositionLead.show);
+router.get('/opposition-leads/edit/:id', verify, adminOppositionLead.edit);
+router.post('/opposition-leads/edit/:id', verify, adminOppositionLead.editSubmit);
 
 module.exports = router;

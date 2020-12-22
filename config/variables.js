@@ -8,6 +8,9 @@ module.exports = {
                         useUnifiedTopology: true 
                       },
     mongoDB         : 'bigfoot',
-    filePathUpload  : (ENV === 'prod' ? process.env.uploadFilePath : process.env.uploadFilePathDev)
+    filePathUpload  : (ENV === 'prod' ? process.env.uploadFilePath : process.env.uploadFilePathDev),
+
+    domainTLD       : [{name: 'com'}],
+    emailGen        : [{name: 'webmaster'}, {name: 'info'}, {name: 'legal'}, {name: 'contact'}],
     
 };

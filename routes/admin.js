@@ -5,6 +5,7 @@ const {verify} = require('../controller/middleware');
 const adminTask = require('../controller/adminTaskController')
 const adminEvent = require('../controller/adminEventController')
 const adminLead = require('../controller/adminLeadController')
+const adminOppositionLead = require('../controller/adminOppositionLeadsController')
 
 
 /* GET users listing. */
@@ -27,5 +28,10 @@ router.get('/manage/leads', verify, adminLead.leads);
 router.get('/manage/leads/view/:id', verify, adminLead.show);
 router.get('/manage/leads/edit/:id', verify, adminLead.edit);
 router.post('/manage/leads/edit/:id', verify, adminLead.editSubmit);
+
+router.get('/manage/opposition-leads', verify, adminOppositionLead.leads);
+router.get('/manage/opposition-leads/view/:id', verify, adminOppositionLead.show);
+router.get('/manage/opposition-leads/edit/:id', verify, adminOppositionLead.edit);
+router.post('/manage/opposition-leads/edit/:id', verify, adminOppositionLead.editSubmit);
 
 module.exports = router;

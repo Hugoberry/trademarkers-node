@@ -20,8 +20,8 @@ var flash = require('express-flash-2');
 
 let variable = require('./config/variables');
 
-// var cron = require('node-cron');
-// var oppositionCronService = require('./services/oppositionCronService')
+var cron = require('node-cron');
+var oppositionCronService = require('./services/oppositionCronService')
 
 
 var app = express();
@@ -90,8 +90,8 @@ conn.connectToServer( function( err, client ) {
   app.use('/api/v1', apiRouter);
 
   app.use('/customer', customerRouter);
-  app.use('/researcher', middleware.guardResearcher, researcherRouter);
-  app.use('/njs-admin', middleware.guardReviewer, adminRouter);
+  app.use('/researcher', researcherRouter);
+  app.use('/njs-admin', adminRouter);
   app.use('/login', loginRouter);
   app.use('/status', orderRouter);
   app.use('/', publicRouter);
@@ -100,12 +100,17 @@ conn.connectToServer( function( err, client ) {
 
   // ROUTE HANDLER ============ <<
 
-  
+  oppositionCronService.sendEvent();
   // CRON JOB SCHEDULER =========== >>
-  // cron.schedule("* * * * *", async () => {
-  //   oppositionCronService.generateAndSend();
-  //   console.log(`this message logs every minute`);
-  // });
+  cron.schedule("0 */1 * * * *", () => {
+    oppositionCronService.generateDomainEmail();
+    console.log("trigger generate domain / email / event");
+  });
+
+  cron.schedule("0 0 */1 * * *", () => {
+    oppositionCronService.sendEvent();
+    console.log("trigger event mailer");
+  });
 
   // CRON JOB SCHEDULER << =========== 
 
