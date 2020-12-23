@@ -9,6 +9,8 @@ var rpoContinents = require('../repositories/continents');
 var rpoCountries = require('../repositories/countries');
 var rpoPdfs = require('../repositories/generatedPdf');
 var rpoSenders = require('../repositories/senders');
+var rpoAction = require('../repositories/actionCode');
+var rpoAction = require('../repositories/actionCode');
 
 var activityService = require('../services/activityLogService');
 var pdfService = require('../services/pdfService');
@@ -153,14 +155,32 @@ exports.udrp = function(req, res, next) {
   res.render('public/udrp', { layout: 'layouts/public-layout-default', title: 'Uniform Domain-Name Dispute-Resolution Policy' });
 }
 
-exports.redirect = function(req, res, next) {
+exports.redirect = async function(req, res, next) {
 
-  activityService.logger(req.ip, req.originalUrl, "Visitor redirected to laravel: " + req.params[0]);
+  console.log(req.params.action);
 
-  // let urlNode = process.env.APP_URL;
-  let urlPhp = process.env.APP_URL_PHP;
+  let action = await rpoAction.getAction(req.params.action);
 
-  res.redirect(urlPhp + req.params[0]);
+  if ( action.length > 0 ) {
+
+    console.log(action[0].url, 'redirecting');
+    // log actions here
+    // check if related data has email
+    // check ip address used if this is a staff ip
+    if ( action[0].related_data && action[0].related_data.email) {
+      // access from email address
+    }
+    res.redirect("https://www.trademarkers.com"+action[0].url);
+    
+  } else {
+
+    activityService.logger(req.ip, req.originalUrl, "Visitor redirected to laravel: " + req.params[0]);
+    let urlPhp = process.env.APP_URL_PHP;
+
+    res.redirect(urlPhp + req.params[0]);
+  }
+
+  // 
 }
 
 exports.ytVideo = function(req, res, next) {

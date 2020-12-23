@@ -1,10 +1,10 @@
-var rpoEvent = require('../repositories/event');
+var rpoEvent = require('../repositories/events');
 var rpoTask = require('../repositories/task');
 
 
 exports.events = async function(req, res, next) {
 
-  let events = await rpoEvent.getAllEvents();
+  let events = await rpoEvent.getAll();
 
   res.render('admin/events/', {
     layout: 'layouts/admin-layout', 

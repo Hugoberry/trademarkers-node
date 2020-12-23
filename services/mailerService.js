@@ -6,6 +6,8 @@ const ejs = require("ejs");
 let rpoOutbox = require('../repositories/outbox');
 let rpoEvent = require('../repositories/events');
 
+let actionService = require('../services/actionService');
+
 let transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -35,12 +37,12 @@ exports.contact = async function(data) {
 exports.researcherNotify = async function(message, toMail, subject) {
 
   return await transporter.sendMail({
-  sender: 'Trademarkers LLC',
-  replyTo: process.env.MAIL_FROM,
-  from: process.env.MAIL_FROM, 
-  to: toMail,
-  subject: subject, 
-  html: message, 
+    sender: 'Trademarkers LLC',
+    replyTo: process.env.MAIL_FROM,
+    from: process.env.MAIL_FROM, 
+    to: toMail,
+    subject: subject, 
+    html: message, 
   });
 
 }
@@ -57,6 +59,7 @@ exports.eventEmail = async function(mailData) {
           from: process.env.MAIL_FROM, 
           to: mailData.email.email,
           // to: "mg@bigfoot.com",
+          // to: "felix@trademarkers.com",
           subject: mailData.lead.name+": Enforce Your Trademark Rights Now Before It's Too Late!", 
           html: data
         };
@@ -82,23 +85,23 @@ exports.eventEmail = async function(mailData) {
 
           res.mailContent = mainOptions.html
 
-          console.log("=======================================",res.messageId)
+          // console.log("=======================================",res.messageId)
 
           // let data[res.messageId] = res;
 
-          rpoEvent.addMailed(mailData.event._id,res);
-
+          // rpoEvent.addMailed(mailData.event._id,res);
+          return res;
         });
-        // let eventMailData = {
-        //   mailContent: mainOptions
-        // }
+        let eventMailData = {
+          mailContent: mainOptions
+        }
 
         // let event = await rpoEvent.getId(mailData.event._id);
         // eventMailData.outbox = mailResponse;
         // eventMailData.mailContent = mainOptions;
         // let newMailContent = event.mailContent.push(eventMailData);
         // console.log('this data ================================= ', mailResponse);
-        // rpoEvent.addMailed(mailData.event._id,newMailContent);
+        rpoEvent.addMailed(mailData.event._id,eventMailData);
     }
     
   });

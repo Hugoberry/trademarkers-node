@@ -24,6 +24,7 @@ var cron = require('node-cron');
 var oppositionCronService = require('./services/oppositionCronService')
 
 
+
 var app = express();
 
 
@@ -96,18 +97,17 @@ conn.connectToServer( function( err, client ) {
   app.use('/status', orderRouter);
   app.use('/', publicRouter);
 
-  
 
   // ROUTE HANDLER ============ <<
 
   // oppositionCronService.sendEvent();
   // CRON JOB SCHEDULER =========== >>
-  cron.schedule("0 */1 * * * *", () => {
+  cron.schedule("0 0 */1 * * *", () => {
     oppositionCronService.generateDomainEmail();
     console.log("trigger generate domain / email / event");
   });
 
-  cron.schedule("0 0 */1 * * *", () => {
+  cron.schedule("0 0 */2 * * *", () => {
     oppositionCronService.sendEvent();
     console.log("trigger event mailer");
   });

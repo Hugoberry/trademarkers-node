@@ -3,6 +3,7 @@ let rpoDomains = require('../repositories/domains');
 let rpoEmails = require('../repositories/eventEmails');
 let rpoEvents = require('../repositories/events');
 let rpoOutbox = require('../repositories/outbox');
+var actionService = require('../services/actionService')
 
 let mailService = require('../services/mailerService')
 
@@ -34,18 +35,19 @@ exports.generateDomainEmail = async function() {
 exports.sendEvent = async function() {
 
   let events = await rpoEvents.getlimitData(1);
-  console.log('call mailing function');
+
   // fetch events 
   // get lead / domain / email
   // if all exist send email 
+
   if ( events.length > 0 ) {
-console.log('mailing');
     let event = events[0];
     let lead = await rpo.getById(event.opposition_id)
     let domain = await rpoDomains.getByOppositionId(event.opposition_id)
     let email = await rpoEmails.getByOppositionId(event.opposition_id)
 
     if ( email.length > 0 ) {
+    
       // send event email
       let emailDataSet = {
         lead  : lead[0],
@@ -53,6 +55,19 @@ console.log('mailing');
         email : email[0],
         event : event
       }
+
+      let actions = [];
+      actions.udpr        = await actionService.createActionCode(emailDataSet,'/what-is-the-uniform-domain-name-dispute-resolution-policy');
+      actions.services    = await actionService.createActionCode(emailDataSet,'/services');
+      actions.register    = await actionService.createActionCode(emailDataSet,'/countries');
+      actions.about       = await actionService.createActionCode(emailDataSet,'/about');
+      actions.video       = await actionService.createActionCode(emailDataSet,'/video/PexvELzGraA');
+      actions.prices      = await actionService.createActionCode(emailDataSet,'/prices');
+      actions.resources   = await actionService.createActionCode(emailDataSet,'/resources');
+      actions.blog        = await actionService.createActionCode(emailDataSet,'/blog');
+      actions.contact     = await actionService.createActionCode(emailDataSet,'/contact');
+
+      emailDataSet.actions = actions;
       let emailRes = mailService.eventEmail(emailDataSet);
       let emailUpdateData = {
         status: 'sent'

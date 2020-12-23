@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 var bcrypt = require('bcrypt');
 var rpoTask = require('../repositories/task');
-var rpoEvent = require('../repositories/event');
+var rpoEvent = require('../repositories/events');
 var rpoLead = require('../repositories/lead');
 var rpoUsers = require('../repositories/usersMongo');
 

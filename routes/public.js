@@ -25,6 +25,8 @@ router.get('/', publicController.home);
 
 router.get('/what-is-the-uniform-domain-name-dispute-resolution-policy', publicController.udrp);
 
+// action
+router.get('/:action', publicController.redirect);
 // redirect
 router.get('*', publicController.redirect);
 
