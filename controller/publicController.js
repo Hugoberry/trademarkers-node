@@ -157,19 +157,15 @@ exports.udrp = function(req, res, next) {
 
 exports.redirect = async function(req, res, next) {
 
-  console.log(req.params.action);
+  // console.log(req.params.action);
 
   let action = await rpoAction.getAction(req.params.action);
 
   if ( action.length > 0 ) {
 
     console.log(action[0].url, 'redirecting');
-    // log actions here
-    // check if related data has email
-    // check ip address used if this is a staff ip
+
     if ( action[0].related_data && action[0].related_data.email) {
-      // access from email address 
-      // log this inside email address
 
       activityService.trackingEmail(req.ip,action[0]);
 
@@ -203,7 +199,10 @@ exports.redirect = async function(req, res, next) {
   activityService.logger(req.ip, req.originalUrl, "Visitor redirected to laravel: " + req.params[0]);
   let urlPhp = process.env.APP_URL_PHP;
 
+  if (req.params[0]) 
   res.redirect(urlPhp + req.params[0]);
+
+  res.redirect(urlPhp);
 
   // 
 }
