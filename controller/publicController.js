@@ -177,7 +177,8 @@ exports.redirect = async function(req, res, next) {
     }
 
     if (action[0].url) {
-      res.redirect("https://www.trademarkers.com"+action[0].url);
+      // console.log('');
+      res.redirect("https://trademarkers.com"+action[0].url);
     } else {
       res.redirect("https://www.trademarkers.com");
     }
