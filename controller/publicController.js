@@ -176,20 +176,26 @@ exports.redirect = async function(req, res, next) {
 
     }
 
-    if (action[0].url) {
+    if ( action[0].url && typeof action[0].url !== 'undefined') {
       // console.log('');
-      res.redirect("https://trademarkers.com"+action[0].url);
+      res.redirect("https://www.trademarkers.com"+action[0].url);
     } else {
+
+      if ( req.params[0] ) {
+
+        let urlPhp = process.env.APP_URL_PHP;
+        res.redirect(urlPhp + req.params[0]);
+        
+      }
       res.redirect("https://www.trademarkers.com");
     }
     
-  } else {
+  } 
 
-    activityService.logger(req.ip, req.originalUrl, "Visitor redirected to laravel: " + req.params[0]);
-    let urlPhp = process.env.APP_URL_PHP;
+  activityService.logger(req.ip, req.originalUrl, "Visitor redirected to laravel: " + req.params[0]);
+  let urlPhp = process.env.APP_URL_PHP;
 
-    res.redirect(urlPhp + req.params[0]);
-  }
+  res.redirect(urlPhp + req.params[0]);
 
   // 
 }
