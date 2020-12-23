@@ -168,9 +168,19 @@ exports.redirect = async function(req, res, next) {
     // check if related data has email
     // check ip address used if this is a staff ip
     if ( action[0].related_data && action[0].related_data.email) {
-      // access from email address
+      // access from email address 
+      // log this inside email address
+
+      activityService.trackingEmail(req.ip,action[0]);
+
+
     }
-    res.redirect("https://www.trademarkers.com"+action[0].url);
+
+    if (action[0].url) {
+      res.redirect("https://www.trademarkers.com"+action[0].url);
+    } else {
+      res.redirect("https://www.trademarkers.com");
+    }
     
   } else {
 

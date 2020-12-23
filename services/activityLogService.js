@@ -1,4 +1,7 @@
 let rpoActivity = require('../repositories/activityLog');
+let rpoEvent = require('../repositories/events');
+
+let _variables = require('../config/variables');
 
 exports.logger = function(ip, page, msg) {
     // console.log('this', req.ip);
@@ -23,11 +26,18 @@ exports.logger = function(ip, page, msg) {
 
         rpoActivity.activity(_data);
     }
-    
-
-    // rpoActivity.activity()
-    
-    
-    // console.log(req.params);
-    // next()
+ 
 }
+
+exports.trackingEmail = function(ip, data) {
+    // console.log('this', req.ip);
+
+    let geoip = require('geoip-lite');
+
+    // let ip = "207.97.227.239";
+    let geo = geoip.lookup(ip);
+
+    console.log(data, geo, _variables.ipAddresses);
+ 
+}
+
