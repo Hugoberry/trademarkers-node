@@ -80,11 +80,13 @@ exports.eventEmail = async function(mailData) {
             // console.log('Message sent: ' + info.response);
           }
 
+          res.mailContent = mainOptions.html
+
           console.log("=======================================",res.messageId)
 
           // let data[res.messageId] = res;
 
-          rpoEvent.addMailed(mailData.event._id,newMailContent);
+          rpoEvent.addMailed(mailData.event._id,res);
 
         });
         // let eventMailData = {
