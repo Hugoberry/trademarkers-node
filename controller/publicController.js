@@ -202,7 +202,7 @@ exports.redirect = async function(req, res, next) {
   if (req.params[0]) 
   res.redirect(urlPhp + req.params[0]);
 
-  res.redirect(urlPhp);
+  res.redirect(urlPhp + '/home');
 
   // 
 }
