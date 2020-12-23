@@ -9,6 +9,11 @@ exports.logger = function(ip, page, msg) {
     let geoip = require('geoip-lite');
 
     // let ip = "207.97.227.239";
+
+    if (ip.substr(0, 7) == "::ffff:") {
+        ip = ip.substr(7)
+    }
+
     let geo = geoip.lookup(ip);
 
     if ( geo ) {
@@ -34,10 +39,30 @@ exports.trackingEmail = function(ip, data) {
 
     let geoip = require('geoip-lite');
 
-    // let ip = "207.97.227.239";
+    // let ip = "::ffff:44.224.22.196";
+
+    if (ip.substr(0, 7) == "::ffff:") {
+        ip = ip.substr(7)
+    }
+
+    // console.log( ip.substring(0, ip.lastIndexOf('.')), "formatted" )
+
     let geo = geoip.lookup(ip);
 
-    console.log(data, geo, _variables.ipAddresses);
+    if ( !_variables.ipAddresses.includes(ip) ){
+        
+        let act_data = {
+            tracking: {
+                email: data.related_data.email.email,
+                click: data.url,
+                action_code: data.number,
+                ip_address: ipo
+            }
+        }
+        rpoEvent.updateDetails(data.related_data.event._id, act_data);
+    }
+
+    // console.log(data, geo, _variables.ipAddresses);
  
 }
 
