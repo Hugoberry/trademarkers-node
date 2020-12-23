@@ -186,7 +186,7 @@ exports.redirect = async function(req, res, next) {
       
     } else {
 
-      if ( req.params[0] ) {
+      if ( req.params[0] && typeof req.params[0] !== 'undefined') {
 
         let urlPhp = process.env.APP_URL_PHP;
         res.redirect(urlPhp + req.params[0]);
@@ -200,7 +200,7 @@ exports.redirect = async function(req, res, next) {
   activityService.logger(req.ip, req.originalUrl, "Visitor redirected to laravel: " + req.params[0]);
   let urlPhp = process.env.APP_URL_PHP;
 
-  res.redirect(urlPhp + req.params[0]);
+  // res.redirect(urlPhp + req.params[0]);
 
   // 
 }
