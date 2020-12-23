@@ -179,19 +179,22 @@ exports.redirect = async function(req, res, next) {
     if ( action[0].url ) {
       // console.log('');
       if ( typeof action[0].url !== 'undefined' ) {
-        res.redirect("https://www.trademarkers.com"+action[0].url);
+        console.log(action[0].url, 'step1');
+        res.redirect("https://www.trademarkers.com/"+action[0].url);
       } else {
+        console.log(action[0].url, 'step2');
         res.redirect("https://trademarkers.com/"+action[0].url);
       }
       
     } else {
 
       if ( req.params[0] && typeof req.params[0] !== 'undefined') {
-
+        console.log(action[0].url, 'step3');
         let urlPhp = process.env.APP_URL_PHP;
         res.redirect(urlPhp + req.params[0]);
         
       }
+      console.log(action[0].url, 'step4');
       res.redirect("https://www.trademarkers.com");
     }
     
@@ -200,7 +203,7 @@ exports.redirect = async function(req, res, next) {
   activityService.logger(req.ip, req.originalUrl, "Visitor redirected to laravel: " + req.params[0]);
   let urlPhp = process.env.APP_URL_PHP;
 
-  // res.redirect(urlPhp + req.params[0]);
+  res.redirect(urlPhp + req.params[0]);
 
   // 
 }
