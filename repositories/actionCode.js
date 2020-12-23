@@ -9,7 +9,6 @@ var bcrypt = require('bcrypt');
 let conn = require('../config/DbConnect');
 
 // DB Connect
-// const mongoConnection = mongoose.createConnection(mongoDb, mongoDbOptions);
 const connection = mysql.createConnection({
     host     : process.env.DBHOST,
 	user     : process.env.DBUSER,
