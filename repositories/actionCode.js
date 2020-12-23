@@ -70,6 +70,22 @@ module.exports = {
 		});
 	},
 
+	getActionCodeMysql : async function(case_number) {
+		return new Promise(function(resolve, reject) {
+			
+			let tableName = "action_codes";
+
+			connection.query(`SELECT * FROM ${tableName} WHERE case_number = '${case_number}' order by id desc limit 1`,function(err,res,fields) {
+				if (err) {
+					reject(err);
+			   } else {
+					resolve(res);
+			   }
+			});
+
+		});
+	},
+
 	// writes to mysql action_code
 	putMysql : async function(data) {
 		
@@ -91,7 +107,7 @@ module.exports = {
 
 	},
 
-	// writes to mysql action_code
+	// writes to mysql action_code_routes
 	putMysqlRoutes : async function(data) {
 		
 		return new Promise(function(resolve, reject) {

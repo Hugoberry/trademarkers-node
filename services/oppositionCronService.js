@@ -3,8 +3,9 @@ let rpoDomains = require('../repositories/domains');
 let rpoEmails = require('../repositories/eventEmails');
 let rpoEvents = require('../repositories/events');
 let rpoOutbox = require('../repositories/outbox');
-var actionService = require('../services/actionService')
+let rpoAction = require('../repositories/actionCode');
 
+var actionService = require('../services/actionService')
 let mailService = require('../services/mailerService')
 
 const _variables = require( '../config/variables' );
