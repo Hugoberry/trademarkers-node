@@ -48,15 +48,15 @@ exports.trackingEmail = function(ip, data) {
     // console.log( ip.substring(0, ip.lastIndexOf('.')), "formatted" )
 
     let geo = geoip.lookup(ip);
-
+    console.log(ip);
     if ( !_variables.ipAddresses.includes(ip) ){
-        
+        console.log(ip, 'ip not included!');
         let act_data = {
             tracking: {
                 email: data.related_data.email.email,
                 click: data.url,
                 action_code: data.number,
-                ip_address: ipo
+                ip_address: ip
             }
         }
         rpoEvent.updateDetails(data.related_data.event._id, act_data);
