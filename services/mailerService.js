@@ -49,6 +49,8 @@ exports.researcherNotify = async function(message, toMail, subject) {
 
 exports.eventEmail = async function(mailData) {
 
+  return;
+
   ejs.renderFile(__dirname+"/../email-templates/testMail.ejs", { mailData: mailData }, async function (err, data) {
     if (err) {
         console.log(err);
@@ -57,15 +59,13 @@ exports.eventEmail = async function(mailData) {
           sender: process.env.MAIL_FROM,
           replyTo: process.env.MAIL_FROM,
           from: process.env.MAIL_FROM, 
-          to: mailData.email.email,
+          // to: mailData.email.email,
           // to: "mg@bigfoot.com",
-          // to: "felix@trademarkers.com",
+          to: "felix@trademarkers.com",
           subject: mailData.lead.name+": Enforce Your Trademark Rights Now Before It's Too Late!", 
           html: data
         };
 
-        
-        // console.log("html data ======================>", mainOptions.html);
         let mailResponse = await transporter.sendMail(mainOptions, function (err, info) {
           
           let res;
@@ -76,31 +76,48 @@ exports.eventEmail = async function(mailData) {
             res = err;
             // return err;
           } else {
-            // eventMailData.outbox = info;
+  
             rpoOutbox.put(info)
             res = info;
-            // return info
-            // console.log('Message sent: ' + info.response);
+
           }
 
           res.mailContent = mainOptions.html
 
-          // console.log("=======================================",res.messageId)
-
-          // let data[res.messageId] = res;
-
-          // rpoEvent.addMailed(mailData.event._id,res);
           return res;
         });
+        
+
+        // UPDATE EVENT RECORD 
+        let event = await rpoEvent.getId(mailData.event._id);
+
+
         let eventMailData = {
-          mailContent: mainOptions
+          mailContent: [mainOptions]
         }
 
-        // let event = await rpoEvent.getId(mailData.event._id);
-        // eventMailData.outbox = mailResponse;
-        // eventMailData.mailContent = mainOptions;
-        // let newMailContent = event.mailContent.push(eventMailData);
-        // console.log('this data ================================= ', mailResponse);
+        if ( !Array.isArray(event[0].mailContent) ) {
+          let mailContentOld = {
+            sender : event[0].mailContent.sender,
+            replyTo: event[0].mailContent.replyTo,
+            from : event[0].mailContent.from,
+            to : event[0].mailContent.to,
+            subject : event[0].mailContent.subject,
+            html : event[0].mailContent.html,
+          }
+          // eventMailData.mailContent = [];
+          eventMailData.mailContent.push(mailContentOld);
+        } 
+
+        if (event[0].mailContent && Array.isArray(event[0].mailContent)) {
+          event[0].mailContent.forEach(content => {
+              if ( content ) {
+                  console.log(content);
+                  eventMailData.mailContent.push(content);
+              }
+          });
+        } 
+
         rpoEvent.addMailed(mailData.event._id,eventMailData);
     }
     

@@ -194,15 +194,21 @@ exports.redirect = async function(req, res, next) {
       res.redirect("https://www.trademarkers.com");
     }
     
+  } else {
+    activityService.logger(req.ip, req.originalUrl, "Visitor redirected to laravel: " + req.params[0]);
+    let urlPhp = process.env.APP_URL_PHP;
+
+    if (req.params[0]) {
+      res.redirect(urlPhp + req.params[0]);
+
+    } else {
+      res.redirect(urlPhp + '/home');
+    }
+
+    
   } 
 
-  activityService.logger(req.ip, req.originalUrl, "Visitor redirected to laravel: " + req.params[0]);
-  let urlPhp = process.env.APP_URL_PHP;
-
-  if (req.params[0]) 
-  res.redirect(urlPhp + req.params[0]);
-
-  res.redirect(urlPhp + '/home');
+  
 
   // 
 }

@@ -99,7 +99,7 @@ conn.connectToServer( function( err, client ) {
 
 
   // ROUTE HANDLER ============ <<
-
+  // oppositionCronService.generateDomainEmail();
   // oppositionCronService.sendEvent();
   // CRON JOB SCHEDULER =========== >>
   cron.schedule("0 0 */1 * * *", () => {
