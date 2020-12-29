@@ -18,7 +18,7 @@ exports.createActionCode = async function(related_data,url) {
 
   let data = {
     number: code,
-    url: url,
+    redirect_to: url,
     related_data: related_data
   }
 

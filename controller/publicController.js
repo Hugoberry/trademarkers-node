@@ -163,7 +163,7 @@ exports.redirect = async function(req, res, next) {
 
   if ( action.length > 0 ) {
 
-    console.log(action[0].url, 'redirecting');
+    console.log(action[0].redirect_to, 'redirecting');
 
     if ( action[0].related_data && action[0].related_data.email) {
 
@@ -172,14 +172,14 @@ exports.redirect = async function(req, res, next) {
 
     }
 
-    if ( action[0].url ) {
+    if ( action[0].redirect_to ) {
       // console.log('');
-      if ( typeof action[0].url !== 'undefined' ) {
-        console.log(action[0].url, 'step1');
-        res.redirect("https://www.trademarkers.com/"+action[0].url);
+      if ( typeof action[0].redirect_to !== 'undefined' ) {
+        // console.log(action[0].redirect_to, 'step1');
+        res.redirect("https://www.trademarkers.com/"+action[0].redirect_to);
       } else {
-        console.log(action[0].url, 'step2');
-        res.redirect("https://trademarkers.com/"+action[0].url);
+        // console.log(action[0].url, 'step2');
+        res.redirect("https://trademarkers.com/"+action[0].redirect_to);
       }
       
     } else {
@@ -190,7 +190,7 @@ exports.redirect = async function(req, res, next) {
         res.redirect(urlPhp + req.params[0]);
         
       }
-      console.log(action[0].url, 'step4');
+      // console.log(action[0].redirect_to, 'step4');
       res.redirect("https://www.trademarkers.com");
     }
     

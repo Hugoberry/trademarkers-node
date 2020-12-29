@@ -49,7 +49,7 @@ exports.researcherNotify = async function(message, toMail, subject) {
 
 exports.eventEmail = async function(mailData) {
 
-  return;
+  // return;
   console.log("sending...");
   ejs.renderFile(__dirname+"/../email-templates/opposition-euipo.ejs", { mailData: mailData }, async function (err, data) {
     if (err) {
