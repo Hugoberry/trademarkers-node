@@ -116,8 +116,9 @@ module.exports = {
 	getlimitData : async function($limit) {
 		return new Promise(function(resolve, reject) {
 
-			let yesterday = moment().subtract(1, "days").toDate();
+			let yesterday = moment().subtract(1, "days").format('YYMMDD');
 			// console.log(yesterday);
+			yesterday = yesterday * 1;
 			let query = { 
 				// "last_crawl": { $exists:false }
 				"last_crawl": { $lte: yesterday }

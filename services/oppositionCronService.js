@@ -11,6 +11,7 @@ let mailService = require('../services/mailerService')
 const _variables = require( '../config/variables' );
 
 let moment = require('moment');
+const { toInteger } = require('lodash');
 
 exports.generateDomainEmail = async function() {
 
@@ -37,24 +38,23 @@ exports.sendEvent = async function() {
 
   let events = await rpoEvents.getlimitData(1);
 
-  // fetch events 
-  // get lead / domain / email
-  // if all exist send email 
-
   if ( events.length > 0 ) {
-    let event = events[0];
-    let lead = await rpo.getById(event.opposition_id)
-    let domain = await rpoDomains.getByOppositionId(event.opposition_id)
-    let email = await rpoEmails.getByOppositionId(event.opposition_id)
 
-    if ( email.length > 0 ) {
+    let event = events[0];
+    // fetch email
+    let email = event.emailProspects.find(e => !e.done);
     
+    let eventUpdateData = {
+      last_crawl: (moment().format('YYMMDD') * 1),
+      emailProspects: []
+    }
+
+    if ( email ) {
+  
       // send event email
       let emailDataSet = {
-        lead  : lead[0],
-        domain: domain[0],
-        email : email[0],
-        event : event
+        event : event,
+        email : email
       }
 
       let actions = [];
@@ -69,19 +69,25 @@ exports.sendEvent = async function() {
       actions.contact     = await actionService.createActionCode(emailDataSet,'/contact');
 
       emailDataSet.actions = actions;
-      let emailRes = mailService.eventEmail(emailDataSet);
-      let emailUpdateData = {
-        status: 'sent'
-      }
+      mailService.eventEmail(emailDataSet);
+      
+      // fetch email set to update event emails
+      // let emailProspects = [];
 
-      // rpoOutbox.put(emailRes)
-      rpoEmails.updateDetails(email[0]._id, emailUpdateData)
+      event.emailProspects.forEach(emails => {
+        if ( emails.email == email.email) {
+          email.done = toInteger(moment().format('YYMMDD'));
+          eventUpdateData.emailProspects.push(email);
+        } else {
+          eventUpdateData.emailProspects.push(emails);
+        }
+      });
+    } else {
+      eventUpdateData.emailProspects = event.emailProspects;
     }
 
     // update event last crawl
-    let eventUpdateData = {
-      last_crawl: moment().toDate()
-    }
+    
     rpoEvents.updateDetails(event._id, eventUpdateData)
 
   }
@@ -95,42 +101,37 @@ exports.sendEvent = async function() {
   console.log('generating domains and emails to use in event');
   
   // create domain and emails
+  let eventData = {
+    brand: str,
+    domains : [],
+    emailProspects : []
+  }
   _variables.domainTLD.forEach(function(name,key){
 
     let domainData = {
       domain_name   : str + "." + name.name,
-      opposition_id : data._id,
-      created_at    : moment().toDate()
+      created_at    : toInteger(moment().format('YYMMDD'))
     }
-    // console.log(domainData);
-    rpoDomains.put(domainData)
-    console.log("generated domain ++ " + domainData.domain_name + " ++");
+
+    eventData.domains.push(domainData);
+
     _variables.emailGen.forEach(function(email,key){
       
       let emailData = {
-        email         : email.name + "@" + domainData.domain_name,
-        domain        : domainData.domain_name,
-        opposition_id : data._id,
-        status        : 'pending',
-        created_at    : moment().toDate()
+        email         : email.name + "@" + domainData.domain_name
       }
 
-      rpoEmails.put(emailData)
-      console.log("generated email ++ "+ emailData.email +" ++");
+      eventData.emailProspects.push(emailData);
 
     })
 
-    // create event
-    let yesterday = moment().subtract(1, "days").toDate();
+  
+    let yesterday = moment().subtract(1, "days").format('YYMMDD');
 
-    let eventData = {
-      opposition_id : data._id,
-      event_type    : 'opposition-for-domain-owners-euipo',
-      last_crawl    : yesterday,
-      created_at    : moment().toDate(),
-      opposition    : data,
-      domain        : domainData
-    }
+    eventData.event_type = 'opposition-for-domain-owners-euipo';
+    eventData.last_crawl = toInteger(yesterday);
+    eventData.case = data;
+    eventData.created_at = toInteger(moment().format('YYMMDD'));
 
     rpoEvents.put(eventData);
 

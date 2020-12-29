@@ -103,12 +103,12 @@ conn.connectToServer( function( err, client ) {
   // oppositionCronService.sendEvent();
   // CRON JOB SCHEDULER =========== >>
   cron.schedule("0 0 */1 * * *", () => {
-    oppositionCronService.generateDomainEmail();
+    // oppositionCronService.generateDomainEmail();
     console.log("trigger generate domain / email / event");
   });
 
   cron.schedule("0 0 */2 * * *", () => {
-    oppositionCronService.sendEvent();
+    // oppositionCronService.sendEvent();
     console.log("trigger event mailer");
   });
 

@@ -52,17 +52,18 @@ exports.trackingEmail = async function(ip, data) {
     
     
         let geo = geoip.lookup(ip);
-        console.log(ip);
+        // console.log(ip);
         if ( !_variables.ipAddresses.includes(ip) ){
-            console.log(ip, 'ip not included!');
+            // console.log(ip, 'ip not included!');
             let act_data = {
                 tracking: [{
                     email: data.related_data.email.email,
                     click: data.url,
                     action_code: data.number,
                     ip_address: ip,
-                    date: moment().toDate()
-                }]
+                    date: (moment().format('YYMMDD') * 1)
+                }],
+                emailProspects: []
             }
 
             if (event[0].tracking) {
@@ -72,7 +73,31 @@ exports.trackingEmail = async function(ip, data) {
                         act_data.tracking.push(track);
                     }
                 });
-            } 
+            }
+
+            event[0].emailProspects.forEach(emails => {
+                if ( emails.email == data.related_data.email.email ) {
+                    emails.click = data.url;
+
+                    // if (emails.tracking) {
+                    //     emails.tracking.forEach(track => {
+                    //         if ( track ) {
+                    //             // console.log(track);
+                    //             emails.tracking.push(track);
+                    //         }
+                    //     });
+                    // } else {
+                    //     emails.tracking = [{
+                    //         click: data.url,
+                    //         action_code: data.number,
+                    //         ip_address: ip,
+                    //         date: moment().toDate()
+                    //     }]
+                    // }
+
+                } 
+                act_data.emailProspects.push(emails);
+            });
 
             // event.tracking.push(act_data);
             rpoEvent.updateDetails(data.related_data.event._id, act_data);

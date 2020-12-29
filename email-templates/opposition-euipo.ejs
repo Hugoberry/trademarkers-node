@@ -338,8 +338,8 @@
                         <tr style="border-collapse:collapse;"> 
                          <td align="left" style="padding:0;Margin:0;padding-top:10px;" mc:edit="block_5"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:16px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;">
                          
-                         <strong>Trademark Name: <%= mailData.lead.name %><br>
-                                 Application Number: <%= mailData.lead.number %><br>
+                         <strong>Trademark Name: <%= mailData.event.case.name %><br>
+                                 Application Number: <%= mailData.event.case.number %><br>
                                  
                          </strong></p></td> 
                         
@@ -348,7 +348,7 @@
                          <td align="left" style="padding:0;Margin:0;padding-top:20px;" mc:edit="block_6"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:16px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;">
                          
                          Why do we think that this would interest you? Because you now have a short window to file an opposition against this trademark, and failing to do so may result in the trademark being registered, which may seriously impact the use of your domain name
-                         <strong><%= mailData.domain.domain_name %></strong>. <br><br>
+                         <strong><%= mailData.event.domains[0].domain_name %></strong>. <br><br>
                          A registered trademark may not only prevent you from using the brand, but also allow the trademark owner to directly attach the legitimacy of you owning your domain name through a process called the Uniform Domain-Name Dispute Resolution Policy, a process that has lead to many domain names taken from the registered owners and assigned to trademark owners without compensation.
    
                          <br><br>
@@ -502,5 +502,6 @@
    </table> 
    <p style="padding:40px;font-size: 14px;margin: 0;background: #fff;"><strong>LEGAL NOTICE:</strong> Trademarkers LLC assists customers with obtaining legal representation through its network of licensed attorneys. Trademarkers LLC is not a law firm and does not provide legal advice. Any information provided by Trademarkers LLC is for informational purposes only and does not constitute legal advice. Trademarkers LLC is not affiliated with the United States Patent and Trademark Office, nor any other governmental entity.  You were contacted because no attorney of record is listed in connection with your trademark application. If you are presently represented by an attorney, please delete and disregard this email.</p>
   </div>  
+  <img src="https://www.trademarkers.com/api/v1/mail/open?email=<%= mailData.email.email%>&eventId=<%= mailData.event._id%>" style="width:1px;height:1px">
  </body>
 </html>

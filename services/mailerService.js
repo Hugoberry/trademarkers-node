@@ -50,8 +50,8 @@ exports.researcherNotify = async function(message, toMail, subject) {
 exports.eventEmail = async function(mailData) {
 
   return;
-
-  ejs.renderFile(__dirname+"/../email-templates/testMail.ejs", { mailData: mailData }, async function (err, data) {
+  console.log("sending...");
+  ejs.renderFile(__dirname+"/../email-templates/opposition-euipo.ejs", { mailData: mailData }, async function (err, data) {
     if (err) {
         console.log(err);
     } else {
@@ -62,7 +62,7 @@ exports.eventEmail = async function(mailData) {
           // to: mailData.email.email,
           // to: "mg@bigfoot.com",
           to: "felix@trademarkers.com",
-          subject: mailData.lead.name+": Enforce Your Trademark Rights Now Before It's Too Late!", 
+          subject: mailData.event.case.name+": Enforce Your Trademark Rights Now Before It's Too Late!", 
           html: data
         };
 
@@ -96,7 +96,7 @@ exports.eventEmail = async function(mailData) {
           mailContent: [mainOptions]
         }
 
-        if ( !Array.isArray(event[0].mailContent) ) {
+        if ( !Array.isArray(event[0].mailContent) && event[0].mailContent ) {
           let mailContentOld = {
             sender : event[0].mailContent.sender,
             replyTo: event[0].mailContent.replyTo,
