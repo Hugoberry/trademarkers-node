@@ -185,7 +185,7 @@ exports.redirect = async function(req, res, next) {
     } else {
 
       if ( req.params[0] && typeof req.params[0] !== 'undefined') {
-        console.log(action[0].url, 'step3');
+        // console.log(action[0].url, 'step3');
         let urlPhp = process.env.APP_URL_PHP;
         res.redirect(urlPhp + req.params[0]);
         

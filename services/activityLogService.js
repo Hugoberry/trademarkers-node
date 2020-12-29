@@ -58,7 +58,7 @@ exports.trackingEmail = async function(ip, data) {
             let act_data = {
                 tracking: [{
                     email: data.related_data.email.email,
-                    click: data.url,
+                    click: data.redirect_to,
                     action_code: data.number,
                     ip_address: ip,
                     date: (moment().format('YYMMDD') * 1)
@@ -69,7 +69,7 @@ exports.trackingEmail = async function(ip, data) {
             if (event[0].tracking) {
                 event[0].tracking.forEach(track => {
                     if ( track ) {
-                        console.log(track);
+                        // console.log(track);
                         act_data.tracking.push(track);
                     }
                 });
@@ -77,7 +77,7 @@ exports.trackingEmail = async function(ip, data) {
 
             event[0].emailProspects.forEach(emails => {
                 if ( emails.email == data.related_data.email.email ) {
-                    emails.click = data.url;
+                    emails.click = data.redirect_to;
 
                     // if (emails.tracking) {
                     //     emails.tracking.forEach(track => {
