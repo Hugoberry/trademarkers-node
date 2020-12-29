@@ -226,16 +226,40 @@ exports.submitContact = async function(req, res, next) {
 
   activityService.logger(req.ip, req.originalUrl, "Submitted Contact Form");
 
-  let info = require('../services/mailerService');
-  let mailInfo = await info.contact(req.body);
-
-  if (mailInfo && mailInfo.accepted) {
-    res.flash('success', 'Your Inquiry has been sent!');
-  } else {
+  // filter body to avoid spam
+  var urlRE= new RegExp("([a-zA-Z0-9]+://)?([a-zA-Z0-9_]+:[a-zA-Z0-9_]+@)?([a-zA-Z0-9.-]+\\.[A-Za-z]{2,4})(:[0-9]+)?([^ ])+");
+  
+  if (req.body.message.match(urlRE)){
+    console.log('found!');
     res.flash('error', 'Sorry, something went wrong, try again later!');
+    res.redirect("/contact");
+    // return;
+  } else {
+
+    let info = require('../services/mailerService');
+    let mailInfo = await info.contact(req.body);
+
+    if (mailInfo && mailInfo.accepted) {
+      res.flash('success', 'Your Inquiry has been sent!');
+    } else {
+      res.flash('error', 'Sorry, something went wrong, try again later!');
+    }
+
+    res.redirect("/contact");
+
   }
 
-  res.redirect("/contact");
+
+  // let info = require('../services/mailerService');
+  // let mailInfo = await info.contact(req.body);
+
+  // if (mailInfo && mailInfo.accepted) {
+  //   res.flash('success', 'Your Inquiry has been sent!');
+  // } else {
+  //   res.flash('error', 'Sorry, something went wrong, try again later!');
+  // }
+
+  // res.redirect("/contact");
 
   // next();
 }
