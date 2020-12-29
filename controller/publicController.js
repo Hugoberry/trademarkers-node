@@ -176,10 +176,10 @@ exports.redirect = async function(req, res, next) {
       // console.log('');
       if ( typeof action[0].redirect_to !== 'undefined' ) {
         // console.log(action[0].redirect_to, 'step1');
-        res.redirect("https://www.trademarkers.com/"+action[0].redirect_to);
+        res.redirect("https://www.trademarkers.com"+action[0].redirect_to);
       } else {
         // console.log(action[0].url, 'step2');
-        res.redirect("https://trademarkers.com/"+action[0].redirect_to);
+        res.redirect("https://trademarkers.com"+action[0].redirect_to);
       }
       
     } else {
