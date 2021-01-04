@@ -31,7 +31,7 @@ module.exports = {
 				"name":{$ne: '', $regex : /^[a-zA-Z0-9]\S+$/}
 			};
 			
-			conn.getDb().collection(_table).find(query).toArray(function(err, result) {
+			conn.getDb().collection(_table).find(query).limit(20).toArray(function(err, result) {
 					
 				if (err) {
 					reject(err);

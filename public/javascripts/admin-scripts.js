@@ -2,9 +2,7 @@ $( document ).ready(function() {
 
   let taskCounter = 2;
 
-  if ( $("#myListDataTable").length ) {
-    $("#myListDataTable").DataTable();
-  }
+  
 
 
   $("#add-block").click(function(){
@@ -30,25 +28,31 @@ $( document ).ready(function() {
     }
   });
 // alert();
-  $('.markLead').change(function(){
-    // alert(this.checked);
-    let value = this.checked;
-    $.ajax({
-      url: "/api/v1/olead/update",
-      type:"post",
-      dataType:"json",
-      data: JSON.stringify({
-        id: $(this).attr('data-id'),
-        status : value
-      }),
-      contentType: "application/json",
-      success: function( result ) {
 
-        console.log(result);
-      }
-    });     
-    
-    // return false;
-  });
+
+  if ( $("#myListDataTable").length ) {
+    var tempTable = $("#myListDataTable").DataTable();
+
+    tempTable.on('change',  '[name="markLead"]', function(){
+      alert(this.checked);
+      let value = this.checked;
+      $.ajax({
+        url: "/api/v1/olead/update",
+        type:"post",
+        dataType:"json",
+        data: JSON.stringify({
+          id: $(this).attr('data-id'),
+          status : value
+        }),
+        contentType: "application/json",
+        success: function( result ) {
+  
+          console.log(result);
+        }
+      });     
+      
+      // return false;
+    });
+  }
 
 })

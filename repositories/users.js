@@ -20,6 +20,8 @@ const connection = mysql.createConnection({
 });
 
 
+
+
 module.exports = {
 
     validateUser: async function ( email, password ) {
@@ -60,6 +62,16 @@ module.exports = {
 	},
 
 	getUserByEmail : function(email) {
+
+		const mysql = require('mysql');
+
+		const connection = mysql.createConnection({
+			host     : process.env.DBHOST,
+			user     : process.env.DBUSER,
+			password : process.env.DBPASS,
+			database : process.env.DBNAME
+		});
+
 		return new Promise(function(resolve, reject) {
 			
 			connection.query('SELECT * FROM ? WHERE email = ?',[_table,email],function(err,res,fields) {

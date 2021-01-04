@@ -97,13 +97,13 @@ conn.connectToServer( function( err, client ) {
   app.use('/status', orderRouter);
   app.use('/', publicRouter);
 
-
+// console.log('asd');
   // ROUTE HANDLER ============ <<
   // oppositionCronService.generateDomainEmail();
-  // oppositionCronService.sendEvent();
+  oppositionCronService.sendEvent();
   // CRON JOB SCHEDULER =========== >>
   cron.schedule("0 0 */1 * * *", () => {
-    // oppositionCronService.generateDomainEmail();
+    oppositionCronService.generateDomainEmail();
     console.log("trigger generate domain / email / event");
   });
 

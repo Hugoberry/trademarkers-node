@@ -17,7 +17,7 @@ router.post('/orders/add', orderController.add);
 router.post('/olead/update', adminController.apiUpdate);
 router.get('/olead/getall', adminController.getRecords);
 
-router.get('/mail/open', mailOpenController.open);
+// router.get('/mail/open', mailOpenController.open);
 
 
 

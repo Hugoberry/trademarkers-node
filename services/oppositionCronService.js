@@ -19,7 +19,7 @@ exports.generateDomainEmail = async function() {
 
   leads.forEach(function(lead,key) {
     let str = cleanString(lead.name);
-
+    console.log(str);
     // create domains and email address
     generateDomains(lead);
 
@@ -58,7 +58,8 @@ exports.sendEvent = async function() {
       }
 
       let actions = [];
-      actions.udpr        = await actionService.createActionCode(emailDataSet,'/what-is-the-uniform-domain-name-dispute-resolution-policy');
+      // actions.udpr        = await actionService.createActionCode(emailDataSet,'/what-is-the-uniform-domain-name-dispute-resolution-policy');
+      actions.udpr        = await actionService.createActionCode(emailDataSet,'https://tm.trademarkers.com/');
       actions.services    = await actionService.createActionCode(emailDataSet,'/services');
       actions.register    = await actionService.createActionCode(emailDataSet,'/countries');
       actions.about       = await actionService.createActionCode(emailDataSet,'/about');
