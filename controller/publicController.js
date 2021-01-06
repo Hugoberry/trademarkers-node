@@ -4,13 +4,14 @@ var db = require('../config/database');
 var formidable = require('formidable');
 var fs = require('fs');
 var open = require('open');
+const jwt = require('jsonwebtoken');
 
 var rpoContinents = require('../repositories/continents');
 var rpoCountries = require('../repositories/countries');
 var rpoPdfs = require('../repositories/generatedPdf');
 var rpoSenders = require('../repositories/senders');
 var rpoAction = require('../repositories/actionCode');
-var rpoAction = require('../repositories/actionCode');
+var rpoClasses = require('../repositories/classes');
 
 var activityService = require('../services/activityLogService');
 var pdfService = require('../services/pdfService');
@@ -350,6 +351,66 @@ exports.addSenderPdf = async function(req, res, next) {
     // res.end();
 
   // res.render('public/generate_pdf', { layout: 'layouts/public-layout-default', title: 'Generate Pdf', pdfs: pdfs });
+}
+
+exports.codeLanding = async function(req, res, next) {
+
+  let code = req.params.actionCode;
+  let type = req.params.type;
+
+  // let decode = jwt.decode(req.cookies.jwt, {complete: true});
+
+  // console.log(decode);
+  // if ( decode ) {
+  //   let user = JSON.parse(decode.payload.user);
+  //   console.log(user);
+
+  // } else {
+  //   res.cookie("redirect", `/${code}/${type}`);
+  // }
+
+  // LOOK FOR A WAY TO REDIRECT CUSTOMER AND PREFILLED FORM
+  // OR CREATE A NEW NODEJS SETUP FOR ADDING TO CART IN MYSQL
+
+  let countries = await rpoCountries.getAll();
+  let classes = await rpoClasses.getAll();
+  let action = await rpoAction.getAction(code);
+
+  let title = "";
+  let classArr = [];
+
+  if ( action[0] && action[0].case ) {
+    classArr = action[0].case.nice.split(',').map(s => s.trim());
+  }
+
+  console.log(action[0].case.nice);
+  console.log(classArr);
+
+  switch(type){
+    case 'trademark-registration' :
+      title = "Trademark Registration"
+    break;
+
+    case 'trademark-study' :
+      title = "Trademark Study"
+    break;
+
+    default:
+      res.redirect('/');
+    break;
+  }
+
+  res.render('trademark-order/register', { 
+    layout  : 'layouts/public-layout-default', 
+    title   : title,
+    countries: countries,
+    classes: classes,
+    action : action[0],
+    classArr: classArr
+  });
+
+  // res.send()
+
 }
 
 
