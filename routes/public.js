@@ -25,6 +25,10 @@ router.get('/', publicController.home);
 
 router.get('/what-is-the-uniform-domain-name-dispute-resolution-policy', publicController.udrp);
 
+
+
+router.get('/delivery-method/:trdId', publicController.deliveryMethod)
+
 router.get('/:actionCode/:type', publicController.codeLanding)
 
 // action

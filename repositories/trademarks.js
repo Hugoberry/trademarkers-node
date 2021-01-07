@@ -58,4 +58,18 @@ module.exports = {
 		});
 
 	},
+
+	fetchTmById: function ( trademark_id ) {
+
+		return new Promise(function(resolve, reject) {
+			connection.query('SELECT * FROM trademarks WHERE id = ?',[trademark_id],function(err,res,fields) {
+				if (err) {
+					reject(err);
+			} else {
+					resolve(res);
+			}
+			});
+		});
+
+	},
 }; 

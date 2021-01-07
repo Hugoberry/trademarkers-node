@@ -1,0 +1,66 @@
+<div class="container">
+	<div class="row justify-content-center box-bg-container">
+		<div class="col-md-12">
+		
+            <h2><%= title %></h2>
+            
+            <div class="row" style="max-width:800px;margin:auto;">
+                        
+                <div class="col-12 col-sm-12">
+
+                    <table class="table">
+                        <tr>
+                            
+                            <th>Trademark</th>
+                            <th>Class</th>
+                            <th>Registration Number</th>
+                            <th>Registration Date</th>
+                            <% if ( trademark.delivery_status != "pending" && trademark.delivery_status != "processing" ) { %>
+                            <th>Delivery Method</th>
+                            <% } %>
+                        </tr>
+                        <tr>
+                            
+                            <td><%= trademark.name %></td>
+                            <td><%= trademark.classes %></td>
+                            <td><%= trademark.registration_number %></td>
+                            <td><%= trademark.registration_date %></td>
+                            <% if ( trademark.delivery_status != "pending" && trademark.delivery_status != "processing" ) { %>
+                                <td><%= trademark.delivery_status %></td>
+                            <% } %>
+                        </tr>
+                    </table>
+
+                    <% if ( trademark.delivery_status == "pending" || trademark.delivery_status == "processing" ) { %>
+
+                        <h4>Deliver Via Fedex or Regular mail?</h4>
+                        
+                        <form action="/service-order-form" method="post">
+                            <input type="hidden" name="word_mark" value="<%= trademark.name %>">
+                            <input type="hidden" name="service" value="Fedex Delivery">
+                            <input type="hidden" name="case_number" value="<%= trademark.case_number %>">
+                            <input type="hidden" name="user_id" value="<%= trademark.user_id %>">
+                            <input type="hidden" name="trd_id" value="<%= trademark.id %>">
+                            <input type="hidden" name="type" value="Certificate">
+                            <input type="hidden" name="country" value="us">
+                            <input type="hidden" name="action" value="add-cart">
+                            <p class="text-center" style="padding-top:30px;">
+                                <a class="btn btn-primary btn-register" style="font-size: 18px;" href="/delivery-method/<%= trademark.id %>/regular">Regular Mail (Free)</a>
+                                <input type="submit" class="btn btn-primary btn-register" style="font-size: 18px;" Value="FedEx ($80)">
+                            </p>
+                            
+                        </form>
+
+                    <% } %>
+
+                
+                </div>
+            </div>
+            
+           
+			
+		</div>
+
+
+	</div>
+</div>

@@ -12,6 +12,7 @@ var rpoPdfs = require('../repositories/generatedPdf');
 var rpoSenders = require('../repositories/senders');
 var rpoAction = require('../repositories/actionCode');
 var rpoClasses = require('../repositories/classes');
+var rpoTrademarks = require('../repositories/trademarks');
 
 var activityService = require('../services/activityLogService');
 var pdfService = require('../services/pdfService');
@@ -383,8 +384,8 @@ exports.codeLanding = async function(req, res, next) {
     classArr = action[0].case.nice.split(',').map(s => s.trim());
   }
 
-  console.log(action[0].case.nice);
-  console.log(classArr);
+  // console.log(action[0].case.nice);
+  // console.log(classArr);
 
   switch(type){
     case 'trademark-registration' :
@@ -408,6 +409,32 @@ exports.codeLanding = async function(req, res, next) {
     action : action[0],
     classArr: classArr
   });
+
+  // res.send()
+
+}
+
+
+exports.deliveryMethod = async function(req, res, next) {
+
+  let trdId = req.params.trdId;
+  let trademark = null;
+
+  if ( trdId ) {
+    trademark = await rpoTrademarks.fetchTmById(trdId)
+
+    if (trademark) {
+      console.log(trademark[0]);
+
+    } // end if trademark
+  }
+
+  res.render('trademark-order/delivery', { 
+    layout  : 'layouts/public-layout-default', 
+    title   : 'Your Trademark Certificate is now available!',
+    trademark: trademark[0],
+  });
+
 
   // res.send()
 
