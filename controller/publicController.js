@@ -390,10 +390,17 @@ exports.codeLanding = async function(req, res, next) {
   switch(type){
     case 'trademark-registration' :
       title = "Trademark Registration"
+      layout = 'layouts/public-layout-default'
     break;
 
     case 'trademark-study' :
       title = "Trademark Study"
+      layout = 'layouts/public-layout-default'
+    break;
+
+    case 'recommendation' :
+      title = "Our Recommendations"
+      layout = 'layouts/public-layout-interactive'
     break;
 
     default:
@@ -402,7 +409,7 @@ exports.codeLanding = async function(req, res, next) {
   }
 
   res.render('trademark-order/register', { 
-    layout  : 'layouts/public-layout-default', 
+    layout  : layout, 
     title   : title,
     countries: countries,
     classes: classes,

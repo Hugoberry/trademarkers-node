@@ -1,0 +1,218 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    
+  <!-- OG Meta Tags to improve the way the post looks when you share the page on LinkedIn, Facebook, Google+ -->
+  <meta property="og:site_name" content="" /> <!-- website name -->
+  <meta property="og:site" content="" /> <!-- website link -->
+  <meta property="og:title" content=""/> <!-- title shown in the actual shared post -->
+  <meta property="og:description" content="" /> <!-- description shown in the actual shared post -->
+  <meta property="og:image" content="" /> <!-- image link, make sure it's jpg -->
+  <meta property="og:url" content="" /> <!-- where do you want your post to link to -->
+  <meta property="og:type" content="article" />
+
+  <!-- Webpage Title -->
+  <title>TradeMarkers | Intractive Domain Agent</title>
+  
+  <!-- Styles -->
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/font-awesome-5.css" rel="stylesheet">
+
+   <!-- Favicon  -->
+  <link rel="icon" href="images/favicon.ico">
+  <link href="css/cp-style.css" rel="stylesheet">
+
+</head>
+<body>
+ 
+  <main class="main-wrap">
+    <header class="pg-header">
+      <div class="container h-100">
+        <div class="row align-items-center justify-content-between h-100">
+          <div class="col-auto">
+            <h1 class="pg-logo"><a href="/" title="Trade Markers"><img src="images/logo.png" title="Trade Markers" width="248" height="43" alt="Trademarkers logo" /></a></h1>
+          </div>
+          <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 text-right">
+            <div class="tm-agent-details">
+                <p class="tm-appl-name">Adverse Trademark Application: <span class="appl-name" id="ApplicationName">Kapunia</span></p>
+                <p class="tm-appl-info"><span id="FiledNo">Filed 04/02/2020</span> <span id="TmNo">EUIPO No. 12345678</span> Open for Oppositions until <span id="PubDate">xx/xx/xx</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="tm-section qa-panel-section">
+      <div class="container h-100">
+        <div class="row h-100 align-items-start">
+          <div class="col-12">
+            <div class="qa-wrap carousel slide carousel-dark" id="TmQaSteps" data-bs-ride="carousel">
+              <div class="carousel-inner">
+
+                <div class="carousel-item active" data-bs-interval="10000">
+                  <div class="qa-stp">
+                    <div class="stp-row stp-row-summary">
+                      <div class="summary">
+            						<ul class="sumry-list" id="res_summary">
+            						<!-- class="stp-checked"-->
+                        </ul>
+                        <p class="welcome-note" id="hidenote">
+                          This interactive agent is determining your options to successfully oppose the trademark above based on your website kapunia.com. Please go through the questions carefully – it will take less than 3 minutes.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div class="stp-row stp-row-quiz">
+                      <div class="quiz">
+                        <div class="quiz-loading-spin" id="spinner-loader" style="display:none;">
+                          <div class="spinner-border qzspinner" role="status">
+                          <span class="visually-hidden">Loading...</span>
+                         </div>
+                        </div>
+                         
+                          <h2 id="res_question">Are you selling products and services on www.kapunia.com?</h2>
+                          <div class="qa-opts">
+                           <!-- <button type="button" class="btn btn-success" value="Yes" onclick="callRequest()" id="buttonfirst">Yes</button>
+                            <button type="button" class="btn btn-danger" value="No" onclick="callRequest()" id="buttonsecond">No</button>
+                            -->
+                           </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="pg-footer">
+      <div class="footer-copyright text-center">
+        <div class="container">
+          <p>2020 Trademarkers LLC.</p>
+        </div>
+      </div>
+    </footer>
+  </main>
+  <script src="js/jquery.min.js"></script> <!-- jQuery for Bootstrap's JavaScript plugins -->
+  <script src="js/bootstrap.min.js"></script> <!-- Bootstrap framework -->
+  <script>
+ var Initial = {
+    "code": "testcode",
+    "sessionid": "abbaabba",
+    "actionCode": "1P-8C0G-F",
+    "domain": "hotzone.com",
+    "tm": "Hotzone", 
+    "brand": "HotZone",
+    "tmNo": "123456",
+    "filed": "Oct. 12, 2020",
+    "pub": "Dec. 5, 2020",
+    "status": "0",
+    "summary": "This questionaire shall help you determine ... blablabla ... ",
+    "question": { "step": "0", "q": "Do you have any existing trademarks protecting your brand ${brand}?",
+        "answers": [
+        { "a": "Yes", content: "Y", color:"btn-success","summary": "You have a registered trademark for ${brand}. ", "nextStep": "1" },
+        { "a": "No", content: "N", color:"btn-danger", "summary": "You do not have any registered trademark for ${brand}. ", "nextStep": "1" } ]
+  } };
+  var answerHistory = ""; questionCounter = 1;
+  var currentQuestion = Initial.question;
+  //console.log(Initial.question);
+  document.addEventListener('DOMContentLoaded', (event) => {
+	callRequest(0);
+	//unfold_response(Initial,0,0);
+  });
+ 
+  function unfold_response(response,method,answer){
+		console.log('loaded'+answer);
+		document.getElementById('ApplicationName').innerHTML=Initial.tm;
+		document.getElementById('FiledNo').innerHTML=Initial.filed;
+		document.getElementById('TmNo').innerHTML=Initial.tmNo;
+		document.getElementById('PubDate').innerHTML=Initial.pub;
+		var ul = document.getElementById("res_summary");
+		response1 = JSON.parse(response);
+		if(response1.redirect){
+			// window.location.href = response1.redirect;
+      window.location.href = "http://www.trademarkers.com";
+		}else{
+			var str = response1.q;
+				str = str.replace("${brand}?", Initial.brand);
+				str = str.replace("${brand}", Initial.brand);
+				str = str.replace("${domain}?", Initial.domain);
+				str = str.replace("${domain}", Initial.domain);
+			var btn_class = '';
+			document.getElementById('res_question').innerHTML=str;
+			var index;
+			document.querySelector(".qa-opts").innerHTML = "";
+			//console.log(answer+" -- "+JSON.stringify(currentQuestion));
+			for(index=0;index < response1.answers.length; ++index){
+				//console.log(currentQuestion.answers[index]);
+				var element = document.createElement("button");
+				//Assign different attributes to the element. 
+				element.innerHTML = response1.answers[index].a; 
+				element.name = response1.answers[index].a; 
+				element.value = response1.answers[index].content;
+				element.setAttribute("onclick","callRequest('"+response1.answers[index].content+"')");
+				element.className = "btn "+response1.answers[index].color;
+				document.querySelector(".qa-opts").appendChild(element);
+			}
+			if(answer != 0){
+				document.getElementById("hidenote").style.display = "none"; //hide welcome note
+				var lastul_li = ul.children[ul.children.length - 1];
+				//console.log(ul.children.length);
+				if(ul.children.length > 0){
+					lastul_li.className = "stp-checked";
+				}
+				var li = document.createElement("li");
+				for(cindex=0;cindex < currentQuestion.answers.length; ++cindex){
+					//console.log(cindex+" -- "+JSON.stringify(currentQuestion.answers[cindex]));
+					if(answer === currentQuestion.answers[cindex].content){
+						summary = currentQuestion.answers[cindex].summary;
+						summary = summary.replace("${brand}?", Initial.brand);
+						summary = summary.replace("${brand}", Initial.brand);
+						summary = summary.replace("${domain}?", Initial.domain);
+						summary = summary.replace("${domain}", Initial.domain);
+						//document.getElementById('res_summary').innerHTML="<li>"+summary+"</li>;
+						li.appendChild(document.createTextNode(summary));
+						ul.appendChild(li);
+					}
+				}
+			}
+			
+			currentQuestion = response1;
+		}
+		console.log("updated current Question "+JSON.stringify(currentQuestion));
+  }
+  function callRequest(answer){
+      //console.log(answer);
+	  document.getElementById("spinner-loader").style.display = "block"; //hide welcome note
+      var xhttp = new XMLHttpRequest();
+	  //var theUrl = 'https://www.domainster.com/tmo';
+	  var theUrl = 'http://api.trademarkers.com/api';
+	  xhttp.open("POST", theUrl);
+	  xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+	  xhttp.send(JSON.stringify( { "sessionid": Initial.sessionid, "answer": answer,actionCode: Initial.actionCode }));
+    // window.location.href = "http://www.trademarkers.com";
+
+	  xhttp.onerror = function() { // only triggers if the request couldn't be made at all
+		alert('Network Error');
+	  };
+	  xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        unfold_response(this.responseText,1,answer);
+  		  document.getElementById("spinner-loader").style.display = "none"; //hide welcome note
+        }
+      };
+  }
+  </script>
+
+
+</body>
+</html>

@@ -1,0 +1,187 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    
+  <!-- OG Meta Tags to improve the way the post looks when you share the page on LinkedIn, Facebook, Google+ -->
+  <meta property="og:site_name" content="" /> <!-- website name -->
+  <meta property="og:site" content="" /> <!-- website link -->
+  <meta property="og:title" content=""/> <!-- title shown in the actual shared post -->
+  <meta property="og:description" content="" /> <!-- description shown in the actual shared post -->
+  <meta property="og:image" content="" /> <!-- image link, make sure it's jpg -->
+  <meta property="og:url" content="" /> <!-- where do you want your post to link to -->
+  <meta property="og:type" content="article" />
+
+  <!-- Webpage Title -->
+  <title>TradeMarkers | Login</title>
+  
+  <!-- Styles -->
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/font-awesome-5.css" rel="stylesheet">
+
+   <!-- Favicon  -->
+  <link rel="icon" href="images/favicon.ico">
+  <link href="css/cp-style.css" rel="stylesheet">
+
+</head>
+<body>
+ 
+  <main class="main-wrap">
+    <header class="pg-header">
+      <div class="container h-100">
+        <div class="row align-items-center justify-content-between h-100">
+          <div class="col-auto">
+            <h1 class="pg-logo"><a href="/" title="Trade Markers"><img src="images/logo.png" title="Trade Markers" width="248" height="43" alt="Trademarkers logo" /></a></h1>
+          </div>
+          <div class="col-auto">
+            <div class="sign-btn-wrap text-right">
+              <a href="#" class="btn btn-primary">Sign Up</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="tm-section tm-login-section qa-panel-section h-100">
+      <div class="container h-100">
+        <div class="row align-items-center justify-content-between h-100">
+                <div class="col-lg-6">
+                    <div class="text-container">
+                        <h1 class="b-title">Want your business to <span id="js-rotating" class="text-primary">Grow?</span></h1>
+                        <h2 class="h4 b-title-mini">Choose the right brand to make it <span class="text-primary">Glow!</span></h2>
+                    </div> <!-- end of text-container -->
+                </div> <!-- end of col -->
+                <div class="col-lg-5">
+                    <!-- sign up form -->
+                    <div class="qa-stp">
+                      <div class="nc-form-wrap stp-row">
+                        <div class="nc-form-head">
+                            <h5 class="nc-form-head-title">Login to your account!</span></h5>
+                        </div>
+                        <div class="nc-form-body">
+                            <form class="nc-form" method="post" action="#" id="NcLgnForm" name="ncLgnForm">
+                                <div class="form-group fieldset email-fieldset">
+                                    <label for="NcEmail">Email: <strong class="text-red">*</strong></label>
+                                    <div class="form-field">
+                                        <em class="far fa-envelope"><span class="sr-only">Email</span></em>
+                                        <input type="name" name="email" id="email" placeholder="Email" class="form-control first-field" required="required" onkeyup="ValidateEmail(document.ncLgnForm.email)">
+                                        <div class="form-msg">Form message</div>
+                                    </div>
+                                </div>
+                                <div class="form-group fieldset password-fieldset">
+                                    <label for="NcName">Password: <strong class="text-red">*</strong></label>
+                                    <div class="form-field">
+                                        <em class="fas fa-lock"><span class="sr-only">Password</span></em>
+                                        <input type="password" name="password" id="password" placeholder="Password" class="form-control" required="required" onkeyup="ValidatePassword(document.ncLgnForm.password)">
+                                        <div class="form-msg">Form message</div>
+                                    </div>
+                                </div>
+                                <div class="form-group checkbox-fieldset">
+                                    <label for="checkbox">
+                                     <input type="checkbox" id="checkbox" />Remember me</label>
+                                </div>
+                                <div class="form-group mb-0">
+                                    <input type="button" name="ncLgnFormSubmit" id="NcLgnFormSubmit" class="btn-solid-lg" value="Login">
+                                </div>
+                                <div class="form-group nc-form-bottom">
+                                    <div class="row">
+                                        <div class="col-sm-5 col-12">
+                                            <a href="#">Forgot password?</a>
+                                        </div>
+                                        <div class="col-sm-7 col-12 text-right">
+                                            <p>No account? <a href="#" class="text-underline">Sign Up for free!</a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div> 
+                  </div> <!-- end of sign up form -->
+                    
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+      </div>
+    </section>
+
+    <footer class="pg-footer">
+      <div class="footer-copyright text-center">
+        <div class="container">
+          <p>2020 Trademarkers LLC.</p>
+        </div>
+      </div>
+    </footer>
+  </main>
+  <script src="js/jquery.min.js"></script> <!-- jQuery for Bootstrap's JavaScript plugins -->
+  <script src="js/bootstrap.min.js"></script> <!-- Bootstrap framework -->
+
+  <script type="text/javascript">
+       var mailformat=/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+        var emailField = $('#NcLgnForm #email');
+        var passwordField = $('#NcLgnForm #password');
+        var emailMessage = $('#NcLgnForm .email-fieldset .form-msg');
+        var passwordMessage = $('#NcLgnForm .password-fieldset .form-msg');
+
+        function ValidateEmail(inputText){
+            if(inputText.value.match(mailformat))
+            {
+              setTimeout(function(){
+                $(inputText).parent('.form-field').parent('.fieldset').removeClass('form-msg-error');
+                },3000);
+                document.ncLgnForm.email.focus();
+                return true;
+            }
+            else
+            {
+                setTimeout(function(){
+                  $(inputText).parent('.form-field').parent('.fieldset').addClass('form-msg-error');
+                },3000);
+                emailMessage.html('Invalid entered email');
+                document.ncLgnForm.email.focus();
+                return false;
+            }
+        }
+
+        function ValidatePassword(inputPassword){
+            if(inputPassword.value > 1){
+                setTimeout(function(){
+                    $(inputPassword).parent('.form-field').parent('.fieldset').removeClass('form-msg-error');
+                },3000);
+                 $(inputPassword).parent('.form-field').parent('.fieldset').removeClass('form-msg-error');
+                document.ncLgnForm.password.focus();
+                return true;
+            }
+            else{
+                setTimeout(function(){
+                  $(inputPassword).parent('.form-field').parent('.fieldset').addClass('form-msg-error');
+                },3000);
+                passwordMessage.html('Please enter password');
+                return false;
+            }
+        }
+
+        $('#NcLgnForm #NcLgnFormSubmit').click(function(){
+           
+            if(emailField.val() =='' || passwordField.val() == ''){
+                emailField.parent('.form-field').parent('.form-group').addClass('form-msg-error');
+                passwordField.parent('.form-field').parent('.form-group').addClass('form-msg-error');
+                emailMessage.html('Please enter email');
+                passwordMessage.html('Please enter password');
+                return false;
+            }
+            else{
+                emailField.parent('.form-field').parent('.form-group').removeClass('form-msg-error');
+                passwordField.parent('.form-field').parent('.form-group').removeClass('form-msg-error');
+                emailMessage.html('Email entered correctly');
+                passwordMessage.html('Password Filled');
+                return true;
+            }
+        });
+    </script>
+</body>
+</html>

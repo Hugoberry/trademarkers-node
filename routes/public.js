@@ -9,7 +9,7 @@ router.get('/video/:ytId', publicController.ytVideo);
 router.get('/about', publicController.about);
 router.get('/terms', publicController.terms);
 router.get('/privacy', publicController.privacy);
-router.get('/services', publicController.service);
+
 router.get('/cookies', publicController.cookies);
 router.get('/service_contract', publicController.service_contract);
 router.get('/resources', publicController.resources);
@@ -36,7 +36,7 @@ router.get('/:action', publicController.redirect);
 // redirect
 router.get('*', publicController.redirect);
 
-
+router.get('/services', publicController.service);
 router.get('/blog', publicController.blog);
 
 router.get('/classes', publicController.classes);
