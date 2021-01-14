@@ -4,8 +4,29 @@ var rpoTask = require('../repositories/task');
 var rpoEvent = require('../repositories/events');
 var rpoLead = require('../repositories/lead');
 var rpoUsers = require('../repositories/usersMongo');
+var rpoUsersMysql = require('../repositories/users');
+var rpoTrademark = require('../repositories/trademarks');
+var rpoSouNotifications = require('../repositories/souNotifications');
 
 var mailService = require('../services/mailerService');
+var actionService = require('../services/actionService')
+
+const multer = require('multer');
+const path = require('path');
+
+let moment = require('moment');
+const { toInteger } = require('lodash');
+
+const storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+      cb(null, 'uploads/');
+  },
+
+  // By default, multer removes file extensions so let's add them back
+  filename: function(req, file, cb) {
+      cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+  }
+});
 
 exports.index = function(req, res, next) {
   
@@ -238,6 +259,105 @@ exports.eventsEditSubmit = async function(req, res, next) {
 
 }
 
+
+exports.uploadSou = async function(req, res, next) {
+
+  // let event = await rpoEvent.getResearcherEventById(req.params['id']);
+  
+  res.render('researcher/upload/sou', { layout: 'layouts/public-layout-researcher', title: 'Researcher' });
+    
+}
+
+exports.uploadSouSubmit = async function(req, res, next) {
+
+  let sampleFile;
+  let uploadPath;
+
+  if (!req.files || Object.keys(req.files).length === 0) {
+    return res.status(400).send('No files were uploaded.');
+  }
+
+  // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+  sampleFile = req.files.sampleFile;
+  uploadPath = __dirname + '/../public/uploads/' + sampleFile.name;
+
+  let strData = sampleFile.name.split('.');
+  // console.log(strData);
+  if (strData.length > 3) {
+    let countryCode = strData[0],
+        serialNumber = strData[1],
+        type = strData[2],
+        dateIssue = strData[3],
+        deadlineDate = strData[4],
+        userId = strData[5],
+        orderId = strData[6];
+
+        dateIssue = dateIssue.split('-');
+        deadlineDate = deadlineDate.split('-');
+        userId = userId.split('-');
+        orderId = orderId.split('-');
+        // console.log(userId);
+
+        let user = await rpoUsersMysql.getUserByIdMysql((userId[1] * 1));
+        let trademarks = await rpoTrademark.fetchTmByOrder(orderId[1]);
+
+        // console.log(user);
+        // console.log(trademarks);
+
+        
+
+        let mailData = {
+          serialNumber, serialNumber,
+          userId: userId[1],
+          orderId: orderId[1],
+          dateIssue: convertIntToDate(dateIssue[1]),
+          deadlineDate: convertIntToDate(deadlineDate[1]),
+          user: user[0],
+          trademark: trademarks[0],
+          lastSent: toInteger(moment().format('YYMMDD')),
+          noEmail: 1,
+          fileUrl:  uploadPath,
+          fileName:  sampleFile.name,
+          actionType: 'sou notification'
+        }
+
+        let action = await actionService.createActionCode(mailData,'/')
+
+        mailData.action = action;
+
+        console.log("mailData",mailData);
+
+        rpoSouNotifications.put(mailData);
+
+    switch(type.trim()) {
+      case 'AB':
+        console.log('sending');
+        // mailService.sendSOU(mailData);
+      break;
+      case 'AL':
+        // STATEMENT OF USE
+        console.log('sending');
+        mailService.sendSOU(mailData);
+        
+      break;
+      case 'OA':
+        console.log('sending');
+        // mailService.sendSOU(mailData);
+      break;
+    }
+  }
+  
+
+  // Use the mv() method to place the file somewhere on your server
+  sampleFile.mv(uploadPath, function(err) {
+    if (err)
+      return res.status(500).send(err);
+
+    res.send('File uploaded!');
+  });
+  
+}
+
 // temporary login auto redirect from php
 // exports.login = async function(req,res){
 
@@ -329,5 +449,12 @@ function validateHashUser(pass, obj, res){
       }
   });   
 
+}
+
+function convertIntToDate(idate) {
+
+  var s = idate+"";
+  return new Date('20' + s.substring(0, 2) + '-' + s.substring(2, 4) + '-' + s.substring(4));
+  
 }
 

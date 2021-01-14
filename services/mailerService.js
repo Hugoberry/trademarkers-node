@@ -125,3 +125,48 @@ exports.eventEmail = async function(mailData) {
 
 
 }
+
+
+exports.sendSOU = async function(mailData) {
+
+  // return;
+  console.log("sending...");
+  ejs.renderFile(__dirname+"/../email-templates/uspto-sou.ejs", { mailData: mailData }, async function (err, data) {
+    if (err) {
+        console.log(err);
+    } else {
+      fs.readFile(mailData.fileUrl, function (err, file) {
+        let mainOptions = {
+          sender: process.env.MAIL_FROM,
+          replyTo: process.env.MAIL_FROM,
+          from: process.env.MAIL_FROM, 
+          // to: mailData.email.email,
+          // to: "mg@bigfoot.com",
+          to: "felix@trademarkers.com",
+          subject: "IMPORTANT NOTICE: STATEMENT OF USE DUE FOR YOUR TRADEMARK - " + mailData.trademark.name, 
+          html: data,
+          attachments: [{'filename': mailData.fileName, 'content': file}]
+        };
+
+        transporter.sendMail(mainOptions, function (err, info) {
+          
+          let res;
+          
+          if (err) {
+            console.log(err);
+            res = err;
+          } else {
+            console.log(info);
+            res = info;
+
+          }
+
+        });
+      })
+       
+    }
+    
+  });
+
+
+}

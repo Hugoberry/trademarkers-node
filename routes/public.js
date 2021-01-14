@@ -28,6 +28,7 @@ router.get('/what-is-the-uniform-domain-name-dispute-resolution-policy', publicC
 
 
 router.get('/delivery-method/:trdId', publicController.deliveryMethod)
+router.get('/action/response/:action/:response', publicController.souResponse)
 
 router.get('/:actionCode/:type', publicController.codeLanding)
 

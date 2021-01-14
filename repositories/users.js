@@ -74,7 +74,32 @@ module.exports = {
 
 		return new Promise(function(resolve, reject) {
 			
-			connection.query('SELECT * FROM ? WHERE email = ?',[_table,email],function(err,res,fields) {
+			connection.query('SELECT * FROM users WHERE email = ?',[email],function(err,res,fields) {
+				if (err) {
+					reject(err);
+			   } else {
+				   console.log(res);
+					resolve(res);
+			   }
+			});
+
+		});
+	},
+
+	getUserByIdMysql : function(id) {
+
+		const mysql = require('mysql');
+
+		const connection = mysql.createConnection({
+			host     : process.env.DBHOST,
+			user     : process.env.DBUSER,
+			password : process.env.DBPASS,
+			database : process.env.DBNAME
+		});
+
+		return new Promise(function(resolve, reject) {
+			
+			connection.query('SELECT * FROM users WHERE id = ?',[id],function(err,res,fields) {
 				if (err) {
 					reject(err);
 			   } else {

@@ -10,7 +10,7 @@ var bodyParser = require('body-parser')
 var cookieParser = require('cookie-parser');
 var lessMiddleware = require('less-middleware');
 var logger = require('morgan');
-
+const fileUpload = require('express-fileupload');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const mongoose = require('mongoose');
@@ -27,6 +27,7 @@ var oppositionCronService = require('./services/oppositionCronService')
 
 var app = express();
 
+app.use(fileUpload());
 
 app.use(bodyParser.json())
 app.use(cookieParser())

@@ -385,6 +385,10 @@ exports.codeLanding = async function(req, res, next) {
     classArr = action[0].case.nice.split(',').map(s => s.trim());
   }
 
+  if ( action[0] && action[0].trademark ) {
+    classArr = action[0].trademark.classes.split(',').map(s => s.trim());
+  }
+
   // console.log(action[0].case.nice);
   // console.log(classArr);
 
@@ -452,6 +456,35 @@ exports.deliveryMethod = async function(req, res, next) {
 
 
   // res.send()
+
+}
+
+exports.souResponse = async function(req, res, next) {
+
+  console.log(req.params);
+  // console.log(req.body);
+  // res.send('asdsad')
+
+  let response = 1;
+
+  if (req.params.response == '1' ) {
+    response = "Statement of Use";
+  } else if(req.params.response == '2') {
+    response = "Extension for trademark allowance";
+  } else {
+    response = "Decline";
+  }
+
+  let data = {
+    reponse: response
+  }
+
+  rpoAction.updateDetails(req.params.action, data)
+
+  res.json({
+    status:true,
+    message:"Success"
+});
 
 }
 

@@ -6,7 +6,7 @@
               <div class="row">
                 <div class="col-xl-9 col-lg-8">
                   <h1 class="h1"><strong>IMPORTANT NOTICE:</strong></h1>
-                  <h2 class="h4">STATEMENT OF USE DUE FOR YOUR TRADEMARK <%= action.name %></h2>
+                  <h2 class="h4">STATEMENT OF USE DUE FOR YOUR TRADEMARK <%= action.trademark.name %></h2>
                   <p class="h6">A “Statement of Use” must be filed for your U.S. Trademark Application!</p> 
                   <p>According to the rules of the United States Patent and Trademark Office (USPTO), you must declare the use of your trademark by filing a “Statement of Use” for your trademark application.</p>
                   <p>From the time the USPTO communicates that your trademark can be registered in principle, you usually have 6 months to either:</p>
@@ -16,10 +16,10 @@
                       <div class="nt-bx-head"><h2 class="h6 mb-0"><strong>Important Legal Notice</strong></h2></div>
                       <div class="nt-bx-body">
                         <p class="tm-appl-name">Adverse Trademark Application: <span class="appl-name" id="ApplicationName"><%= action.name %></span></p>
-                <p class="tm-appl-info"><span id="FiledNo">Filed <%= action.case.filingdate %> 04/02/2020</span> <br><span id="TmNo">EUIPO No. <%= action.event.case.numberToShow %></span> <br>Open for Oppositions until <span id="PubDate">xxxxx</span></p>
+                        <p class="tm-appl-info"><span id="FiledNo" style="font-weight:600">Filed <%= moment(action.dateIssue).format('MMM D, YYYY') %></span> <br> A “Statement of Use” must be filed for your U.S. Trademark Application! </p>
                       </div>
                       <div class="nt-bx-footer">
-                        <p class="dline text-center mb-0">Deadline: <span class="text-red dline-time">02/20/2021</span></p>
+                        <p class="dline text-center mb-0">Deadline: <span class="text-red dline-time"><%= moment(action.deadlineDate).format('MMM D, YYYY') %></span></p>
                       </div>
                   </div>
                 </div>
@@ -58,126 +58,41 @@
 
   <section class="tm-sl-section ttl-tltp-wrap bg-offwhite">
     <div class="container pb-half">
-      <h2 class="h2 tm-sl-title text-center">Here are our recommendations:</h2>
+      <h2 class="h2 tm-sl-title text-center">PLEASE PROVIDE US FEEDBACK:</h2>
       <div class="tm-plans">
         <div class="row eql-col-h">
             <div class="col-sm-4">
               <div class="tm-plan">
                 <div class="tm-plan-head">
-                  <h2 class="h5 tm-plan-title">Trademark Registration</h2>
-                  <p>in a major jurisdiction:</p>
+                  <!-- <h2 class="h5 tm-plan-title">Trademark Registration</h2> -->
+                  <!-- <p>in a major jurisdiction:</p> -->
                 </div>
                 <div class="tm-plan-body">
-                  <p>United States, Canada, United Kingdom</p>
+                  <p>I am selling the products or services now and want Trademarkers to file a “Statement of Use”
+                    <br><br>
+                    Our fees: $150.00
+                    <br> <br>
+                    Government fees: $100.00</p>
                 </div>
                 <div class="tm-plan-footer">
-                    <form id="frm-action-register" method="post" action="http://trademarkers.staging.test/registration/step2/US">
-                        <div class="form-group" style="display:none">
-                            <select id="selectedCountry" class="form-control selectpicker" data-live-search="true" required>
-                                <option value="" disabled <%= action ? '' : 'selected' %>>Select Country</option>
-                                <% for (var key in countries) { %>
-                                    <option value="<%= countries[key].abbr %>" <%= (action ? (action.case.applicantCountry == countries[key].abbr ? 'selected' : '') : '' )  %> > <%= countries[key].name %> </option>
-                                <% } %>
-                              
-                            </select>
+                    
+                    <form class="frm-sou" data-action="<%= action._id %>" data-respond="1" action="https://trademarkers.com/service-order-form" method="post">
+                      <input type="hidden" name="word_mark" value="<%= action.trademark.name %>">
+                      <input type="hidden" name="service" value="Statement of Use">
+                      <input type="hidden" name="case_number" value="<%= action.trademark.case_number %>">
+                      <input type="hidden" name="class" value="<%= action.trademark.classes %>">
+                      <input type="hidden" name="user_id" value="<%= action.trademark.user_id %>">
+                      <input type="hidden" name="trd_id" value="<%= action.trademark.id %>">
+                      <input type="hidden" name="type" value="Service">
+                      <input type="hidden" name="country" value="us">
+                      <input type="hidden" name="action" value="add-cart">
+                      <div class="form-group row">
+                        <div class="col-md-12 text-center">
+                            <input class="btn btn-red" type="submit" name="submit" value="Order Now">
                         </div>
-                        
-                        <div class="form-group" style="display:none">
-                            <input class="form-check-input" type="radio" name="type" id="typeword" value="word" checked>
-                        </div>
-        
-        
-
-                            <input type="hidden" name="word_mark" class="form-control" placeholder="Enter word mark" value="<%= action ? action.case.name : '' %>" required autofocus>
-                            <input id="trademarker-service" type="hidden" name="service" class="form-control" value="<%= title %>" >
-        
-        
-                        <div class="form-group row" style="display:none">
-                            <div class="col-md-12">
-                            <div class="form-box">
-                                <div style="padding-left:1.25rem;" class="form-check2">
-                                <label class="form-box-container" for="word_mark"><b>Select the classes in which you need to register your Trademark:
-                                
-                                    <span> 
-                                        <!-- <a href="/classes" target="_blank" class="btn btn-sm btn-danger" style="color: white;"> 
-                                            Search Classes
-                                        </a> -->
-                                        <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" data-html="true" title="What are classes?<hr><p>When registering a trademark you need to specify the products and services that will be associated with your trademark.
-        
-                                        The large majority of countries of the world have adopted the International Classification of Nice. This system groups all products and services into 45 classes - 34 for products, 11 for services - permitting you to specify precise and clear classes covering your trademark.
-        
-                                        The protection that is offered to a registered trademark covers only the classes specified at the time of registration, therefore, allowing two identical trademarks to coexist in distinct classes.
-        
-                                        We provide a helpful Class Search tool, which allows you to easily determine the classes your products or services are related to; you will find the button that redirects to this application in this page..</p>
-                                        "></i>
-                                    </span>
-                                </b>
-                                </label>
-                                
-                                
-                                <div class="new-add-class-container">
-        
-                                    <!-- populate selected classes here -->
-                                    <table id="listClasses" class="table" style="">
-                                    </table>
-        
-                                    <p class="btn-add-class btn btn-primary btn-rounded-primary-light">+ Select trademark class</p>
-                                    <div class="show-pop">
-                                        <div class="contain-select-class">
-                                        <p class="text-right"><i class="fa fa-times btn-close-class"></i></p>
-                                        <select id="addClassValue" class="form-control selectpicker" data-live-search="true">
-                                            <option value="" disabled selected>Select Trademark Class</option>
-                                        
-        
-                                            <% for (var key in classes ) { %>
-                                                <option value="<%= classes[key].id %>" data-tokens="<%= classes[key].id %> - <%= classes[key].name %>"><%= classes[key].id %> - <%= classes[key].name %></option>
-                                           
-                                            <% } %>
-                                        </select>
-        
-                                        
-                                        </div>
-                                    </div>
-         
-                                </div>
-                                <div class="classes_container" style="display:none !important">
-                                    
-                                    <% for (var key in classes ) { %>
-        
-                                        <% 
-                                            let classN = ''
-                                            let selectedClass = false;
-                                            if (classArr) { 
-                                                classN = classes[key].id + "";
-                                                selectedClass = classArr.includes(classN);
-                                               
-                                            } 
-                                        %>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input class_chk" type="checkbox" id="class<%= classes[key].id %>" value="class<%= classes[key].id %>" name="class[]" <%= selectedClass ? 'checked' : '' %> >
-                                            <label class="form-check-label" for="class<%= classes[key].id %>"><%= classes[key].id %></label>
-                                        </div>
-                                    <% } %>
-                                </div>
-        
-                                </div>
-                            </div>
-                            </div>
-        
-                        </div>
-                        
-        
-            
-        
-                        <div class="form-group row">
-                            <div class="col-md-12 text-center">
-                                <input class="btn btn-red" type="submit" name="submit" value="Order Now">
-                            </div>
-                        </div>
-        
-        
-        
-                    </form>
+                    </div>
+                      
+                  </form>
                     <!-- <a href="#" title="Order Now" class="btn btn-red">Order Now</a> -->
                 </div>
               </div>
@@ -185,25 +100,50 @@
             <div class="col-sm-4">
               <div class="tm-plan">
                 <div class="tm-plan-head">
-                  <h2 class="h5 tm-plan-title">Trademark Registration</h2>
-                  <p>in a smaller market (less expensive)</p>
+                  <!-- <h2 class="h5 tm-plan-title">Trademark Registration</h2>
+                  <p>in a smaller market (less expensive)</p> -->
                 </div>
                 <div class="tm-plan-body">
-                  <p>Hong Kong, Switzerland</p>
+                  <p>I have not launched my product and/or service, and need an extension for the trademark allowance
+                    <br><br>
+                    Our fees: $50.00
+                    <br><br>
+                    Government fees: $125.00</p>
                 </div>
                 <div class="tm-plan-footer">
-                    <a href="#" title="Order Now" class="btn btn-red">Order Now</a>
+                  <form class="frm-sou" data-action="<%= action._id %>" data-respond="2" action="https://trademarkers.com/service-order-form" method="post">
+                    <input type="hidden" name="word_mark" value="<%= action.trademark.name %>">
+                    <input type="hidden" name="service" value="Extension for trademark allowance">
+                    <input type="hidden" name="case_number" value="<%= action.trademark.case_number %>">
+                    <input type="hidden" name="class" value="<%= action.trademark.classes %>">
+                    <input type="hidden" name="user_id" value="<%= action.trademark.user_id %>">
+                    <input type="hidden" name="trd_id" value="<%= action.trademark.id %>">
+                    <input type="hidden" name="type" value="Service">
+                    <input type="hidden" name="country" value="us">
+                    <input type="hidden" name="action" value="add-cart">
+                    <div class="form-group row">
+                      <div class="col-md-12 text-center">
+                          <input class="btn btn-red" type="submit" name="submit" value="Order Now">
+                      </div>
+                  </div>
+                    
+                </form>
                 </div>
               </div>
             </div>
             <div class="col-sm-4">
               <div class="tm-plan">
                 <div class="tm-plan-head">
-                  <h2 class="h5 tm-plan-title">Trademark Registration</h2>
-                  <p>Provides you the information where a trademark registration is likely to succeed and where not.</p>
+                  <!-- <h2 class="h5 tm-plan-title">Trademark Registration</h2>
+                  <p>Provides you the information where a trademark registration is likely to succeed and where not.</p> -->
+                </div>
+                <div class="tm-plan-body">
+                  <p>I want to handle the matter myself!
+                    <br></br>
+                    If you want to handle the trademark yourself or appoint another attorney, please click here</p>
                 </div>
                 <div class="tm-plan-footer">
-                    <a href="#" title="Order Now" class="btn btn-red">Order Now</a>
+                    <a href="#" data-action="<%= action._id %>" data-respond="3" title="Decline" class="btn btn-red btn-form-update">Decline</a>
                 </div>
               </div>
             </div>
