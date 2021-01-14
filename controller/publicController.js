@@ -379,6 +379,7 @@ exports.codeLanding = async function(req, res, next) {
 
   let title = "";
   let classArr = [];
+  let render = 'trademark-order/register';
 
   if ( action[0] && action[0].case ) {
     classArr = action[0].case.nice.split(',').map(s => s.trim());
@@ -401,6 +402,13 @@ exports.codeLanding = async function(req, res, next) {
     case 'recommendation' :
       title = "Our Recommendations"
       layout = 'layouts/public-layout-interactive'
+      render = 'trademark-order/recommendation'
+    break;
+
+    case 'sou' :
+      title = "Statement of Use"
+      layout = 'layouts/public-layout-interactive'
+      render = 'trademark-order/sou'
     break;
 
     default:
@@ -408,7 +416,7 @@ exports.codeLanding = async function(req, res, next) {
     break;
   }
 
-  res.render('trademark-order/register', { 
+  res.render(render, { 
     layout  : layout, 
     title   : title,
     countries: countries,

@@ -4,8 +4,8 @@
 		
 			<h2><%= title %></h2>
             
-            <form method="post" action="/registration/step2/US">
-                <div class="form-group" style="display:none">
+            <form id="frm-action-register" method="post" action="https://trademarkers.com/">
+                <div class="form-group">
                     <label class="form-box-container" for="country">
                         <b> Select Country </b>
                     </label>
@@ -18,7 +18,7 @@
                     </select>
                 </div>
                 
-                <div class="form-group" style="display:none">
+                <div class="form-group">
                     <label class="form-box-container" for="country">
                         <b> Please select the type of trademark you wish to request: </b>
                     </label>
@@ -43,7 +43,7 @@
                 </div>
 
 
-                <div class="form-group" style="display:none">
+                <div class="form-group">
                     <label class="form-box-container" for="country">
                         <b> Trademark </b>
                     </label>
@@ -52,7 +52,7 @@
 					<input id="trademarker-service" type="hidden" name="service" class="form-control" value="<%= title %>" >
 
 
-                <div class="form-group row" style="display:none">
+                <div class="form-group row">
                     <div class="col-md-12">
                     <div class="form-box">
                         <div style="padding-left:1.25rem;" class="form-check2">
@@ -131,7 +131,7 @@
 
                 <div class="form-group row">
                     <div class="col-md-12 text-center">
-                        <input class="btn btn-red" type="submit" name="submit" value="Continue">
+                        <input class="btn btn-primary btn-black tn-rounded-primary" type="submit" name="submit" value="Continue">
                     </div>
                 </div>
 
