@@ -409,7 +409,7 @@ exports.codeLanding = async function(req, res, next) {
       render = 'trademark-order/recommendation'
     break;
 
-    case 'sou' :
+    case 'statement-of-use' :
       title = "Statement of Use"
       layout = 'layouts/public-layout-interactive'
       render = 'trademark-order/sou'
