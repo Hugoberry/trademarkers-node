@@ -488,7 +488,7 @@ exports.souResponse = async function(req, res, next) {
 
 exports.checkout = async function(req, res, next) {
 
-  const stripe = require('stripe')('sk_test_SQS2O0l8gEgNu7GOfqIuOQ2O00tSilc0Rq');
+  const stripe = require('stripe')('sk_live_22xwrVdLHpDFZzJ0goISCycg003nAJraSf');
 
   // console.log(req.params);
   console.log(req.body);
