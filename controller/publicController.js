@@ -360,7 +360,7 @@ exports.codeLanding = async function(req, res, next) {
 
   let code = req.params.actionCode;
   let type = req.params.type;
-console.log('test');
+// console.log('test');
   // let decode = jwt.decode(req.cookies.jwt, {complete: true});
 
   // console.log(decode);
@@ -500,8 +500,8 @@ exports.checkout = async function(req, res, next) {
 
   const stripe = require('stripe')('sk_test_SQS2O0l8gEgNu7GOfqIuOQ2O00tSilc0Rq');
 
-  console.log(req.params);
-  console.log(req.body);
+  // console.log(req.params);
+  // console.log(req.body);
 
 
   let action = await rpoAction.getAction(req.body.action);
@@ -509,18 +509,21 @@ exports.checkout = async function(req, res, next) {
   // compute price
   let price = 0;
   let description = "Trademarkers LLC Service";
-
-  if ( action[0] ) {
+  let name = "";
+// console.log('action', action);
+  if ( action[0] && action[0].number) {
     price = await checkoutService.getPrice(req.body.action);
 
     if ( action[0].response ) {
       description += ": " + action[0].response;
     }
   } else {
-    price = req.body.price ? req.body.price : 0;
-    description = req.body.description;
+    price = req.body.price ? (req.body.price * 1) : 0;
+    description = req.body.description ? req.body.description : "";
+    name = req.body.name ? req.body.name : "";
+
   }
-console.log('price', price);
+// console.log('price', price);
 
   // 
  
@@ -529,6 +532,10 @@ console.log('price', price);
     currency: 'usd',
     source: req.body.stripeToken,
     description: description,
+    metadata : {
+      'name': "" + name,
+      'description': "" + description
+    }
   });
 
   if ( charge.paid ) {

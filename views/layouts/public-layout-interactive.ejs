@@ -80,11 +80,11 @@ $( document ).ready(function() {
       },
       contentType: "application/json",
       success: function( result ) {
-
+        $(location).attr('href', '/'+ action +'/pay')
       }
     }); 
 
-      // return false;
+      return false;
   });
 
   $(".btn-form-update").click(function(){

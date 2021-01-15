@@ -78,18 +78,44 @@
         <% } %>
 
       <% } else { %>
-        <div class="col-12">
-          <form action="/checkout/form" method="POST" class="text-center">
-            <input type="hidden" name="action" value="">
-            <input type="text" name="price" placeholder="Enter Amount in USD">
+        <div class="col-6" style="margin:auto">
 
-            <script
+          
+          <form action="/checkout/form" method="POST" >
+            
+            <input type="text" class="form-control" name="action" value="client">
+            <div class="form-group">
+              <label>
+                  <b> Client Name </b>
+              </label>
+              <input type="text" class="form-control" name="name" required>
+            </div>
+
+            <div class="form-group">
+              <label>
+                  <b> Amount </b>
+              </label>
+              <input type="text" class="form-control" name="price" required>
+            </div>
+
+            <div class="form-group">
+              <label>
+                  <b> Description </b>
+              </label>
+              <textarea class="form-control" name="description" required></textarea>
+            </div>
+            
+            <div class="form-group">
+              <script
                 src="https://checkout.stripe.com/checkout.js" class="stripe-button"
                 data-key="pk_test_8IWnZ5BFL6cRN27ZARs8qB9Q00PET9ihlr"
                 data-name="TRADEMARKERS LLC"
                 data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
                 data-locale="auto">
-            </script>
+              </script>
+            </div>
+
+            
           </form>
         </div>
 
