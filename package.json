@@ -39,7 +39,8 @@
     "open": "^7.3.0",
     "pdfkit": "^0.11.0",
     "socket.io": "^3.0.4",
-    "socketio-jwt": "^4.6.2"
+    "socketio-jwt": "^4.6.2",
+    "stripe": "^8.131.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.6"

@@ -26,6 +26,8 @@ router.get('/', publicController.home);
 router.get('/what-is-the-uniform-domain-name-dispute-resolution-policy', publicController.udrp);
 
 
+router.post('/checkout/:action', publicController.checkout);
+
 
 router.get('/delivery-method/:trdId', publicController.deliveryMethod)
 router.get('/action/response/:action/:response', publicController.souResponse)

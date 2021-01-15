@@ -13,9 +13,11 @@ var rpoSenders = require('../repositories/senders');
 var rpoAction = require('../repositories/actionCode');
 var rpoClasses = require('../repositories/classes');
 var rpoTrademarks = require('../repositories/trademarks');
+var rpoCharge = require('../repositories/charges');
 
 var activityService = require('../services/activityLogService');
 var pdfService = require('../services/pdfService');
+var checkoutService = require('../services/checkoutService');
 
 
 var groupBy = function(xs, key) {
@@ -358,7 +360,7 @@ exports.codeLanding = async function(req, res, next) {
 
   let code = req.params.actionCode;
   let type = req.params.type;
-
+console.log('test');
   // let decode = jwt.decode(req.cookies.jwt, {complete: true});
 
   // console.log(decode);
@@ -413,6 +415,12 @@ exports.codeLanding = async function(req, res, next) {
       title = "Statement of Use"
       layout = 'layouts/public-layout-interactive'
       render = 'trademark-order/sou'
+    break;
+
+    case 'pay' :
+      title = "Payment Page"
+      layout = 'layouts/public-layout-interactive'
+      render = 'trademark-order/payment'
     break;
 
     default:
@@ -485,6 +493,61 @@ exports.souResponse = async function(req, res, next) {
     status:true,
     message:"Success"
 });
+
+}
+
+exports.checkout = async function(req, res, next) {
+
+  const stripe = require('stripe')('sk_test_SQS2O0l8gEgNu7GOfqIuOQ2O00tSilc0Rq');
+
+  console.log(req.params);
+  console.log(req.body);
+
+
+  let action = await rpoAction.getAction(req.body.action);
+
+  // compute price
+  let price = 0;
+  let description = "Trademarkers LLC Service";
+
+  if ( action[0] ) {
+    price = await checkoutService.getPrice(req.body.action);
+
+    if ( action[0].response ) {
+      description += ": " + action[0].response;
+    }
+  } else {
+    price = req.body.price ? req.body.price : 0;
+    description = req.body.description;
+  }
+console.log('price', price);
+
+  // 
+ 
+  const charge = await stripe.charges.create({
+    amount: (price * 100),
+    currency: 'usd',
+    source: req.body.stripeToken,
+    description: description,
+  });
+
+  if ( charge.paid ) {
+    // save
+    res.flash('success', 'Payment Successful!');
+    rpoCharge.put(charge)
+  } else {
+    res.flash('error', 'Sorry!, Something went wrong, try again later.');
+    
+    // return with error
+  }
+
+  res.redirect("/"+req.body.action+'/pay'); 
+
+  // res.json({
+  //   status:true,
+  //   message:"Success",
+  //   charge: charge
+  // });
 
 }
 
