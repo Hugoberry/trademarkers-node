@@ -18,6 +18,7 @@ var rpoCharge = require('../repositories/charges');
 var activityService = require('../services/activityLogService');
 var pdfService = require('../services/pdfService');
 var checkoutService = require('../services/checkoutService');
+var mailService = require('../services/mailerService');
 
 
 var groupBy = function(xs, key) {
@@ -360,17 +361,6 @@ exports.codeLanding = async function(req, res, next) {
 
   let code = req.params.actionCode;
   let type = req.params.type;
-// console.log('test');
-  // let decode = jwt.decode(req.cookies.jwt, {complete: true});
-
-  // console.log(decode);
-  // if ( decode ) {
-  //   let user = JSON.parse(decode.payload.user);
-  //   console.log(user);
-
-  // } else {
-  //   res.cookie("redirect", `/${code}/${type}`);
-  // }
 
   // LOOK FOR A WAY TO REDIRECT CUSTOMER AND PREFILLED FORM
   // OR CREATE A NEW NODEJS SETUP FOR ADDING TO CART IN MYSQL
@@ -424,7 +414,7 @@ exports.codeLanding = async function(req, res, next) {
     break;
 
     default:
-      res.redirect('/');
+      // res.redirect('/');
     break;
   }
 
@@ -469,7 +459,7 @@ exports.deliveryMethod = async function(req, res, next) {
 
 exports.souResponse = async function(req, res, next) {
 
-  console.log(req.params);
+  // console.log(req.params);
   // console.log(req.body);
   // res.send('asdsad')
 
@@ -484,10 +474,10 @@ exports.souResponse = async function(req, res, next) {
   }
 
   let data = {
-    reponse: response
+    response: response
   }
 
-  rpoAction.updateDetails(req.params.action, data)
+  await rpoAction.updateDetails(req.params.action, data)
 
   res.json({
     status:true,
@@ -501,7 +491,7 @@ exports.checkout = async function(req, res, next) {
   const stripe = require('stripe')('sk_test_SQS2O0l8gEgNu7GOfqIuOQ2O00tSilc0Rq');
 
   // console.log(req.params);
-  // console.log(req.body);
+  console.log(req.body);
 
 
   let action = await rpoAction.getAction(req.body.action);
@@ -534,12 +524,14 @@ exports.checkout = async function(req, res, next) {
     description: description,
     metadata : {
       'name': "" + name,
-      'description': "" + description
-    }
+      'description': "" + description,
+    },
+    receipt_email: req.body.stripeEmail
   });
 
   if ( charge.paid ) {
     // save
+    mailService.sendOrderNotification(charge);
     res.flash('success', 'Payment Successful!');
     rpoCharge.put(charge)
   } else {

@@ -18,15 +18,19 @@
       </div>
 
       <% if (action) { %>
-        <% if (action.actionType == 'sou notification') { %>
+        <% if (action.actionType == 'sou notification') { let price = 250; %>
         <!-- SOU -->
         <div class="col-12">
           <div class="tm-sl-head">
             <div class="row">
               <div class="col-xl-12 col-lg-12">
+                <% if ( action.response == 'Statement of Use' ) { price = 250; %>
                 <h2 class="h4">STATEMENT OF USE SERVICE</h2>
                 <p>According to the rules of the United States Patent and Trademark Office (USPTO), you must declare the use of your trademark by filing a “Statement of Use” for your trademark application.</p>
-                
+                <% } else {  price = 175; %>
+                  <h2 class="h4">Trademark Extension SERVICE</h2>
+                <p>I have not launched my product and/or service, and need an extension for the trademark allowance</p>
+                <% } %>
               </div>
               <div class="col-xl-12 col-lg-12">
                 
@@ -44,7 +48,7 @@
                     <td><%= moment(action.deadlineDate).format('MMM D, YYYY') %></td>
                     <td>
                       <% 
-                      let price = 250;
+                      
                       let declareClass = action.trademark.classes.split(',');
                       %>
 

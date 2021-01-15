@@ -65,6 +65,7 @@ $( document ).ready(function() {
   $(".frm-sou").submit(function(){
     
     let action = $(this).attr('data-action');
+    let number = $(this).attr('data-action-number');
     let response = $(this).attr('data-respond');
 
     // alert(action);
@@ -80,7 +81,7 @@ $( document ).ready(function() {
       },
       contentType: "application/json",
       success: function( result ) {
-        $(location).attr('href', '/'+ action +'/pay')
+        $(location).attr('href', '/'+ number +'/pay')
       }
     }); 
 

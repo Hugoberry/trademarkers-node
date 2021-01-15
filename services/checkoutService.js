@@ -8,7 +8,7 @@ exports.getPrice = async function(code) {
 
 //   SET SOU PRICE STATIC PRICE NO RECORD IN MONGO YET
   if ( action[0].actionType == 'sou notification' ) {
-    if ( action[0].reponse == "Extension for trademark allowance") {
+    if ( action[0].response == "Extension for trademark allowance") {
         price = 175;
     } else {
         price = 250;

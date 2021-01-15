@@ -170,3 +170,47 @@ exports.sendSOU = async function(mailData) {
 
 
 }
+
+// order notification
+
+exports.sendOrderNotification = async function(charge) {
+
+  // return;
+  ejs.renderFile(__dirname+"/../email-templates/orderAdminNotification.ejs", { charge: charge }, async function (err, data) {
+    if (err) {
+        console.log(err);
+    } else {
+      // fs.readFile(mailData.fileUrl, function (err, file) {
+        let mainOptions = {
+          sender: process.env.MAIL_FROM,
+          replyTo: process.env.MAIL_FROM,
+          from: process.env.MAIL_FROM, 
+          // to: mailData.user.email,
+          // to: "mg@bigfoot.com",
+          to: "info@trademarkers.com",
+          subject: "New order | " + charge.description, 
+          html: data
+        };
+
+        transporter.sendMail(mainOptions, function (err, info) {
+          
+          let res;
+          
+          if (err) {
+            console.log(err);
+            res = err;
+          } else {
+            console.log(info);
+            res = info;
+
+          }
+
+        });
+      // })
+       
+    }
+    
+  });
+
+
+}

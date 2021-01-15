@@ -83,7 +83,7 @@
                 </div>
                 <div class="tm-plan-footer">
                     
-                    <form class="frm-sou" data-action="<%= action._id %>" data-respond="1" action="" method="post">
+                    <form class="frm-sou" data-action="<%= action._id %>" data-action-number="<%= action.number %>" data-respond="1" action="" method="post">
                       <input type="hidden" name="word_mark" value="<%= action.trademark.name %>">
                       <input type="hidden" name="service" value="Statement of Use">
                       <input type="hidden" name="case_number" value="<%= action.trademark.case_number %>">
@@ -118,7 +118,7 @@
                     Government fees: $125.00</p>
                 </div>
                 <div class="tm-plan-footer">
-                  <form class="frm-sou" data-action="<%= action._id %>" data-respond="2" action="" method="post">
+                  <form class="frm-sou" data-action="<%= action._id %>" data-action-number="<%= action.number %>" data-respond="2" action="" method="post">
                     <input type="hidden" name="word_mark" value="<%= action.trademark.name %>">
                     <input type="hidden" name="service" value="Extension for trademark allowance">
                     <input type="hidden" name="case_number" value="<%= action.trademark.case_number %>">
@@ -150,7 +150,7 @@
                     If you want to handle the trademark yourself or appoint another attorney, please click here</p>
                 </div>
                 <div class="tm-plan-footer">
-                    <a href="#" data-action="<%= action._id %>" data-respond="3" title="Decline" class="btn btn-red btn-form-update">Decline</a>
+                    <a href="#" data-action="<%= action._id %>" data-action-number="<%= action.number %>" data-respond="3" title="Decline" class="btn btn-red btn-form-update">Decline</a>
                 </div>
               </div>
             </div>
