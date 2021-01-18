@@ -59,6 +59,35 @@ module.exports = {
 
 	},
 
+	fetchTmBySerial: function ( number ) {
+
+		return new Promise(function(resolve, reject) {
+			connection.query('SELECT * FROM action_code_cases WHERE number = ? ORDER BY updated_at DESC LIMIT 1',[number],function(err,res,fields) {
+				if (err) {
+					reject(err);
+			} else {
+					resolve(res);
+			}
+			});
+		});
+
+	},
+
+	fetchTmByMark: function ( mark ) {
+
+		return new Promise(function(resolve, reject) {
+			connection.query('SELECT * FROM trademarks WHERE name = ? ORDER BY updated_at DESC LIMIT 1',[mark],function(err,res,fields) {
+				if (err) {
+					reject(err);
+			} else {
+					resolve(res);
+			}
+			});
+		});
+
+	},
+
+
 	fetchTmById: function ( trademark_id ) {
 
 		return new Promise(function(resolve, reject) {

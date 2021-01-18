@@ -127,6 +127,15 @@ section {
     border-color: #2593f2;
     color: #ffffff; }
 
+.btn-blue {
+  background: #2593f2 !important;
+  border-color: #2593f2 !important;
+  color: #ffffff; }
+  .btn-blue:hover, .btn-blue:focus {
+    background: #2984d2 !important;
+    border-color: #2984d2 !important;
+    color: #ffffff; }
+
 .h-100vh {
   height: 100vh; }
 
@@ -755,16 +764,16 @@ body.tm-sl-page {
 .ntc-box {
   position: relative;
   background: #ffffff;
-  -webkit-box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
-  -moz-box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
-  -ms-box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
-  -o-box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
-  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -ms-border-radius: 5px;
-  -o-border-radius: 5px;
-  border-radius: 5px;
+  -webkit-box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+  -ms-box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+  -o-box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+  -webkit-border-radius: 1rem;
+  -moz-border-radius: 1rem;
+  -ms-border-radius: 1rem;
+  -o-border-radius: 1rem;
+  border-radius: 1rem;
   overflow: hidden; }
   .ntc-box .nt-bx-head, .ntc-box .nt-bx-body, .ntc-box .nt-bx-footer {
     padding: .75rem 1rem;
@@ -809,6 +818,100 @@ body.tm-sl-page {
     margin-top: .75rem; }
 .faq-row + .faq-row {
   margin-top: 2rem; }
+
+.so-panel-section {
+  background-image: url("../images/bg-331020457.jpg") !important;
+  border-bottom: 2px solid #dedede; }
+
+.srvc-row {
+  position: relative;
+  margin-top: 2rem;
+  -webkit-border-radius: 1rem;
+  -moz-border-radius: 1rem;
+  -ms-border-radius: 1rem;
+  -o-border-radius: 1rem;
+  border-radius: 1rem;
+  -webkit-box-shadow: 2px 2px 6px 0 rgba(0, 0, 0, 0.16);
+  -moz-box-shadow: 2px 2px 6px 0 rgba(0, 0, 0, 0.16);
+  -ms-box-shadow: 2px 2px 6px 0 rgba(0, 0, 0, 0.16);
+  -o-box-shadow: 2px 2px 6px 0 rgba(0, 0, 0, 0.16);
+  box-shadow: 2px 2px 6px 0 rgba(0, 0, 0, 0.16);
+  border: solid 2px #2593f2;
+  background-color: #ffffff;
+  height: 7rem;
+  padding-left: 10rem;
+  align-items: center !important;
+  display: flex;
+  flex-wrap: wrap; }
+  .srvc-row:before, .srvc-row:after {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 7rem;
+    height: 7rem;
+    -webkit-border-radius: 1rem 0 0 1rem;
+    -moz-border-radius: 1rem 0 0 1rem;
+    -ms-border-radius: 1rem 0 0 1rem;
+    -o-border-radius: 1rem 0 0 1rem;
+    border-radius: 1rem 0 0 1rem; }
+  .srvc-row:before {
+    background: #2593f2;
+    z-index: 8; }
+  .srvc-row:after {
+    background: no-repeat center center;
+    z-index: 10; }
+  .srvc-row .srvc-title {
+    margin-top: auto;
+    margin-bottom: auto;
+    font-weight: bold; }
+  .srvc-row.srvc-dec-us:after {
+    background-image: url("../images/ico-declaration.svg") !important; }
+
+.tm-ord-bx .nt-bx-head {
+  background: #2593f2;
+  text-align: left; }
+  .tm-ord-bx .nt-bx-head h2 {
+    text-align: left; }
+
+.cst-list .cst-itm {
+  position: relative;
+  padding: .5rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between !important;
+  align-items: center !important; }
+  .cst-list .cst-itm span {
+    flex: 0 0 auto;
+    width: auto;
+    max-width: 100%; }
+    .cst-list .cst-itm span.cst-value {
+      text-align: right; }
+  .cst-list .cst-itm + .cst-itm {
+    border-top: 1px solid #dedede; }
+  .cst-list .cst-itm.cst-item-ttl {
+    font-weight: bold; }
+
+.cc-form-wrap {
+  position: relative; }
+  .cc-form-wrap .cc-form {
+    position: relative;
+    border-radius: 1rem;
+    -webkit-box-shadow: 3px 3px 10px 0 rgba(0, 0, 0, 0.16);
+    -moz-box-shadow: 3px 3px 10px 0 rgba(0, 0, 0, 0.16);
+    -ms-box-shadow: 3px 3px 10px 0 rgba(0, 0, 0, 0.16);
+    -o-box-shadow: 3px 3px 10px 0 rgba(0, 0, 0, 0.16);
+    box-shadow: 3px 3px 10px 0 rgba(0, 0, 0, 0.16);
+    border: solid 2px #2593f2;
+    background-color: #ffffff;
+    padding: 2rem;
+    overflow: hidden; }
+    .cc-form-wrap .cc-form .form-group + .form-group {
+      margin-top: 1rem; }
+
+.form-field-inner {
+  position: relative; }
 
 @media only screen and (max-width: 1199px) and (min-width: 1024px) {
   html {

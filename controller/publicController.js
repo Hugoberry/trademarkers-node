@@ -367,18 +367,34 @@ exports.codeLanding = async function(req, res, next) {
 
   let countries = await rpoCountries.getAll();
   let classes = await rpoClasses.getAll();
-  let action = await rpoAction.getAction(code);
+  let actions = await rpoAction.getAction(code);
+  let action = actions[0] ? actions[0] : null;
 
   let title = "";
   let classArr = [];
   let render = 'trademark-order/register';
 
-  if ( action[0] && action[0].case ) {
-    classArr = action[0].case.nice.split(',').map(s => s.trim());
+
+
+  if ( action && action.case ) {
+    classArr = action.case.nice.split(',').map(s => s.trim());
   }
 
-  if ( action[0] && action[0].trademark ) {
-    classArr = action[0].trademark.classes.split(',').map(s => s.trim());
+  if ( action && action.trademark ) {
+    classArr = action.trademark.classes.split(',').map(s => s.trim());
+  }
+
+  // check if has action
+  //  or action is a serial number
+  if ( !action || !action.actionType) {
+    // empty action and search if there is a matching serial number
+    action = null;
+    casesMysql = await rpoTrademarks.fetchTmBySerial(code)
+    trademarkMysql = await rpoTrademarks.fetchTmByMark(casesMysql[0].trademark)
+    console.log('serial', trademarkMysql);
+
+  } else {
+    action = actions[0];
   }
 
   // console.log(action[0].case.nice);
@@ -414,7 +430,7 @@ exports.codeLanding = async function(req, res, next) {
     break;
 
     default:
-      // res.redirect('/');
+      res.redirect('/');
     break;
   }
 
@@ -423,7 +439,7 @@ exports.codeLanding = async function(req, res, next) {
     title   : title,
     countries: countries,
     classes: classes,
-    action : action[0],
+    action : action,
     classArr: classArr
   });
 
@@ -488,7 +504,7 @@ exports.souResponse = async function(req, res, next) {
 
 exports.checkout = async function(req, res, next) {
 
-  const stripe = require('stripe')('sk_live_22xwrVdLHpDFZzJ0goISCycg003nAJraSf');
+  const stripe = require('stripe')(process.env.PAYTEST);
 
   // console.log(req.params);
   console.log(req.body);
