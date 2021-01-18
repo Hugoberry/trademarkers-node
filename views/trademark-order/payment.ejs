@@ -63,24 +63,42 @@
                     <% } %>
                   </div>
 
-                  <% if (action) { %>
+                  <% if (action) { 
+
+                    let qtyArr = action.trademark.classes.split(',')
+                    let qty = qtyArr.length, total = 0, price = 0;
+
+                    if (action.response == 'Statement of Use') {
+                      price = 150.00
+                      govFee = 100.00
+                    } else {
+                      price = 50.00
+                      govFee = 125.00
+                    }
+
+                    total = (price + govFee) * qty
+                  %>
                   <div class="col-xl-3 col-lg-4">
                     <div class="ntc-box tm-ord-bx">
-                        <div class="nt-bx-head"><h2 class="h6 mb-0"><strong>Trademark No.: 1431786</strong></h2></div>
+                        <div class="nt-bx-head"><h2 class="h6 mb-0"><strong>Trademark No.: <%= action.serialNumber %></strong></h2></div>
                         <div class="nt-bx-body">
                           <h5 class="h6"><strong>Summary of charges:</strong></h5>
                           <div class="cst-list">
                             <div class="cst-itm">
                               <span class="cst-label">Government fees:</span>
-                              <span class="cst-value">$143.00</span>
+                              <span class="cst-value">$<%= govFee %></span>
                             </div>
                             <div class="cst-itm">
                               <span class="cst-label">Our fees:</span>
-                              <span class="cst-value">$786.00</span>
+                              <span class="cst-value">$<%= price %></span>
+                            </div>
+                            <div class="cst-itm">
+                              <span class="cst-label">No. Class:</span>
+                              <span class="cst-value"><%= qty %></span>
                             </div>
                             <div class="cst-itm cst-item-ttl">
                               <span class="cst-label">Total:</span>
-                              <span class="cst-value">$143786.00</span>
+                              <span class="cst-value">$<%= total %></span>
                             </div>
                           </div>
                         </div>
@@ -126,7 +144,23 @@
             <div class="row justify-content-center">
               <div class="col-xl-6 col-lg-7 col-md-8 col-sm-9 col-12">
                 <div class="cc-form">
-                  <form class="cc-form-self" action="#">
+                  <% if (action) { %>
+                    <form class="cc-form-self" method="post" action="/checkout/<%= action.number %>">
+                  <% } else { %>
+                    <form class="cc-form-self" method="post" action="/checkout/form">
+                  <% } %>
+                  <div class="form-row">
+                    <label for="card-element">
+                      Credit or debit card
+                    </label>
+                    <div id="card-element">
+                      <!-- A Stripe Element will be inserted here. -->
+                    </div>
+                
+                    <!-- Used to display Element errors. -->
+                    <div id="card-errors" role="alert"></div>
+                  </div>
+                  
                       <div class="form-group">
                         <label for="NcEmail">Email:</label>
                         <div class="form-field">

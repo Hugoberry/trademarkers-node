@@ -1,10 +1,13 @@
+<% if (action && action.trademark) { %>
 <section class="tm-sl-head-section tm-sl-section qa-panel-section">
     <div class="container">
       <div class="row">
         <div class="col-12">
+          
             <div class="tm-sl-head">
               <div class="row">
                 <div class="col-xl-9 col-lg-8">
+                  
                   <h1 class="h1"><strong>IMPORTANT NOTICE:</strong></h1>
                   <h2 class="h4">STATEMENT OF USE DUE FOR YOUR TRADEMARK <%= action.trademark.name %></h2>
                   <p class="h6">A “Statement of Use” must be filed for your U.S. Trademark Application!</p> 
@@ -44,6 +47,7 @@
                 </div>
               </div>
             </div>
+            
         </div>
       </div>
     </div>
@@ -158,3 +162,14 @@
       </div>
     </div>
   </section>
+
+  <% } else { %>
+    <section class="tm-sl-section bg-white">
+      <div class="container">
+        <div class="faq-row">
+            <h2 class="h3">Sorry, no data found</h2>
+        </div>
+
+      </div>
+    </section>
+    <% } %>

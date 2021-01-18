@@ -389,9 +389,9 @@ exports.codeLanding = async function(req, res, next) {
   if ( !action || !action.actionType) {
     // empty action and search if there is a matching serial number
     action = null;
-    casesMysql = await rpoTrademarks.fetchTmBySerial(code)
-    trademarkMysql = await rpoTrademarks.fetchTmByMark(casesMysql[0].trademark)
-    console.log('serial', trademarkMysql);
+    // casesMysql = await rpoTrademarks.fetchTmBySerial(code)
+    // trademarkMysql = await rpoTrademarks.fetchTmByMark(casesMysql[0].trademark)
+    // console.log('serial', trademarkMysql);
 
   } else {
     action = actions[0];
@@ -507,7 +507,8 @@ exports.checkout = async function(req, res, next) {
   const stripe = require('stripe')(process.env.PAYTEST);
 
   // console.log(req.params);
-  console.log(req.body);
+  // console.log(process.env.PAYTEST);
+  // console.log(req.body);
 
 
   let action = await rpoAction.getAction(req.body.action);
@@ -532,7 +533,7 @@ exports.checkout = async function(req, res, next) {
 // console.log('price', price);
 
   // 
- 
+  try{
   const charge = await stripe.charges.create({
     amount: (price * 100),
     currency: 'usd',
@@ -556,13 +557,13 @@ exports.checkout = async function(req, res, next) {
     // return with error
   }
 
+} catch (err) {
+  console.log(err);
+}
+
   res.redirect("/"+req.body.action+'/pay'); 
 
-  // res.json({
-  //   status:true,
-  //   message:"Success",
-  //   charge: charge
-  // });
+
 
 }
 
