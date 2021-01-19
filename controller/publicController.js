@@ -5,6 +5,7 @@ var formidable = require('formidable');
 var fs = require('fs');
 var open = require('open');
 const jwt = require('jsonwebtoken');
+const stripe = require("stripe")(process.env.PAYTEST);
 
 var rpoContinents = require('../repositories/continents');
 var rpoCountries = require('../repositories/countries');
@@ -397,8 +398,7 @@ exports.codeLanding = async function(req, res, next) {
     action = actions[0];
   }
 
-  // console.log(action[0].case.nice);
-  // console.log(classArr);
+  let paymentIntent;
 
   switch(type){
     case 'trademark-registration' :
@@ -427,6 +427,11 @@ exports.codeLanding = async function(req, res, next) {
       title = "Payment Page"
       layout = 'layouts/public-layout-interactive'
       render = 'trademark-order/payment'
+
+      paymentIntent = await stripe.paymentIntents.create({
+        amount: 200,
+        currency: "usd"
+      });
     break;
 
     default:
@@ -440,7 +445,8 @@ exports.codeLanding = async function(req, res, next) {
     countries: countries,
     classes: classes,
     action : action,
-    classArr: classArr
+    classArr: classArr,
+    paymentIntent: paymentIntent
   });
 
   // res.send()
@@ -504,11 +510,11 @@ exports.souResponse = async function(req, res, next) {
 
 exports.checkout = async function(req, res, next) {
 
-  const stripe = require('stripe')(process.env.PAYTEST);
+  // const stripe = require('stripe')(process.env.PAYTEST);
 
   // console.log(req.params);
   // console.log(process.env.PAYTEST);
-  // console.log(req.body);
+  console.log('body',req.body);
 
 
   let action = await rpoAction.getAction(req.body.action);
@@ -516,7 +522,8 @@ exports.checkout = async function(req, res, next) {
   // compute price
   let price = 0;
   let description = "Trademarkers LLC Service";
-  let name = "";
+  let name = "", payment = "";
+  let customer = req.body.email ? req.body.email : "";
 // console.log('action', action);
   if ( action[0] && action[0].number) {
     price = await checkoutService.getPrice(req.body.action);
@@ -528,7 +535,7 @@ exports.checkout = async function(req, res, next) {
     price = req.body.price ? (req.body.price * 1) : 0;
     description = req.body.description ? req.body.description : "";
     name = req.body.name ? req.body.name : "";
-
+    payment = req.body.payment ? req.body.payment : "";
   }
 // console.log('price', price);
 
@@ -539,11 +546,13 @@ exports.checkout = async function(req, res, next) {
     currency: 'usd',
     source: req.body.stripeToken,
     description: description,
+    // customer: customer,
     metadata : {
-      'name': "" + name,
+      'name': "" + customer,
       'description': "" + description,
+      'paymentFor' : payment
     },
-    receipt_email: req.body.stripeEmail
+    receipt_email: customer
   });
 
   if ( charge.paid ) {
@@ -558,7 +567,9 @@ exports.checkout = async function(req, res, next) {
   }
 
 } catch (err) {
-  console.log(err);
+  res.flash('error', err.error);
+  console.log("errors",err);
+  console.log("errors message",err.message);
 }
 
   res.redirect("/"+req.body.action+'/pay'); 
