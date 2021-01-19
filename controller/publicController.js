@@ -390,9 +390,13 @@ exports.codeLanding = async function(req, res, next) {
   if ( !action || !action.actionType) {
     // empty action and search if there is a matching serial number
     action = null;
-    // casesMysql = await rpoTrademarks.fetchTmBySerial(code)
-    // trademarkMysql = await rpoTrademarks.fetchTmByMark(casesMysql[0].trademark)
-    // console.log('serial', trademarkMysql);
+    casesMysql = await rpoTrademarks.fetchTmBySerial(code)
+    if (casesMysql.length) {
+      trademarkMysql = await rpoTrademarks.fetchTmByMark(casesMysql[0].trademark)
+    }
+
+    
+    console.log('serial', trademarkMysql);
 
   } else {
     action = actions[0];
@@ -516,7 +520,7 @@ exports.checkout = async function(req, res, next) {
   // console.log(process.env.PAYTEST);
   console.log('body',req.body);
 
-
+  req.body.stripeEmail = req.body.email;
   let action = await rpoAction.getAction(req.body.action);
 
   // compute price
@@ -548,7 +552,7 @@ exports.checkout = async function(req, res, next) {
     description: description,
     // customer: customer,
     metadata : {
-      'name': "" + customer,
+      'customer': "" + customer,
       'description': "" + description,
       'paymentFor' : payment
     },
