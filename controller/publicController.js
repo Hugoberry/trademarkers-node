@@ -432,10 +432,6 @@ exports.codeLanding = async function(req, res, next) {
       layout = 'layouts/public-layout-interactive'
       render = 'trademark-order/payment'
 
-      paymentIntent = await stripe.paymentIntents.create({
-        amount: 200,
-        currency: "usd"
-      });
     break;
 
     default:
@@ -450,7 +446,7 @@ exports.codeLanding = async function(req, res, next) {
     classes: classes,
     action : action,
     classArr: classArr,
-    paymentIntent: paymentIntent
+    tkey: process.env.PAYK
   });
 
   // res.send()
