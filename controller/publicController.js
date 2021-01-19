@@ -20,6 +20,7 @@ var activityService = require('../services/activityLogService');
 var pdfService = require('../services/pdfService');
 var checkoutService = require('../services/checkoutService');
 var mailService = require('../services/mailerService');
+var usptoCrawlService = require('../services/scrapperService');
 
 
 var groupBy = function(xs, key) {
@@ -375,6 +376,8 @@ exports.codeLanding = async function(req, res, next) {
   let classArr = [];
   let render = 'trademark-order/register';
 
+  let casesMysql = null, trademarkMysql = null;
+
 
 
   if ( action && action.case ) {
@@ -390,19 +393,29 @@ exports.codeLanding = async function(req, res, next) {
   if ( !action || !action.actionType) {
     // empty action and search if there is a matching serial number
     action = null;
+    // let crawl = await usptoCrawlService.usptoCrawl('1999445')
     casesMysql = await rpoTrademarks.fetchTmBySerial(code)
+
+    console.log("casesMysql",casesMysql)
     if (casesMysql.length) {
-      trademarkMysql = await rpoTrademarks.fetchTmByMark(casesMysql[0].trademark)
+      trademarkMysql = await rpoTrademarks.fetchTmByMark(casesMysql[0].trademark);
+
+      if (trademarkMysql.length) {
+        action.serialNumber = code;
+        action.trademark = trademarkMysql[0]
+      }
+
+      
     }
 
     
-    console.log('serial', trademarkMysql);
+    // console.log('serial', trademarkMysql);
 
   } else {
     action = actions[0];
   }
 
-  let paymentIntent;
+  
 
   switch(type){
     case 'trademark-registration' :
