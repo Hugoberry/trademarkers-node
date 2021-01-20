@@ -304,6 +304,8 @@ exports.uploadSouSubmit = async function(req, res, next) {
         // console.log(user);
         console.log(trademarks);
 
+       
+
         
 
         let mailData = {
