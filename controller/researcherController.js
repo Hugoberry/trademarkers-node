@@ -302,7 +302,7 @@ exports.uploadSouSubmit = async function(req, res, next) {
         let trademarks = await rpoTrademark.fetchTmByOrder(orderId[1]);
 
         // console.log(user);
-        // console.log(trademarks);
+        console.log(trademarks);
 
         
 
@@ -337,7 +337,7 @@ exports.uploadSouSubmit = async function(req, res, next) {
       case 'AL':
         // STATEMENT OF USE
         console.log('sending');
-        mailService.sendSOU(mailData);
+        // mailService.sendSOU(mailData);
         
       break;
       case 'OA':
