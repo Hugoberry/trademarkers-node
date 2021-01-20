@@ -621,6 +621,10 @@ exports.checkout = async function(req, res, next) {
   });
 
   if ( charge.paid ) {
+
+    
+    action[0].ordered = 'yes'
+
     // save
     let orderCode = await orderService.createOrderCode();
 
@@ -659,6 +663,12 @@ exports.thankYou = async function(req, res, next) {
   console.log(req.params);
 
   let order = await rpoOrder.findOrderNumber(req.params.number)
+
+  // let actiondata = {
+  //   ordered: 'yes'
+  // }
+
+  // await rpoAction.updateDetails(order[0].action.number, actiondata)
 
   // if (order.length > 0) {
   //   order = order[0]
