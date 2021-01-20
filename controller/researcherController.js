@@ -296,7 +296,7 @@ exports.uploadSouSubmit = async function(req, res, next) {
         deadlineDate = deadlineDate.split('-');
         userId = userId.split('-');
         orderId = orderId.split('-');
-        // console.log(userId);
+        console.log(orderId);
 
         let user = await rpoUsersMysql.getUserByIdMysql((userId[1] * 1));
         let trademarks = await rpoTrademark.fetchTmByOrder(orderId[1]);
