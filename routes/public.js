@@ -28,6 +28,7 @@ router.get('/what-is-the-uniform-domain-name-dispute-resolution-policy', publicC
 
 router.post('/checkout/:action', publicController.checkout);
 
+router.get('/thank-you/:number', publicController.thankYou)
 
 router.get('/delivery-method/:trdId', publicController.deliveryMethod)
 router.get('/action/response/:action/:response', publicController.souResponse)
