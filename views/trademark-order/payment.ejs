@@ -39,9 +39,12 @@
                     if (action.response == 'Statement of Use') {
                       price = 150.00
                       govFee = 100.00
-                    } else {
+                    } else if (action.response == 'Extension for trademark allowance')  {
                       price = 50.00
                       govFee = 125.00
+                    } else {
+                      price = 80
+                      govFee = 0
                     }
 
                     total = (price + govFee) * qty
@@ -73,7 +76,7 @@
                     </div>
                   </div>
 
-                  <% } else {%>
+                  <% } else { %>
 
                     <h1 class="h1"><strong>Service Order</strong></h1>
 

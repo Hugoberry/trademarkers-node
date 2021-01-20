@@ -53,7 +53,7 @@
     <footer class="pg-footer">
       <div class="footer-copyright text-center">
         <div class="container">
-          <p>2020 Trademarkers LLC.</p>
+          <p><%= moment().format('Y') %> Trademarkers LLC</p>
         </div>
       </div>
     </footer>
@@ -95,26 +95,28 @@ $( document ).ready(function() {
     let action = $(this).attr('data-action');
     let response = $(this).attr('data-respond');
 
-    // alert(action);
-    // alert(response);
+    if (confirm("Are you sure?")) {
+      $.ajax({
+        url: "/action/response/"+action+"/"+response,
+        type:"GET",
+        dataType:"json",
+        data: {
+          action: action,
+          response: response
+        },
+        contentType: "application/json",
+        success: function( result ) {
+          // alert('Thanks for !');
 
-    $.ajax({
-      url: "/action/response/"+action+"/"+response,
-      type:"GET",
-      dataType:"json",
-      data: {
-        action: action,
-        response: response
-      },
-      contentType: "application/json",
-      success: function( result ) {
-        // alert('Thanks for !');
+          $(location).attr('href', '/')
+        }
+      }); 
 
-        $(location).attr('href', '/')
-      }
-    }); 
+    } 
 
-      return false;
+    
+
+    return false;
   });
 
 });

@@ -350,11 +350,22 @@ exports.uploadSouSubmit = async function(req, res, next) {
 
   // Use the mv() method to place the file somewhere on your server
   sampleFile.mv(uploadPath, function(err) {
-    if (err)
-      return res.status(500).send(err);
+    if (err) {
+      res.flash('error', 'Something went wrong!');
+      res.redirect('/researcher/sou-uploads');
+      // return res.status(500).send(err);
+    } else {
+      res.flash('success', 'File uploaded!');
+      res.redirect('/researcher/sou-uploads');
+      // res.send('File uploaded!');
 
-    res.send('File uploaded!');
+    }
+      
+
+    
   });
+
+
   
 }
 

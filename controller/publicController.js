@@ -391,7 +391,7 @@ exports.codeLanding = async function(req, res, next) {
   //  or action is a serial number
   if ( !action || !action.actionType) {
     // empty action and search if there is a matching serial number
-    action = null;
+    action = {};
     // let crawl = await usptoCrawlService.usptoCrawl('1999445')
     casesMysql = await rpoTrademarks.fetchTmBySerial(code)
 
@@ -404,11 +404,10 @@ exports.codeLanding = async function(req, res, next) {
         action.trademark = trademarkMysql[0]
       }
 
-      
+    } else {
+
     }
 
-    
-    // console.log('serial', trademarkMysql);
 
   } else {
     action = actions[0];
@@ -444,6 +443,21 @@ exports.codeLanding = async function(req, res, next) {
       layout = 'layouts/public-layout-interactive'
       render = 'trademark-order/payment'
 
+      // if ( code ) {
+      //   trademark = await rpoTrademarks.fetchTmById(code)
+
+      //   if (trademark) {
+      //     action = {};
+      //     action.serialNumber = code;
+      //     action.trademark = trademark[0]
+      //     action.actionType = "Certificate Delivery"
+      //     trademark = trademark[0]
+          
+      //   } else {
+      //     trademark = null
+      //   }
+      // }
+
     break;
 
     case 'delivery' :
@@ -458,13 +472,28 @@ exports.codeLanding = async function(req, res, next) {
         trademark = await rpoTrademarks.fetchTmById(code)
 
         if (trademark) {
-          // console.log(trademark[0]);
+          action = {};
+          action.serialNumber = code;
+          action.userId = trademark[0].user_id;
+          action.trademark = trademark[0]
+          action.actionType = "Certificate Delivery"
+          action.number = code
           trademark = trademark[0]
+
+          // save action if code does not exist
+          rpoAction.put(action);
+          
         } else {
           trademark = null
         }
       }
 
+    break;
+
+    case 'thankyou' :
+      title = "Thank You!"
+      layout = 'layouts/public-layout-interactive'
+      render = 'trademark-order/thankyou'
     break;
 
     default:
@@ -594,6 +623,7 @@ exports.checkout = async function(req, res, next) {
     mailService.sendOrderNotification(charge);
     res.flash('success', 'Payment Successful!');
     rpoCharge.put(charge)
+    res.redirect("/"+req.body.action+'/thankyou'); 
   } else {
     res.flash('error', 'Sorry!, Something went wrong, try again later.');
     

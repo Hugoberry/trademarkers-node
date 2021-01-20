@@ -1,0 +1,26 @@
+<div class="container">
+	<div class="row justify-content-center box-bg-container">
+		<div class="col-md-12 text-center" style="padding:10% 0">
+		
+			<h2><%= title %></h2>
+            
+            <!-- <p>Thank you for placing an order</p> -->
+            <% if (flash.success) { %>
+                <div class="alert alert-success" role="alert">
+                  <strong><%= flash.success %></strong>
+                </div>
+            <% } %>
+    
+            <% if (flash.error) { %>
+            <div class="alert alert-warning" role="alert">
+                <strong><%= flash.error %></strong>
+            </div>
+            <% } %>
+
+            
+			
+		</div>
+
+
+	</div>
+</div>
