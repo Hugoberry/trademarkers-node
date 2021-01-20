@@ -35,7 +35,7 @@
 
                         <h4>Deliver Via Fedex or Regular mail?</h4>
                         
-                        <form action="http://trademarkers.staging.test/service-order-form" method="post">
+                        <!-- <form action="http://trademarkers.staging.test/service-order-form" method="post">
                             <input type="hidden" name="word_mark" value="<%= trademark.name %>">
                             <input type="hidden" name="service" value="Fedex Delivery">
                             <input type="hidden" name="case_number" value="<%= trademark.case_number %>">
@@ -45,12 +45,17 @@
                             <input type="hidden" name="country" value="us">
                             <input type="hidden" name="action" value="add-cart">
                             <p class="text-center" style="padding-top:30px;">
-                                <a class="btn btn-primary btn-register" style="font-size: 18px;" href="/delivery-method/<%= trademark.id %>/regular">Regular Mail (Free)</a>
+                                
                                 <input type="submit" class="btn btn-primary btn-register" style="font-size: 18px;" Value="FedEx ($80)">
                             </p>
                             
-                        </form>
-
+                        </form> -->
+                        <br>
+                        <br>
+                        <a class="btn btn-primary btn-register" style="font-size: 18px;" href="/delivery-method/<%= trademark.id %>/regular">Regular Mail (Free)</a>
+                        <a class="btn btn-primary btn-register" style="font-size: 18px;" href="/delivery-method/<%= trademark.id %>/regular">FedEx ($80)</a>
+                        <br>
+                        <br>
                     <% } %>
 
                 

@@ -376,7 +376,7 @@ exports.codeLanding = async function(req, res, next) {
   let classArr = [];
   let render = 'trademark-order/register';
 
-  let casesMysql = null, trademarkMysql = null;
+  let casesMysql = null, trademarkMysql = null, trademark = null;
 
 
 
@@ -447,6 +447,27 @@ exports.codeLanding = async function(req, res, next) {
 
     break;
 
+    case 'delivery' :
+      title = "Trademark Certificate"
+      layout = 'layouts/public-layout-interactive'
+      render = 'trademark-order/delivery'
+
+      // let trdId = req.params.trdId;
+      // let trademark = null;
+
+      if ( code ) {
+        trademark = await rpoTrademarks.fetchTmById(code)
+
+        if (trademark) {
+          // console.log(trademark[0]);
+          trademark = trademark[0]
+        } else {
+          trademark = null
+        }
+      }
+
+    break;
+
     default:
       res.redirect('/');
     break;
@@ -459,7 +480,8 @@ exports.codeLanding = async function(req, res, next) {
     classes: classes,
     action : action,
     classArr: classArr,
-    tkey: process.env.PAYK
+    tkey: process.env.PAYK,
+    trademark: trademark
   });
 
   // res.send()
