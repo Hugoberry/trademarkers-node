@@ -371,7 +371,7 @@ exports.codeLanding = async function(req, res, next) {
   let actions = await rpoAction.getAction(code);
   let action = actions[0] ? actions[0] : null;
 
-  let title = "";
+  let title = "", layout = "layouts/public-layout-default";
   let classArr = [];
   let render = 'trademark-order/register';
 
