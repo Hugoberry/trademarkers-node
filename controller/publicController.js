@@ -20,7 +20,6 @@ var activityService = require('../services/activityLogService');
 var pdfService = require('../services/pdfService');
 var checkoutService = require('../services/checkoutService');
 var mailService = require('../services/mailerService');
-var usptoCrawlService = require('../services/scrapperService');
 
 
 var groupBy = function(xs, key) {
