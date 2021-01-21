@@ -16,13 +16,22 @@
                 </div>
                 <div class="col-xl-3 col-lg-4">
                   <div class="ntc-box">
-                      <div class="nt-bx-head"><h2 class="h6 mb-0"><strong>Important Legal Notice</strong></h2></div>
-                      <div class="nt-bx-body">
+                      <div class="nt-bx-head"><h2 class="h6 mb-0"><strong>Case Number: <%= action.number %></strong></h2></div>
+                      <div class="nt-bx-body text-center">
                         
-                        <p class="tm-appl-info">A “Statement of Use” must be filed for your U.S. Trademark Application! </p>
+                        <p class="tm-appl-info">Your trademark Application: <br> <strong><%= action.trademark.name %></strong></p>
+                        <p class="tm-appl-info">Filing date: <br> <strong><%= moment(action.trademark.filing_date).format('MMM D, YYYY') %></strong></p>
+                        <p class="tm-appl-info">Date of Office Action: <br> <strong><%= moment(action.dateIssue).format('MMM D, YYYY') %></strong></p>
                       </div>
-                      <div class="nt-bx-footer">
-                        <p class="dline text-center mb-0">Deadline: <span class="text-red dline-time"><%= moment(action.deadlineDate).format('MMM D, YYYY') %></span></p>
+                      <div class="nt-bx-footer text-center">
+                        <p class="dline mb-0" style="border: 3px solid #f00;padding: 10px;">
+                          Deadline for Response: 
+                          <span class="text-red dline-time "><%= moment(action.deadlineDate).format('MMM D, YYYY') %></span>
+                          <span class="text-red dline-time">(Non-extendable)</span>
+                        </p>
+                      
+                        <p class="tm-appl-info" style="margin-top:20px;margin-bottom:0px;">We need to receive your instructions no later than: <br> <strong><%= moment(action.deadlineDate).subtract(7, "days").format('MMM D, YYYY') %></strong></p>
+
                       </div>
                   </div>
                 </div>
