@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 var bcrypt = require('bcrypt');
 var rpoTask = require('../repositories/task');
-var rpoEvent = require('../repositories/events');
+var rpoEvent = require('../repositories/events'); 
 var rpoLead = require('../repositories/lead');
 var rpoUsers = require('../repositories/usersMongo');
 var rpoUsersMysql = require('../repositories/users');
@@ -296,14 +296,20 @@ exports.uploadSouSubmit = async function(req, res, next) {
         deadlineDate = deadlineDate.split('-');
         userId = userId.split('-');
         orderId = orderId.split('-');
-        // console.log(userId);
+        // console.log(orderId);
 
         let user = await rpoUsersMysql.getUserByIdMysql((userId[1] * 1));
-        let trademarks = await rpoTrademark.fetchTmByOrder(orderId[1]);
+        let trademarks = await rpoTrademark.fetchTmById(orderId[1]);
 
-        // console.log(user);
-        // console.log(trademarks);
+        
 
+        // if (!trademarks) {
+        //   trademarks = await rpoTrademark.fetchTmBySerial(serialNumber);
+        // }
+
+       
+        console.log("order_id",orderId[1]);
+        console.log('trademarks',trademarks);
         
 
         let mailData = {
