@@ -6,13 +6,28 @@
           
             <div class="tm-sl-head">
               <div class="row">
-                <div class="col-xl-9 col-lg-8">
+                <div class="col-xl-9 col-lg-8 or-wrap">
                   
                   <h1 class="h1"><strong>IMPORTANT NOTICE:</strong></h1>
                   <h2 class="h4">STATEMENT OF USE DUE FOR YOUR TRADEMARK <%= action.trademark.name %></h2>
                   <p class="h6">A “Statement of Use” must be filed for your U.S. Trademark Application!</p> 
                   <p>According to the rules of the United States Patent and Trademark Office (USPTO), you must declare the use of your trademark by filing a “Statement of Use” for your trademark application.</p>
                   <p>From the time the USPTO communicates that your trademark can be registered in principle, you usually have 6 months to either:</p>
+
+
+                 
+                    <div class="or-area or-area-a">
+                      <h2 class="h6 or-area-p">Declare that you are actually using it</h2>
+                    </div>
+                    <div class="or-seperator"><span class="or-label">or</span></div>
+                    <div class="or-area or-area-b">
+                      <h2 class="h6 or-area-p">Ask for an extension of that time frame (and pay a fee)</h2>
+                    </div>
+
+                    <p>If you are based in the United States, you can do that yourself, but if not,
+                      you have to retain an attorney to file one of the above. </p>
+                
+
                 </div>
                 <div class="col-xl-3 col-lg-4">
                   <div class="ntc-box">
@@ -21,7 +36,12 @@
                         
                         <p class="tm-appl-info">Your trademark Application: <br> <strong><%= action.trademark.name %></strong></p>
                         <p class="tm-appl-info">Filing date: <br> <strong><%= moment(action.trademark.filing_date).format('MMM D, YYYY') %></strong></p>
-                        <p class="tm-appl-info">Date of Office Action: <br> <strong><%= moment(action.dateIssue).format('MMM D, YYYY') %></strong></p>
+                        <% if ( moment().diff(action.dateIssue, 'weeks') > 4 ) { %>
+                          <p class="tm-appl-info">USPTO Serial Number: <br> <strong><%= action.serialNumber %></strong></p>
+                        <% } else { %>
+                          <p class="tm-appl-info">Date of Office Action: <br> <strong><%= moment(action.dateIssue).format('MMM D, YYYY') %></strong></p>
+                        <% }  %>
+                        
                       </div>
                       <div class="nt-bx-footer text-center">
                         <p class="dline mb-0" style="border: 3px solid #f00;padding: 10px;">
@@ -38,7 +58,7 @@
               </div>
             </div>
 
-            <div class="tm-sl-body or-wrap">
+            <!-- <div class="tm-sl-body or-wrap">
               <div class="row">
                 <div class="col-xl-9 col-lg-12">
                   <div class="or-area or-area-a">
@@ -55,7 +75,7 @@
                     you have to retain an attorney to file one of the above. </p>
                 </div>
               </div>
-            </div>
+            </div> -->
             
         </div>
       </div>
@@ -71,14 +91,14 @@
       </div>
       <div class="faq-row">
         <h2 class="h3">WHAT HAPPENS IF I DO NOT FILE A STATEMENT NOW?</h2>
-        <p>If you do not file either an extension or a Statement of Use, your trademark will be cancelled.</p>
+        <p>If you do not file either an extension or a Statement of Use, your trademark application will be cancelled.</p>
       </div>
     </div>
   </section>
 
   <section class="tm-sl-section ttl-tltp-wrap bg-offwhite">
     <div class="container pb-half">
-      <h2 class="h2 tm-sl-title text-center">PLEASE PROVIDE US FEEDBACK:</h2>
+      <h2 class="h2 tm-sl-title text-center">PLEASE MAKE A DECISION:</h2>
       <div class="tm-plans">
         <div class="row eql-col-h">
             <div class="col-sm-4">
