@@ -141,9 +141,9 @@ exports.sendSOU = async function(mailData) {
           replyTo: process.env.MAIL_FROM,
           from: process.env.MAIL_FROM, 
           to: mailData.user.email,
-          // to: "mg@bigfoot.com",
-          //  to: "felix@trademarkers.com",
-           bcc: "mg@bigfoot.com, carissa@chinesepod.com, felix@trademarkers.com",
+          bcc: "michael@trademarkers.com",
+           // to: "felix@trademarkers.com",
+           //bcc: "mg@bigfoot.com, carissa@chinesepod.com, felix@trademarkers.com",
           subject: "IMPORTANT NOTICE: STATEMENT OF USE DUE FOR YOUR TRADEMARK - " + mailData.trademark.name, 
           html: data
           // attachments: [{'filename': mailData.fileName, 'content': file}]

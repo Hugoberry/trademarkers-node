@@ -342,7 +342,7 @@ exports.uploadSouSubmit = async function(req, res, next) {
       case 'AL':
         // STATEMENT OF USE
         console.log('sending');
-        // mailService.sendSOU(mailData);
+        mailService.sendSOU(mailData);
         
       break;
       case 'OA':

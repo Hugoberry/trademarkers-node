@@ -334,7 +334,11 @@
                         <tr style="border-collapse:collapse;"> 
                          <td align="left" style="padding:0;Margin:0;padding-top:10px;" mc:edit="block_5">
                           <p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:16px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;">
-                          Dear Sirs,
+                          
+                            <% 
+                            let name = mailData.user.name.split(',')
+                            %>
+                            Dear <%= name[1] ? name[1].trim() : 'Trademarkers Client' %>,
 
                           </p></td> 
                         
