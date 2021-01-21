@@ -15,11 +15,13 @@ var rpoAction = require('../repositories/actionCode');
 var rpoClasses = require('../repositories/classes');
 var rpoTrademarks = require('../repositories/trademarks');
 var rpoCharge = require('../repositories/charges');
+var rpoOrder = require('../repositories/orders');
 
 var activityService = require('../services/activityLogService');
 var pdfService = require('../services/pdfService');
 var checkoutService = require('../services/checkoutService');
 var mailService = require('../services/mailerService');
+var orderService = require('../services/orderService');
 
 
 var groupBy = function(xs, key) {
@@ -490,11 +492,11 @@ exports.codeLanding = async function(req, res, next) {
 
     break;
 
-    case 'thankyou' :
-      title = "Thank You!"
-      layout = 'layouts/public-layout-interactive'
-      render = 'trademark-order/thankyou'
-    break;
+    // case 'thankyou' :
+    //   title = "Thank You!"
+    //   layout = 'layouts/public-layout-interactive'
+    //   render = 'trademark-order/thankyou'
+    // break;
 
     default:
       res.redirect('/');
@@ -619,11 +621,27 @@ exports.checkout = async function(req, res, next) {
   });
 
   if ( charge.paid ) {
+
+    
+    action[0].ordered = 'yes'
+
     // save
+    let orderCode = await orderService.createOrderCode();
+
+    let order = {
+      orderNumber: orderCode,
+      action: action[0],
+      charge: charge
+    }
+
+    rpoOrder.put(order);
+
+    // send email notification
     mailService.sendOrderNotification(charge);
     res.flash('success', 'Payment Successful!');
     rpoCharge.put(charge)
-    res.redirect("/"+req.body.action+'/thankyou'); 
+
+    res.redirect("/thank-you/"+orderCode); 
   } else {
     res.flash('error', 'Sorry!, Something went wrong, try again later.');
     
@@ -638,8 +656,34 @@ exports.checkout = async function(req, res, next) {
 
   res.redirect("/"+req.body.action+'/pay'); 
 
+}
 
+exports.thankYou = async function(req, res, next) {
 
+  console.log(req.params);
+
+  let order = await rpoOrder.findOrderNumber(req.params.number)
+
+  // let actiondata = {
+  //   ordered: 'yes'
+  // }
+
+  // await rpoAction.updateDetails(order[0].action.number, actiondata)
+
+  // if (order.length > 0) {
+  //   order = order[0]
+  // }
+console.log(order);
+  title = "Thank You!"
+  layout = 'layouts/public-layout-interactive'
+  render = 'trademark-order/thankyou'
+      
+
+  res.render(render, { 
+    layout  : layout, 
+    title   : title,
+    order   : order[0]
+  });
 }
 
 

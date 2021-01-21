@@ -1,23 +1,38 @@
 <div class="container">
 	<div class="row justify-content-center box-bg-container">
-		<div class="col-md-12 text-center" style="padding:10% 0">
+		<div class="col-md-12 text-center" style="padding:5% 0">
 		
-			<h2><%= title %></h2>
+			<h1 class="text-success">Thank you for your order!!</h1>
             
-            <!-- <p>Thank you for placing an order</p> -->
-            <% if (flash.success) { %>
-                <div class="alert alert-success" role="alert">
-                  <strong><%= flash.success %></strong>
-                </div>
-            <% } %>
-    
-            <% if (flash.error) { %>
-            <div class="alert alert-warning" role="alert">
-                <strong><%= flash.error %></strong>
-            </div>
-            <% } %>
 
-            
+            <% if (order) { %>
+                <% if (order.action.response == "Extension for trademark allowance") { %>
+                    <h3>SUBMISSION OF EXTENSION</h3>
+                    
+                    <p>Your order number is: <strong><%= order.orderNumber %></strong></p>
+
+                    <p><strong>This is what will happen next:</strong></p>
+                    <ul style="max-width: 600px;margin: auto;text-align:left">
+                    <li>The case will be assigned to one of our trademark attorneys licensed to represent you at the USPTO</li>
+                    <li>You will receive an email discussing the materials that the USPTO requires</li>
+                    <li>In the meantime, please prepare evidence of use – any photography, screen grabs of websites, printed catalogue samples etc.</li>
+                    </ul>
+                <% } else if (order.action.response == "Statement of Use") {%>
+                    <h3>SUBMISSION OF STATEMENT OF USE</h3>
+
+                    <p>Your order number is: <strong><%= order.orderNumber %></strong></p>
+
+                    <p><strong>This is what will happen next:</strong></p>
+                    <ul style="max-width: 600px;margin: auto;text-align:left">
+                    <li>One of our trademark attorneys licensed to represent you at the USPTO will file for the extension</li>
+                    <li>We will provide you with a confirmation of the filing and monitor the proper recording of your extension request</li>
+                    <li>Please note that even though your trademark is not registered yet, you can already use your application to file any opposition to trademarks that third parties file, and which are confusingly similar and/or infringe on your trademark application</li>
+                    </ul>
+                <% } %>
+            <% } else { %>
+no order
+                <% } %>
+
 			
 		</div>
 

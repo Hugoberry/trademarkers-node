@@ -35,7 +35,37 @@ module.exports = {
 		});
 	},
 
+	findOrderNumber : async function(number) {
+		return new Promise(function(resolve, reject) {
+
+			let query = { orderNumber: number };
+
+			let db = conn.getDb();
+			
+			db.collection(_table).find(query).toArray(function(err, result) {
+					
+				if (err) {
+					reject(err);
+				} else {
+					resolve(result);
+				}
+
+			});
+
+		});
+	},
+
 	putCart: function(data) {
+
+        conn.getDb().collection(_table).insertOne(data, 
+			function(err, res2) {
+				if (err) throw err;
+			}
+		);
+
+	},
+
+	put: function(data) {
 
         conn.getDb().collection(_table).insertOne(data, 
 			function(err, res2) {

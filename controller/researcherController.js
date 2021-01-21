@@ -301,11 +301,10 @@ exports.uploadSouSubmit = async function(req, res, next) {
         let user = await rpoUsersMysql.getUserByIdMysql((userId[1] * 1));
         let trademarks = await rpoTrademark.fetchTmById(orderId[1]);
 
-        
+        // console.log(user);
+        console.log(trademarks);
 
-        // if (!trademarks) {
-        //   trademarks = await rpoTrademark.fetchTmBySerial(serialNumber);
-        // }
+       
 
        
         console.log("order_id",orderId[1]);
@@ -343,7 +342,7 @@ exports.uploadSouSubmit = async function(req, res, next) {
       case 'AL':
         // STATEMENT OF USE
         console.log('sending');
-        mailService.sendSOU(mailData);
+        // mailService.sendSOU(mailData);
         
       break;
       case 'OA':
