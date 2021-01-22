@@ -379,6 +379,8 @@ exports.codeLanding = async function(req, res, next) {
 
   let casesMysql = null, trademarkMysql = null, trademark = null;
 
+  // ACTIVITY LOG
+  activityService.trackingEmailSOU(req.ip,action);
 
 
   if ( action && action.case ) {
@@ -444,22 +446,6 @@ exports.codeLanding = async function(req, res, next) {
       title = "Payment Page"
       layout = 'layouts/public-layout-interactive'
       render = 'trademark-order/payment'
-
-      // if ( code ) {
-      //   trademark = await rpoTrademarks.fetchTmById(code)
-
-      //   if (trademark) {
-      //     action = {};
-      //     action.serialNumber = code;
-      //     action.trademark = trademark[0]
-      //     action.actionType = "Certificate Delivery"
-      //     trademark = trademark[0]
-          
-      //   } else {
-      //     trademark = null
-      //   }
-      // }
-
     break;
 
     case 'delivery' :
@@ -497,6 +483,12 @@ exports.codeLanding = async function(req, res, next) {
     //   layout = 'layouts/public-layout-interactive'
     //   render = 'trademark-order/thankyou'
     // break;
+
+    case 'abandon' :
+      title = "Abandon Confirmation"
+      layout = 'layouts/public-layout-interactive'
+      render = 'trademark-order/abandon'
+    break;
 
     default:
       res.redirect('/');
@@ -551,6 +543,7 @@ exports.souResponse = async function(req, res, next) {
   // res.send('asdsad')
 
   let response = 1;
+  let name = req.query.decName ? req.query.decName : '';
 
   if (req.params.response == '1' ) {
     response = "Statement of Use";
@@ -563,6 +556,14 @@ exports.souResponse = async function(req, res, next) {
   let data = {
     response: response
   }
+
+  if ( name ) {
+    data.decName = name
+  }
+
+  // if ( name ) {
+  //   data.declinedName = name
+  // }
 
   await rpoAction.updateDetails(req.params.action, data)
 

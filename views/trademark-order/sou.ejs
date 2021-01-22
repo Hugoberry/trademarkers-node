@@ -183,7 +183,8 @@
                     If you want to handle the trademark yourself or appoint another attorney, please click here</p>
                 </div>
                 <div class="tm-plan-footer">
-                    <a href="#" data-action="<%= action._id %>" data-action-number="<%= action.number %>" data-respond="3" title="Decline" class="btn btn-red btn-form-update">Decline</a>
+                    <a href="/<%= action.number %>/abandon" class="btn btn-red btn-form-update">Decline</a>
+                    
                 </div>
               </div>
             </div>
@@ -193,12 +194,12 @@
   </section>
 
   <% } else { %>
-    <section class="tm-sl-section bg-white">
-      <div class="container">
-        <div class="faq-row">
-            <h2 class="h3">Sorry, no data found</h2>
-        </div>
-
+  <section class="tm-sl-section bg-white">
+    <div class="container">
+      <div class="faq-row">
+          <h2 class="h3">Sorry, no data found</h2>
       </div>
-    </section>
-    <% } %>
+
+    </div>
+  </section>
+  <% } %>

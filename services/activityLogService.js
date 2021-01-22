@@ -1,5 +1,6 @@
 let rpoActivity = require('../repositories/activityLog');
 let rpoEvent = require('../repositories/events');
+let rpoAction = require('../repositories/actionCode');
 
 let _variables = require('../config/variables');
 
@@ -78,29 +79,58 @@ exports.trackingEmail = async function(ip, data) {
             event[0].emailProspects.forEach(emails => {
                 if ( emails.email == data.related_data.email.email ) {
                     emails.click = data.redirect_to;
-
-                    // if (emails.tracking) {
-                    //     emails.tracking.forEach(track => {
-                    //         if ( track ) {
-                    //             // console.log(track);
-                    //             emails.tracking.push(track);
-                    //         }
-                    //     });
-                    // } else {
-                    //     emails.tracking = [{
-                    //         click: data.url,
-                    //         action_code: data.number,
-                    //         ip_address: ip,
-                    //         date: moment().toDate()
-                    //     }]
-                    // }
-
                 } 
                 act_data.emailProspects.push(emails);
             });
 
             // event.tracking.push(act_data);
             rpoEvent.updateDetails(data.related_data.event._id, act_data);
+        }
+    }
+
+    
+
+ 
+}
+
+
+exports.trackingEmailSOU = async function(ip, data) {
+  
+    // console.log(data);
+
+    if ( data ) {
+
+        // let action = r
+
+        if (ip.substr(0, 7) == "::ffff:") {
+            ip = ip.substr(7)
+        }
+    
+    
+        let geo = geoip.lookup(ip);
+
+        if ( !_variables.ipAddresses.includes(ip) ){
+          
+            // log here
+            let act_data = {
+                tracking: [{
+                    email: data.user.email,
+                    ip_address: ip,
+                    date: (moment().format('YYMMDD') * 1)
+                }]
+            }
+
+            if (data.tracking) {
+                data.tracking.forEach(track => {
+                    if ( track ) {
+                        // console.log(track);
+                        act_data.tracking.push(track);
+                    }
+                });
+            } 
+
+            await rpoAction.updateDetails(data._id, act_data)
+
         }
     }
 
