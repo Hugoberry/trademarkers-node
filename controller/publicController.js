@@ -205,9 +205,11 @@ exports.redirect = async function(req, res, next) {
   } else {
     activityService.logger(req.ip, req.originalUrl, "Visitor redirected to laravel: " + req.params[0]);
     let urlPhp = process.env.APP_URL_PHP;
+    
+    let redirectUrl = (req.params[0] ? req.params[0] : (req.params.action ? req.params.action : null));
 
-    if (req.params[0]) {
-      res.redirect(urlPhp + req.params[0]);
+    if (redirectUrl) {
+      res.redirect(urlPhp + "/" + redirectUrl);
 
     } else {
       res.redirect(urlPhp + '/home');
@@ -409,7 +411,7 @@ exports.codeLanding = async function(req, res, next) {
       }
 
     } else {
-
+      next()
     }
 
 
@@ -418,7 +420,7 @@ exports.codeLanding = async function(req, res, next) {
   }
 
   
-
+  if (type)
   switch(type){
     case 'trademark-registration' :
       title = "Trademark Registration"
