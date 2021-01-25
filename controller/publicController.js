@@ -38,6 +38,10 @@ exports.home = async function(req, res, next) {
 
     activityService.logger(req.ip, req.originalUrl, "Visited Homepage");
 
+    var getClientIp = req.headers['x-real-ip'] || req.connection.remoteAddress;
+
+  console.log('home fetch ip, ', getClientIp);
+  console.log('ips >>>> ', req.connection.remoteAddress)
     // let continentCountries=[];
     // let continentsMysql = await rpoContinents.getContinentsMysql();
     let continents = await rpoContinents.getContinents();
@@ -384,7 +388,8 @@ exports.codeLanding = async function(req, res, next) {
   // ACTIVITY LOG
   activityService.trackingEmailSOU(req.ip,action);
 
-
+  // let ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
+  // console.log('this ip>>>>>>',req.ip);
   if ( action && action.case ) {
     classArr = action.case.nice.split(',').map(s => s.trim());
   }

@@ -116,6 +116,9 @@ exports.trackingEmailSOU = async function(ip, data) {
                 tracking: [{
                     email: data.user.email,
                     ip_address: ip,
+                    country : geo.country,
+                    city    : geo.city,
+                    region  : geo.region,
                     date: (moment().format('YYMMDD') * 1)
                 }]
             }
