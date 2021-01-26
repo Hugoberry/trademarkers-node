@@ -183,9 +183,21 @@ exports.sendNOA = async function(mailData) {
   });
 
   // check dates to pass proper template
-  
+  let template = '';
+  // let moment().
 
-  ejs.renderFile(__dirname+"/../email-templates/uspto-sou.ejs", { mailData: mailData }, async function (err, data) {
+  if ( moment().diff(mailData.dateIssue, 'weeks') <= 3 ) {
+    template = 'noa-3weeks.ejs'
+  } else if ( moment().diff(mailData.dateIssue, 'weeks') >= 4 && moment().diff(mailData.dateIssue, 'weeks') < 12 ) {
+    template = 'noa-4weeks.ejs'
+  }
+
+  if ( moment().diff(mailData.deadlineDate, 'weeks') <= 8 ) {
+    template = 'noa-8weeks.ejs'
+  }
+
+  if (template) {
+  ejs.renderFile(__dirname+"/../email-templates/" + template, { mailData: mailData }, async function (err, data) {
     if (err) {
         console.log(err);
     } else {
@@ -193,9 +205,9 @@ exports.sendNOA = async function(mailData) {
           sender: process.env.MAIL_FROM,
           replyTo: process.env.MAIL_FROM,
           from: process.env.MAIL_FROM, 
-          to: mailData.user.email,
+          // to: mailData.user.email,
           // bcc: "michael@trademarkers.com",
-           bcc: "felix@trademarkers.com",
+           to: "felix@trademarkers.com",
            //bcc: "mg@bigfoot.com, carissa@chinesepod.com, felix@trademarkers.com",
           subject: "IMPORTANT NOTICE: STATEMENT OF USE DUE FOR YOUR TRADEMARK - " + mailData.trademark.name, 
           html: data
@@ -219,6 +231,7 @@ exports.sendNOA = async function(mailData) {
     }
     
   });
+  }
 
 
 }
