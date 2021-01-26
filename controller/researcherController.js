@@ -347,7 +347,7 @@ exports.uploadSouSubmit = async function(req, res, next) {
       break;
       case 'OA':
         console.log('sending');
-        // mailService.sendSOU(mailData);
+        mailService.sendNOA(mailData);
       break;
     }
   }

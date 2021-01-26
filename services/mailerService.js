@@ -171,6 +171,57 @@ exports.sendSOU = async function(mailData) {
 
 
 }
+
+exports.sendNOA = async function(mailData) {
+
+  let transporterMG = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.MAIL_USERNAME, 
+      pass: process.env.MAIL_PASSWORD
+    }
+  });
+
+  // check dates to pass proper template
+  
+
+  ejs.renderFile(__dirname+"/../email-templates/uspto-sou.ejs", { mailData: mailData }, async function (err, data) {
+    if (err) {
+        console.log(err);
+    } else {
+        let mainOptions = {
+          sender: process.env.MAIL_FROM,
+          replyTo: process.env.MAIL_FROM,
+          from: process.env.MAIL_FROM, 
+          to: mailData.user.email,
+          // bcc: "michael@trademarkers.com",
+           bcc: "felix@trademarkers.com",
+           //bcc: "mg@bigfoot.com, carissa@chinesepod.com, felix@trademarkers.com",
+          subject: "IMPORTANT NOTICE: STATEMENT OF USE DUE FOR YOUR TRADEMARK - " + mailData.trademark.name, 
+          html: data
+        };
+
+        transporterMG.sendMail(mainOptions, function (err, info) {
+          
+          let res;
+          
+          if (err) {
+            console.log(err);
+            res = err;
+          } else {
+            console.log(info);
+            res = info;
+
+          }
+
+        });
+       
+    }
+    
+  });
+
+
+}
  
 // order notification
 
