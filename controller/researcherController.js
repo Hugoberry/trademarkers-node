@@ -299,15 +299,15 @@ exports.uploadSouSubmit = async function(req, res, next) {
         // console.log(orderId);
 
         let user = await rpoUsersMysql.getUserByIdMysql((userId[1] * 1));
-        let trademarks = await rpoTrademark.fetchTmById(orderId[1]);
+        let trademarks = await rpoTrademark.fetchTmById(2210);
 
         // console.log(user);
-        console.log(trademarks);
+        // console.log(trademarks);
 
        
 
        
-        console.log("order_id",orderId[1]);
+        // console.log("order_id",orderId[1]);
         console.log('trademarks',trademarks);
         
 
@@ -337,16 +337,15 @@ exports.uploadSouSubmit = async function(req, res, next) {
     switch(type.trim()) {
       case 'AB':
         console.log('sending');
-        // mailService.sendSOU(mailData);
       break;
       case 'AL':
         // STATEMENT OF USE
-        console.log('sending');
+        console.log('sending sou');
         mailService.sendSOU(mailData);
         
       break;
       case 'OA':
-        console.log('sending');
+        console.log('sending OA');
         mailService.sendNOA(mailData);
       break;
     }

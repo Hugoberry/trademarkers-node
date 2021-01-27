@@ -1,0 +1,37 @@
+<html>
+  <head>
+    <title>Trademarkers Notification | IMPORTANT!! Please read carefully</title>
+  </head>
+  <body>
+<!-- IMPORTANT NOTICE HERE -->
+<p style="font-weight:600;font-size:16px">
++++ IMPORTANT!! Please read carefully +++<br>
++++ Non-response may result in loss of your trademark +++</p>
+
+<p>
+Dear <%= mailData.user.name ? mailData.user.name : 'Trademarkers Client' %>
+<br><br>
+
+We still have not received any response from you in regards to the “Notice of Allowance” that was issued on <%= mailData.dateFiledFormatted %>, and you only have a <%= mailData.numberOfWeeks %> weeks left to file the “Statement of Use” or get an extension. In case you do neither, your trademark application is regarded as abandoned, and your trademark protection will be cancelled.
+<br><br>
+In case you are unable to declare use right now, you can file for an extension and get another 6 months (but there are limits after that).
+<br><br>
+If you decide not to use the mark and want to abandon the entire process, please also let me know so we can close the file.
+<br><br>
+You can respond with the following link, which is self-explanatory: 
+<a href="https://www.trademarkers.com/<%= mailData.number %>/statement-of-use" target="_blank" >
+Review Options
+</a>
+
+<br><br>
+
+Best regards,
+<br><br>
+
+Michael<br>
+-------<br>
+Customer Service Specialist, Trademarkers LLC<br>
+www.trademarkers.com<br>
+</p>
+</body>
+</html>

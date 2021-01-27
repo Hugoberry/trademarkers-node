@@ -8,6 +8,8 @@ let rpoEvent = require('../repositories/events');
 
 let actionService = require('../services/actionService');
 
+let moment = require('moment');
+
 let transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -185,6 +187,8 @@ exports.sendNOA = async function(mailData) {
   // check dates to pass proper template
   let template = '';
   // let moment().
+  mailData.dateFiledFormatted = moment(mailData.dateIssue).format('MMM D, YYYY');
+  mailData.dateDeadFormatted = moment(mailData.deadlineDate).format('MMM D, YYYY');
 
   if ( moment().diff(mailData.dateIssue, 'weeks') <= 3 ) {
     template = 'noa-3weeks.ejs'
@@ -193,7 +197,16 @@ exports.sendNOA = async function(mailData) {
   }
 
   if ( moment().diff(mailData.deadlineDate, 'weeks') <= 8 ) {
-    template = 'noa-8weeks.ejs'
+    template = 'noa-8weeks-plain.ejs';
+
+    // add parameters for dates since moment is not define in email templates
+    
+    mailData.numberOfWeeks = moment().diff(mailData.deadlineDate, 'weeks');
+
+    if (mailData.numberOfWeeks < 0) {
+      mailData.numberOfWeeks = mailData.numberOfWeeks * -1;
+    }
+
   }
 
   if (template) {
