@@ -179,10 +179,12 @@ exports.sendNOA = async function(mailData) {
   let transporterMG = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: process.env.MAIL_USERNAME, 
-      pass: process.env.MAIL_PASSWORD
+      user: 'michael@trademarkers.com', 
+      pass: 'bigfoot1234'
     }
   });
+
+  let mailSender = 'Michael <michael@trademarkers.com>';
 
   // check dates to pass proper template
   let template = '';
@@ -215,9 +217,9 @@ exports.sendNOA = async function(mailData) {
         console.log(err);
     } else {
         let mainOptions = {
-          sender: process.env.MAIL_FROM,
-          replyTo: process.env.MAIL_FROM,
-          from: process.env.MAIL_FROM, 
+          sender: mailSender,
+          replyTo: mailSender,
+          from: mailSender, 
           // to: mailData.user.email,
           // bcc: "michael@trademarkers.com",
            to: "felix@trademarkers.com",
