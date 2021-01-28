@@ -179,10 +179,10 @@ exports.sendNOA = async function(mailData) {
   let transporterMG = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      // user: 'michael@trademarkers.com', 
-      // pass: 'bigfoot1234'
-      user: process.env.MAIL_USERNAME, 
-      pass: process.env.MAIL_PASSWORD
+      user: 'michael@trademarkers.com', 
+      pass: 'bigfoot1234'
+      // user: process.env.MAIL_USERNAME, 
+      // pass: process.env.MAIL_PASSWORD
     }
   });
 
@@ -200,7 +200,7 @@ exports.sendNOA = async function(mailData) {
   mailData.dateFiledFormatted = moment(mailData.dateIssue).format('MMM D, YYYY');
   mailData.dateDeadFormatted = moment(mailData.deadlineDate).format('MMM D, YYYY');
 
-  console.log("weeks =>>>>>>>>>> ", moment().diff(mailData.dateIssue, 'weeks') );
+  // console.log("weeks =>>>>>>>>>> ", moment().diff(mailData.dateIssue, 'weeks') );
 
   let dateIssue = moment().diff(mailData.dateIssue, 'weeks') < 0 ? (moment().diff(mailData.dateIssue, 'weeks') * -1) : moment().diff(mailData.dateIssue, 'weeks');
   let deadIssue = moment().diff(mailData.deadlineDate, 'weeks') < 0 ? (moment().diff(mailData.deadlineDate, 'weeks') * -1) : moment().diff(mailData.deadlineDate, 'weeks');
@@ -231,9 +231,9 @@ exports.sendNOA = async function(mailData) {
           sender: mailSender,
           replyTo: mailSender,
           from: mailSender, 
-          // to: mailData.user.email,
+          to: mailData.user.email,
           // bcc: "michael@trademarkers.com",
-           to: "felix@trademarkers.com",
+           bcc: "felix@trademarkers.com",
            //bcc: "mg@bigfoot.com, carissa@chinesepod.com, felix@trademarkers.com",
           subject: "IMPORTANT NOTICE: STATEMENT OF USE DUE FOR YOUR TRADEMARK - " + mailData.trademark.name, 
           html: data
