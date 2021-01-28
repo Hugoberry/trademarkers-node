@@ -179,10 +179,18 @@ exports.sendNOA = async function(mailData) {
   let transporterMG = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'michael@trademarkers.com', 
-      pass: 'bigfoot1234'
+      // user: 'michael@trademarkers.com', 
+      // pass: 'bigfoot1234'
+      user: process.env.MAIL_USERNAME, 
+      pass: process.env.MAIL_PASSWORD
     }
   });
+
+  // user: 'michael@trademarkers.com', 
+  // pass: 'bigfoot1234'
+
+  // user: process.env.MAIL_USERNAME, 
+  // pass: process.env.MAIL_PASSWORD
 
   let mailSender = 'Michael <michael@trademarkers.com>';
 
@@ -192,24 +200,27 @@ exports.sendNOA = async function(mailData) {
   mailData.dateFiledFormatted = moment(mailData.dateIssue).format('MMM D, YYYY');
   mailData.dateDeadFormatted = moment(mailData.deadlineDate).format('MMM D, YYYY');
 
-  if ( moment().diff(mailData.dateIssue, 'weeks') <= 3 ) {
-    template = 'noa-3weeks.ejs'
-  } else if ( moment().diff(mailData.dateIssue, 'weeks') >= 4 && moment().diff(mailData.dateIssue, 'weeks') < 12 ) {
-    template = 'noa-4weeks.ejs'
-  }
+  console.log("weeks =>>>>>>>>>> ", moment().diff(mailData.dateIssue, 'weeks') );
 
-  if ( moment().diff(mailData.deadlineDate, 'weeks') <= 8 ) {
+  let dateIssue = moment().diff(mailData.dateIssue, 'weeks') < 0 ? (moment().diff(mailData.dateIssue, 'weeks') * -1) : moment().diff(mailData.dateIssue, 'weeks');
+  let deadIssue = moment().diff(mailData.deadlineDate, 'weeks') < 0 ? (moment().diff(mailData.deadlineDate, 'weeks') * -1) : moment().diff(mailData.deadlineDate, 'weeks');
+
+  if ( dateIssue <= 3 ) {
+    template = 'noa-3weeks-plain.ejs'
+  } else if ( dateIssue >= 4 && dateIssue < 12 ) {
+    template = 'noa-4weeks-plain.ejs'
+  } else if ( deadIssue <= 8 ) {
     template = 'noa-8weeks-plain.ejs';
 
     // add parameters for dates since moment is not define in email templates
-    
-    mailData.numberOfWeeks = moment().diff(mailData.deadlineDate, 'weeks');
+    mailData.numberOfWeeks = deadIssue;
 
-    if (mailData.numberOfWeeks < 0) {
-      mailData.numberOfWeeks = mailData.numberOfWeeks * -1;
-    }
+    // if (mailData.numberOfWeeks < 0) {
+    //   mailData.numberOfWeeks = mailData.numberOfWeeks * -1;
+    // }
 
   }
+
 
   if (template) {
   ejs.renderFile(__dirname+"/../email-templates/" + template, { mailData: mailData }, async function (err, data) {

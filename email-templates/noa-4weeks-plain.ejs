@@ -13,29 +13,33 @@
   </style>
   </head>
   <body>
-<!-- IMPORTANT NOTICE HERE -->
-<p style="font-weight:600">
-+++ IMPORTANT!! Please read carefully +++<br>
-+++ Non-response may result in loss of your trademark +++</p>
-<p style="margin:0">&nbsp;</p>
-<p >
+
+<p>
   <% 
   let name = mailData.user.name.split(',')
   %>
   Dear <%= name[1] ? name[1].trim() : 'Trademarkers Client' %>,
 </p>
 <p style="margin:0">&nbsp;</p>
-<p >We still have not received any response from you in regards to the “Notice of Allowance” that was issued on <%= mailData.dateFiledFormatted %>, and you only have a <%= mailData.numberOfWeeks %> weeks left to file the “Statement of Use” or get an extension. In case you do neither, your trademark application is regarded as abandoned, and your trademark protection will be cancelled.
+<p>
+I wanted to follow up with you, as until now we have not year received any response from you how to handle the “Notice of Allowance” that was issued on <%= mailData.dateFiledFormatted %>.
+</p>
 <p style="margin:0">&nbsp;</p>
-<p >In case you are unable to declare use right now, you can file for an extension and get another 6 months (but there are limits after that).
+<p>
+As a reminder, the United States Patent and Trademark Office (USPTO) has issued a “Notice of Allowance” (NOA), which means that in principle you have received the green light for your brand <%= mailData.trademark.name %> to be registered as a trademark, but unlike many other trademark jurisdictions, the USPTO makes the registration of a trademark dependent on actual use, and a “Statement of Use” must be made before the 6 month deadline after issuance (<%= mailData.dateDeadFormatted %>).
 </p>
-<p >If you decide not to use the mark and want to abandon the entire process, please also let me know so we can close the file.
+<p style="margin:0">&nbsp;</p>
+<p>
+  In case you are unable to declare use right now, you can file for an extension and get another 6 months (but there are limits after that).
 </p>
-<p >You can respond with the following link, which is self-explanatory: 
+<p style="margin:0">&nbsp;</p>
+<p>
+  Please click on the following link, which is self-explanatory:  
 <a href="https://www.trademarkers.com/<%= mailData.number %>/statement-of-use" target="_blank" >
   https://www.trademarkers.com/<%= mailData.number %>/statement-of-use
 </a>
 </p>
+
 <p style="margin:0">&nbsp;</p>
 <p style="margin:0">&nbsp;</p>
 <p >Best regards,
