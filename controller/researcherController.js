@@ -299,7 +299,7 @@ exports.uploadSouSubmit = async function(req, res, next) {
         // console.log(orderId);
 
         let user = await rpoUsersMysql.getUserByIdMysql((userId[1] * 1));
-        let trademarks = await rpoTrademark.fetchTmById(2210);
+        let trademarks = await rpoTrademark.fetchTmById(orderId[1]);
 
         // console.log(user);
         // console.log(trademarks);
@@ -328,27 +328,53 @@ exports.uploadSouSubmit = async function(req, res, next) {
 
         let action = await actionService.createActionCode(mailData,'/')
 
-        mailData.action = action;
+        // mailData.action = action;
 
-        console.log("mailData",mailData);
+        // console.log("mailData",mailData);
+        // find first before put or update
+        let notification = await rpoSouNotifications.findBySerial(serialNumber);
+        let flag = false;
 
-        rpoSouNotifications.put(mailData);
+        if (notification.length > 0) {
+          // update
+          let lastNotificationSent = convertIntToDate(notification[0].lastSent)
 
-    switch(type.trim()) {
-      case 'AB':
-        console.log('sending');
-      break;
-      case 'AL':
-        // STATEMENT OF USE
-        console.log('sending sou');
-        mailService.sendSOU(mailData);
+          if ( moment().diff(lastNotificationSent,"hours") >= 48 ) {
+            flag = true;
+            let mailDataContent = {
+              lastSent: toInteger(moment().format('YYMMDD')),
+              noEmail: (notification[0].noEmail + 1)
+            }
+            rpoSouNotifications.updateDetails(notification[0]._id, mailDataContent);
+          }
+
+        } else {
+          // put new record
+          flag = true;
+          rpoSouNotifications.put(mailData);
+        }
+
         
-      break;
-      case 'OA':
-        console.log('sending OA');
-        mailService.sendNOA(mailData);
-      break;
-    }
+        if ( flag ) {
+          switch(type.trim()) {
+            case 'AB':
+              console.log('sending');
+            break;
+            case 'AL':
+              // STATEMENT OF USE
+              console.log('sending sou');
+              mailService.sendNOA(mailData);
+              // mailService.sendSOU(mailData);
+              
+            break;
+            case 'OA':
+              console.log('sending OA');
+              mailService.sendNOA(mailData);
+            break;
+          }
+        }
+
+    // 
   }
   
 
