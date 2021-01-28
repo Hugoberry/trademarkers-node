@@ -231,9 +231,9 @@ exports.sendNOA = async function(mailData) {
           sender: mailSender,
           replyTo: mailSender,
           from: mailSender, 
-          to: mailData.user.email,
+          // to: mailData.user.email,
           // bcc: "michael@trademarkers.com",
-           bcc: "felix@trademarkers.com",
+           to: "felix@trademarkers.com",
            //bcc: "mg@bigfoot.com, carissa@chinesepod.com, felix@trademarkers.com",
           subject: "IMPORTANT NOTICE: STATEMENT OF USE DUE FOR YOUR TRADEMARK - " + mailData.trademark.name, 
           html: data
