@@ -21,9 +21,9 @@ let transporter = nodemailer.createTransport({
 exports.contact = async function(data) {
 
   return await transporter.sendMail({
-  sender: 'Trademarkers LLC',
-  replyTo: process.env.MAIL_FROM,
-  from: process.env.MAIL_FROM, 
+  sender: data.name,
+  replyTo: data.email,
+  from: data.email, 
   to: process.env.MAIL_TO,
   subject: "New Contact from client | " + data.name, 
   html: `<p>Hi Admin,</p>

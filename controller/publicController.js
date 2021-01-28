@@ -23,6 +23,8 @@ var checkoutService = require('../services/checkoutService');
 var mailService = require('../services/mailerService');
 var orderService = require('../services/orderService');
 
+const emailValidator = require('deep-email-validator');
+
 
 var groupBy = function(xs, key) {
   return xs.reduce(function(rv, x) {
@@ -243,21 +245,31 @@ exports.submitContact = async function(req, res, next) {
   // filter body to avoid spam
   var urlRE= new RegExp("([a-zA-Z0-9]+://)?([a-zA-Z0-9_]+:[a-zA-Z0-9_]+@)?([a-zA-Z0-9.-]+\\.[A-Za-z]{2,4})(:[0-9]+)?([^ ])+");
   
-  if (req.body.message.match(urlRE)){
+
+
+  const {valid} = await isEmailValid(req.body.email);
+
+  let trap = req.body.email_confirm
+
+  console.log('values', req.body);
+
+  if ( trap || !req.body.message.trim() || req.body.message.match(urlRE) || !valid ){
     console.log('found!');
     res.flash('error', 'Sorry, something went wrong, try again later!');
     res.redirect("/contact");
     // return;
   } else {
 
-    let info = require('../services/mailerService');
-    let mailInfo = await info.contact(req.body);
+    // let info = require('../services/mailerService');
+    // let mailInfo = await info.contact(req.body);
 
-    if (mailInfo && mailInfo.accepted) {
-      res.flash('success', 'Your Inquiry has been sent!');
-    } else {
-      res.flash('error', 'Sorry, something went wrong, try again later!');
-    }
+    // if (mailInfo && mailInfo.accepted) {
+    //   res.flash('success', 'Your Inquiry has been sent!');
+    // } else {
+    //   res.flash('error', 'Sorry, something went wrong, try again later!');
+    // }
+
+    res.flash('success', 'NO!!!');
 
     res.redirect("/contact");
 
@@ -695,5 +707,11 @@ console.log(order);
 }
 
 
+
+
+// ======================================== function 
+async function isEmailValid(email) {
+  return emailValidator.validate(email)
+ }
 
 
