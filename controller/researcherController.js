@@ -308,7 +308,7 @@ exports.uploadSouSubmit = async function(req, res, next) {
 
        
         // console.log("order_id",orderId[1]);
-        console.log('trademarks',trademarks);
+        // console.log('trademarks',trademarks);
         
 
         let mailData = {
@@ -494,8 +494,14 @@ function validateHashUser(pass, obj, res){
 
 function convertIntToDate(idate) {
 
-  var s = idate+"";
-  return new Date('20' + s.substring(0, 2) + '-' + s.substring(2, 4) + '-' + s.substring(4));
+  let s = idate+"";
+
+  // check if 2020 or below 1999
+  let year = s.substring(0, 2) * 1;
+
+  year = year > 50 ? '19' : '20';
+
+  return new Date(year + s.substring(0, 2) + '-' + s.substring(2, 4) + '-' + s.substring(4));
   
 }
 

@@ -22,6 +22,7 @@ let variable = require('./config/variables');
 
 var cron = require('node-cron');
 var oppositionCronService = require('./services/oppositionCronService')
+var oaCronService = require('./services/oaCronService')
 
 
 
@@ -112,6 +113,10 @@ conn.connectToServer( function( err, client ) {
     // oppositionCronService.sendEvent();
     // console.log("trigger event mailer");
   });
+
+  // cron.schedule("0 0 0 */1 * *", () => {
+    // oaCronService.sendNOA();
+  // });
 
   // CRON JOB SCHEDULER << =========== 
 

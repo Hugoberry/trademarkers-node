@@ -202,26 +202,24 @@ exports.sendNOA = async function(mailData) {
   mailData.dateFiledFormatted = moment(mailData.dateIssue).format('MMM D, YYYY');
   mailData.dateDeadFormatted = moment(mailData.deadlineDate).format('MMM D, YYYY');
 
-  // console.log("weeks =>>>>>>>>>> ", moment().diff(mailData.dateIssue, 'weeks') );
+  console.log("weeks issue =>>>>>>>>>> ", mailData.dateIssue, moment().diff(mailData.dateIssue, 'weeks') );
+  console.log("weeks dead =>>>>>>>>>> ", mailData.deadlineDate, moment().diff(mailData.deadlineDate, 'weeks') );
 
-  let dateIssue = moment().diff(mailData.dateIssue, 'weeks') < 0 ? (moment().diff(mailData.dateIssue, 'weeks') * -1) : moment().diff(mailData.dateIssue, 'weeks');
-  let deadIssue = moment().diff(mailData.deadlineDate, 'weeks') < 0 ? (moment().diff(mailData.deadlineDate, 'weeks') * -1) : moment().diff(mailData.deadlineDate, 'weeks');
+  let dateIssue = moment().diff(mailData.dateIssue, 'weeks')
+  let deadIssue = moment().diff(mailData.deadlineDate, 'weeks')
 
   if ( dateIssue <= 3 ) {
     template = 'noa-3weeks-plain.ejs'
   } else if ( dateIssue >= 4 && dateIssue < 12 ) {
     template = 'noa-4weeks-plain.ejs'
-  } else if ( deadIssue <= 8 ) {
+  } else if ( deadIssue >= -8 && deadIssue < 0 ) {
+  // } else {
     template = 'noa-8weeks-plain.ejs';
 
-    // add parameters for dates since moment is not define in email templates
     mailData.numberOfWeeks = deadIssue;
 
-    // if (mailData.numberOfWeeks < 0) {
-    //   mailData.numberOfWeeks = mailData.numberOfWeeks * -1;
-    // }
-
   }
+  console.log("template", template);
 
 
   if (template) {
@@ -233,9 +231,9 @@ exports.sendNOA = async function(mailData) {
           sender: mailSender,
           replyTo: mailSender,
           from: mailSender, 
-          to: mailData.user.email,
+          // to: mailData.user.email,
           // bcc: "michael@trademarkers.com",
-           bcc: "felix@trademarkers.com",
+           to: "felix@trademarkers.com",
            //bcc: "mg@bigfoot.com, carissa@chinesepod.com, felix@trademarkers.com",
           subject: "IMPORTANT NOTICE: Statement of use for your trademark - " + mailData.trademark.name, 
           html: data

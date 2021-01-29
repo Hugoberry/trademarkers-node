@@ -124,7 +124,9 @@ exports.contact = function(req, res, next) {
 
   activityService.logger(req.ip, req.originalUrl, "Visited Contact Page");
 
-  res.render('public/contact', { layout: 'layouts/public-layout-default', title: 'contact' });
+  res.redirect("/");
+
+  // res.render('public/contact', { layout: 'layouts/public-layout-default', title: 'contact' });
 }
 
 exports.classes = function(req, res, next) {
