@@ -647,6 +647,13 @@ exports.checkout = async function(req, res, next) {
     
     action[0].ordered = 'yes'
 
+    // update action
+    let actionUpdates = {
+      ordered: 'yes'
+    }
+
+    await rpoAction.updateDetails(action[0]._id, actionUpdates)
+
     // save
     let orderCode = await orderService.createOrderCode();
 
@@ -661,7 +668,10 @@ exports.checkout = async function(req, res, next) {
     // send email notification
     mailService.sendOrderNotification(charge);
     res.flash('success', 'Payment Successful!');
-    rpoCharge.put(charge)
+    rpoCharge.put(charge);
+
+    
+
 
     res.redirect("/thank-you/"+orderCode); 
   } else {

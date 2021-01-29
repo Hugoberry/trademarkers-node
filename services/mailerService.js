@@ -219,6 +219,10 @@ exports.sendNOA = async function(mailData) {
     mailData.numberOfWeeks = deadIssue;
 
   }
+
+  if ( !template && deadIssue < 0 ) {
+    template = 'noa-8weeks-plain.ejs';
+  }
   console.log("template", template);
 
 
