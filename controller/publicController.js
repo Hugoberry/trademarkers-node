@@ -251,9 +251,9 @@ exports.submitContact = async function(req, res, next) {
 
   let trap = req.body.email_confirm
 
-  console.log('values', req.body);
+  let noWords = req.body.message.split(" ");
 
-  if ( trap || !req.body.message.trim() || req.body.message.match(urlRE) || !valid ){
+  if ( trap || !req.body.message.trim() || req.body.message.match(urlRE) || !valid || noWords.length < 5 ){
     console.log('found!');
     res.flash('error', 'Sorry, something went wrong, try again later!');
     res.redirect("/contact");
@@ -261,15 +261,15 @@ exports.submitContact = async function(req, res, next) {
   } else {
 
     let info = require('../services/mailerService');
-    let mailInfo = await info.contact(req.body);
+    // let mailInfo = await info.contact(req.body);
 
-    if (mailInfo && mailInfo.accepted) {
-      res.flash('success', 'Your Inquiry has been sent!');
-    } else {
-      res.flash('error', 'Sorry, something went wrong, try again later!');
-    }
+    // if (mailInfo && mailInfo.accepted) {
+    //   res.flash('success', 'Your Inquiry has been sent!');
+    // } else {
+    //   res.flash('error', 'Sorry, something went wrong, try again later!');
+    // }
 
-    // res.flash('success', 'NO!!!');
+    res.flash('success', 'NO!!!');
 
     res.redirect("/contact");
 
