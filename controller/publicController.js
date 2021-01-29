@@ -261,15 +261,15 @@ exports.submitContact = async function(req, res, next) {
   } else {
 
     let info = require('../services/mailerService');
-    // let mailInfo = await info.contact(req.body);
+    let mailInfo = await info.contact(req.body);
 
-    // if (mailInfo && mailInfo.accepted) {
-    //   res.flash('success', 'Your Inquiry has been sent!');
-    // } else {
-    //   res.flash('error', 'Sorry, something went wrong, try again later!');
-    // }
+    if (mailInfo && mailInfo.accepted) {
+      res.flash('success', 'Your Inquiry has been sent!');
+    } else {
+      res.flash('error', 'Sorry, something went wrong, try again later!');
+    }
 
-    res.flash('success', 'NO!!!');
+    // res.flash('success', 'NO!!!');
 
     res.redirect("/contact");
 
