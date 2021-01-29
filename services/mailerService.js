@@ -28,8 +28,10 @@ exports.contact = async function(data) {
   subject: "New Contact from client | " + data.name, 
   html: `<p>Hi Admin,</p>
           <p>New Contact Us Inquiry:</p>
-          <p>From: ${data.email}<br>
+          <p>Name: ${data.name}<br>
+          From: ${data.email}<br>
           Phone: ${data.phone}<br>
+          Inquiry Type: ${data.inquiry}<br>
           Message: ${data.message}</p>
       `, 
   });

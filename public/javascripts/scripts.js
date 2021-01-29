@@ -32,10 +32,7 @@ $( document ).ready(function() {
       return false;
   });
 
-  $("#contact-form").submit(function(){
-    // add loader and disable button
-    $("#contact-btn-submit").prop('disabled', false);
-  });
+  
 
   $(document).on('click','#continentsToggle li',function(e) {
     // alert($(this).attr('data-abbr'));
@@ -103,7 +100,22 @@ $( document ).ready(function() {
   }
 
 
+  if ( $("#contact-form").length ) {
 
+    $("#contact-form").submit(function(){
+      // add loader and disable button
+      $("#contact-btn-submit").hide('slow')
+      $("#contact-btn-submit").prop('disabled', false);
+    });
+
+    $("#inquiry").change(function(){
+      let message = $(this).val()
+      // alert(message);
+      if (message) 
+      $("#messageContainer").html(`<textarea class="form-control" value="" rows="7" name="message" placeholder="Inquiry for ${message}" required></textarea>`);
+
+    });
+  }
 
 
 
@@ -111,55 +123,55 @@ $( document ).ready(function() {
 //  functions below
 // =====================================================
 
-function listPopulate()
-    {
-      var class_description = null;
-        let liHeadDisplay='<thead><tr><td> <b>Class Number</b></td><td> <b>Description</b></td><td class="text-center"> <b>Action</b></td></tr></thead>';
-        let liDisplay='';
-        $('input:checkbox.class_chk').each(function () {
-            var sThisVal = (this.checked ? $(this).val() : "");
-            // console.log(sThisVal);
+function listPopulate() {
 
-            if ( sThisVal ) {
-                
-                console.log(sThisVal);
-                let classNumber = sThisVal.replace("class","");
+  var class_description = null;
+    let liHeadDisplay='<thead><tr><td> <b>Class Number</b></td><td> <b>Description</b></td><td class="text-center"> <b>Action</b></td></tr></thead>';
+    let liDisplay='';
+    $('input:checkbox.class_chk').each(function () {
+        var sThisVal = (this.checked ? $(this).val() : "");
+        // console.log(sThisVal);
 
-                let description_input = '<input id="class7" type="text" class="form-control" name="description[]" placeholder="Enter Goods/Services on this trademark" data-id="'+classNumber+'">';
+        if ( sThisVal ) {
+            
+            console.log(sThisVal);
+            let classNumber = sThisVal.replace("class","");
 
-                liDisplay += "<tr>" + 
-                                "<td>" + classNumber + "</td>" +
-                                "<td>" + (class_description ? class_description[classNumber] : description_input )+ "</td>" +
-                                "<td class='text-center'> <i data-class-number='" +classNumber+"' class='fa fa-trash btnRemoveClass'></i>" + "</td>" +
+            let description_input = '<input id="class7" type="text" class="form-control" name="description[]" placeholder="Enter Goods/Services on this trademark" data-id="'+classNumber+'">';
 
-                              "</tr>";
+            liDisplay += "<tr>" + 
+                            "<td>" + classNumber + "</td>" +
+                            "<td>" + (class_description ? class_description[classNumber] : description_input )+ "</td>" +
+                            "<td class='text-center'> <i data-class-number='" +classNumber+"' class='fa fa-trash btnRemoveClass'></i>" + "</td>" +
 
-                              
+                          "</tr>";
 
-                
-            }
+                          
 
-       });
-       $("#listClasses").html(liHeadDisplay);
-       $("#listClasses").append(liDisplay ? liDisplay : "<tr><td colspan='3' class=''>No selected class. Please select class below.</td></tr>");
-
-       let hasCampaign = $(".hasCampaign").attr('data-hasCampaign');
-       let isPriority = $("#priority").attr('data-isPriority');
-
-       if (hasCampaign) {
-            $("#filed").val('yes');
-            $("#filed").trigger('change');
-       }
-
-       if (isPriority) {
-            $("#priority").val('yes');
-            $("#priority").trigger('change');
-
-            $("#date").val($("#date").attr('data-case-value'));
-            $("#tm").val($("#tm").attr('data-case-value'));
+            
         }
 
+    });
+    $("#listClasses").html(liHeadDisplay);
+    $("#listClasses").append(liDisplay ? liDisplay : "<tr><td colspan='3' class=''>No selected class. Please select class below.</td></tr>");
+
+    let hasCampaign = $(".hasCampaign").attr('data-hasCampaign');
+    let isPriority = $("#priority").attr('data-isPriority');
+
+    if (hasCampaign) {
+        $("#filed").val('yes');
+        $("#filed").trigger('change');
     }
+
+    if (isPriority) {
+        $("#priority").val('yes');
+        $("#priority").trigger('change');
+
+        $("#date").val($("#date").attr('data-case-value'));
+        $("#tm").val($("#tm").attr('data-case-value'));
+    }
+
+}
 
 
 })
