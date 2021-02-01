@@ -182,7 +182,9 @@ exports.sendNOA = async function(mailData) {
     service: 'gmail',
     auth: {
       user: 'michael@trademarkers.com', 
-      pass: 'bigfoot1234'
+      pass: 'bigfoot12345'
+      // user: 'felix@trademarkers.com', 
+      // pass: 'ixtkyqshzloqnoru'
       // user: process.env.MAIL_USERNAME, 
       // pass: process.env.MAIL_PASSWORD
     }
@@ -202,11 +204,11 @@ exports.sendNOA = async function(mailData) {
   mailData.dateFiledFormatted = moment(mailData.dateIssue).format('MMM D, YYYY');
   mailData.dateDeadFormatted = moment(mailData.deadlineDate).format('MMM D, YYYY');
 
-  console.log("weeks issue =>>>>>>>>>> ", mailData.dateIssue, moment().diff(mailData.dateIssue, 'weeks') );
-  console.log("weeks dead =>>>>>>>>>> ", mailData.deadlineDate, moment().diff(mailData.deadlineDate, 'weeks') );
+  // console.log("weeks issue =>>>>>>>>>> ", mailData.dateIssue, moment().diff(mailData.dateIssue, 'weeks') );
+  // console.log("weeks dead =>>>>>>>>>> ", mailData.deadlineDate, moment().diff(mailData.deadlineDate, 'weeks') );
 
-  let dateIssue = moment().diff(mailData.dateIssue, 'weeks')
-  let deadIssue = moment().diff(mailData.deadlineDate, 'weeks')
+  let dateIssue = moment(mailData.dateIssue).diff(moment(), 'weeks')
+  let deadIssue = moment(mailData.deadlineDate).diff(moment(), 'weeks')
 
   if ( dateIssue <= 3 ) {
     template = 'noa-3weeks-plain.ejs'

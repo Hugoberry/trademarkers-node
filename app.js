@@ -116,12 +116,12 @@ conn.connectToServer( function( err, client ) {
 
 
 
-  // cron.schedule('* * 6 * mon-thu', () => {
-  //   oaCronService.sendNOA();
-  // }, {
-  //   scheduled: true,
-  //   timezone: "America/Sao_Paulo"
-  // });
+  cron.schedule('* */2 16 * mon-thu', () => {
+    oaCronService.sendNOA();
+  }, {
+    scheduled: true,
+    timezone: "America/New_York"
+  });
 
   // cron.schedule('* * 17 * fri', () => {
   //   oaCronService.sendNOA();
