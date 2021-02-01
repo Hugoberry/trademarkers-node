@@ -34,10 +34,16 @@ module.exports = {
 		return new Promise(function(resolve, reject) {
 
 			let query = { 
-				"status": "Published for Opposition",
-				"noticeOfAllowanceDate": {
-					$lt: moment().subtract(2, 'days').format('YYYY-MM-DD')
-				}
+				$or : [
+					{"status": "Published for Opposition"},
+					{"status": "Notice of Abandonment"},
+					{"status": "Under Examination"}
+				],
+				$or : [
+					{ "lastCrawled" : {$gte : moment().subtract("2", "weeks").format("YYYY-MM-DD") } }
+				]
+				// "status": "Published for Opposition",
+				// "noticeOfAllowanceDate" : { exists : true }
 			};
 			// console.log('here', _table);
 			conn.getDb()
@@ -45,6 +51,41 @@ module.exports = {
 				.find(query)
 				.limit($limit)
 				.sort( { "lastCrawled": 1 } )
+				.toArray(function(err, result) {
+					
+					if (err) {
+						reject(err);
+					} else {
+						resolve(result);
+					}
+
+				});
+
+		});
+	},
+
+	getlimitDataByStatus : async function() {
+		
+		return new Promise(function(resolve, reject) {
+
+			let query = { 
+				$or : [
+					{"status": "Published for Opposition"},
+					{"status": "Notice of Abandonment"},
+					{"status": "Under Examination"}
+				],
+				"noticeOfAllowanceDate" : { $exists : true }
+				// $or : [
+				// 	{ "lastCrawled" : {$gte : moment().subtract("2", "weeks").format("YYYY-MM-DD") } }
+				// ]
+				// "status": "Published for Opposition",
+				// "noticeOfAllowanceDate" : { exists : true }
+			};
+			// console.log('here', _table);
+			conn.getDb()
+				.collection(_table)
+				.find(query)
+				.sort( { "noticeOfAllowanceDate": 1 } )
 				.toArray(function(err, result) {
 					
 					if (err) {

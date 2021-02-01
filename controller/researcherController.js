@@ -312,7 +312,7 @@ exports.uploadSouSubmit = async function(req, res, next) {
         
 
         let mailData = {
-          serialNumber, serialNumber,
+          serialNumber: serialNumber,
           userId: userId[1],
           orderId: orderId[1],
           dateIssue: convertIntToDate(dateIssue[1]),
@@ -328,7 +328,8 @@ exports.uploadSouSubmit = async function(req, res, next) {
 
         let action = await actionService.createActionCode(mailData,'/')
 
-        // mailData.action = action;
+        mailData.action = action;
+        mailData.number = action.number;
 
         // console.log("mailData",mailData);
         // find first before put or update

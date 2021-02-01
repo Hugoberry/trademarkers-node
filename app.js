@@ -114,8 +114,20 @@ conn.connectToServer( function( err, client ) {
     // console.log("trigger event mailer");
   });
 
-  // cron.schedule("0 0 0 */1 * *", () => {
-    // oaCronService.sendNOA();
+
+
+  // cron.schedule('* * 6 * mon-thu', () => {
+  //   oaCronService.sendNOA();
+  // }, {
+  //   scheduled: true,
+  //   timezone: "America/Sao_Paulo"
+  // });
+
+  // cron.schedule('* * 17 * fri', () => {
+  //   oaCronService.sendNOA();
+  // }, {
+  //   scheduled: true,
+  //   timezone: "America/Sao_Paulo"
   // });
 
   // CRON JOB SCHEDULER << =========== 

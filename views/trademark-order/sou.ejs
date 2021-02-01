@@ -1,86 +1,79 @@
 <% if (action && action.trademark) { %>
-<section class="tm-sl-head-section tm-sl-section qa-panel-section">
+
+
+  <!-- Header Hero -->
+  <section class="tm-sl-head-section tm-sl-section qa-panel-section">
     <div class="container">
       <div class="row">
         <div class="col-12">
-          
+            <!-- Head Pane -->
             <div class="tm-sl-head">
+               <!-- Head Pane row -->
               <div class="row">
-                <div class="col-xl-9 col-lg-8 or-wrap">
-                  
+                <!-- Head Left Pane -->
+                <div class="col-lg-8">
                   <h1 class="h1"><strong>IMPORTANT NOTICE:</strong></h1>
                   <h2 class="h4">STATEMENT OF USE DUE FOR YOUR TRADEMARK <%= action.trademark.name %></h2>
                   <p class="h6">A “Statement of Use” must be filed for your U.S. Trademark Application!</p> 
                   <p>According to the rules of the United States Patent and Trademark Office (USPTO), you must declare the use of your trademark by filing a “Statement of Use” for your trademark application.</p>
                   <p>From the time the USPTO communicates that your trademark can be registered in principle, you usually have 6 months to either:</p>
+                </div> <!-- end of head left pane -->
 
+                <!-- Head right Pane -->
+                <div class="col-lg-4">
 
-                 
-                    <div class="or-area or-area-a">
-                      <h2 class="h6 or-area-p">Declare that you are actually using it</h2>
-                    </div>
-                    <div class="or-seperator"><span class="or-label">or</span></div>
-                    <div class="or-area or-area-b">
-                      <h2 class="h6 or-area-p">Ask for an extension of that time frame (and pay a fee)</h2>
-                    </div>
-
-                    <p>If you are based in the United States, you can do that yourself, but if not,
-                      you have to retain an attorney to file one of the above. </p>
-                
-
-                </div>
-                <div class="col-xl-3 col-lg-4">
-                  <div class="ntc-box">
-                      <div class="nt-bx-head"><h2 class="h6 mb-0"><strong>Case Number: <%= action.number %></strong></h2></div>
-                      <div class="nt-bx-body text-center">
-                        
-                        <p class="tm-appl-info">Your trademark Application: <br> <strong><%= action.trademark.name %></strong></p>
-                        <p class="tm-appl-info">Filing date: <br> <strong><%= moment(action.trademark.filing_date).format('MMM D, YYYY') %></strong></p>
-                        <% if ( moment().diff(action.dateIssue, 'weeks') > 4 ) { %>
-                          <p class="tm-appl-info">USPTO Serial Number: <br> <strong><%= action.serialNumber %></strong></p>
-                        <% } else { %>
-                          <p class="tm-appl-info">Date of Office Action: <br> <strong><%= moment(action.dateIssue).format('MMM D, YYYY') %></strong></p>
-                        <% }  %>
-                        
+                  <!-- Crude Box -->
+                  <div class="ntc-box crd-box">
+                      <div class="nt-bx-head"><h2 class="h5 mb-0"><strong>Case Number: <%= action.number %></strong></h2></div>
+                      <div class="nt-bx-body">
+                        <div class="tm-app-no">
+                          <h2 class="h5 text-center">Your Trademark Application: <strong class="dspl-blk text-red"><%= action.trademark.name %></strong></h2>
+                          <div class="tm-app-dts">
+                            <div class="tm-app-dt"><em class="far fa-calendar-day"></em> Filing Date: <strong><%= moment(action.trademark.filing_date).format('MMM D, YYYY') %></strong></div>
+                            <% if ( moment().diff(action.dateIssue, 'weeks') > 4 ) { %>
+                              <div class="tm-app-dt"><em class="far fa-calendar-day"></em> USPTO Serial Number: <strong><%= action.serialNumber %></strong></div>
+                            <% } else { %>
+                              <div class="tm-app-dt"><em class="far fa-calendar-day"></em> Date of Office Action: <strong><%= moment(action.dateIssue).format('MMM D, YYYY') %></strong></div>
+                            <% }  %>
+                            
+                          </div>
+                        </div>
                       </div>
-                      <div class="nt-bx-footer text-center">
-                        <p class="dline mb-0" style="border: 3px solid #f00;padding: 10px;">
-                          Deadline for Response: 
-                          <span class="text-red dline-time "><%= moment(action.deadlineDate).format('MMM D, YYYY') %></span>
-                          <span class="text-red dline-time">(Non-extendable)</span>
-                        </p>
-                      
-                        <p class="tm-appl-info" style="margin-top:20px;margin-bottom:0px;">We need to receive your instructions no later than: <br> <strong><%= moment(action.deadlineDate).subtract(7, "days").format('MMM D, YYYY') %></strong></p>
-
+                      <div class="nt-bx-footer">
+                        <div class="tm-nt-ce">
+                            <p class="h6 text-center">We need to recieve your instructions no later then: <strong class="dspl-blk"><em class="far fa-calendar-day"></em> <%= moment(action.deadlineDate).format('MMM D, YYYY') %></strong></p>
+                        </div>
                       </div>
                   </div>
-                </div>
-              </div>
-            </div>
+                  <!-- end of crude box -->
 
-            <!-- <div class="tm-sl-body or-wrap">
+                </div> <!-- end of head right pane -->
+              </div> <!-- end of head pane row -->
+            </div> <!-- end of head pane -->
+
+            <!-- Domain Options -->
+            <div class="tm-sl-body or-wrap">
               <div class="row">
-                <div class="col-xl-9 col-lg-12">
+                <div class="col-xl-8 col-lg-12">
                   <div class="or-area or-area-a">
-                    <h2 class="h6 or-area-p">Declare that you are actually using it</h2>
+                    <h2 class="h6 or-area-p">Not being legally able to put your domain to work as a website may infringe on existing trademarks,</h2>
                   </div>
                   <div class="or-seperator"><span class="or-label">or</span></div>
                   <div class="or-area or-area-b">
-                    <h2 class="h6 or-area-p">Ask for an extension of that time frame (and pay a fee)</h2>
+                    <h2 class="h6 or-area-p">Even worse, an owner of a registered trademark can actually use the Uniform Dispute Resolution Policy (or UDRP) to demand arbitration in which you can potentially lose your domain name ${domain} without any compensation (why am I subject to these arbitration proceedings)</h2>
                   </div>
                 </div>
-
-                <div class="col-xl-9 col-lg-8">
-                  <p>If you are based in the United States, you can do that yourself, but if not,
-                    you have to retain an attorney to file one of the above. </p>
-                </div>
               </div>
-            </div> -->
-            
+            </div> <!-- end of domain options -->
+
         </div>
       </div>
     </div>
-  </section>
+  </section> <!-- end of header hero -->
+
+
+
+
 
 
   <section class="tm-sl-section bg-white">

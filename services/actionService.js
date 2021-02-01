@@ -70,7 +70,7 @@ exports.createActionCode = async function(related_data,url) {
   
   let actionRoute = await rpoAction.putMysqlRoutes(mysqlDataRoute);
 
-  return data;
+  return data ? data : related_data;
   
 }
 
