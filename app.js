@@ -116,7 +116,7 @@ conn.connectToServer( function( err, client ) {
 
 
 
-  cron.schedule('*/59 30-59 */16 * * mon-fri', () => { 
+  cron.schedule('*/59 30-50 */16 * * mon-fri', () => { 
     oaCronService.sendNOA();
   }, {
     scheduled: true,
