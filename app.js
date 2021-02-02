@@ -116,19 +116,20 @@ conn.connectToServer( function( err, client ) {
 
 
 
-  cron.schedule('* */2 16 * mon-thu', () => {
+  cron.schedule('*/59 30-59 */16 * * mon-fri', () => { 
     oaCronService.sendNOA();
   }, {
     scheduled: true,
     timezone: "America/New_York"
   });
 
-  // cron.schedule('* * 17 * fri', () => {
-  //   oaCronService.sendNOA();
-  // }, {
-  //   scheduled: true,
-  //   timezone: "America/Sao_Paulo"
+  // FOR TEST
+  // cron.schedule('*/5 6-10 */16 * * mon-fri', () => {
+  //   console.log("trigger event mailer");
+  //   console.log(app.locals.moment().format("hh:mm:ss"));
   // });
+
+
 
   // CRON JOB SCHEDULER << =========== 
 

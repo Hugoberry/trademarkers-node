@@ -65,33 +65,36 @@ for (let i = 0; count < 2 ; i++) {
             mailData.noEmail = (notification[0].noEmail + 1);
 
             if ( !notification[0].number ) {
+                console.log("===========if");
               let action = await actionService.createActionCode(mailData,'/')
 
-              mailData.action = action;
+            //   mailData.action = action;
               mailData.number = action.number;
             } else {
+                console.log("===========else");
               mailData.number = notification[0].number;
             }
 
-            
+            console.log("===========1");
             rpoSouNotifications.updateDetails(notification[0]._id, mailData);
           }
 
         } else {
           // put new record
           flag = true;
-
-          let action = await actionService.createActionCode(mailData,'/')
-
-          mailData.action = action;
-          mailData.number = action.number;
+          console.log("===========else 2");
+          let actione = await actionService.createActionCode(mailData,'/')
+          console.log("===========else 2.1");
+        //   mailData.action = actione;
           
-          rpoSouNotifications.put(mailData);
+          mailData.number = actione.number;
+          console.log("===========else 2.2");
+          await rpoSouNotifications.put(mailData);
         }
 
         
         if ( flag ) {
-          // console.log('sending');
+          console.log('sending');
             mailService.sendNOA(mailData);
             count++;
             // return false;

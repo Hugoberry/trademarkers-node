@@ -15,7 +15,7 @@ exports.createActionCode = async function(related_data,url) {
     if (action.length <= 0) flag = false;
 
   }
-
+console.log(code);
   let data = null
 
   
@@ -44,10 +44,11 @@ exports.createActionCode = async function(related_data,url) {
   } else {
     // common action codes
     //  for now sou forms
-  //   console.log(related_data);
+    console.log(related_data);
     // data = related_data
     related_data.number = code;
     rpoAction.put(related_data);
+    data = related_data;
   }
   
 
@@ -70,7 +71,7 @@ exports.createActionCode = async function(related_data,url) {
   
   let actionRoute = await rpoAction.putMysqlRoutes(mysqlDataRoute);
 
-  return data ? data : related_data;
+  return data;
   
 }
 
