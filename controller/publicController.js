@@ -23,6 +23,8 @@ var checkoutService = require('../services/checkoutService');
 var mailService = require('../services/mailerService');
 var orderService = require('../services/orderService');
 
+// var helpers = require('../helpers');
+
 const emailValidator = require('deep-email-validator');
 
 
@@ -47,8 +49,7 @@ exports.home = async function(req, res, next) {
     res.render('public/index', { 
       layout: 'layouts/public-layout', 
       title: 'Trademarkers LLC', 
-      continents: continents,
-      user : helpers.getLoginUser(req)
+      continents: continents
     });
     
 }

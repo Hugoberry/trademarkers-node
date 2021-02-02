@@ -20,7 +20,7 @@ let rec = await rpoTrademarkMongo.getlimitDataByStatus();
 console.log(rec.length);
 
 let count = 0;
-for (let i = 0; count < 2 ; i++) {
+for (let i = 0; count < 1 ; i++) {
 // rec.forEach( async (trademark) => {
     // console.log(trademark.noticeOfAllowanceDate);
 

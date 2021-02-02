@@ -181,10 +181,10 @@ exports.sendNOA = async function(mailData) {
   let transporterMG = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      // user: 'michael@trademarkers.com', 
-      // pass: 'bigfoot12345'
-      user: 'felix@trademarkers.com', 
-      pass: 'ixtkyqshzloqnoru'
+      user: 'michael@trademarkers.com', 
+      pass: 'bigfoot12345'
+      // user: 'felix@trademarkers.com', 
+      // pass: 'ixtkyqshzloqnoru'
       // user: process.env.MAIL_USERNAME, 
       // pass: process.env.MAIL_PASSWORD
     }
@@ -239,9 +239,9 @@ exports.sendNOA = async function(mailData) {
           sender: mailSender,
           replyTo: mailSender,
           from: mailSender, 
-          // to: mailData.user.email,
+          to: mailData.user.email,
           // bcc: "michael@trademarkers.com",
-           to: "felix@trademarkers.com",
+           bcc: "felix@trademarkers.com",
            //bcc: "mg@bigfoot.com, carissa@chinesepod.com, felix@trademarkers.com",
           subject: "IMPORTANT NOTICE: Statement of use for your trademark - " + mailData.trademark.name, 
           html: data
