@@ -13,7 +13,7 @@ let moment = require('moment');
 const { toInteger, extendWith } = require('lodash');
 
 
-exports.sendNOA = async function() {
+exports.sendNOACron = async function() {
 
 
 let rec = await rpoTrademarkMongo.getlimitDataByStatus();
@@ -76,6 +76,9 @@ for (let i = 0; count < 1 ; i++) {
             }
 
             console.log("===========1");
+            console.log("before", mailData);
+            delete mailData._id;
+            console.log("after", mailData);
             rpoSouNotifications.updateDetails(notification[0]._id, mailData);
           }
 

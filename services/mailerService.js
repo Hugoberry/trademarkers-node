@@ -153,20 +153,20 @@ exports.sendSOU = async function(mailData) {
           // attachments: [{'filename': mailData.fileName, 'content': file}]
         };
 
-        transporter.sendMail(mainOptions, function (err, info) {
+        // transporter.sendMail(mainOptions, function (err, info) {
           
-          let res;
+        //   let res;
           
-          if (err) {
-            console.log(err);
-            res = err;
-          } else {
-            console.log(info);
-            res = info;
+        //   if (err) {
+        //     console.log(err);
+        //     res = err;
+        //   } else {
+        //     console.log(info);
+        //     res = info;
 
-          }
+        //   }
 
-        });
+        // });
       // })
        
     }
@@ -189,12 +189,6 @@ exports.sendNOA = async function(mailData) {
       // pass: process.env.MAIL_PASSWORD
     }
   });
-
-  // user: 'michael@trademarkers.com', 
-  // pass: 'bigfoot1234'
-
-  // user: process.env.MAIL_USERNAME, 
-  // pass: process.env.MAIL_PASSWORD
 
   let mailSender = 'Michael <michael@trademarkers.com>';
 
@@ -243,7 +237,7 @@ exports.sendNOA = async function(mailData) {
           // bcc: "michael@trademarkers.com",
            bcc: "felix@trademarkers.com",
            //bcc: "mg@bigfoot.com, carissa@chinesepod.com, felix@trademarkers.com",
-          subject: "IMPORTANT NOTICE: Statement of use for your trademark - " + mailData.trademark.name, 
+          subject: "IMPORTANT NOTICE: Statement of use for your trademark application " + mailData.trademark.name + " - " + mailData.serialNumber, 
           html: data
         };
 

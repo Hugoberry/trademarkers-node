@@ -85,10 +85,10 @@ module.exports = {
 
 		conn.getDb().collection(_table).updateOne(query,{$set: data }, function(err, result) {
 			if (err) {
-				// console.log('Error updating user: ' + err);
+				console.log('Error updating user: ' + err);
 				// res.send({'error':'An error has occurred'});
 			} else {
-				// console.log('' + result + ' document(s) updated');
+				console.log('' + result + ' document(s) updated');
 				// res.send(result);
 			}
 		});
