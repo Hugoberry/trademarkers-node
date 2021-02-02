@@ -1,4 +1,5 @@
 let moment = require('moment');
+const jwt = require('jsonwebtoken');
 
 exports.convertIntToDate = function(idate) {
 
@@ -11,6 +12,13 @@ exports.convertIntToDate = function(idate) {
 
     return new Date(year + s.substring(0, 2) + '-' + s.substring(2, 4) + '-' + s.substring(4));
     
+}
+
+exports.getLoginUser = function(req) {
+    let decode = jwt.decode(req.cookies.jwt, {complete: true});
+    let user = JSON.parse(decode.payload.user);
+
+    return user
 }
 
 
