@@ -244,6 +244,8 @@ exports.sendNOA = async function(mailData) {
           html: data
         };
 
+        
+        
         transporterMG.sendMail(mainOptions, function (err, info) {
           
           let res;

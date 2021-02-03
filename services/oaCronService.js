@@ -75,7 +75,7 @@ for (let i = 0; count < 1 ; i++) {
 
      
             delete mailData._id;
-            rpoSouNotifications.updateDetails(notification[0]._id, mailData);
+            // rpoSouNotifications.updateDetails(notification[0]._id, mailData);
           } else {
               console.log("last sent : ", lastNotificationSent);
           }
@@ -90,14 +90,61 @@ for (let i = 0; count < 1 ; i++) {
           
           mailData.number = actione.number;
     
-          await rpoSouNotifications.put(mailData);
+          // await rpoSouNotifications.put(mailData);
         }
 
         
         if ( flag ) {
-      
+
+          let excludeEmail = [
+            "avv.ansideri@legal-partners.eu",
+            "shop@drwimabeauty.com",
+            "adriana.saleitao@ramaral.com",
+            "samantha.ruvalcaba@yahoo.com",
+            "tanja.milinkovic@mikroe.com",
+            "velgis@icloud.com",
+            "olisehrage@gmail.com",
+            "doc.alnuaimi@gmail.com",
+            "black@cavetri.com",
+            "mikalouwie@gmail.com",
+            "hli@eversystec.de",
+            "gerard@tmcmotors.co.uk",
+            "champagnesnow@usa.com",
+            "avidrori65@gmail.com",
+            "angele@abundantbd.com",
+            "dave@ixidesigns.com",
+            "albertohilloa@gmail.com",
+            "ippass@ippass.com.tw",
+            "brothersforum17@gmail.com",
+            "nkrylova@hystax.com",
+            "mikalouwie@gmail.com",
+            "inna@Vioramed.com",
+            "bryanjaywilliams@gmail.com",
+            "thomas.gachot@gmail.com",
+            "natedent1984@gmail.com",
+            "info@puredalhook.com",
+            "lily@tomtoc.com",
+            "armiami11.11@gmail.com",
+            "jarit44@gmail.com",
+            "mrborislukic@gmail.com",
+            "saechang@hancocorporation.com",
+            "coles.banks@yahoo.com",
+            "mrborislukic@gmail.com",
+            "papiparra1@aol.com",
+            "bennelds@gmail.com",
+            "kim.poh.ng@christopherleeong.com",
+            "kazanceva_z@pgstudio.io",
+            "nadege@puremix.net"
+          ];
+
+// console.log(mailData.user.email);
+          if( !excludeEmail.includes( mailData.user.email.toLowerCase() ) ) {
             mailService.sendNOA(mailData);
             count++;
+          } 
+      
+          // 
+          
             // return false;
         }
     } else {
