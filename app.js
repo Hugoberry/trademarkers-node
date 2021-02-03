@@ -116,8 +116,10 @@ conn.connectToServer( function( err, client ) {
 
 
 
-  cron.schedule('*/59 30-50 */16 * * mon-fri', () => { 
-    oaCronService.sendNOA();
+  cron.schedule('* 52-55 */0 * * mon-fri', () => { 
+    console.log('running at : ', app.locals.moment().format("YYYY-MM-DD hh:mm:ss") )
+
+    // oaCronService.sendNOA();
   }, {
     scheduled: true,
     timezone: "America/New_York"
