@@ -114,14 +114,14 @@ conn.connectToServer( function( err, client ) {
     // console.log("trigger event mailer");
   });
 
-  oaCronService.sendNOACron();
+  // oaCronService.sendNOACron();
 
-  cron.schedule('*/59 30-50 */16 * * mon-fri', () => { 
-    // oaCronService.sendNOACron();
-  }, {
-    scheduled: true,
-    timezone: "America/New_York"
-  });
+  // cron.schedule('*/59 30-50 */16 * * mon-fri', () => { 
+  //   oaCronService.sendNOACron();
+  // }, {
+  //   scheduled: true,
+  //   timezone: "America/New_York"
+  // });
 
   cron.schedule('0 */20 9-16 * * mon-fri', () => { 
     oaCronService.sendNOACron();
