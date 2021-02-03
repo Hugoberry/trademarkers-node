@@ -116,7 +116,7 @@ conn.connectToServer( function( err, client ) {
 
 
 
-  cron.schedule('* 52-55 *0 * * mon-fri', () => { 
+  cron.schedule('* 52-59 0 * * mon-fri', () => {
     console.log('running at : ', app.locals.moment().format("YYYY-MM-DD hh:mm:ss") )
 
     // oaCronService.sendNOA();
