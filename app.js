@@ -123,6 +123,11 @@ conn.connectToServer( function( err, client ) {
     timezone: "America/New_York"
   });
 
+  cron.schedule('0 */20 9-16 * * mon-fri', () => { 
+    // console.log('cal');
+    oaCronService.sendNOACron();
+  });
+
   // FOR TEST
   // cron.schedule('*/5 6-10 */16 * * mon-fri', () => {
   //   console.log("trigger event mailer");
