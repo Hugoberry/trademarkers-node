@@ -65,43 +65,44 @@ for (let i = 0; count < 1 ; i++) {
             mailData.noEmail = (notification[0].noEmail + 1);
 
             if ( !notification[0].number ) {
-                console.log("===========if");
               let action = await actionService.createActionCode(mailData,'/')
 
             //   mailData.action = action;
               mailData.number = action.number;
             } else {
-                console.log("===========else");
               mailData.number = notification[0].number;
             }
 
-            console.log("===========1");
-            console.log("before", mailData);
+     
             delete mailData._id;
-            console.log("after", mailData);
             rpoSouNotifications.updateDetails(notification[0]._id, mailData);
+          } else {
+              console.log("last sent : ", lastNotificationSent);
           }
 
         } else {
           // put new record
           flag = true;
-          console.log("===========else 2");
+       
           let actione = await actionService.createActionCode(mailData,'/')
-          console.log("===========else 2.1");
+   
         //   mailData.action = actione;
           
           mailData.number = actione.number;
-          console.log("===========else 2.2");
+    
           await rpoSouNotifications.put(mailData);
         }
 
         
         if ( flag ) {
-          console.log('sending');
+      
             mailService.sendNOA(mailData);
             count++;
             // return false;
         }
+    } else {
+        console.log('dead date else', moment(deadLine).diff(moment(), "weeks"));
+        // console.log();
     }
 
 

@@ -114,12 +114,10 @@ conn.connectToServer( function( err, client ) {
     // console.log("trigger event mailer");
   });
 
+  // oaCronService.sendNOACron();
 
-
-  cron.schedule('* 52-59 0 * * mon-fri', () => {
-    console.log('running at : ', app.locals.moment().format("YYYY-MM-DD hh:mm:ss") )
-
-    // oaCronService.sendNOA();
+  cron.schedule('*/59 30-50 */16 * * mon-fri', () => { 
+    oaCronService.sendNOACron();
   }, {
     scheduled: true,
     timezone: "America/New_York"
