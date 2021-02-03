@@ -75,7 +75,7 @@ for (let i = 0; count < 1 ; i++) {
 
      
             delete mailData._id;
-            // rpoSouNotifications.updateDetails(notification[0]._id, mailData);
+            rpoSouNotifications.updateDetails(notification[0]._id, mailData);
           } else {
               console.log("last sent : ", lastNotificationSent);
           }
@@ -90,7 +90,7 @@ for (let i = 0; count < 1 ; i++) {
           
           mailData.number = actione.number;
     
-          // await rpoSouNotifications.put(mailData);
+          await rpoSouNotifications.put(mailData);
         }
 
         
