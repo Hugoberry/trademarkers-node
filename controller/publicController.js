@@ -523,7 +523,7 @@ exports.deliveryMethod = async function(req, res, next) {
   }
 
   res.render('trademark-order/delivery', { 
-    layout  : 'layouts/public-layout-default', 
+    layout  : 'layouts/public-layout-interactive', 
     title   : 'Your Trademark Certificate is now available!',
     trademark: trademark[0],
   });

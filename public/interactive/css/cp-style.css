@@ -174,9 +174,6 @@ section {
 .text-right {
   text-align: right !important; }
 
-.text-red {
-  color: #ff0008 !important; }
-
 .pg-header {
   background: #2593f2;
   color: #ffffff;
@@ -1116,40 +1113,6 @@ body.tm-sl-page {
 
 .cc-section-on-call.cc-section-on-call-active {
   display: block !important; }
-
-.crd-box .nt-bx-head {
-  background: #2593f2; }
-.crd-box .nt-bx-footer {
-  background: #F5F9FC; }
-.crd-box .tm-app-dts {
-  margin: 1rem auto; }
-  .crd-box .tm-app-dts .tm-app-dt {
-    position: relative;
-    -webkit-box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, 0.2);
-    -moz-box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, 0.2);
-    -ms-box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, 0.2);
-    -o-box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, 0.2);
-    box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, 0.2);
-    border: solid 1px #dedede;
-    background-color: #F5F9FC;
-    padding: .5rem 1rem .5rem 2rem;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    -ms-border-radius: 5px;
-    -o-border-radius: 5px;
-    border-radius: 5px;
-    line-height: 1.25rem; }
-    .crd-box .tm-app-dts .tm-app-dt em {
-      position: absolute;
-      left: .6rem;
-      top: .55rem; }
-    .crd-box .tm-app-dts .tm-app-dt + .tm-app-dt {
-      margin-top: 1rem; }
-.crd-box .tm-nt-ce p .dspl-blk {
-  margin-top: .5rem; }
-
-.dspl-blk {
-  display: block; }
 
 @media only screen and (max-width: 1199px) and (min-width: 1024px) {
   html {

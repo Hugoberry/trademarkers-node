@@ -117,15 +117,14 @@ conn.connectToServer( function( err, client ) {
   // oaCronService.sendNOACron();
 
   cron.schedule('*/59 30-50 */16 * * mon-fri', () => { 
-    oaCronService.sendNOACron();
+    // oaCronService.sendNOACron();
   }, {
     scheduled: true,
     timezone: "America/New_York"
   });
 
   cron.schedule('0 */20 9-16 * * mon-fri', () => { 
-    // console.log('cal');
-    oaCronService.sendNOACron();
+    // oaCronService.sendNOACron();
   }, {
     scheduled: true,
     timezone: "America/New_York"
