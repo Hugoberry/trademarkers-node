@@ -216,6 +216,9 @@ exports.sendNOA = async function(mailData) {
 
   }
 
+  mailData.showUsptoLink = dateIssue <= 6 ? true : false;
+
+
   if ( !template && deadIssue < 0 ) {
     template = 'noa-8weeks-plain.ejs';
   }
