@@ -115,20 +115,22 @@ $( document ).ready(function() {
   });
 
   $('#CertificateDeliverySelection').click(function(){
-        if(fedexShipmentOptInput.prop("checked") != true){
-        $('.cc-section-on-call').removeClass("cc-section-on-call-active");
-        $('html, body').animate({scrollTop: "0"}, 1000);
-        return false;
-        }  
-        else{
-        $('.cc-section-on-call').addClass("cc-section-on-call-active");
-        $('html, body').animate({scrollTop: "900"}, 1000);
-        setTimeout(function(){
-            $('.cc-form-self #name').focus();
+    if(fedexShipmentOptInput.prop("checked") != true){
+      $('.cc-section-on-call').removeClass("cc-section-on-call-active");
+      // $('html, body').animate({scrollTop: "0"}, 1000);
+      // return false;
+      //redirect to confirmation page
+      alert(trdid)
+    }  
+    else{
+      $('.cc-section-on-call').addClass("cc-section-on-call-active");
+      $('html, body').animate({scrollTop: "900"}, 1000);
+      setTimeout(function(){
+          $('.cc-form-self #name').focus();
 
-        }, 100);
-        return true;
-        }
+      }, 100);
+      return true;
+    }
   });
 
   // $(".btn-form-update").click(function(){

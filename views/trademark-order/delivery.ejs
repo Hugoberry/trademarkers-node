@@ -1,3 +1,6 @@
+<script>
+  var trdid = '<%= trademark.id %>'
+  </script>
 <section class="tm-sl-head-section tm-sl-section so-panel-section">
     <div class="container">
       <div class="row">
@@ -67,7 +70,7 @@
                             </fieldset>
                             <div class="cnfrm-info">
                               <div class="form-field">
-                                <input type="checkbox" name="confirmEmail" id="ConfirmEmail">
+                                <input type="hidden" name="confirmEmail" id="ConfirmEmail" value="/delivery-method/<%= trademark.id %>/regular">
                                 <label for="ConfirmEmail">Email to nirwangogna1786@gmail.com</label>
                               </div>
                             </div>

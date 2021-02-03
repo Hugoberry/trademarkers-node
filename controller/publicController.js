@@ -181,9 +181,11 @@ exports.redirect = async function(req, res, next) {
         let urlPhp = process.env.APP_URL_PHP;
         res.redirect(urlPhp + req.params[0]);
         
+      } else {
+        res.redirect("https://www.trademarkers.com");
       }
       // console.log(action[0].redirect_to, 'step4');
-      res.redirect("https://www.trademarkers.com");
+      // res.redirect("https://www.trademarkers.com");
     }
     
   } else {
