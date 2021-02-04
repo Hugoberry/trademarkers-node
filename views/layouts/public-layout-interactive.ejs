@@ -100,8 +100,8 @@ $( document ).ready(function() {
       return false;
   });
 
-  var shipmentOptInput = $('.crt-fct-opt > .fieldset > input[type="checkbox"]');
-  var fedexShipmentOptInput = $('.crt-fct-opt-fedex > .fieldset > input[type="checkbox"]');
+  var shipmentOptInput = $('.crt-fct-opt > .fieldset > input[type="radio"]');
+  // var fedexShipmentOptInput = $('.crt-fct-opt-fedex > .fieldset > input[type="checkbox"]');
 
   $(shipmentOptInput).change(function(){
     if(this.checked != true){
@@ -115,21 +115,23 @@ $( document ).ready(function() {
   });
 
   $('#CertificateDeliverySelection').click(function(){
-    if(fedexShipmentOptInput.prop("checked") != true){
+    if(shipmentOptInput.prop("checked") == true){
+      // SELECTED FEDEX
       $('.cc-section-on-call').removeClass("cc-section-on-call-active");
       $('html, body').animate({scrollTop: "0"}, 1000);
       return false;
-      //redirect to confirmation page
-      alert(trdid)
+
     }  
     else{
-      $('.cc-section-on-call').addClass("cc-section-on-call-active");
-      $('html, body').animate({scrollTop: "900"}, 1000);
-      setTimeout(function(){
-          $('.cc-form-self #name').focus();
+      // $('.cc-section-on-call').addClass("cc-section-on-call-active");
+      // $('html, body').animate({scrollTop: "900"}, 1000);
+      // setTimeout(function(){
+      //     $('.cc-form-self #name').focus();
 
-      }, 100);
-      return true;
+      // }, 100);
+      // return true;
+      let trdid = $(this).attr('data-trdid');
+      $(location).attr('href', '/delivery-method/'+trdid+'/regular')
     }
   });
 

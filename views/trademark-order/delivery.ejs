@@ -66,29 +66,29 @@
 
                           <div class="crt-fct-opt crt-fct-opt-rgemail">
                             <fieldset class="fieldset">
-                              <input type="checkbox" name="shipmentByRegularEmail" id="ShipmentByRegularEmail">
+                              <input type="radio" name="deliveryType" id="ShipmentByRegularEmail" style="display:none">
                               <label for="ShipmentByRegularEmail"><em class="fas fa-envelope tm-ico"></em> Shipment via Regular email</label>
                             </fieldset>
-                            <div class="cnfrm-info">
-                              <div class="form-field">
-                                <input type="hidden" name="confirmEmail" id="ConfirmEmail" value="/delivery-method/<%= trademark.id %>/regular">
-                                <label for="ConfirmEmail">Email to nirwangogna1786@gmail.com</label>
-                              </div>
-                            </div>
+                              <!-- <div class="cnfrm-info">
+                                <div class="form-field">
+                                  <input type="hidden" name="confirmEmail" id="ConfirmEmail" value="/delivery-method/<%= trademark.id %>/regular">
+                                  <label for="ConfirmEmail">Email to nirwangogna1786@gmail.com</label>
+                                </div>
+                              </div> -->
                           </div>
 
                           <div class="crt-fct-opt crt-fct-opt-fedex">
                             <fieldset class="fieldset">
-                              <input type="checkbox" name="shipmentByFedex" id="ShipmentByFedex">
+                              <input type="radio" name="deliveryType" id="ShipmentByFedex" style="display:none">
                               <label for="ShipmentByFedex"><em class="fab fa-fedex tm-ico"></em> Shipment via Fedex <span>+ Flat fee $80</span></label>
                             </fieldset>
 
-                            <div class="cnfrm-info">
+                            <!-- <div class="cnfrm-info">
                               <div class="form-field">
                                 <input type="checkbox" name="confirmAddress" id="confirmAddress">
                                 <label for="confirmAddress">Deliver to #435 Jagatpur Phillaur Punjab India 144410</label>
                               </div>
-                            </div>
+                            </div> -->
                           </div>
 
                           <div class="form-group">
