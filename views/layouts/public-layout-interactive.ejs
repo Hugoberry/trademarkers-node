@@ -117,8 +117,8 @@ $( document ).ready(function() {
   $('#CertificateDeliverySelection').click(function(){
     if(fedexShipmentOptInput.prop("checked") != true){
       $('.cc-section-on-call').removeClass("cc-section-on-call-active");
-      // $('html, body').animate({scrollTop: "0"}, 1000);
-      // return false;
+      $('html, body').animate({scrollTop: "0"}, 1000);
+      return false;
       //redirect to confirmation page
       alert(trdid)
     }  
@@ -162,11 +162,7 @@ $( document ).ready(function() {
   //   return false;
   // });
 
-  $('#cert-pdf-btn').click(function(e) {
-    alert($(this).attr('data-pdf-file'));
-    e.preventDefault();
-    window.location.href = $(this).attr('data-pdf-file');
-  });
+  
 
 });
   </script>
