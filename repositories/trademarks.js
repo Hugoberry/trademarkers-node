@@ -101,4 +101,18 @@ module.exports = {
 		});
 
 	},
+
+	fetchTmCertById: function ( trademark_id ) {
+
+		return new Promise(function(resolve, reject) {
+			connection.query('SELECT * FROM certificates WHERE trademark_id = ?',[trademark_id],function(err,res,fields) {
+				if (err) {
+					reject(err);
+			} else {
+					resolve(res);
+			}
+			});
+		});
+
+	},
 }; 

@@ -162,6 +162,12 @@ $( document ).ready(function() {
   //   return false;
   // });
 
+  $('#cert-pdf-btn').click(function(e) {
+    alert($(this).attr('data-pdf-file'));
+    e.preventDefault();
+    window.location.href = $(this).attr('data-pdf-file');
+  });
+
 });
   </script>
 </body>

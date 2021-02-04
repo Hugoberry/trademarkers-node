@@ -7,6 +7,9 @@ var open = require('open');
 const jwt = require('jsonwebtoken');
 const stripe = require("stripe")(process.env.PAYTEST);
 
+var path    = require('path');
+var pdf2img = require('pdf2img');
+
 var rpoContinents = require('../repositories/continents');
 var rpoCountries = require('../repositories/countries');
 var rpoPdfs = require('../repositories/generatedPdf');
@@ -514,20 +517,67 @@ exports.deliveryMethod = async function(req, res, next) {
 
   let trdId = req.params.trdId;
   let trademark = null;
+  let trademarkCertificate = null;
+  let pdfUrl = '', pngName = '', pdfName='';
 
   if ( trdId ) {
     trademark = await rpoTrademarks.fetchTmById(trdId)
-
+    
     if (trademark) {
-      console.log(trademark[0]);
+      // console.log(trademark[0]);
+
+      trademarkCertificate = await rpoTrademarks.fetchTmCertById(trdId)
+      // console.log('Cert',trademarkCertificate);
+
+      if (trademarkCertificate[0]) {
+        trademarkCertificate = trademarkCertificate[0]
+
+        pdfUrl = "https://trademarkers.com/uploads/"+ trademarkCertificate.name;
+        
+        pdfName = trademarkCertificate.name
+        pngName = trademarkCertificate.name.replace('.pdf','')
+
+        // download pdf from server
+        // const { DownloaderHelper } = require('node-downloader-helper');
+        // const download = new DownloaderHelper(pdfUrl, __dirname + "/../public/pdf" );
+        // download.on('end', () => console.log('Download Completed'))
+        // await download.start();
+
+        // var pdf2image = require('pdf2image');
+
+        var input   = __dirname + "/../public/pdf/" + pdfName;
+ 
+        pdf2img.setOptions({
+          type: 'png',                                // png or jpg, default jpg
+          size: 1024,                                 // default 1024
+          density: 600,                               // default 600
+          outputdir: __dirname + path.sep + '../public/pdf/png', // output folder, default null (if null given, then it will create folder name same as file name)
+          outputname: pngName,                         // output file name, dafault null (if null given, then it will create image name same as input name)
+          page: null,                                 // convert selected page, default null (if null given, then it will convert all pages)
+          quality: 100                                // jpg compression quality, default: 100
+        });
+        
+        pdf2img.convert(input, function(err, info) {
+          if (err) return err;
+          else return info;
+        });
+        
+
+      }
 
     } // end if trademark
   }
+
+  // wait for the generated png files
+  await new Promise(resolve => setTimeout(resolve, 2000));
 
   res.render('trademark-order/delivery', { 
     layout  : 'layouts/public-layout-interactive', 
     title   : 'Your Trademark Certificate is now available!',
     trademark: trademark[0],
+    trademarkCertificate : trademarkCertificate,
+    pngName: pngName,
+    pdfName: pdfName
   });
 
 

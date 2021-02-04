@@ -95,3 +95,29 @@ exports.generate = async function(data) {
     
     return pdfName;
 }
+
+exports.createPng = async function(pdfName,pngName) {
+    return new Promise(function(resolve, reject) {
+
+        var path    = require('path');
+        var pdf2img = require('pdf2img');
+
+        var input   = __dirname + "/../public/pdf/" + pdfName;
+ 
+        pdf2img.setOptions({
+          type: 'png',                                // png or jpg, default jpg
+          size: 1024,                                 // default 1024
+          density: 600,                               // default 600
+          outputdir: __dirname + path.sep + '../public/pdf/png', // output folder, default null (if null given, then it will create folder name same as file name)
+          outputname: pngName,                         // output file name, dafault null (if null given, then it will create image name same as input name)
+          page: null,                                 // convert selected page, default null (if null given, then it will convert all pages)
+          quality: 100                                // jpg compression quality, default: 100
+        });
+
+        pdf2img.convert(input, function(err, info) {
+            if (err) reject(err);
+            else resolve(info);
+          });
+
+    });
+}

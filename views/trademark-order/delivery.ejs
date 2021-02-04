@@ -6,6 +6,7 @@
       <div class="row">
         <div class="col-12">
             <div class="tm-sl-head">
+              <!-- <iframe src="https://trademarkers.com/uploads/<%= trademarkCertificate.name %>&embedded=true" style="width:600px; height:500px;" frameborder="0"></iframe> -->
               <div class="row">
                 <div class="col-xl-8 col-lg-8">
                   <h1 class="h1"><strong>Download Certificate!</strong></h1>
@@ -19,11 +20,11 @@
                       <div class="col-xl-4 col-lg-5 col-6">
                         <div class="dwld-fl-box dwld-fl-jpg">
                           <div class="fl-cta">
-                            <button type="button" title="Download JPG" class="btn btn-blue"><em class="fal fa-file-image"></em>Download <span class="fl-type">JPG</span></button>
+                            <a title="Download PDF" class="btn btn-blue" target="_blank" href="/pdf/png/<%= pngName %>_1.png"><em class="fal fa-file-pdf"></em>Download <span class="fl-type">PNG</span></a>
                           </div>
                           <div class="fl-img-wrap img-clip-wrap">
-                            <span class="img-clip" style="background-image: url('/interactive/images/sample-certificate.jpg') !important;">
-                              <img src="/interactive/images/sample-certificate.jpg" title="Certificate" alt="Certificate Image" width="300" height="450">
+                            <span class="img-clip" style="background-image: url('/pdf/png/<%= pngName %>_1.png') !important;">
+                              <img src="/pdf/png/<%= pngName %>_1.png" title="Certificate" alt="Certificate Image" width="300" height="450">
                             </span>
                           </div>
                         </div>
@@ -33,11 +34,11 @@
                       <div class="col-xl-4 col-lg-5 col-6">
                         <div class="dwld-fl-box dwld-fl-pdf">
                           <div class="fl-cta">
-                            <button type="button" title="Download PDF" class="btn btn-blue"><em class="fal fa-file-pdf"></em>Download <span class="fl-type">PDF</span></button>
+                            <a title="Download PDF" class="btn btn-blue" target="_blank" href="/pdf/<%= pngName %>.pdf"><em class="fal fa-file-pdf"></em>Download <span class="fl-type">PDF</span></a>
                           </div>
                           <div class="fl-img-wrap img-clip-wrap">
-                            <span class="img-clip" style="background-image: url('/interactive/images/sample-certificate.jpg') !important;">
-                              <img src="images/sample-certificate.jpg" title="Certificate" alt="Certificate Image" width="300" height="450">
+                            <span class="img-clip" style="background-image: url('/pdf/png/<%= pngName %>_1.png') !important;">
+                              <img src="/pdf/png/<%= pngName %>_1.png" title="Certificate" alt="Certificate Image" width="300" height="450">
                             </span>
                           </div>
                         </div>
