@@ -23,6 +23,7 @@ let variable = require('./config/variables');
 var cron = require('node-cron');
 var oppositionCronService = require('./services/oppositionCronService')
 var oaCronService = require('./services/oaCronService')
+var orderService = require('./services/orderService')
 
 
 
@@ -129,6 +130,8 @@ conn.connectToServer( function( err, client ) {
     scheduled: true,
     timezone: "America/New_York"
   });
+
+  orderService.syncOrders()
 
   // FOR TEST
   // cron.schedule('*/5 6-10 */16 * * mon-fri', () => {

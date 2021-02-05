@@ -88,4 +88,33 @@ module.exports = {
 		});
 
 	},
+
+	fetchOrderByUser: function ( user_id ) {
+
+		return new Promise(function(resolve, reject) {
+			// let query = `SELECT 
+			// 				u.id as user_id,
+			// 				u.name as user_name,
+			// 				u.email as user_email,
+			// 				u.password as user_password,
+			// 				u.role_id as user_role,
+			// 				u.created_at as user_created_date,
+			// 				o.id as order_id,
+			// 				o.order_number,
+			// 				o.created_at as order_created_date,
+			// 				o.total_amount as order_total_amount
+			// 			FROM orders o 
+			// 			LEFT JOIN users u on o.user_id = u.id
+			// 			ORDER BY u.id`;
+			let query = `SELECT * FROM orders WHERE user_id = ${user_id} AND role_id = 1`;
+			connection.query(query,function(err,res,fields) {
+				if (err) {
+					reject(err);
+			} else {
+					resolve(res);
+			}
+			});
+		});
+
+	},
 }; 

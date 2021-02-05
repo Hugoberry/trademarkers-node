@@ -61,6 +61,31 @@ module.exports = {
 		});
 	},
 
+	getUsers : function() {
+
+		const mysql = require('mysql');
+
+		const connection = mysql.createConnection({
+			host     : process.env.DBHOST,
+			user     : process.env.DBUSER,
+			password : process.env.DBPASS,
+			database : process.env.DBNAME
+		});
+
+		return new Promise(function(resolve, reject) {
+			
+			connection.query('SELECT * FROM users WHERE role_id = 1',function(err,res,fields) {
+				if (err) {
+					reject(err);
+			   } else {
+				//    console.log(res);
+					resolve(res);
+			   }
+			});
+
+		});
+	},
+
 	getUserByEmail : function(email) {
 
 		const mysql = require('mysql');
