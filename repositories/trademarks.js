@@ -45,7 +45,7 @@ module.exports = {
 
 	},
 	
-	fetchTmByOrder: function ( order_id ) {
+	fetchTmByOrder: async function ( order_id ) {
 
 		return new Promise(function(resolve, reject) {
 			connection.query("SELECT * FROM trademarks WHERE order_id = ?",[(order_id * 1)],function(err,res,fields) {

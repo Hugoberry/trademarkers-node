@@ -57,12 +57,63 @@ exports.syncOrders = async function() {
   let users = await rpoUserMysql.getUsers()
 
   for (var i = 0; i < users.length; i++) {
-    // insert user in collection if not exist
-    rpoUserMysql.putUser(users[i]);
-    console.log(users[i].id);
+    
+    
+    // console.log(users[i].id);÷
     // fetch orders from this user
-    // let orders = await rpoOrder.fetchOrderByUser(users[i].id);
-break;
+    let orders = await rpoOrder.fetchOrderByUser(users[i].id);
+
+    if (orders.length > 0) {
+
+      // insert user in collection if not exist
+      rpoUserMysql.putUser(users[i]);
+
+      // FORMAT DATA FOR STORING IN ORDER SUMMARY
+      let summary = {
+        customerId: users[i].id,
+        name: users[i].name,
+        email: users[i].email,
+        address: 'address',
+        country: 'country',
+        phone: 'country',
+        fax: 'country',
+        entity: 'country',
+        contacts: {
+          greet: 'Mr/Mrs',
+          name: 'Name'
+        }
+
+      };
+
+      // fetch trademarks per order
+      
+      for (var o = 0; o < orders.length; o++) {
+
+        let ordersData = {
+          orderNo: orders[0].number,
+          orderId: orders[0].id,
+          items: []
+        } 
+
+        let trademarks = await rpoTrademarksMysql.fetchTmByOrder(orders[0].id);
+        console.log(trademarks);
+
+        for (var t = 0; t < trademarks.length; t++) {
+          let item = {
+            service: trademarks[t].service,
+            type: trademarks[t].type,
+            name: trademarks[t].name,
+            class: []
+
+          }
+          ordersData.items.push(item)
+        }
+
+      }
+
+      break;
+    }
+
   }
   
 }

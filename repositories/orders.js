@@ -106,7 +106,7 @@ module.exports = {
 			// 			FROM orders o 
 			// 			LEFT JOIN users u on o.user_id = u.id
 			// 			ORDER BY u.id`;
-			let query = `SELECT * FROM orders WHERE user_id = ${user_id} AND role_id = 1`;
+			let query = `SELECT * FROM orders WHERE user_id = ${user_id}`;
 			connection.query(query,function(err,res,fields) {
 				if (err) {
 					reject(err);
