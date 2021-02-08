@@ -131,7 +131,7 @@ conn.connectToServer( function( err, client ) {
     timezone: "America/New_York"
   });
 
-  orderService.syncOrders()
+  // orderService.syncOrders()
 
   // FOR TEST
   // cron.schedule('*/5 6-10 */16 * * mon-fri', () => {

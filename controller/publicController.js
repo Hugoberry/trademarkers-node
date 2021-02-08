@@ -448,6 +448,7 @@ exports.codeLanding = async function(req, res, next) {
       title = "Payment Page"
       layout = 'layouts/public-layout-interactive'
       render = 'trademark-order/payment'
+      console.log('test');
     break;
 
     case 'delivery' :
@@ -493,7 +494,7 @@ exports.codeLanding = async function(req, res, next) {
     break;
 
     default:
-      res.redirect('/');
+      // res.redirect('/');
     break;
   }
 

@@ -38,7 +38,7 @@ router.get('/:actionCode/:type', publicController.codeLanding)
 // action
 router.get('/:action', publicController.redirect);
 // redirect
-// router.get('*', publicController.redirect);
+router.get('*', publicController.redirect);
 
 router.get('/services', publicController.service);
 router.get('/blog', publicController.blog);

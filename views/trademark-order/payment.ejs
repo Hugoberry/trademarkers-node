@@ -20,7 +20,7 @@
                       </div>
                     <% } %>
 
-                    <% if (action) { %>
+                    <% if (action && action.trademark) { %>
                       <h1 class="h1"><strong>Service Order</strong></h1>
                       <h2 class="h4">For the current office action for trademark (<%= action.trademark.name %>), you hereby order the following service:</h2>
                       
@@ -31,7 +31,7 @@
                     <% } %>
                   </div>
 
-                  <% if (action) { 
+                  <% if (action && action.trademark) { 
 
                     let qtyArr = action.trademark.classes.split(',')
                     let qty = qtyArr.length, total = 0, price = 0;
