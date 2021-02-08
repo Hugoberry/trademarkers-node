@@ -40,7 +40,18 @@ exports.syncOrders = async function() {
       rpoUserMysql.putUser(users[i]);
 
       // format address
-      let address = userProfile[0].street + " " + userProfile[0].city +", "+ userProfile[0].state + " " + userProfile[0].country +" "+ userProfile[0].zip_code;
+      let street = userProfile[0] && userProfile[0].street ? userProfile[0].street : '';
+      let city = userProfile[0] && userProfile[0].city ? userProfile[0].city : '';
+      let state = userProfile[0] && userProfile[0].state ? userProfile[0].state : '';
+      let country = userProfile[0] && userProfile[0].country ? userProfile[0].country : '';
+      let zip_code = userProfile[0] && userProfile[0].zip_code ? userProfile[0].zip_code : '';
+      let phone_number = userProfile[0] && userProfile[0].phone_number ? userProfile[0].phone_number : '';
+      let fax = userProfile[0] && userProfile[0].fax ? userProfile[0].fax : '';
+      let house = userProfile[0] && userProfile[0].house ? userProfile[0].house : '';
+      let company = userProfile[0] && userProfile[0].house ? userProfile[0].company : '';
+      let first_name = userProfile[0] && userProfile[0].first_name ? userProfile[0].first_name : '';
+
+      let address = street + " " + city +", "+ state + " " + country +" "+ zip_code;
 
       // FORMAT DATA FOR STORING IN ORDER SUMMARY
       let summary = {
@@ -48,19 +59,19 @@ exports.syncOrders = async function() {
         name: users[i].name,
         email: users[i].email,
         address: address,
-        city: userProfile[0].city,
-        state: userProfile[0].state,
-        street: userProfile[0].street,
-        house: userProfile[0].house,
-        zipCode: userProfile[0].zip_code,
-        country: userProfile[0].country,
-        phone: userProfile[0].phone_number,
-        fax: userProfile[0].fax,
-        entity: userProfile[0].company ? 'company' : 'individual',
+        city: city,
+        state: state,
+        street: street,
+        house: house,
+        zipCode: zip_code,
+        country: country,
+        phone: phone_number,
+        fax: fax,
+        entity: company ? 'company' : 'individual',
         orders: [],
         contacts: {
           greet: 'Mr/Mrs',
-          name: userProfile[0].first_name
+          name: first_name
         }
 
       };
@@ -112,9 +123,7 @@ exports.syncOrders = async function() {
 
       }
       rpoOrder.put(summary);
-      // console.log('for save data', summary);
-      
-      // break;
+
     }
 
   }

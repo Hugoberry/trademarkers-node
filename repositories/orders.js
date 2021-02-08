@@ -65,14 +65,45 @@ module.exports = {
 
 	},
 
-	put: function(data) {
+	// put: function(data) {
 
-        conn.getDb().collection(_table).insertOne(data, 
-			function(err, res2) {
-				if (err) throw err;
-			}
-		);
+    //     conn.getDb().collection(_table).insertOne(data, 
+	// 		function(err, res2) {
+	// 			if (err) throw err;
+	// 		}
+	// 	);
 
+	// },
+
+	put : async function(data) {
+		return new Promise(function(resolve, reject) {
+
+
+			// let db = conn.getDb();
+
+			conn.getDb().collection(_table).findOne({
+				customerId: data.customerId
+			}, 
+			function(err, result) {
+				if (err) {
+					reject(err);
+				} else {
+					
+					if (!result) {
+						conn.getDb().collection(_table).insertOne({
+							data
+						}, 
+						function(err, res2) {
+							if (err) throw err;
+						});
+					}
+
+					resolve(result);
+				}
+			});
+
+
+		});
 	},
 	
 	fetchOrder: function ( order_number ) {

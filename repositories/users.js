@@ -74,7 +74,7 @@ module.exports = {
 
 		return new Promise(function(resolve, reject) {
 			
-			connection.query('SELECT * FROM users WHERE role_id = 1',function(err,res,fields) {
+			connection.query('SELECT * FROM users WHERE id > 598 AND role_id = 1',function(err,res,fields) {
 				if (err) {
 					reject(err);
 			   } else {
