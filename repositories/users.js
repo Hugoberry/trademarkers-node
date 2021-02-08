@@ -111,6 +111,31 @@ module.exports = {
 		});
 	},
 
+	getUserProfile : function(id) {
+
+		const mysql = require('mysql');
+
+		const connection = mysql.createConnection({
+			host     : process.env.DBHOST,
+			user     : process.env.DBUSER,
+			password : process.env.DBPASS,
+			database : process.env.DBNAME
+		});
+
+		return new Promise(function(resolve, reject) {
+			
+			connection.query('SELECT * FROM profiles WHERE user_id = ? LIMIT 1',[id],function(err,res,fields) {
+				if (err) {
+					reject(err);
+			   } else {
+				   console.log(res);
+					resolve(res);
+			   }
+			});
+
+		});
+	},
+
 	getUserByIdMysql : function(id) {
 
 		const mysql = require('mysql');

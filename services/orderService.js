@@ -1,6 +1,7 @@
 let rpoOrder = require('../repositories/orders');
 let rpoUserMysql = require('../repositories/users');
 let rpoTrademarksMysql = require('../repositories/trademarks');
+const { getCountryPerContinentMysql } = require('../repositories/continents');
 
 exports.createOrderCode = async function() {
 
@@ -24,63 +25,42 @@ exports.createOrderCode = async function() {
 
 exports.syncOrders = async function() {
 
-  // FETCH ALL ORDERS AND FORMAT FOR STORING IN MONGO
-  // MAYBE FETCH ALL USERS 1ST AND FETCH ORDERS FOR THAT USER AND FETCH TRADEMARKS PER ORDER
-
+  let users = await rpoUserMysql.getUsers();
   
-  // let orders = await rpoOrder.fetchOrderByUser();
-  // let user_id = 0;
-  // let user_data = null;
-
-  // for (var i = 0; i < orders.length; i++) {
-  //   console.log(orders[i]);
-  //   if ( user_id != orders[i].user_id ) {
-  //     // new user
-  //     user_data = {
-  //       user_id: orders[i].user_id,
-  //       user_name: orders[i].user_name,
-  //       user_email: orders[i].user_email,
-  //       user_password: orders[i].user_password,
-  //       user_role: orders[i].user_role,
-  //       user_created_date: orders[i].user_created_date,
-  //     }
-  //   } else {
-  //     // store records in orders and fetch 
-  //   }
-
-
-  //   let trademarks = await rpoTrademarksMysql.fetchTmByOrder(orders[i].order_id)
-  //   console.log(trademarks.length);
-  //   break;
-  // }
-
-  let users = await rpoUserMysql.getUsers()
 
   for (var i = 0; i < users.length; i++) {
-    
-    
-    // console.log(users[i].id);÷
+
     // fetch orders from this user
     let orders = await rpoOrder.fetchOrderByUser(users[i].id);
+    let userProfile = await rpoUserMysql.getUserProfile(users[i].id)
 
     if (orders.length > 0) {
 
       // insert user in collection if not exist
       rpoUserMysql.putUser(users[i]);
 
+      // format address
+      let address = userProfile[0].street + " " + userProfile[0].city +", "+ userProfile[0].state + " " + userProfile[0].country +" "+ userProfile[0].zip_code;
+
       // FORMAT DATA FOR STORING IN ORDER SUMMARY
       let summary = {
         customerId: users[i].id,
         name: users[i].name,
         email: users[i].email,
-        address: 'address',
-        country: 'country',
-        phone: 'country',
-        fax: 'country',
-        entity: 'country',
+        address: address,
+        city: userProfile[0].city,
+        state: userProfile[0].state,
+        street: userProfile[0].street,
+        house: userProfile[0].house,
+        zipCode: userProfile[0].zip_code,
+        country: userProfile[0].country,
+        phone: userProfile[0].phone_number,
+        fax: userProfile[0].fax,
+        entity: userProfile[0].company ? 'company' : 'individual',
+        orders: [],
         contacts: {
           greet: 'Mr/Mrs',
-          name: 'Name'
+          name: userProfile[0].first_name
         }
 
       };
@@ -90,31 +70,56 @@ exports.syncOrders = async function() {
       for (var o = 0; o < orders.length; o++) {
 
         let ordersData = {
-          orderNo: orders[0].number,
-          orderId: orders[0].id,
+          orderNo: orders[o].order_number,
+          orderId: orders[o].id,
           items: []
         } 
 
-        let trademarks = await rpoTrademarksMysql.fetchTmByOrder(orders[0].id);
-        console.log(trademarks);
+        let trademarks = await rpoTrademarksMysql.fetchTmByOrder(orders[o].id);
 
         for (var t = 0; t < trademarks.length; t++) {
+
+          
+
+          let classArr = [];
+
+          if (trademarks[t].classes) {
+            let classNumber = trademarks[t].classes.split(",")
+            let classDescription = trademarks[t].classes_description;
+            for (let i = 0; i < classNumber.length; i++) {
+                if(classNumber[i]) {
+                    classArr.push({
+                        classNo: classNumber[i],
+                        goodsServices: classDescription
+                    });
+                }
+            }
+          }
+          
+
           let item = {
             service: trademarks[t].service,
             type: trademarks[t].type,
             name: trademarks[t].name,
-            class: []
+            class: classArr
 
           }
           ordersData.items.push(item)
+          
         }
 
-      }
+        summary.orders.push(ordersData)
 
-      break;
+      }
+      rpoOrder.put(summary);
+      // console.log('for save data', summary);
+      
+      // break;
     }
 
   }
+
+
   
 }
 
