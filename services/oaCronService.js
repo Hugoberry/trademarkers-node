@@ -155,11 +155,19 @@ for (let i = 0; count < 1 ; i++) {
         // console.log();
     }
 
+  } else {
+    console.log("rec", rec[i]);
+  }
+
+  if (rec.length <= i ) {
+    count++;
   }
 
 
     // console.log( 'helper', helpers.convertIntToDate(trademark.noticeOfAllowanceDate) );
-}
+} // for end
+
+console.log("end for");
 
   
 
