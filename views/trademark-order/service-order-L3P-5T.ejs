@@ -21,12 +21,14 @@
                       <% } %>
   
                         <h1 class="h1"><strong>Service Order</strong></h1>
-                        <h2 class="h5">Letter to the EUIPO requesting suspension of the proceedings pending the agreement of the counterparty to restrict scope</h2>
+                        
 
                         
                         <div class="srvc-row srvc-dec-us">
-                          <h2 class="h4 srvc-title">Letter to the EUIPO requesting suspension</h2>
+                          <h2 class="h5 srvc-title">Letter to the EUIPO requesting suspension of the proceedings pending the agreement of the counterparty to restrict scope</h2>
                         </div>
+                        <!-- <br>
+                        <h2 class="h5"> < Trademark info here > </h2> -->
            
                     </div>
   
@@ -39,12 +41,12 @@
                             <div class="cst-list">
                               
                               <div class="cst-itm">
-                                <span class="cst-label">Amount (€): </span>
-                                <span class="cst-value">300.00</span>
+                                <span class="cst-label">Amount (EUR): </span>
+                                <span class="cst-value">€300.00</span>
                               </div>
                               <div class="cst-itm">
-                                <span class="cst-label">Amount ($): </span>
-                                <span class="cst-value">362.32</span>
+                                <span class="cst-label">Amount (USD): </span>
+                                <span class="cst-value">$362.32</span>
                               </div>
                               <div class="cst-itm cst-item-ttl">
                                 <span class="cst-label">Final Amount in USD: </span>
@@ -232,10 +234,10 @@
   // Add an instance of the card Element into the `card-element` <div>.
   // card.mount('#card-element');
   
-  var acc = elements.create('cardNumber', {style: style});
+  var acc = elements.create('cardNumber', {style: style, placeholder: 'Card Number'});
   var cardExpiry = elements.create('cardExpiry', {style: style});
   var cardCvc = elements.create('cardCvc', {style: style});
-  var postalCode = elements.create('postalCode', {style: style});
+  var postalCode = elements.create('postalCode', {style: style, placeholder: 'Postal Code'});
   var emailAddress = document.getElementById("email");
   
   
@@ -244,6 +246,8 @@
   cardExpiry.mount('#cardExpiry');
   cardCvc.mount('#cardCvc');
   postalCode.mount('#postalCode');
+
+  // cardCvc.op
   
   // Handle real-time validation errors from the card Element.
   acc.on('change', function(event) {
