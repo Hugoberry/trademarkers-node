@@ -25,6 +25,9 @@ router.get('/', publicController.home);
 
 router.get('/what-is-the-uniform-domain-name-dispute-resolution-policy', publicController.udrp);
 
+// CUSTOM PAGE CHECKOUT 
+router.get('/checkout/L3P-5T', publicController.serviceOrderCustom);
+router.post('/checkout/checkoutCustom', publicController.checkoutCustom);
 
 router.post('/checkout/:action', publicController.checkout);
 

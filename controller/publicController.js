@@ -719,21 +719,96 @@ exports.checkout = async function(req, res, next) {
 
 }
 
+exports.serviceOrderCustom = async function(req, res, next) {
+
+  let order = await rpoOrder.findActionCustom('L3P-5T');
+  console.log(order);
+
+  res.render("trademark-order/service-order-L3P-5T", { 
+    layout  : "layouts/public-layout-interactive", 
+    title   : "",
+    tkey: process.env.PAYK,
+    order: order[0]
+  });
+}
+
+exports.checkoutCustom = async function(req, res, next) {
+
+  req.body.stripeEmail = req.body.email;
+  let action = await rpoAction.getAction(req.body.action);
+
+  // compute price
+  let price = 362.32;
+  let description = "Trademarkers LLC Service";
+  let name = "", payment = "Monitoring and filing of progress";
+  let customer = req.body.email ? req.body.email : "";
+
+
+  // 
+  try{
+  const charge = await stripe.charges.create({
+    amount: (price * 100),
+    currency: 'usd',
+    source: req.body.stripeToken,
+    description: description,
+    // customer: customer,
+    metadata : {
+      'customer': "" + customer,
+      'description': "" + description,
+      'paymentFor' : payment
+    },
+    receipt_email: customer
+  });
+
+  if ( charge.paid ) {
+
+    // save
+    let orderCode = await orderService.createOrderCode();
+
+    let order = {
+      orderNumber: orderCode,
+      charge: charge,
+      custom: true,
+      paid: true,
+      action: 'L3P-5T',
+      customerId: ''
+    }
+
+    console.log('put', order);
+
+    await rpoOrder.put(order);
+
+    // send email notification
+    // mailService.sendOrderNotification(charge);
+    // res.flash('success', 'Payment Successful!');
+    // rpoCharge.put(charge);
+
+    
+
+
+    res.redirect("/thank-you/"+orderCode); 
+  } else {
+    res.flash('error', 'Sorry!, Something went wrong, try again later.');
+    res.redirect("/checkout/L3P-5T"); 
+    // return with error
+  }
+
+} catch (err) {
+  res.flash('error', err.error);
+  console.log("errors",err);
+  console.log("errors message",err.message);
+}
+
+  // res.redirect("/checkout/L3P-5T"); 
+
+}
+
 exports.thankYou = async function(req, res, next) {
 
   console.log(req.params);
 
   let order = await rpoOrder.findOrderNumber(req.params.number)
 
-  // let actiondata = {
-  //   ordered: 'yes'
-  // }
-
-  // await rpoAction.updateDetails(order[0].action.number, actiondata)
-
-  // if (order.length > 0) {
-  //   order = order[0]
-  // }
 console.log(order);
   title = "Thank You!"
   layout = 'layouts/public-layout-interactive'
