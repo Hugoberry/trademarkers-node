@@ -26,11 +26,20 @@ router.get('/', publicController.home);
 router.get('/what-is-the-uniform-domain-name-dispute-resolution-policy', publicController.udrp);
 
 // CUSTOM PAGE CHECKOUT --- START
+
+router.get('/add-service-code-secret-132321', publicController.generateService);
+router.post('/add-service-code-secret-132321-submit', publicController.generateServiceSubmit);
+
 router.get('/checkout/L3P-5T', publicController.serviceOrderCustom);
 router.post('/checkout/checkoutCustom', publicController.checkoutCustom);
 
 router.get('/checkout/L3P-6T', publicController.serviceOrderCustom2);
 router.post('/checkout/checkoutCustom2', publicController.checkoutCustom2);
+
+router.get('/checkout/:serviceCode', publicController.serviceOrderShow);
+router.post('/checkout/serviceOrderSubmit', publicController.serviceOrderSubmit);
+
+
 
 // CUSTOM PAGE CHECKOUT --- END
 

@@ -19,6 +19,7 @@ var rpoClasses = require('../repositories/classes');
 var rpoTrademarks = require('../repositories/trademarks');
 var rpoCharge = require('../repositories/charges');
 var rpoOrder = require('../repositories/orders');
+var rpoServiceAction = require('../repositories/serviceAction');
 
 var activityService = require('../services/activityLogService');
 var pdfService = require('../services/pdfService');
@@ -26,7 +27,7 @@ var checkoutService = require('../services/checkoutService');
 var mailService = require('../services/mailerService');
 var orderService = require('../services/orderService');
 
-// var helpers = require('../helpers');
+var helpers = require('../helpers');
 
 const emailValidator = require('deep-email-validator');
 
@@ -781,7 +782,11 @@ exports.checkoutCustom = async function(req, res, next) {
 
     console.log('put', order);
 
-    await rpoOrder.put(order);
+    rpoOrder.put(order);
+
+    mailService.sendOrderNotification(charge);
+    res.flash('success', 'Payment Successful!');
+    rpoCharge.put(charge);
 
     res.redirect("/thank-you/"+orderCode); 
   } else {
@@ -857,7 +862,13 @@ exports.checkoutCustom2 = async function(req, res, next) {
 
     console.log('put', order);
 
-    await rpoOrder.put(order);
+    rpoOrder.put(order);
+
+    mailService.sendOrderNotification(charge);
+    res.flash('success', 'Payment Successful!');
+    rpoCharge.put(charge);
+
+
 
     res.redirect("/thank-you/"+orderCode); 
   } else {
@@ -872,6 +883,151 @@ exports.checkoutCustom2 = async function(req, res, next) {
   console.log("errors message",err.message);
 }
 
+}
+
+
+exports.serviceOrderShow = async function(req, res, next) {
+
+  console.log(req.params.serviceCode);
+  let serviceOrder = await rpoServiceAction.findByCode(req.params.serviceCode)
+  // console.log(order);
+
+  res.render("trademark-order/service-order", { 
+    layout  : "layouts/public-layout-interactive", 
+    title   : "",
+    tkey: process.env.PAYK,
+    serviceOrder: serviceOrder[0]
+  });
+}
+
+exports.serviceOrderSubmit = async function(req, res, next) {
+
+  req.body.stripeEmail = req.body.email;
+
+  let serviceCode = await rpoServiceAction.findByCode(req.body.code);
+
+  if (serviceCode.length <= 0) {
+    res.flash('error', 'Sorry!, Something went wrong, try again later.');
+    res.redirect("/checkout/" + req.body.code); 
+  }
+
+
+  // compute price
+  let price = serviceCode[0].amount;
+  let description = serviceCode[0].name;
+  let name = "", payment = serviceCode[0].description;
+  let customer = req.body.email ? req.body.email : "";
+
+
+  // 
+  try{
+  const charge = await stripe.charges.create({
+    amount: (price * 100),
+    currency: 'usd',
+    source: req.body.stripeToken,
+    description: description,
+    // customer: customer,
+    metadata : {
+      'customer': "" + customer,
+      'description': "" + description,
+      'paymentFor' : payment,
+      'customerName' : req.body.name,
+      'customerAddress' : req.body.address
+    },
+    receipt_email: customer
+  });
+
+  if ( charge.paid ) {
+
+    // save
+    let orderCode = await orderService.createOrderCode();
+
+    let order = {
+      orderNumber: orderCode,
+      charge: charge,
+      custom: true,
+      paid: true,
+      action: req.body.code,
+      customerId: ''
+    }
+
+    console.log('put', order);
+
+    let newOrder = await rpoOrder.put(order);
+
+    mailService.sendOrderNotification(charge);
+    res.flash('success', 'Payment Successful!');
+    rpoCharge.put(charge);
+
+    res.redirect("/thank-you/"+orderCode); 
+  } else {
+    res.flash('error', 'Sorry!, Something went wrong, try again later.');
+    res.redirect("/checkout/" + req.body.code); 
+    // return with error
+  }
+
+} catch (err) {
+  res.flash('error', err.error);
+  console.log("errors",err);
+  console.log("errors message",err.message);
+}
+
+}
+
+exports.generateService = async function(req, res, next) {
+
+
+
+  res.render(
+    "trademark-order/add-service", { 
+    layout  : "layouts/public-layout-interactive", 
+    title   : ""
+  });
+}
+
+exports.generateServiceSubmit = async function(req, res, next) {
+
+  console.log('a');
+  try {
+   
+    let code = '';
+    let flag = true;
+    
+    // FETCH/GENERATE UNIQUE CODE
+    for( ; flag;  ) {
+      console.log('loop');
+      code = helpers.makeid(4) + '-' + helpers.makeid(2);
+      let serviceCode = await rpoServiceAction.findByCode(code);
+      console.log(serviceCode);
+      if (serviceCode.length <= 0) {
+        flag = false;
+      }
+
+    }
+    console.log('loop end', code);
+    let data = {
+      code: code,
+      sname: req.body.name,
+      description: req.body.description,
+      amount: req.body.amount
+    }
+
+    let serviceAction = await rpoServiceAction.put(data)
+
+    // send email for notification
+
+    if (serviceAction) {
+      res.flash('success', 'Added new code, [' + code +']');
+    } else {
+      res.flash('error', 'Sorry, Something went wrong, please try again later.');
+    }
+
+  } catch(err) {
+    res.flash('error', err.error);
+  }
+  
+  res.redirect("/add-service-code-secret-132321"); 
+ 
 }
 
 // CUSTOM PAGE SERVICE -------------------------------- END
