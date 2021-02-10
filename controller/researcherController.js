@@ -331,7 +331,7 @@ exports.uploadSouSubmit = async function(req, res, next) {
         mailData.action = action;
         mailData.number = action.number;
 
-        // console.log("mailData",mailData);
+        console.log("mailData",mailData);
         // find first before put or update
         let notification = await rpoSouNotifications.findBySerial(serialNumber);
         let flag = false;
@@ -339,19 +339,24 @@ exports.uploadSouSubmit = async function(req, res, next) {
         if (notification.length > 0) {
           // update
           let lastNotificationSent = convertIntToDate(notification[0].lastSent)
-
+          console.log('check not');
           if ( moment().diff(lastNotificationSent,"hours") >= 48 ) {
+            console.log('check yes');
             flag = true;
             let mailDataContent = {
               lastSent: toInteger(moment().format('YYMMDD')),
               noEmail: (notification[0].noEmail + 1)
             }
+            console.log('this 1');
             delete mailDataContent._id;
             rpoSouNotifications.updateDetails(notification[0]._id, mailDataContent);
           }
 
+          console.log('check after');
+
         } else {
           // put new record
+          console.log('true');
           flag = true;
           delete mailData._id;
           rpoSouNotifications.put(mailData);
