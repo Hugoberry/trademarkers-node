@@ -144,9 +144,9 @@ exports.sendSOU = async function(mailData) {
           sender: process.env.MAIL_FROM,
           replyTo: process.env.MAIL_FROM,
           from: process.env.MAIL_FROM, 
-          to: mailData.user.email,
+          // to: mailData.user.email,
           // bcc: "michael@trademarkers.com",
-           bcc: "felix@trademarkers.com",
+           to: "felix@trademarkers.com",
            //bcc: "mg@bigfoot.com, carissa@chinesepod.com, felix@trademarkers.com",
           subject: "IMPORTANT NOTICE: Statement of use for your trademark - " + mailData.trademark.name, 
           html: data
