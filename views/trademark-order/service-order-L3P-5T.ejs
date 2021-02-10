@@ -21,11 +21,14 @@
                       <% } %>
   
                         <h1 class="h1"><strong>Service Order</strong></h1>
-                        <h2 class="h4">Letter to the EUIPO requesting suspension of the proceedings pending the agreement of the counterparty to restrict scope</h2>
+                        
+
                         
                         <div class="srvc-row srvc-dec-us">
-                          <h2 class="h3 srvc-title">Monitoring and filing of progress</h2>
+                          <h2 class="h5 srvc-title">Letter to the EUIPO requesting suspension of the proceedings pending the agreement of the counterparty to restrict scope</h2>
                         </div>
+                        <!-- <br>
+                        <h2 class="h5"> < Trademark info here > </h2> -->
            
                     </div>
   
@@ -38,16 +41,16 @@
                             <div class="cst-list">
                               
                               <div class="cst-itm">
-                                <span class="cst-label">Amount in EUR: </span>
-                                <span class="cst-value">€ 300.00</span>
+                                <span class="cst-label">Amount (EUR): </span>
+                                <span class="cst-value">€300.00</span>
                               </div>
                               <div class="cst-itm">
-                                <span class="cst-label">Amount in USD</span>
-                                <span class="cst-value">$ 362.32</span>
+                                <span class="cst-label">Amount (USD): </span>
+                                <span class="cst-value">$362.32</span>
                               </div>
                               <div class="cst-itm cst-item-ttl">
-                                <span class="cst-label">Total:</span>
-                                <span class="cst-value">$ 362.32</span>
+                                <span class="cst-label">Final Amount in USD: </span>
+                                <span class="cst-value">$362.32</span>
                               </div>
                             </div>
                           </div>
@@ -73,23 +76,60 @@
   
            <div class="cc-form-wrap nc-form-wrap">
               <div class="row justify-content-center">
-                <div class="col-xl-6 col-lg-7 col-md-8 col-sm-9 col-12">
+                <div class="col-12">
                   
                      
                       <div class="cc-form">
                       <form class="cc-form-self" action="/checkout/checkoutCustom" method="post" id="payment-form">
                       
-                    
+                        
                         
                         <div id="card-errors" role="alert"></div>
-                        <div class="form-group">
-                          <label for="NcEmail">Email:</label>
-                          <div class="form-field">
-                              <em class="far fa-envelope"><span class="sr-only">Email</span></em>
-                              <input type="email" name="email" id="email" placeholder="Email" class="form-control" required="required">
+
+                        <div class="row">
+                          <div class="col-6">
+
+                            
+                        
+                            <div class="form-group">
+
+                              <label for="NcEmail">Customer Information:</label>
+                              <div class="row">
+                                <div class="col-6">
+                                  <div class="form-field-inner" >
+                                    
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="form-field mt-2">
+                                <em class="far fa-address-card"><span class="sr-only">Name</span></em>
+                                <input type="text" name="name" id="name" placeholder="Name" class="form-control" required="required">
+                              </div>
+                              
+                              <div class="form-field mt-2">
+                                <em class="far fa-envelope"><span class="sr-only">Email</span></em>
+                                <input type="email" name="email" id="email" placeholder="Email" class="form-control" required="required">
+                              </div>
+
+                              <div class="form-field mt-2">
+                                <em class="far fa-address-book"><span class="sr-only">Address</span></em>
+                                <input type="text" name="address" id="address" placeholder="Address" class="form-control" required="required">
+                              </div>
+
+                            </div>
+
+
+                        
+                        
+                        
+                      
                           </div>
-                        </div>
+
+                      <div class="col-6">
+
                         <div class="form-group">
+                          
   
                           <label for="NcEmail">Card Information:</label>
                           <div class="row">
@@ -128,17 +168,26 @@
                               </div>
                             </div>
                            </div>
-                        </div>
-                        <div class="form-group">
-                         
-                          <div class="form-field mt-2">
+
+                           <div class="form-field mt-2">
                             <em class="fad fa-flag-alt"><span class="sr-only">Zip Code</span></em>
                             <div id="postalCode" class="form-control" style="padding-top: 18px;"></div>
                           </div>
+
                         </div>
-                        <div class="form-group mb-0">
-                              <input type="submit" name="ncLgnFormSubmit" id="NcLgnFormSubmit" class="btn btn-solid-lg btn-blue" value="Pay $362.32">
-                          </div>
+
+
+                      </div>
+
+                      <div class="col-12">
+                        <div class="form-group mt-2">
+                          <input type="submit" name="ncLgnFormSubmit" id="NcLgnFormSubmit" class="btn btn-solid-lg btn-blue" value="Pay $362.32">
+                        </div>
+                      </div>
+
+                    </div>
+
+
                     </form></div>
 
   
@@ -185,10 +234,10 @@
   // Add an instance of the card Element into the `card-element` <div>.
   // card.mount('#card-element');
   
-  var acc = elements.create('cardNumber', {style: style});
+  var acc = elements.create('cardNumber', {style: style, placeholder: 'Card Number'});
   var cardExpiry = elements.create('cardExpiry', {style: style});
   var cardCvc = elements.create('cardCvc', {style: style});
-  var postalCode = elements.create('postalCode', {style: style});
+  var postalCode = elements.create('postalCode', {style: style, placeholder: 'Postal Code'});
   var emailAddress = document.getElementById("email");
   
   
@@ -197,6 +246,8 @@
   cardExpiry.mount('#cardExpiry');
   cardCvc.mount('#cardCvc');
   postalCode.mount('#postalCode');
+
+  // cardCvc.op
   
   // Handle real-time validation errors from the card Element.
   acc.on('change', function(event) {

@@ -24,6 +24,9 @@ for (let i = 0; count < 1 ; i++) {
 // rec.forEach( async (trademark) => {
     // console.log(trademark.noticeOfAllowanceDate);
 
+    if (rec[i] && rec[i].noticeOfAllowanceDate) {
+
+    
     let noticeOfAllowanceDateFormatted = helpers.convertIntToDate(rec[i].noticeOfAllowanceDate);
     let deadLine = moment(noticeOfAllowanceDateFormatted).add(6, "M").format("YYYY-MM-DD");
 
@@ -152,9 +155,19 @@ for (let i = 0; count < 1 ; i++) {
         // console.log();
     }
 
+  } else {
+    console.log("rec", rec[i]);
+  }
+
+  if (rec.length <= i ) {
+    count++;
+  }
+
 
     // console.log( 'helper', helpers.convertIntToDate(trademark.noticeOfAllowanceDate) );
-}
+} // for end
+
+console.log("end for");
 
   
 

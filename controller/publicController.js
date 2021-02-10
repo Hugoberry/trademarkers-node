@@ -755,7 +755,9 @@ exports.checkoutCustom = async function(req, res, next) {
     metadata : {
       'customer': "" + customer,
       'description': "" + description,
-      'paymentFor' : payment
+      'paymentFor' : payment,
+      'customerName' : req.body.name,
+      'customerAddress' : req.body.address
     },
     receipt_email: customer
   });
