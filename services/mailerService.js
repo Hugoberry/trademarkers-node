@@ -201,14 +201,14 @@ exports.sendNOA = async function(mailData) {
   // console.log("weeks issue =>>>>>>>>>> ", mailData.dateIssue, moment().diff(mailData.dateIssue, 'weeks') );
   // console.log("weeks dead =>>>>>>>>>> ", mailData.deadlineDate, moment().diff(mailData.deadlineDate, 'weeks') );
 
-  let dateIssue = moment(mailData.dateIssue).diff(moment(), 'weeks')
+  let dateIssue = moment(moment()).diff(mailData.dateIssue, 'weeks')
   let deadIssue = moment(mailData.deadlineDate).diff(moment(), 'weeks')
 
   if ( dateIssue <= 3 ) {
     template = 'noa-3weeks-plain.ejs'
   } else if ( dateIssue >= 4 && dateIssue < 12 ) {
     template = 'noa-4weeks-plain.ejs'
-  } else if ( deadIssue >= -8 && deadIssue < 0 ) {
+  } else if ( deadIssue <= 8 && deadIssue > 0 ) {
   // } else {
     template = 'noa-8weeks-plain.ejs';
 
