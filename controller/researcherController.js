@@ -346,12 +346,14 @@ exports.uploadSouSubmit = async function(req, res, next) {
               lastSent: toInteger(moment().format('YYMMDD')),
               noEmail: (notification[0].noEmail + 1)
             }
+            delete mailDataContent._id;
             rpoSouNotifications.updateDetails(notification[0]._id, mailDataContent);
           }
 
         } else {
           // put new record
           flag = true;
+          delete mailData._id;
           rpoSouNotifications.put(mailData);
         }
 
@@ -364,8 +366,8 @@ exports.uploadSouSubmit = async function(req, res, next) {
             case 'AL':
               // STATEMENT OF USE
               console.log('sending sou');
-              mailService.sendNOA(mailData);
-              // mailService.sendSOU(mailData);
+              // mailService.sendNOA(mailData);
+              mailService.sendSOU(mailData);
               
             break;
             case 'OA':
