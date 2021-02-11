@@ -55,7 +55,8 @@ exports.newServiceOrder = async function(data) {
           <p>Name: ${data.name}<br>
           Description : ${data.description}<br>
           Amount : $${data.amount}<br>
-          Code: ${data.code}</p>
+          Code: ${data.code}<br>
+          Link: https://www.trademarkers.com/checkout/${data.code}</p>
       `, 
   });
   
