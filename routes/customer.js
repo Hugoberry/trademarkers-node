@@ -1,15 +1,12 @@
 var express = require('express');
 var router = express.Router();
+const {verify} = require('../controller/middleware');
 
-// var db = require('../config/database');
+const controller = require('../controller/customerController')
 
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
+router.get('/orders', controller.orders);
+router.get('/orders/:id', controller.orderDetail);
 
-  db.getUsers();
-
-  res.send('respond with a resource');
-});
 
 module.exports = router;

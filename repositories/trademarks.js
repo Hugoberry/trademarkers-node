@@ -102,6 +102,40 @@ module.exports = {
 
 	},
 
+	fetchTmByUser: function ( user_id, sort ) {
+
+		return new Promise(function(resolve, reject) {
+
+			let query = "";
+
+			if (sort) {
+				let sortBy = (sort == 'registered' ? "AND office_status = 'Registered'" : "AND office_status <> 'Registered'");
+
+				query = `SELECT * 
+							FROM trademarks 
+							WHERE user_id = ${user_id}
+							AND service = 'Trademark Registration'
+							${sortBy}
+						`;
+			} else {
+				query = `SELECT * 
+							FROM trademarks 
+							WHERE user_id = ${user_id}
+							AND service = 'Trademark Registration'
+						`;
+			}
+
+			connection.query(query,function(err,res,fields) {
+				if (err) {
+					reject(err);
+			} else {
+					resolve(res);
+			}
+			});
+		});
+
+	},
+
 	fetchTmCertById: function ( trademark_id ) {
 
 		return new Promise(function(resolve, reject) {
