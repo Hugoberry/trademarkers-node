@@ -1015,7 +1015,7 @@ exports.generateServiceSubmit = async function(req, res, next) {
     console.log('loop end', code);
     let data = {
       code: code,
-      sname: req.body.name,
+      name: req.body.name,
       description: req.body.description,
       amount: req.body.amount
     }
@@ -1025,6 +1025,9 @@ exports.generateServiceSubmit = async function(req, res, next) {
     // send email for notification
 
     if (serviceAction) {
+
+      mailService.newServiceOrder(data);
+
       res.flash('success', 'Added new code, [' + code +']');
     } else {
       res.flash('error', 'Sorry, Something went wrong, please try again later.');
