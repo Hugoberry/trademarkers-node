@@ -44,7 +44,7 @@ var groupBy = function(xs, key) {
 
 exports.home = async function(req, res, next) {
 
-    activityService.logger(req.ip, req.originalUrl, "Visited Homepage");
+    // activityService.logger(req.ip, req.originalUrl, "Visited Homepage");
 
     var getClientIp = req.headers['x-real-ip'] || req.connection.remoteAddress;
 
@@ -60,49 +60,49 @@ exports.home = async function(req, res, next) {
 
 exports.about = function(req, res, next) {
 
-  activityService.logger(req.ip, req.originalUrl, "Visited About Page");
+  // activityService.logger(req.ip, req.originalUrl, "Visited About Page");
 
   res.render('public/about', { layout: 'layouts/public-layout-default', title: 'About' });
 }
 
 exports.terms = function(req, res, next) {
 
-  activityService.logger(req.ip, req.originalUrl, "Visited Terms Page");
+  // activityService.logger(req.ip, req.originalUrl, "Visited Terms Page");
 
   res.render('public/terms', { layout: 'layouts/public-layout-default', title: 'terms' });
 }
 
 exports.privacy = function(req, res, next) {
 
-  activityService.logger(req.ip, req.originalUrl, "Visited Privacy Page");
+  // activityService.logger(req.ip, req.originalUrl, "Visited Privacy Page");
 
   res.render('public/privacy', { layout: 'layouts/public-layout-default', title: 'privacy' });
 }
 
 exports.service = function(req, res, next) {
 
-  activityService.logger(req.ip, req.originalUrl, "Visited Service Page");
+  // activityService.logger(req.ip, req.originalUrl, "Visited Service Page");
 
   res.render('public/service', { layout: 'layouts/public-layout-default', title: 'service' });
 }
 
 exports.cookies = function(req, res, next) {
 
-  activityService.logger(req.ip, req.originalUrl, "Visited Cookies Page");
+  // activityService.logger(req.ip, req.originalUrl, "Visited Cookies Page");
 
   res.render('public/cookies', { layout: 'layouts/public-layout-default', title: 'cookies' });
 }
 
 exports.blog = function(req, res, next) {
 
-  activityService.logger(req.ip, req.originalUrl, "Visited Blog Page");
+  // activityService.logger(req.ip, req.originalUrl, "Visited Blog Page");
 
   res.render('public/blog', { layout: 'layouts/public-layout-default', title: 'blog' });
 }
 
 exports.contact = function(req, res, next) {
 
-  activityService.logger(req.ip, req.originalUrl, "Visited Contact Page");
+  // activityService.logger(req.ip, req.originalUrl, "Visited Contact Page");
 
   res.redirect("/");
 
@@ -111,42 +111,42 @@ exports.contact = function(req, res, next) {
 
 exports.classes = function(req, res, next) {
 
-  activityService.logger(req.ip, req.originalUrl, "Visited Classes Page");
+  // activityService.logger(req.ip, req.originalUrl, "Visited Classes Page");
 
   res.render('public/classes', { layout: 'layouts/public-layout-default', title: 'classes' });
 }
 
 exports.resources = function(req, res, next) {
 
-  activityService.logger(req.ip, req.originalUrl, "Visited Resources Page");
+  // activityService.logger(req.ip, req.originalUrl, "Visited Resources Page");
 
   res.render('public/resources', { layout: 'layouts/public-layout-default', title: 'resources' });
 }
 
 exports.prices = function(req, res, next) {
 
-  activityService.logger(req.ip, req.originalUrl, "Visited Price Page");
+  // activityService.logger(req.ip, req.originalUrl, "Visited Price Page");
 
   res.render('public/prices', { layout: 'layouts/public-layout-default', title: 'prices' });
 }
 
 exports.registration = function(req, res, next) {
 
-  activityService.logger(req.ip, req.originalUrl, "Visited Registration Page");
+  // activityService.logger(req.ip, req.originalUrl, "Visited Registration Page");
 
   res.render('public/registration', { layout: 'layouts/public-layout-default', title: 'registration' });
 }
 
 exports.service_contract = function(req, res, next) {
 
-  activityService.logger(req.ip, req.originalUrl, "Visited Service Page");
+  // activityService.logger(req.ip, req.originalUrl, "Visited Service Page");
 
   res.render('public/service_contract', { layout: 'layouts/public-layout-default', title: 'service_contract' });
 }
 
 exports.udrp = function(req, res, next) {
 
-  activityService.logger(req.ip, req.originalUrl, "Visited UDRP Page");
+  // activityService.logger(req.ip, req.originalUrl, "Visited UDRP Page");
 
   res.render('public/udrp', { layout: 'layouts/public-layout-default', title: 'Uniform Domain-Name Dispute-Resolution Policy' });
 }
@@ -726,7 +726,8 @@ exports.checkout = async function(req, res, next) {
 exports.serviceOrderCustom = async function(req, res, next) {
 
   let order = await rpoOrder.findActionCustom('L3P-5T');
-  console.log(order);
+
+  activityService.logger(req.ip, req.originalUrl, "Visited service page L3P-5T");
 
   res.render("trademark-order/service-order-L3P-5T", { 
     layout  : "layouts/public-layout-interactive", 
@@ -741,6 +742,7 @@ exports.checkoutCustom = async function(req, res, next) {
   req.body.stripeEmail = req.body.email;
   let action = await rpoAction.getAction(req.body.action);
 
+  
   // compute price
   let price = 362.32;
   let description = "Trademarkers LLC Service";
@@ -788,6 +790,8 @@ exports.checkoutCustom = async function(req, res, next) {
     res.flash('success', 'Payment Successful!');
     rpoCharge.put(charge);
 
+    activityService.logger(req.ip, req.originalUrl, "checkout L3P-5T");
+
     res.redirect("/thank-you/"+orderCode); 
   } else {
     res.flash('error', 'Sorry!, Something went wrong, try again later.');
@@ -806,8 +810,9 @@ exports.checkoutCustom = async function(req, res, next) {
 exports.serviceOrderCustom2 = async function(req, res, next) {
 
   let order = await rpoOrder.findActionCustom('L3P-5T');
-  console.log(order);
-
+  
+  activityService.logger(req.ip, req.originalUrl, "Visited service page L3P-6T");
+  console.log('check');
   res.render("trademark-order/service-order-L3P-6T", { 
     layout  : "layouts/public-layout-interactive", 
     title   : "",
@@ -868,7 +873,7 @@ exports.checkoutCustom2 = async function(req, res, next) {
     res.flash('success', 'Payment Successful!');
     rpoCharge.put(charge);
 
-
+    activityService.logger(req.ip, req.originalUrl, "checkout L3P-6T");
 
     res.redirect("/thank-you/"+orderCode); 
   } else {
@@ -890,7 +895,8 @@ exports.serviceOrderShow = async function(req, res, next) {
 
   console.log(req.params.serviceCode);
   let serviceOrder = await rpoServiceAction.findByCode(req.params.serviceCode)
-  // console.log(order);
+  
+  activityService.logger(req.ip, req.originalUrl, "Visited service page " + req.params.serviceCode);
 
   res.render("trademark-order/service-order", { 
     layout  : "layouts/public-layout-interactive", 
@@ -958,6 +964,8 @@ exports.serviceOrderSubmit = async function(req, res, next) {
     mailService.sendOrderNotification(charge);
     res.flash('success', 'Payment Successful!');
     rpoCharge.put(charge);
+
+    activityService.logger(req.ip, req.originalUrl, "Checkout " + req.params.serviceCode);
 
     res.redirect("/thank-you/"+orderCode); 
   } else {
