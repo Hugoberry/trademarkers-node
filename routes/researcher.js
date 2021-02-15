@@ -36,7 +36,7 @@ router.get('/opposition-leads/edit/:id', verify, adminOppositionLead.edit);
 router.post('/opposition-leads/edit/:id', verify, adminOppositionLead.editSubmit);
 
 
-router.get('/sou-uploads', verify, researcher.uploadSou);
-router.post('/sou-uploads', verify, researcher.uploadSouSubmit);
+router.get('/sou-uploads', researcher.uploadSou);
+router.post('/sou-uploads', researcher.uploadSouSubmit);
 
 module.exports = router;

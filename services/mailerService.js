@@ -38,6 +38,33 @@ exports.contact = async function(data) {
   
 }
 
+exports.newServiceOrder = async function(data) {
+
+  let toMail = "mg@bigfoot.com";
+  let bcc = "felix@bigfoot.com";
+  let subject = "New Service Action | " + data.code;
+
+  return await transporter.sendMail({
+  sender: 'Trademarkers LLC',
+  replyTo: process.env.MAIL_FROM,
+  from: process.env.MAIL_FROM, 
+  to: toMail,
+  bcc: bcc,
+  subject: subject, 
+  html: `<p>Hi Admin,</p>
+          <p>New Service action created!</p>
+          <p>Name: ${data.name}<br>
+          Description : ${data.description}<br>
+          Amount : $${data.amount}<br>
+          Code: ${data.code}<br>
+          Link: https://www.trademarkers.com/checkout/${data.code}</p>
+      `, 
+  });
+  
+}
+
+
+
 exports.researcherNotify = async function(message, toMail, subject) {
 
   return await transporter.sendMail({
