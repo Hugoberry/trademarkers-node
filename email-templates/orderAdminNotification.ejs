@@ -344,16 +344,26 @@
 
                           Customer placed a new order.
 
-                          <table>
+                          <table class="table">
                             <tr>
+                              <th>Order Number</th>
+                              <% if(!order.custom) { %>
+                              <th>Serial Number</th>
+                              <th>Mark</th>
+                              <% } %>
                               <th>Description</th>
                               <th>Amount</th>
                               <th>Customer</th>
                             </tr>
                             <tr>
-                              <th><%= charge.description %></th>
-                              <th>USD <%= ( charge.amount / 100 ) %></th>
-                              <th><%= charge.receipt_email %></th>
+                              <td><%= order.orderNumber %></td>
+                              <% if(!order.custom) { %>
+                              <td><%= order.action.serialNumber %></td>
+                              <td><%= order.action.trademark.name %></td>
+                              <% } %>
+                              <td><%= order.charge.description %></td>
+                              <td>$<%= ( order.charge.amount / 100 ) %></td>
+                              <td><%= order.charge.receipt_email %></td>
                             </tr>
                           </table>
                           

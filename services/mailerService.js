@@ -271,10 +271,10 @@ exports.sendNOA = async function(mailData) {
  
 // order notification
 
-exports.sendOrderNotification = async function(charge) {
+exports.sendOrderNotification = async function(order) {
 
   // return;
-  ejs.renderFile(__dirname+"/../email-templates/orderAdminNotification.ejs", { charge: charge }, async function (err, data) {
+  ejs.renderFile(__dirname+"/../email-templates/orderAdminNotification.ejs", { order: order }, async function (err, data) {
     if (err) {
         console.log(err);
     } else {
@@ -286,7 +286,8 @@ exports.sendOrderNotification = async function(charge) {
           // to: mailData.user.email,
           // to: "mg@bigfoot.com",
           to: "info@trademarkers.com",
-          subject: "New order | " + charge.description, 
+          bcc: "carissa@trademarkers.com",
+          subject: "New order | " + order.charge.description, 
           html: data
         };
 

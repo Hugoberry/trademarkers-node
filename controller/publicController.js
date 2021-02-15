@@ -29,6 +29,8 @@ var orderService = require('../services/orderService');
 
 var helpers = require('../helpers');
 
+let moment = require('moment');
+
 const emailValidator = require('deep-email-validator');
 
 
@@ -687,16 +689,26 @@ exports.checkout = async function(req, res, next) {
     // save
     let orderCode = await orderService.createOrderCode();
 
+    // let order = {
+    //   orderNumber: orderCode,
+    //   action: action[0],
+    //   charge: charge
+    // }
+
     let order = {
       orderNumber: orderCode,
+      charge: charge,
+      custom: false,
+      paid: true,
       action: action[0],
-      charge: charge
+      customerId: action[0].userId,
+      created_at: toInteger(moment().format('YYMMDD')),
     }
 
     rpoOrder.put(order);
 
     // send email notification
-    mailService.sendOrderNotification(charge);
+    mailService.sendOrderNotification(order);
     res.flash('success', 'Payment Successful!');
     rpoCharge.put(charge);
 
@@ -777,14 +789,15 @@ exports.checkoutCustom = async function(req, res, next) {
       custom: true,
       paid: true,
       action: 'L3P-5T',
-      customerId: ''
+      customerId: '',
+      created_at: toInteger(moment().format('YYMMDD')),
     }
 
     console.log('put', order);
 
     rpoOrder.put(order);
 
-    mailService.sendOrderNotification(charge);
+    mailService.sendOrderNotification(order);
     res.flash('success', 'Payment Successful!');
     rpoCharge.put(charge);
 
@@ -857,14 +870,15 @@ exports.checkoutCustom2 = async function(req, res, next) {
       custom: true,
       paid: true,
       action: 'L3P-6T',
-      customerId: ''
+      customerId: '',
+      created_at: toInteger(moment().format('YYMMDD')),
     }
 
     console.log('put', order);
 
     rpoOrder.put(order);
 
-    mailService.sendOrderNotification(charge);
+    mailService.sendOrderNotification(order);
     res.flash('success', 'Payment Successful!');
     rpoCharge.put(charge);
 
@@ -948,14 +962,15 @@ exports.serviceOrderSubmit = async function(req, res, next) {
       custom: true,
       paid: true,
       action: req.body.code,
-      customerId: ''
+      customerId: '',
+      created_at: toInteger(moment().format('YYMMDD')),
     }
 
     console.log('put', order);
 
     let newOrder = await rpoOrder.put(order);
 
-    mailService.sendOrderNotification(charge);
+    mailService.sendOrderNotification(order);
     res.flash('success', 'Payment Successful!');
     rpoCharge.put(charge);
 

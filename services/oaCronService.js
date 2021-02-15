@@ -137,7 +137,9 @@ for (let i = 0; count < 1 ; i++) {
             "bennelds@gmail.com",
             "kim.poh.ng@christopherleeong.com",
             "kazanceva_z@pgstudio.io",
-            "nadege@puremix.net"
+            "nadege@puremix.net",
+            "alfredo.gd@yahoo.com",
+            "maine.2008@hotmail.com"
           ];
 
 // console.log(mailData.user.email);
