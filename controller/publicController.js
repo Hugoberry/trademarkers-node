@@ -19,6 +19,8 @@ var rpoClasses = require('../repositories/classes');
 var rpoTrademarks = require('../repositories/trademarks');
 var rpoCharge = require('../repositories/charges');
 var rpoOrder = require('../repositories/orders');
+var rpoSouNotifications = require('../repositories/souNotifications');
+
 var rpoServiceAction = require('../repositories/serviceAction');
 
 var activityService = require('../services/activityLogService');
@@ -660,15 +662,18 @@ exports.checkout = async function(req, res, next) {
 
   // 
   try{
+
+  let orderCode = await orderService.createOrderCode();
+
   const charge = await stripe.charges.create({
     amount: (price * 100),
     currency: 'usd',
     source: req.body.stripeToken,
-    description: description,
+    description: description + " | " + customer + " | " + orderCode,
     // customer: customer,
     metadata : {
       'customer': "" + customer,
-      'description': "" + description,
+      'description': "" + description + " | " + orderCode,
       'paymentFor' : payment
     },
     receipt_email: customer
@@ -687,7 +692,7 @@ exports.checkout = async function(req, res, next) {
     await rpoAction.updateDetails(action[0]._id, actionUpdates)
 
     // save
-    let orderCode = await orderService.createOrderCode();
+    
 
     // let order = {
     //   orderNumber: orderCode,
@@ -712,7 +717,14 @@ exports.checkout = async function(req, res, next) {
     res.flash('success', 'Payment Successful!');
     rpoCharge.put(charge);
 
-    
+    // update notifications collection
+    let notification = await rpoSouNotifications.findBySerial(action[0].serialNumber);
+    let dataNotification = {
+      actionType: "Ordered: " + action[0].response
+    }
+    rpoSouNotifications.updateDetails(notification[0]._id, dataNotification);
+    // Ordered: Statement of Use
+    // Ordered: Extension for trademark allowance
 
 
     res.redirect("/thank-you/"+orderCode); 

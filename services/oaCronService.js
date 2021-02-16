@@ -62,7 +62,7 @@ for (let i = 0; count < 1 ; i++) {
           // update
           let lastNotificationSent = helpers.convertIntToDate(notification[0].lastSent)
 
-          if ( moment().diff(lastNotificationSent,"days") >= 2 ) {
+          if ( moment().diff(lastNotificationSent,"days") >= 2 && notification[0].actionType == 'sou notification') {
             flag = true;
 
             mailData.noEmail = (notification[0].noEmail + 1);
@@ -70,7 +70,7 @@ for (let i = 0; count < 1 ; i++) {
             if ( !notification[0].number ) {
               let action = await actionService.createActionCode(mailData,'/')
 
-            //   mailData.action = action;
+
               mailData.number = action.number;
             } else {
               mailData.number = notification[0].number;
@@ -89,7 +89,7 @@ for (let i = 0; count < 1 ; i++) {
        
           let actione = await actionService.createActionCode(mailData,'/')
    
-        //   mailData.action = actione;
+
           
           mailData.number = actione.number;
     
