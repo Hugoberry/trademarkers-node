@@ -118,6 +118,23 @@ module.exports = {
 		});
 	},
 	
+	getBymysqlID : async function(mysqlID) {
+		return new Promise(function(resolve, reject) {
+
+			let query = { mysqlID: mysqlID };
+			
+			conn.getDb().collection(_table).find(query).toArray(function(err, result) {
+					
+				if (err) {
+					reject(err);
+				} else {
+					resolve(result);
+				}
+
+			});
+
+		});
+	},
 
 	
 

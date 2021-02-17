@@ -392,9 +392,9 @@ section {
           border-top: 10px solid #2593f2;
           margin: auto; }
 
-.ard-content {
+/* .ard-content {
   height: 400px;
-  overflow: auto; }
+  overflow: auto; } */
 
 .table-ard-wrap {
   text-align: center; }

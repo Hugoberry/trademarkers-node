@@ -8,8 +8,8 @@
                 <div class="ar-box stp-row">
                   <div class="ar-box-head"><h1 class="ar-title">Active Orders</h1></div>
                   <div class="ar-cinfo">
-                    <div class="ar-cname ar-info-line">Customer Name: <span class="ar-value">Seven Eight Six</span></div>
-                    <div class="ar-cno ar-info-line">Customer Number: <span class="ar-value">1786</span></div>
+                    <div class="ar-cname ar-info-line">Customer Name: <span class="ar-value"><%= customer.name %></span></div>
+                    <div class="ar-cno ar-info-line">Customer Number: <span class="ar-value">cu-<%= customer.id %></span></div>
                   </div>
                 </div>
                 <div class="ard-wrap stp-row">
@@ -23,9 +23,12 @@
                   <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane fade show active" id="nav-pending" role="tabpanel" aria-labelledby="nav-pending-tab">
                       <div class="ard-content">
+
+                        <% data.trademark.forEach(function(mark,key) { %>
+                          
                           <div class="ard-row table-ard-wrap table-responsive">
                             <table class="table table-striped table-bordered caption-top table-hover">
-                                <caption class="ard-row-head"><h2 class="ard-row-title"><span class="flag-icon flag-icon-us"><em class="sr-only">United States</em></span>United States</h2></caption>
+                                <caption class="ard-row-head"><h2 class="ard-row-title"><span class="flag-icon flag-icon-us"><em class="sr-only"><%= mark.countryName %></em></span><%= mark.countryName %></h2></caption>
                                 <thead>
                                   <tr>
                                     <th>App. Date</th>
@@ -37,65 +40,33 @@
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  <tr>
-                                    <td>05-01-2020</td>
-                                    <td>1786-001</td>
-                                    <td>1786-001</td>
-                                    <td><a href="/customer/orders/5">SevenEightSix</a></td>
-                                    <td>Pending</td>
-                                    <td><a href="#" class="text-danger">Action required</a></td>
-                                  </tr>
-                                  <tr>
-                                    <td>05-01-2020</td>
-                                    <td>1786-001</td>
-                                    <td>1786-001</td>
-                                    <td>SevenEightSix</td>
-                                    <td>Pending</td>
-                                    <td>Normal Text</td>
-                                  </tr>
+                                  <% mark.data.forEach(function(trademark,key) { %>
+                                    <% if( trademark.mark.office_status != "Registered" ) { %>
+                                    <tr>
+                                      <td><%= trademark.mark.filing_date %></td>
+                                      <td><%= trademark.mark.filing_number %></td>
+                                      <td><%= trademark.mark.registration_number %></td>
+                                      <td><a href="/customer/orders/5"><%= trademark.mark.name %></a></td>
+                                      <td><%= trademark.mark.office_status %></td>
+                                      <td><a href="#" class="text-danger"></a></td>
+                                    </tr>
+                                    <% } %>
+                                  <% }) %>
                                 </tbody>
                               </table>
                           </div>
-                          <div class="ard-row table-ard-wrap table-responsive">
-                            <table class="table table-striped table-bordered caption-top table-hover">
-                                <caption class="ard-row-head"><h2 class="ard-row-title"><span class="flag-icon flag-icon-de"><em class="sr-only">German</em></span>German</h2></caption>
-                                <thead>
-                                  <tr>
-                                    <th>App. Date</th>
-                                    <th>App. Number</th>
-                                    <th>Reg. Number</th>
-                                    <th>Trademark</th>
-                                    <th>Status</th>
-                                    <th>Remarks</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr>
-                                    <td>05-01-2020</td>
-                                    <td>1786-001</td>
-                                    <td>1786-001</td>
-                                    <td>SevenEightSix</td>
-                                    <td>Pending</td>
-                                    <td><a href="#" class="text-danger">Action required</a></td>
-                                  </tr>
-                                  <tr>
-                                    <td>05-01-2020</td>
-                                    <td>1786-001</td>
-                                    <td>1786-001</td>
-                                    <td>SevenEightSix</td>
-                                    <td>Pending</td>
-                                    <td>Normal Text</td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                          </div>
+                        <% }) %>
+
+
                       </div>
                     </div>
                     <div class="tab-pane fade" id="nav-registered" role="tabpanel" aria-labelledby="nav-registered-tab">
                       <div class="ard-content">
+                        <% data.trademark.forEach(function(mark,key) { %>
+                          
                           <div class="ard-row table-ard-wrap table-responsive">
                             <table class="table table-striped table-bordered caption-top table-hover">
-                                <caption class="ard-row-head"><h2 class="ard-row-title"><span class="flag-icon flag-icon-in"><em class="sr-only">India</em></span>India</h2></caption>
+                                <caption class="ard-row-head"><h2 class="ard-row-title"><span class="flag-icon flag-icon-us"><em class="sr-only"><%= mark.countryName %></em></span><%= mark.countryName %></h2></caption>
                                 <thead>
                                   <tr>
                                     <th>App. Date</th>
@@ -107,65 +78,31 @@
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  <tr>
-                                    <td>05-01-2020</td>
-                                    <td>1786-001</td>
-                                    <td>1786-001</td>
-                                    <td>SevenEightSix</td>
-                                    <td>Pending</td>
-                                    <td><a href="#" class="text-danger">Action required</a></td>
-                                  </tr>
-                                  <tr>
-                                    <td>05-01-2020</td>
-                                    <td>1786-001</td>
-                                    <td>1786-001</td>
-                                    <td>SevenEightSix</td>
-                                    <td>Pending</td>
-                                    <td>Normal Text</td>
-                                  </tr>
+                                  <% mark.data.forEach(function(trademark,key) { %>
+                                    <% if( trademark.mark.office_status == "Registered" ) { %>
+                                    <tr>
+                                      <td><%= trademark.mark.filing_date %></td>
+                                      <td><%= trademark.mark.filing_number %></td>
+                                      <td><%= trademark.mark.registration_number %></td>
+                                      <td><a href="/customer/orders/5"><%= trademark.mark.name %></a></td>
+                                      <td><%= trademark.mark.office_status %></td>
+                                      <td><a href="#" class="text-danger"></a></td>
+                                    </tr>
+                                    <% } %>
+                                  <% }) %>
                                 </tbody>
                               </table>
                           </div>
+                        <% }) %>
                       </div>
                     </div>
                     <div class="tab-pane fade" id="nav-all" role="tabpanel" aria-labelledby="nav-all-tab">
                       <div class="ard-content">
-                        <div class="ard-row table-ard-wrap table-responsive">
-                            <table class="table table-striped table-bordered caption-top table-hover">
-                                <caption class="ard-row-head"><h2 class="ard-row-title"><span class="flag-icon flag-icon-us"><em class="sr-only">United States</em></span>United States</h2></caption>
-                                <thead>
-                                  <tr>
-                                    <th>App. Date</th>
-                                    <th>App. Number</th>
-                                    <th>Reg. Number</th>
-                                    <th>Trademark</th>
-                                    <th>Status</th>
-                                    <th>Remarks</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr>
-                                    <td>05-01-2020</td>
-                                    <td>1786-001</td>
-                                    <td>1786-001</td>
-                                    <td>SevenEightSix</td>
-                                    <td>Pending</td>
-                                    <td><a href="#" class="text-danger">Action required</a></td>
-                                  </tr>
-                                  <tr>
-                                    <td>05-01-2020</td>
-                                    <td>1786-001</td>
-                                    <td>1786-001</td>
-                                    <td>SevenEightSix</td>
-                                    <td>Pending</td>
-                                    <td>Normal Text</td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                          </div>
+                        <% data.trademark.forEach(function(mark,key) { %>
+                          
                           <div class="ard-row table-ard-wrap table-responsive">
                             <table class="table table-striped table-bordered caption-top table-hover">
-                                <caption class="ard-row-head"><h2 class="ard-row-title"><span class="flag-icon flag-icon-de"><em class="sr-only">German</em></span>German</h2></caption>
+                                <caption class="ard-row-head"><h2 class="ard-row-title"><span class="flag-icon flag-icon-us"><em class="sr-only"><%= mark.countryName %></em></span><%= mark.countryName %></h2></caption>
                                 <thead>
                                   <tr>
                                     <th>App. Date</th>
@@ -177,91 +114,21 @@
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  <tr>
-                                    <td>05-01-2020</td>
-                                    <td>1786-001</td>
-                                    <td>1786-001</td>
-                                    <td>SevenEightSix</td>
-                                    <td>Pending</td>
-                                    <td><a href="#" class="text-danger">Action required</a></td>
-                                  </tr>
-                                  <tr>
-                                    <td>05-01-2020</td>
-                                    <td>1786-001</td>
-                                    <td>1786-001</td>
-                                    <td>SevenEightSix</td>
-                                    <td>Pending</td>
-                                    <td>Normal Text</td>
-                                  </tr>
+                                  <% mark.data.forEach(function(trademark,key) { %>
+                                    
+                                    <tr>
+                                      <td><%= trademark.mark.filing_date %></td>
+                                      <td><%= trademark.mark.filing_number %></td>
+                                      <td><%= trademark.mark.registration_number %></td>
+                                      <td><a href="/customer/orders/5"><%= trademark.mark.name %></a></td>
+                                      <td><%= trademark.mark.office_status %></td>
+                                      <td><a href="#" class="text-danger"></a></td>
+                                    </tr>
+                                  <% }) %>
                                 </tbody>
                               </table>
                           </div>
-                          <div class="ard-row table-ard-wrap table-responsive">
-                            <table class="table table-striped table-bordered caption-top table-hover">
-                                <caption class="ard-row-head"><h2 class="ard-row-title"><span class="flag-icon flag-icon-in"><em class="sr-only">India</em></span>India</h2></caption>
-                                <thead>
-                                  <tr>
-                                    <th>App. Date</th>
-                                    <th>App. Number</th>
-                                    <th>Reg. Number</th>
-                                    <th>Trademark</th>
-                                    <th>Status</th>
-                                    <th>Remarks</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr>
-                                    <td>05-01-2020</td>
-                                    <td>1786-001</td>
-                                    <td>1786-001</td>
-                                    <td>SevenEightSix</td>
-                                    <td>Pending</td>
-                                    <td><a href="#" class="text-danger">Action required</a></td>
-                                  </tr>
-                                  <tr>
-                                    <td>05-01-2020</td>
-                                    <td>1786-001</td>
-                                    <td>1786-001</td>
-                                    <td>SevenEightSix</td>
-                                    <td>Pending</td>
-                                    <td>Normal Text</td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                          </div>
-                          <div class="ard-row table-ard-wrap table-responsive">
-                            <table class="table table-striped table-bordered caption-top table-hover">
-                                <caption class="ard-row-head"><h2 class="ard-row-title"><span class="flag-icon flag-icon-cn"><em class="sr-only">China</em></span>China</h2></caption>
-                                <thead>
-                                  <tr>
-                                    <th>App. Date</th>
-                                    <th>App. Number</th>
-                                    <th>Reg. Number</th>
-                                    <th>Trademark</th>
-                                    <th>Status</th>
-                                    <th>Remarks</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr>
-                                    <td>05-01-2020</td>
-                                    <td>1786-001</td>
-                                    <td>1786-001</td>
-                                    <td>SevenEightSix</td>
-                                    <td>Pending</td>
-                                    <td><a href="#" class="text-danger">Action required</a></td>
-                                  </tr>
-                                  <tr>
-                                    <td>05-01-2020</td>
-                                    <td>1786-001</td>
-                                    <td>1786-001</td>
-                                    <td>SevenEightSix</td>
-                                    <td>Pending</td>
-                                    <td>Normal Text</td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                          </div>
+                        <% }) %>
                       </div>
                     </div>
                   </div>
