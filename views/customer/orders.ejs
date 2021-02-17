@@ -41,13 +41,14 @@
                                 </thead>
                                 <tbody>
                                   <% mark.data.forEach(function(trademark,key) { %>
-                                    <% if( trademark.mark.office_status != "Registered" ) { %>
+
+                                    <% if( trademark.markMongo && trademark.markMongo.status != "Registered" ) { %>
                                     <tr>
-                                      <td><%= trademark.mark.filing_date %></td>
-                                      <td><%= trademark.mark.filing_number %></td>
-                                      <td><%= trademark.mark.registration_number %></td>
-                                      <td><a href="/customer/orders/5"><%= trademark.mark.name %></a></td>
-                                      <td><%= trademark.mark.office_status %></td>
+                                      <td><%= moment(trademark.markMongo.filingDate).format('MMM D, YYYY') %></td>
+                                      <td><%= trademark.markMongo.serialNumber %></td>
+                                      <td><%= trademark.markMongo.registrationNumber %></td>
+                                      <td><a href="/customer/orders/<%= trademark.markMongo._id %>"><%= trademark.markMongo.mark %></a></td>
+                                      <td><%= trademark.markMongo.office_status %></td>
                                       <td><a href="#" class="text-danger"></a></td>
                                     </tr>
                                     <% } %>
@@ -79,16 +80,16 @@
                                 </thead>
                                 <tbody>
                                   <% mark.data.forEach(function(trademark,key) { %>
-                                    <% if( trademark.mark.office_status == "Registered" ) { %>
-                                    <tr>
-                                      <td><%= trademark.mark.filing_date %></td>
-                                      <td><%= trademark.mark.filing_number %></td>
-                                      <td><%= trademark.mark.registration_number %></td>
-                                      <td><a href="/customer/orders/5"><%= trademark.mark.name %></a></td>
-                                      <td><%= trademark.mark.office_status %></td>
-                                      <td><a href="#" class="text-danger"></a></td>
-                                    </tr>
-                                    <% } %>
+                                    <% if( trademark.markMongo && trademark.markMongo.status != "Registered" ) { %>
+                                      <tr>
+                                        <td><%= moment(trademark.markMongo.filingDate).format('MMM D, YYYY') %></td>
+                                        <td><%= trademark.markMongo.serialNumber %></td>
+                                        <td><%= trademark.markMongo.registrationNumber %></td>
+                                        <td><a href="/customer/orders/<%= trademark.markMongo._id %>"><%= trademark.markMongo.mark %></a></td>
+                                        <td><%= trademark.markMongo.office_status %></td>
+                                        <td><a href="#" class="text-danger"></a></td>
+                                      </tr>
+                                      <% } %>
                                   <% }) %>
                                 </tbody>
                               </table>

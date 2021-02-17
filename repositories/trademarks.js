@@ -102,7 +102,7 @@ module.exports = {
 
 	},
 
-	fetchTmByUser: function ( user_id, sort ) {
+	fetchTmByUser: async function ( user_id, sort ) {
 
 		return new Promise(function(resolve, reject) {
 
@@ -118,10 +118,10 @@ module.exports = {
 							${sortBy}
 						`;
 			} else {
+				console.log('tet');
 				query = `SELECT * 
 							FROM trademarks 
-							WHERE user_id = ${user_id}
-							AND service = 'Trademark Registration'
+							WHERE user_id = '${user_id}'
 						`;
 			}
 

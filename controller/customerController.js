@@ -11,7 +11,7 @@ var rpoUser = require('../repositories/users');
 
 var activityService = require('../services/activityLogService');
 
-let customerId = 1532;
+let customerId = 1293;
 
 exports.orders = async function(req, res, next) {
 
@@ -24,25 +24,23 @@ exports.orders = async function(req, res, next) {
     name:user[0].name,
     id:user[0].id
   }
-  // console.log(trademarks);
-  
-    // customer.name = user[0].name
-    // customer.id = user[0].id
+  // console.log('trademarks',trademarks);
   
   let data = {
     trademark:[]
   };
+  
   for(let i = 0; i < trademarks.length; i++) {
 
     let country = await rpoCountry.getById(trademarks[i].country_id)
     let cronTrademark = await rpoTmMongo.getBymysqlID(trademarks[i].id);
-
+  
     let formattedData = {
       // country: country[0],
       mark : trademarks[i],
       markMongo : cronTrademark[0]
     }
-
+    // console.log(cronTrademark);
     if ( typeof data.trademark[trademarks[i].country_id] === 'undefined' ) {
       data.trademark[trademarks[i].country_id] = {
         data : new Array()
@@ -54,7 +52,13 @@ exports.orders = async function(req, res, next) {
 
   }
 
-  console.log(data);
+  console.log(data.trademark);
+
+  data.trademark.forEach(element => {
+    if (element) {
+      console.log("el", element);
+    }
+  });
 
 
   res.render('customer/orders', { 
