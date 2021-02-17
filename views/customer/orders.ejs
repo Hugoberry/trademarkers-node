@@ -48,7 +48,7 @@
                                       <td><%= trademark.markMongo.serialNumber %></td>
                                       <td><%= trademark.markMongo.registrationNumber %></td>
                                       <td><a href="/customer/orders/<%= trademark.markMongo._id %>"><%= trademark.markMongo.mark %></a></td>
-                                      <td><%= trademark.markMongo.office_status %></td>
+                                      <td><%= trademark.markMongo.status %></td>
                                       <td><a href="#" class="text-danger"></a></td>
                                     </tr>
                                     <% } %>
@@ -80,7 +80,7 @@
                                 </thead>
                                 <tbody>
                                   <% mark.data.forEach(function(trademark,key) { %>
-                                    <% if( trademark.markMongo && trademark.markMongo.status != "Registered" ) { %>
+                                    <% if( trademark.markMongo && trademark.markMongo.status == "Registered" ) { %>
                                       <tr>
                                         <td><%= moment(trademark.markMongo.filingDate).format('MMM D, YYYY') %></td>
                                         <td><%= trademark.markMongo.serialNumber %></td>

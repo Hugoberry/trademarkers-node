@@ -122,6 +122,7 @@ module.exports = {
 				query = `SELECT * 
 							FROM trademarks 
 							WHERE user_id = '${user_id}'
+							GROUP BY filing_number
 						`;
 			}
 
