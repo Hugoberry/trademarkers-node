@@ -76,9 +76,15 @@ exports.orders = async function(req, res, next) {
 exports.orderDetail = async function(req, res, next) {
 
   let trademark = await rpoTmMongo.getById(req.params.id);
-  console.log(trademark);
+  // console.log(trademark);
 
-  trademark[0].statusDateFormatted = helpers.convertIntToDate(trademark[0].statusDate);
+  if (trademark[0].statusDate) {
+    trademark[0].statusDateFormatted = helpers.convertIntToDate(trademark[0].statusDate);
+  }
+
+  if (trademark[0].publicationDate) {
+    trademark[0].publicationDateFormatted = helpers.convertIntToDate(trademark[0].publicationDate);
+  }
 
   res.render('customer/orderDetails', { 
     layout: 'layouts/public-layout-interactive', 
