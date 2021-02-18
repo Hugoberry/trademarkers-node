@@ -9,6 +9,8 @@ var rpoTmMongo = require('../repositories/mongoTrademarks');
 var rpoCountry = require('../repositories/countries');
 var rpoUser = require('../repositories/users');
 
+var helpers = require('../helpers');
+
 var activityService = require('../services/activityLogService');
 
 let customerId = 1293;
@@ -73,11 +75,15 @@ exports.orders = async function(req, res, next) {
 
 exports.orderDetail = async function(req, res, next) {
 
+  let trademark = await rpoTmMongo.getById(req.params.id);
+  console.log(trademark);
 
+  trademark[0].statusDateFormatted = helpers.convertIntToDate(trademark[0].statusDate);
 
   res.render('customer/orderDetails', { 
     layout: 'layouts/public-layout-interactive', 
-    title: 'Trademarkers LLC Order Status'
+    title: 'Trademarkers LLC Order Status',
+    trademark: trademark[0]
   });
   
 }
