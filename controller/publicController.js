@@ -1089,6 +1089,14 @@ console.log(order);
   });
 }
 
+exports.oppositionProof = async function(req, res, next) {
+
+  res.render("public/opposition-proof-of-use", { 
+    layout  : "layouts/public-layout-interactive", 
+    title   : ""
+  });
+}
+
 
 
 

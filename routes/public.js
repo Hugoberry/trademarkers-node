@@ -14,6 +14,8 @@ router.get('/cookies', publicController.cookies);
 router.get('/service_contract', publicController.service_contract);
 router.get('/resources', publicController.resources);
 
+router.get('/oppositions-and-proof-of-use', publicController.oppositionProof);
+
 router.get('/contact', publicController.contact);
 router.post('/contact', publicController.submitContact);
 router.get('/generate-pdf', publicController.generatePdf);
