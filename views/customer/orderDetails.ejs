@@ -9,7 +9,7 @@
                   <div class="ar-box-head"><h1 class="ar-title"><%= trademark.mark %></h1></div>
                   <div class="ar-cinfo">
                     <div class="ar-cname ar-info-line">Status: <span class="ar-value"><%= trademark.status %></span></div>
-                    <div class="ar-cname ar-info-line">Status Date: <span class="ar-value"><%= trademark.statusDateFormatted %></span></div>
+                    <div class="ar-cname ar-info-line">Status Date: <span class="ar-value"><%= moment(trademark.statusDateFormatted).format('MMM D, YYYY') %></span></div>
                     <div class="ar-cname ar-info-line">Status Description: <span class="ar-value"><%= trademark.statusDescription %></span></div>
 
                   </div>
@@ -28,7 +28,7 @@
                   <% } %>
 
                   <% if( trademark.publicationDate ) { %>
-                    <div class="ar-cname ar-info-line">Publication Date: <span class="ar-value"><%= trademark.publicationDate %></span></div>
+                    <div class="ar-cname ar-info-line">Publication Date: <span class="ar-value"><%= moment(trademark.publicationDateFormatted).format('MMM D, YYYY') %></span></div>
                   <% } %>
 
                   <% if( trademark.documents.length > 0 ) { %>
