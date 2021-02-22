@@ -35,7 +35,10 @@
                     <div class="ar-cname ar-info-line">Documents: </div>
                     <ul>
                     <% trademark.documents.forEach(function(document,key) { %>
-                      <li><a href="<%= document.link %>" target="_blank"><%= document.label %></a></li>
+                      <li>
+                        <%= document.date %><a href="<%= document.link %>" target="_blank"><%= document.label %></a>
+                        
+                      </li>
                     <% }) %>
                     </ul>
                   <% } %>

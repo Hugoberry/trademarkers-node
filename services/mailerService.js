@@ -313,7 +313,7 @@ exports.sendOrderNotification = async function(order) {
           // to: mailData.user.email,
           // to: "mg@bigfoot.com",
           to: "info@trademarkers.com",
-          bcc: "carissa@trademarkers.com",
+          bcc: "carissa@trademarkers.com, billing-trademarkers@moas.com",
           subject: "New order | " + order.charge.description, 
           html: data
         };
