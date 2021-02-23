@@ -208,7 +208,7 @@ scraperObject = {
                 // save to mongo
                 // if ( isNew ) {
                 //     console.log("ADDING NEW RECORD IN MONGO....");
-                    addTrademarkMongo(dataValues);
+                addTrademarkMongo(dataValues);
                 //     console.log("RECORD ADDED!!");
                 // } else {
                 //     console.log("UPDATING RECORD IN MONGO....");
@@ -386,15 +386,46 @@ async function getTrademarkMongo(trademark) {
 async function addTrademarkMongo(trademark) {
 
     return new Promise(function(resolve, reject) {
-        conn.getDb().collection('tm_trademarks').insertOne(trademark, 
-			function(err, res2) {
-				if (err) {
-					reject(err);
-				}
+        
+        
+        	// 		// let db = conn.getDb();
 
-				resolve(res2);
-			}
-		);
+        conn.getDb().collection('tm_trademarks').findOne({
+            serialNumber: trademark.serialNumber
+        }, 
+        function(err, result) {
+            if (err) {
+                reject(err);
+            } else {
+                
+                if (!result) {
+                    conn.getDb().collection('tm_trademarks').insertOne(trademark, 
+                        function(err, res2) {
+                            if (err) {
+                                reject(err);
+                            }
+            
+                            resolve(res2);
+                        }
+                    );
+                } else {
+
+                    let query = { serialNumber: trademark.serialNumber };
+                    conn.getDb().collection('tm_trademarks').updateOne(query,  {$set:{trademark}}, function(err, result) {
+                        if (err) {
+                            console.log('Error updating user: ' + err);
+                            // res.send({'error':'An error has occurred'});
+                        } else {
+                            console.log('updated');
+                            // res.send(result);
+                        }
+                    });
+
+                }
+
+                resolve(result);
+            }
+        });
 
     });
         
