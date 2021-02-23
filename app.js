@@ -62,6 +62,7 @@ conn.connectToServer( function( err, client ) {
   var researcherRouter = require('./routes/researcher');
   var adminRouter = require('./routes/admin');
   var orderRouter = require('./routes/order');
+  var tsdr = require('./routes/tsdr');
 
   var apiRouter = require('./routes/api');
   var interceptRouter = require('./routes/routerInterceptor');
@@ -98,6 +99,7 @@ conn.connectToServer( function( err, client ) {
   app.use('/njs-admin', adminRouter);
   app.use('/login', loginRouter);
   app.use('/status', orderRouter);
+  app.use('/us', tsdr);
   app.use('/', publicRouter);
 
 // console.log('asd');

@@ -1,0 +1,61 @@
+<section class="tm-section qa-panel-section">
+    <div class="container h-100"><div class="row h-100 align-items-start">
+        <div class="col-12">
+            <% if(trademark) { %>
+            <div class="ar-wrap qa-stp">
+                <div class="ar-box stp-row">
+                <div class="ar-box-head"><h1 class="ar-title"><%= trademark.mark %></h1></div>
+                <div class="ar-cinfo">
+                    <div class="ar-cname ar-info-line">Status: <span class="ar-value"><%= trademark.status %></span></div>
+                    <div class="ar-cname ar-info-line">Status Date: <span class="ar-value"><%= moment(trademark.statusDateFormatted).format('MMM D, YYYY') %></span></div>
+                    <div class="ar-cname ar-info-line">Status Description: <span class="ar-value"><%= trademark.statusDescription %></span></div>
+
+                </div>
+                </div>
+                <div class="ard-wrap stp-row">
+                <% if( trademark.serialNumber ) { %>
+                    <div class="ar-cname ar-info-line">Serial Number: <span class="ar-value"><%= trademark.serialNumber %></span></div>
+                <% } %>
+
+                <% if( trademark.registrationNumber ) { %>
+                    <div class="ar-cname ar-info-line">Registration Number: <span class="ar-value"><%= trademark.registrationNumber %></span></div>
+                <% } %>
+
+                <% if( trademark.registrationDate ) { %>
+                    <div class="ar-cname ar-info-line">Registration Date: <span class="ar-value"><%= trademark.registrationDate %></span></div>
+                <% } %>
+
+                <% if( trademark.publicationDate ) { %>
+                    <div class="ar-cname ar-info-line">Publication Date: <span class="ar-value"><%= moment(trademark.publicationDateFormatted).format('MMM D, YYYY') %></span></div>
+                <% } %>
+
+                <% if( trademark.documents.length > 0 ) { %>
+                    <div class="ar-cname ar-info-line">Documents: </div>
+                    <table class="table table-responsive">
+                        <tr>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Link</th>
+                        </tr>
+                    
+                        <% trademark.documents.forEach(function(document,key) { %>
+                        <tr>
+                            <td><%= document.date %></td>
+                            <td><%= document.label %></td>
+                            <td><a href="<%= document.link %>" target="_blank">Link</a></td>
+                        </tr>
+                        <% }) %>
+
+                    </table>
+                <% } %>
+
+                
+                </div>
+            </div>
+            <% } else { %>
+                Sorry, Can't Find Trademark
+            <% } %>
+        </div>
+    </div></div>
+</section>
+  
