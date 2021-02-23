@@ -15,7 +15,7 @@ exports.index = async function(req, res, next) {
     activityService.logger(req.ip, req.originalUrl, "Visited tsdr serial number " + req.params['serial']);
 
     // FETCH SERIAL NUMBER
-    let trademark = null;
+    // let trademark = null;
 
     // console.log(trademark[0]);
 
@@ -30,9 +30,11 @@ exports.index = async function(req, res, next) {
     // }
 
     let scrape = await crawlerService.fetchTsdr(req.params['serial']);
-    if (!scrape) {
-      trademark = await rpoTm.getBySerial(req.params['serial']);
-    }
+    // if (!scrape) {
+    //   trademark = await rpoTm.getBySerial(req.params['serial']);
+    // }
+
+    let trademark = await rpoTm.getBySerial(req.params['serial']);
 
     res.locals = {
       siteTitle: "Trademark Search",
