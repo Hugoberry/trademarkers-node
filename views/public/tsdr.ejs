@@ -40,7 +40,7 @@
                     
                         <% trademark.documents.forEach(function(document,key) { %>
                         <tr>
-                            <td><%= document.date %></td>
+                            <td><%= document.dateFormatted %></td>
                             <td><%= document.label %></td>
                             <td><a href="<%= document.link %>" target="_blank">Link</a></td>
                         </tr>

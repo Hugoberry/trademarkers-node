@@ -70,6 +70,7 @@ scraperObject = {
 
                 for (let i = 0; i < labelLinks.length; i++) {
                     documents.push({
+                        dateFormatted: docdates[i],
                         date: formatDate(docdates[i]),
                         label: labelDocs[i],
                         link: labelLinks[i]
