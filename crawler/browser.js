@@ -7,7 +7,8 @@ async function startBrowser(){
         browser = await puppeteer.launch({
             headless: true,
             args: ['--no-sandbox', '--disable-setuid-sandbox'],
-            'ignoreHTTPSErrors': true
+            'ignoreHTTPSErrors': true,
+            executablePath: '/usr/bin/chromium-browser'
         });
     } catch (err) {
         console.log("Could not create a browser instance => : ", err);
