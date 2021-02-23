@@ -34,8 +34,11 @@ exports.index = async function(req, res, next) {
     //   trademark = await rpoTm.getBySerial(req.params['serial']);
     // }
 
+    // wait for the crawler
+    await new Promise(resolve => setTimeout(resolve, 2000));
     let trademark = await rpoTm.getBySerial(req.params['serial']);
-
+    console.log(trademark);
+    
     res.locals = {
       siteTitle: "Trademark Search",
       description: "Check trademark status",
