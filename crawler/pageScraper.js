@@ -418,6 +418,7 @@ async function addTrademarkMongo(trademark) {
                         } else {
                             console.log('updated');
                             // res.send(result);
+                            resolve(result);
                         }
                     });
 
