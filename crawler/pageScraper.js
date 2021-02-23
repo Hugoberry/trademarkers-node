@@ -404,7 +404,7 @@ async function addTrademarkMongo(trademark) {
                             if (err) {
                                 reject(err);
                             }
-            
+                            console.log('added new record');
                             resolve(res2);
                         }
                     );
