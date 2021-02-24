@@ -412,14 +412,14 @@ async function addTrademarkMongo(trademark) {
                 } else {
 
                     let query = { serialNumber: trademark.serialNumber };
-                    conn.getDb().collection('tm_trademarks').updateOne(query,  {$set:{trademark}}, function(err, result) {
+                    conn.getDb().collection('tm_trademarks').updateOne(query,  {$set:{trademark}}, function(err, res) {
                         if (err) {
                             console.log('Error updating user: ' + err);
                             // res.send({'error':'An error has occurred'});
                         } else {
                             console.log('updated');
                             // res.send(result);
-                            resolve(result);
+                            resolve(res);
                         }
                     });
 
