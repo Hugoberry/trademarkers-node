@@ -398,7 +398,7 @@ async function addTrademarkMongo(trademark) {
             if (err) {
                 reject(err);
             } else {
-                
+                console.log("result => ", result);
                 if (!result) {
                     conn.getDb().collection('tm_trademarks').insertOne(trademark, 
                         function(err, res2) {
