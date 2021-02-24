@@ -62,6 +62,12 @@ exports.orders = async function(req, res, next) {
     }
   });
 
+  res.locals = {
+    siteTitle: "Trademark Search",
+    description: "Check trademark status",
+    keywords: "Trademark Status, trademarkers status",
+  };
+
 
   res.render('customer/orders', { 
     layout: 'layouts/public-layout-interactive', 
@@ -85,6 +91,12 @@ exports.orderDetail = async function(req, res, next) {
   if (trademark[0].publicationDate) {
     trademark[0].publicationDateFormatted = helpers.convertIntToDate(trademark[0].publicationDate);
   }
+
+  res.locals = {
+    siteTitle: "Trademark Search",
+    description: "Check trademark status",
+    keywords: "Trademark Status, trademarkers status",
+  };
 
   res.render('customer/orderDetails', { 
     layout: 'layouts/public-layout-interactive', 
