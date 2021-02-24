@@ -28,6 +28,7 @@ var pdfService = require('../services/pdfService');
 var checkoutService = require('../services/checkoutService');
 var mailService = require('../services/mailerService');
 var orderService = require('../services/orderService');
+var crawlerService = require('../services/crawlerService');
 
 var helpers = require('../helpers');
 
@@ -503,6 +504,12 @@ exports.codeLanding = async function(req, res, next) {
     break;
   }
 
+  res.locals = {
+    siteTitle: "Trademark Search",
+    description: "Check trademark status",
+    keywords: "Trademark Status, trademarkers status",
+  };
+
   res.render(render, { 
     layout  : layout, 
     title   : title,
@@ -753,6 +760,12 @@ exports.serviceOrderCustom = async function(req, res, next) {
 
   activityService.logger(req.ip, req.originalUrl, "Visited service page L3P-5T");
 
+  res.locals = {
+    siteTitle: "Trademark Search",
+    description: "Check trademark status",
+    keywords: "Trademark Status, trademarkers status",
+  };
+
   res.render("trademark-order/service-order-L3P-5T", { 
     layout  : "layouts/public-layout-interactive", 
     title   : "",
@@ -836,6 +849,12 @@ exports.serviceOrderCustom2 = async function(req, res, next) {
 
   let order = await rpoOrder.findActionCustom('L3P-5T');
   
+  res.locals = {
+    siteTitle: "Trademark Search",
+    description: "Check trademark status",
+    keywords: "Trademark Status, trademarkers status",
+  };
+
   activityService.logger(req.ip, req.originalUrl, "Visited service page L3P-6T");
   console.log('check');
   res.render("trademark-order/service-order-L3P-6T", { 
@@ -924,6 +943,12 @@ exports.serviceOrderShow = async function(req, res, next) {
   
   activityService.logger(req.ip, req.originalUrl, "Visited service page " + req.params.serviceCode);
 
+  res.locals = {
+    siteTitle: "Trademark Search",
+    description: "Check trademark status",
+    keywords: "Trademark Status, trademarkers status",
+  };
+
   res.render("trademark-order/service-order", { 
     layout  : "layouts/public-layout-interactive", 
     title   : "",
@@ -1011,7 +1036,11 @@ exports.serviceOrderSubmit = async function(req, res, next) {
 
 exports.generateService = async function(req, res, next) {
 
-
+  res.locals = {
+    siteTitle: "Trademark Search",
+    description: "Check trademark status",
+    keywords: "Trademark Status, trademarkers status",
+  };
 
   res.render(
     "trademark-order/add-service", { 
@@ -1070,13 +1099,40 @@ exports.generateServiceSubmit = async function(req, res, next) {
 
 // CUSTOM PAGE SERVICE -------------------------------- END
 
+exports.searchSerial = async function(req, res, next) {
+
+  res.locals = {
+    siteTitle: "Trademark Search",
+    description: "Check trademark status",
+    keywords: "Trademark Status, trademarkers status",
+  };
+  
+  res.render("public/search", { 
+    layout  : "layouts/public-layout-interactive", 
+    title   : ""
+  });
+
+}
+
+exports.searchSerialNumber = async function(req, res, next) {
+
+  console.log(req.body);
+
+  res.redirect("/us/"+ req.body.case_number);
+}
+
 exports.thankYou = async function(req, res, next) {
 
   console.log(req.params);
 
   let order = await rpoOrder.findOrderNumber(req.params.number)
 
-console.log(order);
+  res.locals = {
+    siteTitle: "Trademark Search",
+    description: "Check trademark status",
+    keywords: "Trademark Status, trademarkers status",
+  };
+
   title = "Thank You!"
   layout = 'layouts/public-layout-interactive'
   render = 'trademark-order/thankyou'
@@ -1091,6 +1147,12 @@ console.log(order);
 
 exports.oppositionProof = async function(req, res, next) {
 
+  res.locals = {
+    siteTitle: "Trademark Search",
+    description: "Check trademark status",
+    keywords: "Trademark Status, trademarkers status",
+  };
+  
   res.render("public/opposition-proof-of-use", { 
     layout  : "layouts/public-layout-interactive", 
     title   : ""

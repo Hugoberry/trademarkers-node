@@ -45,6 +45,10 @@ router.post('/checkout/serviceOrderSubmit', publicController.serviceOrderSubmit)
 
 // CUSTOM PAGE CHECKOUT --- END
 
+router.get('/search', publicController.searchSerial);
+router.get('/us', publicController.searchSerial);
+router.post('/search/serial-number', publicController.searchSerialNumber);
+
 router.post('/checkout/:action', publicController.checkout);
 
 router.get('/thank-you/:number', publicController.thankYou)
