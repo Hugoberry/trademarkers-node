@@ -1,0 +1,37 @@
+<div class="col-md-12" style="margin-bottom:20px;">  
+    <h2>Tasks List </h2>
+
+    <% if (flash.success) { %>
+    <div class="alert alert-success" role="alert">
+        <strong><%= flash.success %></strong>
+    </div>
+    <% } %>
+</div>
+                    
+<div clss="col-md-12">
+    <table id="myListDataTable" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Mark</th>
+                <th>Serial Number</th>
+                <th>Registration Number</th>
+                <th>Status</th>
+                <th>Status date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        <% trademarks.forEach(function(trademark,key) { if(trademark.mark) { %>
+   
+            <tr>
+                <td><%= trademark.mark %></td>
+                <td><%= trademark.serialNumber %></td>
+                <td><%= trademark.registrationNumber %></td>
+                <td><%= trademark.status %></td>
+                <td><%= trademark.statusDate %></td>
+                <td>action</td>
+            </tr>
+            <% } }) %>
+        </tbody>
+    </table>
+</div>

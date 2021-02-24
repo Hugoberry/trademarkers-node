@@ -1,0 +1,83 @@
+<div class="col-md-12" style="margin-bottom:20px;">    
+    <h2>Edit Task 
+        <span class="create-btn"><a href="/njs-admin/tasks/add"><i class="fa fa-plus"></i></a></span>
+    </h2>
+
+    <form class="row" action="/njs-admin/manage/tasks/edit/<%= task._id %>" method="post">
+
+    
+
+        <div class="col-md-12">
+
+            <div class="form-group">
+                <label>Select Researcher</label>
+                <select class="form-control" name="user_id">
+                    <% users.forEach(function(user,key) { %>
+                        <option value="<%= user._id %>" <%= user._id == task.user_id ? 'selected':'' %>><%= user.name %></option>
+                    <% }) %>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Task Name</label>
+                <input type="text" class="form-control" value="<%= task.task_name %>" placeholder="" name="task_name" required>
+            </div>
+
+            <div class="form-group">
+                <label>Completion Date</label>
+                <input type="date" class="form-control" value="<%= task.complication_date %>" placeholder="" name="complication_date" required>
+            </div>
+
+            <div class="form-group">
+                <label>Task Status</label>
+                <select class="form-control" name="task_status">
+                    <option value="pending" <%= task.task_status == 'pending' ? 'selected':'' %>>Pending</option>
+                    <option value="review" <%= task.task_status == 'review' ? 'selected':'' %>>For Review</option>
+                    <option value="complete" <%= task.task_status == 'complete' ? 'selected':'' %>>Complete</option>
+                </select>
+            </div>
+            <hr>
+        </div>
+        
+
+        <div class="col-md-12">
+            <div id="taskDetails" class="row">
+                <% task.details.forEach(function(detail,key) { %>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Task# <%= detail.task_number %></label>
+                        <input type="hidden" class="form-control" value="<%= detail.task_number %>" name="details[<%= detail.task_number %>][task_number]">
+                    </div>
+        
+                    <div class="form-group">
+                        <label>Task Description/Scope</label>
+                        <textarea class="form-control" name="details[<%= detail.task_number %>][task_description]"><%= detail.task_description %></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Task Detail Status</label>
+                        <select class="form-control" name="details[<%= detail.task_number %>][task_status]">
+                            <option value="pending" <%= task.task_status == 'pending' ? 'selected':'' %>>Pending</option>
+                            <option value="ongoing" <%= task.task_status == 'ongoing' ? 'selected':'' %>>Ongoing</option>
+                            <option value="review" <%= task.task_status == 'review' ? 'selected':'' %>>For Review</option>
+                            <option value="complete" <%= task.task_status == 'complete' ? 'selected':'' %>>Complete</option>
+                        </select>
+                    </div>
+
+                </div>
+                <% }) %>
+
+            </div>
+        </div>
+        
+
+        <div class="col-md-12">
+            <p class="text-center">
+                <button type="submit" class="btn btn-primary btn-rounded-primary" style="padding-left:40px;padding-right:40px;">Update</button>
+            </p>
+        </div>
+
+    </form>
+</div>
+        
+

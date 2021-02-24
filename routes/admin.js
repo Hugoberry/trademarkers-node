@@ -6,6 +6,7 @@ const adminTask = require('../controller/adminTaskController')
 const adminEvent = require('../controller/adminEventController')
 const adminLead = require('../controller/adminLeadController')
 const adminOppositionLead = require('../controller/adminOppositionLeadsController')
+const adminTrademark = require('../controller/adminTrademarkController')
 
 
 /* GET users listing. */
@@ -18,6 +19,8 @@ router.post('/manage/tasks/add', verify, adminTask.tasksAddSubmit);
 router.get('/manage/tasks/view/:id', verify, adminTask.taskShow);
 router.get('/manage/tasks/edit/:id', verify, adminTask.taskEdit);
 router.post('/manage/tasks/edit/:id', verify, adminTask.taskEditSubmit);
+
+router.get('/manage/trademark', verify, adminTrademark.index);
  
 router.get('/manage/events', verify, adminEvent.events);
 router.get('/manage/events/view/:id', verify, adminEvent.show);
