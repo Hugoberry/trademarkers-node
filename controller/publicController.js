@@ -717,12 +717,15 @@ exports.checkout = async function(req, res, next) {
       created_at: toInteger(moment().format('YYMMDD')),
     }
 
-    rpoOrder.put(order);
+    
 
     // send email notification
     mailService.sendOrderNotification(order);
-    res.flash('success', 'Payment Successful!');
+
+    rpoOrder.put(order);
     rpoCharge.put(charge);
+    res.flash('success', 'Payment Successful!');
+    
 
     // update notifications collection
     let notification = await rpoSouNotifications.findBySerial(action[0].serialNumber);
@@ -822,9 +825,10 @@ exports.checkoutCustom = async function(req, res, next) {
 
     console.log('put', order);
 
-    rpoOrder.put(order);
+    
 
     mailService.sendOrderNotification(order);
+    rpoOrder.put(order);
     res.flash('success', 'Payment Successful!');
     rpoCharge.put(charge);
 
@@ -912,9 +916,10 @@ exports.checkoutCustom2 = async function(req, res, next) {
 
     console.log('put', order);
 
-    rpoOrder.put(order);
+    
 
     mailService.sendOrderNotification(order);
+    rpoOrder.put(order);
     res.flash('success', 'Payment Successful!');
     rpoCharge.put(charge);
 
@@ -1011,9 +1016,10 @@ exports.serviceOrderSubmit = async function(req, res, next) {
 
     console.log('put', order);
 
-    let newOrder = await rpoOrder.put(order);
+    
 
     mailService.sendOrderNotification(order);
+    rpoOrder.put(order);
     res.flash('success', 'Payment Successful!');
     rpoCharge.put(charge);
 
@@ -1106,7 +1112,7 @@ exports.searchSerial = async function(req, res, next) {
     description: "Check trademark status",
     keywords: "Trademark Status, trademarkers status",
   };
-  
+
   res.render("public/search", { 
     layout  : "layouts/public-layout-interactive", 
     title   : ""
