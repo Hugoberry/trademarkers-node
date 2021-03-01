@@ -10,7 +10,7 @@ const connection = mysql.createConnection({
 	database : 'trademarkersweb'
 });
 
-// let conn = require('../config/DbConnect');
+let conn = require('../config/DbConnect');
 
 //   let db = client.connect();
 
@@ -391,43 +391,44 @@ async function addTrademarkMongo(trademark) {
         
         	// 		// let db = conn.getDb();
 
-        // conn.getDb().collection('tm_trademarks').findOne({
-        //     serialNumber: trademark.serialNumber
-        // }, 
-        // function(err, result) {
-        //     if (err) {
-        //         reject(err);
-        //     } else {
-        //         console.log("result => ", result);
-        //         if (!result) {
-        //             conn.getDb().collection('tm_trademarks').insertOne(trademark, 
-        //                 function(err, res2) {
-        //                     if (err) {
-        //                         reject(err);
-        //                     }
-        //                     console.log('added new record');
-        //                     resolve(res2);
-        //                 }
-        //             );
-        //         } else {
+        conn.getDb().collection('tm_trademarks').findOne({
+            serialNumber: trademark.serialNumber
+        }, 
+        function(err, result) {
+            if (err) {
+                reject(err);
+            } else {
+                console.log("result => ", result);
+                if (!result) {
+                    conn.getDb().collection('tm_trademarks').insertOne(trademark, 
+                        function(err, res2) {
+                            if (err) {
+                                reject(err);
+                            }
+                            console.log('added new record');
+                            resolve(res2);
+                        }
+                    );
+                } else {
 
-        //             let query = { serialNumber: trademark.serialNumber };
-        //             conn.getDb().collection('tm_trademarks').updateOne(query,  {$set:{trademark}}, function(err, res) {
-        //                 if (err) {
-        //                     console.log('Error updating user: ' + err);
-        //                     // res.send({'error':'An error has occurred'});
-        //                 } else {
-        //                     console.log('updated');
-        //                     // res.send(result);
-        //                     resolve(res);
-        //                 }
-        //             });
+                    let query = { serialNumber: trademark.serialNumber };
+                    console.log(trademark);
+                    conn.getDb().collection('tm_trademarks').updateOne(query,  {$set:{...trademark}}, function(err, res) {
+                        if (err) {
+                            console.log('Error updating user: ' + err);
+                            // res.send({'error':'An error has occurred'});
+                        } else {
+                            console.log('updated');
+                            // res.send(result);
+                            resolve(res);
+                        }
+                    });
 
-        //         }
+                }
 
-        //         resolve(result);
-        //     }
-        // });
+                resolve(result);
+            }
+        });
 
     });
         
