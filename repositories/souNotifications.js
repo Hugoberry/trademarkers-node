@@ -46,6 +46,28 @@ module.exports = {
 		});
 	},
 
+	fetchSouSummaryNotification : async function() {
+		return new Promise(function(resolve, reject) {
+
+			let query = { 
+				actionType: "sou notification" 
+			};
+
+			let db = conn.getDb();
+			
+			db.collection(_table).find(query).toArray(function(err, result) {
+					
+				if (err) {
+					reject(err);
+				} else {
+					resolve(result);
+				}
+
+			});
+
+		});
+	},
+
 
 
 	

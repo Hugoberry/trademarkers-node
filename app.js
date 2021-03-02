@@ -117,7 +117,7 @@ conn.connectToServer( function( err, client ) {
     // console.log("trigger event mailer");
   });
 
-  // oaCronService.sendNOACron();
+  oaCronService.sendSOUSummaryNotification();
 
   // cron.schedule('*/59 30-50 */16 * * mon-fri', () => { 
   //   oaCronService.sendNOACron();

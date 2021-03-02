@@ -2,6 +2,7 @@
 var rpoUsersMysql = require('../repositories/users');
 var rpoTrademark = require('../repositories/trademarks');
 var rpoSouNotifications = require('../repositories/souNotifications');
+var rpoActions = require('../repositories/actionCode');
 var rpoTrademarkMongo = require('../repositories/mongoTrademarks');
 
 var helpers = require('../helpers');
@@ -169,11 +170,42 @@ for (let i = 0; count < 1 ; i++) {
     // console.log( 'helper', helpers.convertIntToDate(trademark.noticeOfAllowanceDate) );
 } // for end
 
-console.log("end for");
 
-  
+}
+
+exports.sendSOUSummaryNotification = async function() {
+  // console.log("fetch");
+
+  let mailData = []
+  let notification = await rpoSouNotifications.fetchSouSummaryNotification();
+  // console.log(notification);
+   await notification.forEach(async notif => {
+    // console.log(notif.actionType, notif.serialNumber, notif.noEmail);
+    let actions = await rpoActions.getAction(notif.number);
+
+    // console.log(actions[0].response);
+
+    // update notification response
+    if (actions[0])
+    if (!actions[0].response) {
+      // console.log(notif.noEmail)
+      mailData.push(notif);
+    } else {
+      // console.log(notif.serialNumber)
+      let notifData = {
+        response : actions[0].response
+      }
+
+      if (actions[0].decName) {
+        notifData.decName = actions[0].decName
+      }
+
+      await rpoSouNotifications.updateDetails(notif._id, notifData)
+
+    }
 
 
+  });
 
-  
+  console.log("data collected",mailData);
 }

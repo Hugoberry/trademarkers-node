@@ -39,6 +39,24 @@ module.exports = {
 		});
 	},
 
+	get : async function(id) {
+		return new Promise(function(resolve, reject) {
+
+			let query = { _id: ObjectID(id) };
+			
+			conn.getDb().collection(_table).find(query).toArray(function(err, result) {
+					
+				if (err) {
+					reject(err);
+				} else {
+					resolve(result);
+				}
+
+			});
+
+		});
+	},
+
 
 
 	// writes to mongo

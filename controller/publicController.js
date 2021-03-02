@@ -627,12 +627,18 @@ exports.souResponse = async function(req, res, next) {
   //   data.declinedName = name
   // }
 
+  let action = await rpoAction.get(req.params.action);
+  let notif = await rpoSouNotifications.findBySerial(action[0].serialNumber);
+
   await rpoAction.updateDetails(req.params.action, data)
+
+  // add this in notification
+  await rpoSouNotifications.updateDetails(notif[0]._id, data)
 
   res.json({
     status:true,
     message:"Success"
-});
+  });
 
 }
 
