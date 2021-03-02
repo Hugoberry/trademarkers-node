@@ -341,3 +341,48 @@ exports.sendOrderNotification = async function(order) {
 
 
 }
+
+
+exports.sendSouSummary = async function(mailData) {
+
+  // return;
+  ejs.renderFile(__dirname+"/../email-templates/souSummaryNotification.ejs", { mailData: mailData }, async function (err, data) {
+    if (err) {
+        console.log(err);
+    } else {
+      // fs.readFile(mailData.fileUrl, function (err, file) {
+        let mainOptions = {
+          sender: process.env.MAIL_FROM,
+          replyTo: process.env.MAIL_FROM,
+          from: process.env.MAIL_FROM, 
+          // to: "info@trademarkers.com",
+          // cc: "billing-trademarkers@moas.com",
+          // bcc: "carissa@trademarkers.com",
+          to: "felix@trademarkers.com",
+          // bcc: ["febongo@gmail.com", "felix@bigfoot.com"],
+          subject: "Statement Of Use Email Notification Summary", 
+          html: data
+        };
+
+        transporter.sendMail(mainOptions, function (err, info) {
+          
+          let res;
+          
+          if (err) {
+            console.log(err);
+            res = err;
+          } else {
+            console.log(info);
+            res = info;
+
+          }
+
+        });
+      // })
+       
+    }
+    
+  });
+
+
+}

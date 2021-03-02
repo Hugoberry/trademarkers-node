@@ -179,11 +179,11 @@ exports.sendSOUSummaryNotification = async function() {
   let mailData = []
   let notification = await rpoSouNotifications.fetchSouSummaryNotification();
   // console.log(notification);
-   await notification.forEach(async notif => {
-    // console.log(notif.actionType, notif.serialNumber, notif.noEmail);
-    let actions = await rpoActions.getAction(notif.number);
+  for(let i = 0; i < notification.length; i++){
 
-    // console.log(actions[0].response);
+    let notif = notification[i];
+
+    let actions = await rpoActions.getAction(notif.number);
 
     // update notification response
     if (actions[0])
@@ -192,20 +192,21 @@ exports.sendSOUSummaryNotification = async function() {
       mailData.push(notif);
     } else {
       // console.log(notif.serialNumber)
-      let notifData = {
-        response : actions[0].response
-      }
+      // let notifData = {
+      //   response : actions[0].response
+      // }
 
-      if (actions[0].decName) {
-        notifData.decName = actions[0].decName
-      }
+      // if (actions[0].decName) {
+      //   notifData.decName = actions[0].decName
+      // }
 
-      await rpoSouNotifications.updateDetails(notif._id, notifData)
+      // await rpoSouNotifications.updateDetails(notif._id, notifData)
 
     }
 
 
-  });
+  }
 
-  console.log("data collected",mailData);
+  mailService.sendSouSummary(mailData);
+  // console.log("data collected",mailData);
 }

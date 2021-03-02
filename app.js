@@ -117,7 +117,7 @@ conn.connectToServer( function( err, client ) {
     // console.log("trigger event mailer");
   });
 
-  oaCronService.sendSOUSummaryNotification();
+  // oaCronService.sendSOUSummaryNotification();
 
   // cron.schedule('*/59 30-50 */16 * * mon-fri', () => { 
   //   oaCronService.sendNOACron();
@@ -131,6 +131,10 @@ conn.connectToServer( function( err, client ) {
   }, {
     scheduled: true,
     timezone: "America/New_York"
+  });
+
+  cron.schedule('0 0 8 * * mon', () => { 
+    oaCronService.sendSOUSummaryNotification();
   });
 
   // orderService.syncOrders()
