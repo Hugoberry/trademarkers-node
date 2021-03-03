@@ -8,6 +8,7 @@ var rpoTm = require('../repositories/trademarks');
 var rpoTmMongo = require('../repositories/mongoTrademarks');
 var rpoCountry = require('../repositories/countries');
 var rpoUser = require('../repositories/users');
+var rpoUserMongo = require('../repositories/usersMongo');
 
 var helpers = require('../helpers');
 
@@ -97,6 +98,7 @@ exports.orderDetail = async function(req, res, next) {
     description: "Check trademark status",
     keywords: "Trademark Status, trademarkers status",
   };
+  
 
   res.render('customer/orderDetails', { 
     layout: 'layouts/public-layout-interactive', 
@@ -106,6 +108,64 @@ exports.orderDetail = async function(req, res, next) {
   
 }
 
+
+exports.updateCustomerForm = async function(req, res, next) {
+
+  // FETCH USER
+  // console.log(req.params.id);
+
+  let user = await rpoUserMongo.getById(req.params.id * 1);
+
+  console.log(user);
+
+  // res.locals = {
+  //   siteTitle: "Trademarkers Customer Update",
+  //   description: "Trademarkers Customer update details",
+  //   keywords: "Trademarkers customer details",
+  // };
+
+  res.render('customer/updateDetailForm', { 
+    layout: 'layouts/public-layout-interactive', 
+    title: 'Trademarkers LLC Order Status',
+    user: user[0]
+  });
+  
+}
+
+exports.updateCustomerFormSubmit = async function(req, res, next) {
+
+  // FETCH USER
+  // console.log(req.params.id);
+
+  let user = await rpoUserMongo.getById(req.params.id * 1);
+
+  // console.log(req.body);
+
+  let data = {
+    firstName: req.body.fname,
+    lastName: req.body.lname,
+    suffix: req.body.suffix,
+    secondaryEmail: req.body.registeredEmail
+  }
+
+  await rpoUserMongo.updateUser(user[0]._id, data)
+
+  res.flash('success', 'Update Successful!');
+
+  res.redirect("/customer/TC-"+user[0].id+"-7C"); 
+  // res.locals = {
+  //   siteTitle: "Trademarkers Customer Update",
+  //   description: "Trademarkers Customer update details",
+  //   keywords: "Trademarkers customer details",
+  // };
+
+  // res.render('customer/updateDetailForm', { 
+  //   layout: 'layouts/public-layout-interactive', 
+  //   title: 'Trademarkers LLC Order Status',
+  //   user: user[0]
+  // });
+  
+}
 
 
 

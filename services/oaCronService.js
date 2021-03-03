@@ -63,7 +63,7 @@ for (let i = 0; count < 1 ; i++) {
           // update
           let lastNotificationSent = helpers.convertIntToDate(notification[0].lastSent)
 
-          if ( moment().diff(lastNotificationSent,"days") >= 2 && notification[0].actionType == 'sou notification') {
+          if ( moment().diff(lastNotificationSent,"days") >= 2 && notification[0].actionType == 'sou notification' && !notification[0].response ) {
             flag = true;
 
             mailData.noEmail = (notification[0].noEmail + 1);
