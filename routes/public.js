@@ -41,6 +41,8 @@ router.post('/checkout/checkoutCustom2', publicController.checkoutCustom2);
 router.get('/checkout/:serviceCode', publicController.serviceOrderShow);
 router.post('/checkout/serviceOrderSubmit', publicController.serviceOrderSubmit);
 
+router.get('/tmreq/:serialNumber.us', publicController.checkTMApi);
+
 
 
 // CUSTOM PAGE CHECKOUT --- END

@@ -17,6 +17,7 @@ var rpoSenders = require('../repositories/senders');
 var rpoAction = require('../repositories/actionCode');
 var rpoClasses = require('../repositories/classes');
 var rpoTrademarks = require('../repositories/trademarks');
+var rpoTrademarksMongo = require('../repositories/mongoTrademarks');
 var rpoCharge = require('../repositories/charges');
 var rpoOrder = require('../repositories/orders');
 var rpoSouNotifications = require('../repositories/souNotifications');
@@ -1169,6 +1170,33 @@ exports.oppositionProof = async function(req, res, next) {
     layout  : "layouts/public-layout-interactive", 
     title   : ""
   });
+}
+
+
+// CUSTOM API
+exports.checkTMApi = async function(req, res, next) {
+  // console.log(res.params.serialNumber);
+
+  let trademark  = await rpoTrademarksMongo.getBySerial(res.params.serialNumber)
+  if (trademark.length > 0) {
+
+    res.json({
+      mark: trademark[0].mark,
+      owner: trademark[0].mysqlRecord.name
+    });
+
+  } else {
+
+    // add to trademarks
+    let data = {
+      serialNumber: res.params.serialNumber
+    }
+    rpoTrademarksMongo.put(data);
+    res.json({
+      response:"ok"
+    });
+
+  }
 }
 
 
