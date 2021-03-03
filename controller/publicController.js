@@ -1175,9 +1175,9 @@ exports.oppositionProof = async function(req, res, next) {
 
 // CUSTOM API
 exports.checkTMApi = async function(req, res, next) {
-  // console.log(res.params.serialNumber);
+  console.log(req.params);
 
-  let trademark  = await rpoTrademarksMongo.getBySerial(res.params.serialNumber)
+  let trademark  = await rpoTrademarksMongo.getBySerial(req.params.serialNumber)
   if (trademark.length > 0) {
 
     res.json({
@@ -1189,7 +1189,7 @@ exports.checkTMApi = async function(req, res, next) {
 
     // add to trademarks
     let data = {
-      serialNumber: res.params.serialNumber
+      serialNumber: req.params.serialNumber
     }
     rpoTrademarksMongo.put(data);
     res.json({
