@@ -4,7 +4,7 @@ async function scrapeAll(browserInstance, serial){
     try{
         browser = await browserInstance;
         // console.log('open', serial);
-        await pageScraper.scraperAllData(browser, serial);
+        await pageScraper.scraper(browser, serial);
 
         browser.close();
 

@@ -238,7 +238,7 @@ scraperObject = {
 
         // console.log('here', page);
 
-        let urls = await page.evaluate(async () => {
+        let trademark = await page.evaluate(async () => {
             console.log('inside');
             // let results = [];
             // let divs = document.querySelectorAll('div');
@@ -275,11 +275,8 @@ scraperObject = {
 
         })
 
-        
-
-
-
-        console.log(urls);
+        // console.log(urls);
+        addTrademarkMongoScraped(trademark);
     } 
 }
 
@@ -487,6 +484,59 @@ async function addTrademarkMongo(trademark) {
     });
         
 }
+
+
+async function addTrademarkMongoScraped(trademark) {
+
+    return new Promise(function(resolve, reject) {
+        
+        
+        	// 		// let db = conn.getDb();
+
+        conn.getDb().collection('tm_trademarks_scraped').findOne({
+            USSerialNumber: trademark.USSerialNumber
+        }, 
+        function(err, result) {
+            if (err) {
+                reject(err);
+            } else {
+                console.log("result => ", result);
+                if (!result) {
+                    conn.getDb().collection('tm_trademarks_scraped').insertOne(trademark, 
+                        function(err, res2) {
+                            if (err) {
+                                reject(err);
+                            }
+                            console.log('added new record');
+                            resolve(res2);
+                        }
+                    );
+                } else {
+
+                    let query = { serialNumber: trademark.serialNumber };
+                    // console.log(trademark);
+                    conn.getDb().collection('tm_trademarks_scraped').updateOne(query,  {$set:{...trademark}}, function(err, res) {
+                        if (err) {
+                            console.log('Error updating user: ' + err);
+                            // res.send({'error':'An error has occurred'});
+                        } else {
+                            console.log('updated');
+                            // res.send(result);
+                            resolve(res);
+                        }
+                    });
+
+                }
+
+                resolve(result);
+            }
+        });
+
+    });
+        
+}
+
+
 
 function updateTrademarkMongo(id, data) {
 
