@@ -114,9 +114,16 @@ exports.updateCustomerForm = async function(req, res, next) {
   // FETCH USER
   // console.log(req.params.id);
 
-  let user = await rpoUserMongo.getById(req.params.id * 1);
+  let custId = req.params.id * 1;
+  let user = await rpoUserMongo.getById(custId);
 
-  console.log(user);
+  if (user.length <= 0){
+    user = await rpoUser.getUserByID(custId)
+    if (user) 
+    rpoUserMongo.putUser(user[0])
+  }
+
+  // console.log(user);
 
   // res.locals = {
   //   siteTitle: "Trademarkers Customer Update",
