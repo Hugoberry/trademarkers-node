@@ -165,7 +165,7 @@ exports.redirect = async function(req, res, next) {
 
   if ( action.length > 0 ) {
 
-    console.log(action[0].redirect_to, 'redirecting');
+    // console.log(action[0].redirect_to, 'redirecting');
 
     if ( action[0].related_data && action[0].related_data.email) {
 

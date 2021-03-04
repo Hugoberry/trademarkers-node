@@ -13,6 +13,7 @@ var rpoUserMongo = require('../repositories/usersMongo');
 var helpers = require('../helpers');
 
 var activityService = require('../services/activityLogService');
+var mailService = require('../services/mailerService');
 
 let customerId = 1293;
 
@@ -131,6 +132,8 @@ exports.updateCustomerForm = async function(req, res, next) {
   //   keywords: "Trademarkers customer details",
   // };
 
+  activityService.logger(req.ip, req.originalUrl, "Customer tried to update details userID: " +user[0].id);
+
   res.render('customer/updateDetailForm', { 
     layout: 'layouts/public-layout-interactive', 
     title: 'Trademarkers LLC Order Status',
@@ -158,6 +161,9 @@ exports.updateCustomerFormSubmit = async function(req, res, next) {
   await rpoUserMongo.updateUser(user[0]._id, data)
 
   res.flash('success', 'Update Successful!');
+
+  // send email notification
+  // mailService.sendCustomerEmailUpdateAdmin(user);
 
   res.redirect("/customer/TC-"+user[0].id+"-7C"); 
   // res.locals = {
