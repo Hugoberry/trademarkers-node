@@ -42,9 +42,7 @@ scraperObject = {
 
                 
                 // Wait for the required DOM to be rendered
-                // await page.waitForSelector('#resultsTabs');
                 await page.waitForSelector('#docResultsTbody');
-                // await page.waitForTimeout(2000);
 
                 let urls = await page.$$eval('#trademarkDocs #docResultsTbody > tr > td > a', links => {
 
@@ -64,7 +62,6 @@ scraperObject = {
                     return datesLinks.map(el => el.innerHTML.trim());
                 });
 
-                // console.log('docdates',docdates);
 
                 let documents = [];
 
@@ -77,7 +74,6 @@ scraperObject = {
                     });
                 }
 
-                
 
                 await page.waitForSelector('#summary');
 
@@ -167,7 +163,6 @@ scraperObject = {
                 const statusArr = statusString[0].split('/');
                 if ( statusArr.length >= 3 ) {
                     status = statusArr[2];
-                    // console.log(statusArr[2]);
                 }
 
                 if ( status.trim() == 'Issued and Active' ) {
@@ -180,63 +175,49 @@ scraperObject = {
                     dataValues[returnStatusLabel(status.label)] = formatDate(status.value);
                 });
 
-                // trademark[0].office_status = status;
+   
 
                 dataValues.documents = documents;
-                // dataValues.mysqlID = trademark[0].id
-                // dataValues.mysqlRecord = trademark[0]
+
                 dataValues.lastCrawled = moment().format('YYYY-MM-DD')
 
-                // console.log(trademark[0]);
-
-                // let classNumber = trademark[0].classes.split(",");
-                // let classDescription = trademark[0].classes_description.split(",");
-
                 let classArr = [];
-
-                // for (let i = 0; i < classNumber.length; i++) {
-                //     if(classNumber[i]) {
-                //         classArr.push({
-                //             classNo: classNumber[i],
-                //             goodsServices: ''
-                //         });
-                //     }
-                // }
-
                 dataValues.class = classArr
-                // update mysql trademark status
-                // updateMysqlTrademark(dataValues);
-                // save to mongo
-                // if ( isNew ) {
-                //     console.log("ADDING NEW RECORD IN MONGO....");
+
+                await page.waitForSelector('#data_container');
+                // get tm holder
+                let holderLabel = await page.$$eval('#data_container  > div:nth-child(5) .toggle_container #relatedProp-section .key', data => {
+
+                    value = data.map(el => el.innerHTML.trim()) 
+                    return value;
+
+                });
+
+                let holderValue = await page.$$eval('#data_container  > div:nth-child(5) .toggle_container #relatedProp-section .value', data => {
+
+                    value = data.map(el => el.innerHTML.trim()) 
+                    return value;
+
+                });
+
+                for (let i = 0; i < holderLabel.length; i++) {
+                    if(holderLabel[i]) {
+
+                        dataValues[returnStatusLabel(holderLabel[i])] = holderValue[i].replace(/<\/?[^>]+(>|$)/g, "");
+                    }
+
+                }
+                // console.log("holder",holderLabel);
+       
                 addTrademarkMongo(dataValues);
-                //     console.log("RECORD ADDED!!");
-                // } else {
-                //     console.log("UPDATING RECORD IN MONGO....");
-                //     updateTrademarkMongo( updateId, dataValues );
-                //     console.log("RECORD UPDATED!!");
-                // }
-                // console.log(dataValues);
+
                 return dataValues;
                 
 
             } catch(e){
                 console.log("error ",e);
-                // let dataValues = {
-                //     mysqlID: trademark[0].id,
-                //     mysqlRecord: trademark[0],
-                //     lastCrawled: moment().format('YYYY-MM-DD')
-                // }
-                // dataValues.mysqlID = trademark[0].id
-                // dataValues.mysqlRecord = trademark[0]
-                // if ( isNew ) {
-                //     addTrademarkMongo(dataValues)
-                // } else {
-                //     updateTrademarkMongo( updateId, dataValues );
-                // }
 
                 return null;
-                // addTrademarkMongo(dataValues)
 
             }
             
@@ -319,6 +300,22 @@ function returnStatusLabel(label) {
 
         case 'Date Cancelled:':
             return 'cancelledDate';
+        break;
+
+        case 'Owner Name:':
+            return 'ownerName';
+        break;
+
+        case 'Owner Address:':
+            return 'ownerAddress';
+        break;
+
+        case 'Legal Entity Type:':
+            return 'legalEntityType';
+        break;
+
+        case 'Citizenship:':
+            return 'citizenship';
         break;
 
         default:
@@ -412,7 +409,7 @@ async function addTrademarkMongo(trademark) {
                 } else {
 
                     let query = { serialNumber: trademark.serialNumber };
-                    console.log(trademark);
+                    // console.log(trademark);
                     conn.getDb().collection('tm_trademarks').updateOne(query,  {$set:{...trademark}}, function(err, res) {
                         if (err) {
                             console.log('Error updating user: ' + err);
@@ -482,3 +479,4 @@ function formatDateTimestamp(date) {
     return thisDate.format("YYYY-MM-DD HH:mm:ss");
 
 }
+

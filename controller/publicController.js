@@ -1177,12 +1177,20 @@ exports.oppositionProof = async function(req, res, next) {
 exports.checkTMApi = async function(req, res, next) {
   console.log(req.params);
 
+
+  await crawlerService.fetchTsdr(req.params.serialNumber)
+
+  await new Promise(resolve => setTimeout(resolve, 2000));
+  
   let trademark  = await rpoTrademarksMongo.getBySerial(req.params.serialNumber)
+  
   if (trademark.length > 0) {
 
     res.json({
       mark: trademark[0].mark,
-      owner: trademark[0].mysqlRecord.name
+      ownerName: trademark[0].ownerName,
+      ownerAddress: trademark[0].ownerAddress,
+      legalEntityType: trademark[0].legalEntityType
     });
 
   } else {
