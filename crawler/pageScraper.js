@@ -223,7 +223,64 @@ scraperObject = {
             
         // }
 
-    }
+    },
+
+    async scraperAllData(browser, serial){
+        console.log('=================== STARTING BROWSER ===================');
+
+        let url = 'https://tsdr.uspto.gov/#caseNumber='+serial+'&caseSearchType=US_APPLICATION&caseType=DEFAULT&searchType=statusSearch';
+
+        let page = await browser.newPage();
+        console.log('wait for document to load');
+        await page.goto(url, { waitUntil: 'networkidle2' });
+        console.log('document loaded');
+        await page.waitForSelector('#docResultsTbody');
+
+        // console.log('here', page);
+
+        let urls = await page.evaluate(async () => {
+            console.log('inside');
+            // let results = [];
+            // let divs = document.querySelectorAll('div');
+            let niceArray = {};
+
+            let divs = document.querySelectorAll('div');
+            // console.log(divs.length);
+
+            for (let i=0; i< divs.length; i++) {
+                console.log(divs[i]);
+                // console.log(divs[i].classList.toString().includes ("key"));
+            if (divs[i].classList.toString().includes("key") &&  divs[i+1].classList.toString().includes("value")) {
+                // console.log('found key', divs[i].innerText);
+
+                let label = divs[i].innerText.trim()
+                let value = divs[i+1].innerText.trim()
+
+                label = label.replace(":","")
+                label = label.replace("-","")
+                label = label.replace(/\s/g, '');
+                label = label.replace("/","_")
+
+                if (label) 
+                niceArray[label] = value;
+
+             
+            }
+
+            }
+            console.log('this',niceArray);
+            return niceArray;
+
+            // console.log('this',niceArray);
+
+        })
+
+        
+
+
+
+        console.log(urls);
+    } 
 }
 
 module.exports = scraperObject;
@@ -477,6 +534,17 @@ function formatDateTimestamp(date) {
     // console.log(thisDate.format('YYMMDD'));
 
     return thisDate.format("YYYY-MM-DD HH:mm:ss");
+
+}
+
+function createLabel(text) {
+    let label = text.trim();
+
+    label = label.replace(":","")
+    label = label.replace(" ","")
+    label = label.replace("/","_")
+
+    return label;
 
 }
 
