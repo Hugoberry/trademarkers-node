@@ -259,11 +259,14 @@ exports.sendNOA = async function(mailData) {
         console.log(err);
     } else {
       console.log('attempt to snd');
+
+      let to = mailData.user.email
+      
         let mainOptions = {
           sender: mailSender,
           replyTo: mailSender,
           from: mailSender, 
-          to: mailData.user.email,
+          to: to,
           // bcc: "michael@trademarkers.com",
            bcc: "felix@trademarkers.com",
            //bcc: "mg@bigfoot.com, carissa@chinesepod.com, felix@trademarkers.com",
@@ -361,6 +364,51 @@ exports.sendSouSummary = async function(mailData) {
           to: "felix@trademarkers.com",
           // bcc: ["febongo@gmail.com", "felix@bigfoot.com"],
           subject: "Statement Of Use Email Notification Summary", 
+          html: data
+        };
+
+        transporter.sendMail(mainOptions, function (err, info) {
+          
+          let res;
+          
+          if (err) {
+            console.log(err);
+            res = err;
+          } else {
+            console.log(info);
+            res = info;
+
+          }
+
+        });
+      // })
+       
+    }
+    
+  });
+
+
+}
+
+
+exports.sendAdminNotificationCustomerEmailUpdate = async function(user) {
+
+  // return;
+  ejs.renderFile(__dirname+"/../email-templates/adminNotificationCustomerEmailUpdate.ejs", { user: user }, async function (err, data) {
+    if (err) {
+        console.log(err);
+    } else {
+      // fs.readFile(mailData.fileUrl, function (err, file) {
+        let mainOptions = {
+          sender: process.env.MAIL_FROM,
+          replyTo: process.env.MAIL_FROM,
+          from: process.env.MAIL_FROM, 
+          // to: "info@trademarkers.com",
+          // cc: "billing-trademarkers@moas.com",
+          // bcc: "carissa@trademarkers.com",
+          to: "felix@trademarkers.com",
+          // bcc: ["febongo@gmail.com", "felix@bigfoot.com"],
+          subject: "Customer Detail Updated " + user.id, 
           html: data
         };
 

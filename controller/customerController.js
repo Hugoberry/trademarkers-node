@@ -163,7 +163,7 @@ exports.updateCustomerFormSubmit = async function(req, res, next) {
   res.flash('success', 'Update Successful!');
 
   // send email notification
-  // mailService.sendCustomerEmailUpdateAdmin(user);
+  mailService.sendAdminNotificationCustomerEmailUpdate(user);
 
   res.redirect("/customer/TC-"+user[0].id+"-7C"); 
   // res.locals = {
