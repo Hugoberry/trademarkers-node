@@ -1184,7 +1184,11 @@ exports.oppositionProof = async function(req, res, next) {
 
 // CUSTOM API
 exports.checkTMApi = async function(req, res, next) {
-  console.log(req.params);
+  
+  let serial = ''
+  if (req.params) {
+    serial = req.params.serialNumber
+  }
 
 
   await crawlerService.fetchTsdr(req.params.serialNumber)

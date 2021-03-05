@@ -42,6 +42,7 @@ router.get('/checkout/:serviceCode', publicController.serviceOrderShow);
 router.post('/checkout/serviceOrderSubmit', publicController.serviceOrderSubmit);
 
 router.get('/tmreq/:serialNumber.us', publicController.checkTMApi);
+router.post('/tmreq/:serialNumber.us', publicController.checkTMApi);
 
 
 
