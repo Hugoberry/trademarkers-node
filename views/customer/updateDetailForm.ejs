@@ -44,9 +44,9 @@
                                         <div class="col-2">
                                             <div class="form-field-inner" >
                                                 <select class="form-control" name="suffix" >
-                                                    <option value="Mr" <%= user.suffix == "Mr" ? "selected":"" %>>Mr</option>
-                                                    <option value="Ms" <%= user.suffix == "Ms" ? "selected":"" %>>Ms</option>
-                                                    <option value="Mrs" <%= user.suffix == "Mrs" ? "selected":"" %>>Mrs</option>
+                                                    <option value="Mr" <%= user.suffix == "Mr." ? "selected":"" %>>Mr</option>
+                                                    <option value="Ms" <%= user.suffix == "Ms." ? "selected":"" %>>Ms</option>
+                                                    <option value="Mrs" <%= user.suffix == "Mrs." ? "selected":"" %>>Mrs</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -66,10 +66,11 @@
 
                                 <div class="form-field mt-2">
                                     <span>Email to received notification</span>
-                                    <input type="email" name="registeredEmail" id="registeredEmail" placeholder="Secondary Email" class="form-control" value="<%= ( user.secondaryEmail ? user.secondaryEmail : user.email ) %>" required="required">
+                                    <input type="email" name="secondaryEmail" id="secondaryEmail" placeholder="Secondary Email" class="form-control" value="<%= ( user.secondaryEmail ? user.secondaryEmail : user.email ) %>" required="required">
                                 </div>
   
                                 <div class="form-group mt-2 text-center">
+                                    <input type="hidden" name="customerId" value="<%= user._id %>">
                                     <input type="submit" class="btn btn-solid-lg btn-blue" value="Update Details">
                                 </div>
   

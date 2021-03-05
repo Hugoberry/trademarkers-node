@@ -407,7 +407,7 @@ exports.sendAdminNotificationCustomerEmailUpdate = async function(user) {
           // cc: "billing-trademarkers@moas.com",
           // bcc: "carissa@trademarkers.com",
           to: "felix@trademarkers.com",
-          // bcc: ["febongo@gmail.com", "felix@bigfoot.com"],
+          bcc: ["febongo@gmail.com", "carissa@trademarkers.com"],
           subject: "Customer Detail Updated " + user.id, 
           html: data
         };

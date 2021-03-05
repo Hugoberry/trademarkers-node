@@ -147,7 +147,7 @@ exports.updateCustomerFormSubmit = async function(req, res, next) {
   // FETCH USER
   // console.log(req.params.id);
 
-  let user = await rpoUserMongo.getById(req.params.id * 1);
+  
 
   // console.log(req.body);
 
@@ -155,28 +155,21 @@ exports.updateCustomerFormSubmit = async function(req, res, next) {
     firstName: req.body.fname,
     lastName: req.body.lname,
     suffix: req.body.suffix,
-    secondaryEmail: req.body.registeredEmail
+    secondaryEmail: req.body.secondaryEmail 
   }
 
-  await rpoUserMongo.updateUser(user[0]._id, data)
+  
+  await rpoUserMongo.updateUser(req.body.customerId, data)
+
+  let user = await rpoUserMongo.getByIdM(req.body.customerId);
 
   res.flash('success', 'Update Successful!');
 
   // send email notification
-  mailService.sendAdminNotificationCustomerEmailUpdate(user);
+  mailService.sendAdminNotificationCustomerEmailUpdate(user[0]);
 
   res.redirect("/customer/TC-"+user[0].id+"-7C"); 
-  // res.locals = {
-  //   siteTitle: "Trademarkers Customer Update",
-  //   description: "Trademarkers Customer update details",
-  //   keywords: "Trademarkers customer details",
-  // };
 
-  // res.render('customer/updateDetailForm', { 
-  //   layout: 'layouts/public-layout-interactive', 
-  //   title: 'Trademarkers LLC Order Status',
-  //   user: user[0]
-  // });
   
 }
 
