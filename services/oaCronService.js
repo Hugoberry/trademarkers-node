@@ -185,24 +185,23 @@ exports.sendSOUSummaryNotification = async function() {
 
     let actions = await rpoActions.getAction(notif.number);
 
-    // update notification response
-    if (actions[0])
-    if (!actions[0].response) {
-      // console.log(notif.noEmail)
-      mailData.push(notif);
-    } else {
-      // console.log(notif.serialNumber)
-      // let notifData = {
-      //   response : actions[0].response
-      // }
-
-      // if (actions[0].decName) {
-      //   notifData.decName = actions[0].decName
-      // }
-
-      // await rpoSouNotifications.updateDetails(notif._id, notifData)
-
+    let noclick = ( actions[0] && actions[0].tracking ? actions[0].tracking.length : 0 )
+      
+    let souData = {
+      noClick: noclick
     }
+
+    // check response
+    if ( actions[0] && actions[0].response ) {
+      if (!notif.response)
+      souData.response = actions[0].response
+    }
+
+    await rpoSouNotifications.updateDetails(notif._id, souData);
+
+    notif.noClick = noclick
+
+    mailData.push(notif);
 
 
   }

@@ -358,11 +358,9 @@ exports.sendSouSummary = async function(mailData) {
           sender: process.env.MAIL_FROM,
           replyTo: process.env.MAIL_FROM,
           from: process.env.MAIL_FROM, 
-          // to: "info@trademarkers.com",
-          // cc: "billing-trademarkers@moas.com",
-          // bcc: "carissa@trademarkers.com",
-          to: "michael@trademarkers.com",
-          bcc: ["felix@trademarkers.com", "carissa@trademarkers.com"],
+          to: "felix@trademarkers.com",
+          // to: "michael@trademarkers.com",
+          // bcc: ["felix@trademarkers.com", "carissa@trademarkers.com"],
           subject: "Email Notification Monitoring", 
           html: data
         };

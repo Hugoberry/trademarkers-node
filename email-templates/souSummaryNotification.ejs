@@ -344,11 +344,11 @@
 
                           <table class="table" style="width: 100%;text-align: left;padding-top: 10px;">
                             <tr>
-                              <th>Customer</th>
                               <th>Email</th>
                               <th># of email sent</th>
+                              <th># Click</th>
                               <th>Response</th>
-                              <th>Serial Number</th>
+                              <th>Action Code</th>
                               
                             </tr>
                             <% for(let i =0; i < mailData.length; i++) { %>
@@ -365,13 +365,15 @@
                                   }
                                 }
                               %>
+                              <% if(mailData[i].number) { %>
                               <tr>
-                                <th><%= mailData[i].user.name %></th>
                                 <th><%= mailData[i].user.email %></th>
                                 <th><%= mailData[i].noEmail %></th>
+                                <th><%= (mailData[i].noClick ? mailData[i].noClick : 0 ) %></th>
                                 <th><%= response %></th>
-                                <th><%= mailData[i].serialNumber %></th>
+                                <th><%= mailData[i].number %></th>
                               </tr>
+                              <% } %>
                             <% } %>
                             
                           </table>
