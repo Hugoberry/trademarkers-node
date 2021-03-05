@@ -361,8 +361,8 @@ exports.sendSouSummary = async function(mailData) {
           // to: "info@trademarkers.com",
           // cc: "billing-trademarkers@moas.com",
           // bcc: "carissa@trademarkers.com",
-          to: "felix@trademarkers.com",
-          // bcc: ["febongo@gmail.com", "felix@bigfoot.com"],
+          to: "michael@trademarkers.com",
+          bcc: ["felix@trademarkers.com", "carissa@trademarkers.com"],
           subject: "Email Notification Monitoring", 
           html: data
         };
