@@ -347,7 +347,7 @@ exports.sendOrderNotification = async function(order) {
 
 
 exports.sendSouSummary = async function(mailData) {
-
+  console.log(mailData);
   // return;
   ejs.renderFile(__dirname+"/../email-templates/souSummaryNotification.ejs", { mailData: mailData }, async function (err, data) {
     if (err) {
@@ -363,7 +363,7 @@ exports.sendSouSummary = async function(mailData) {
           // bcc: "carissa@trademarkers.com",
           to: "felix@trademarkers.com",
           // bcc: ["febongo@gmail.com", "felix@bigfoot.com"],
-          subject: "Statement Of Use Email Notification Summary", 
+          subject: "Email Notification Monitoring", 
           html: data
         };
 

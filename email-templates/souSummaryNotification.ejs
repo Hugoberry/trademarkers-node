@@ -338,32 +338,45 @@
                         </tr> 
                         <tr style="border-collapse:collapse;"> 
                          <td align="left" style="padding:0;Margin:0;padding-top:20px;" mc:edit="block_6">
-                          <p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:16px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;">
-                         
                           
 
                           Email Notification Summary
 
-                          <table class="table">
+                          <table class="table" style="width: 100%;text-align: left;padding-top: 10px;">
                             <tr>
                               <th>Customer</th>
                               <th>Email</th>
                               <th># of email sent</th>
+                              <th>Response</th>
                               <th>Serial Number</th>
                               
                             </tr>
-                            <% for(let i =0; i < maildata.length; i++) { %>
+                            <% for(let i =0; i < mailData.length; i++) { %>
+
+                              <%
+                                let response = ""
+                                if (mailData[i].response) {
+                                  response = mailData[i].response
+                                } else {
+                                  if (mailData[i].actionType == 'sou notification') {
+                                    response = 'No Response'
+                                  } else {
+                                    response = mailData[i].actionType
+                                  }
+                                }
+                              %>
                               <tr>
-                                <th><%= maildata[i].user.name %></th>
-                                <th><%= maildata[i].user.email %></th>
-                                <th><%= maildata[i].noEmail %></th>
-                                <th><%= maildata[i].serialNumber %></th>
+                                <th><%= mailData[i].user.name %></th>
+                                <th><%= mailData[i].user.email %></th>
+                                <th><%= mailData[i].noEmail %></th>
+                                <th><%= response %></th>
+                                <th><%= mailData[i].serialNumber %></th>
                               </tr>
                             <% } %>
                             
                           </table>
                           
-                         </p></td> 
+                         </td> 
                         
                         </tr> 
                        

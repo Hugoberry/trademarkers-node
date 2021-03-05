@@ -50,7 +50,7 @@ module.exports = {
 		return new Promise(function(resolve, reject) {
 
 			let query = { 
-				actionType: "sou notification" 
+				actionType: { $exists: true } 
 			};
 
 			let db = conn.getDb();
