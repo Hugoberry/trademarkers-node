@@ -84,6 +84,26 @@ module.exports = {
 		});
 	},
 
+	getByIdM : async function(id) {
+		return new Promise(function(resolve, reject) {
+
+			let query = { _id: ObjectID(id) };
+
+			let db = conn.getDb();
+			
+			db.collection(_table).find(query).toArray(function(err, result) {
+					
+				if (err) {
+					reject(err);
+				} else {
+					resolve(result);
+				}
+
+			});
+
+		});
+	},
+
 	putUser: function(data) {
 
         conn.getDb().collection(_table).insertOne(data, 

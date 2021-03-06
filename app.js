@@ -133,6 +133,7 @@ conn.connectToServer( function( err, client ) {
     timezone: "America/New_York"
   });
 
+  // oaCronService.sendSOUSummaryNotification();
   cron.schedule('0 0 8 * * mon', () => { 
     oaCronService.sendSOUSummaryNotification();
   });

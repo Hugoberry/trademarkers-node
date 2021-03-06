@@ -449,6 +449,15 @@ exports.codeLanding = async function(req, res, next) {
       title = "Statement of Use"
       layout = 'layouts/public-layout-interactive'
       render = 'trademark-order/sou'
+
+      // add open here
+      let souData = {
+        noClick: action.tracking.length
+      }
+      let souRec = await rpoSouNotifications.findBySerial(action.serialNumber)
+
+      await rpoSouNotifications.updateDetails(souRec[0]._id, souData);
+
     break;
 
     case 'pay' :
@@ -1175,7 +1184,11 @@ exports.oppositionProof = async function(req, res, next) {
 
 // CUSTOM API
 exports.checkTMApi = async function(req, res, next) {
-  console.log(req.params);
+  
+  let serial = ''
+  if (req.params) {
+    serial = req.params.serialNumber
+  }
 
 
   await crawlerService.fetchTsdr(req.params.serialNumber)

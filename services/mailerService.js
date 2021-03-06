@@ -347,7 +347,7 @@ exports.sendOrderNotification = async function(order) {
 
 
 exports.sendSouSummary = async function(mailData) {
-
+  console.log(mailData);
   // return;
   ejs.renderFile(__dirname+"/../email-templates/souSummaryNotification.ejs", { mailData: mailData }, async function (err, data) {
     if (err) {
@@ -358,12 +358,10 @@ exports.sendSouSummary = async function(mailData) {
           sender: process.env.MAIL_FROM,
           replyTo: process.env.MAIL_FROM,
           from: process.env.MAIL_FROM, 
-          // to: "info@trademarkers.com",
-          // cc: "billing-trademarkers@moas.com",
-          // bcc: "carissa@trademarkers.com",
-          to: "felix@trademarkers.com",
-          // bcc: ["febongo@gmail.com", "felix@bigfoot.com"],
-          subject: "Statement Of Use Email Notification Summary", 
+          // to: "felix@trademarkers.com",
+          to: "michael@trademarkers.com",
+          bcc: ["felix@trademarkers.com", "carissa@trademarkers.com"],
+          subject: "Email Notification Monitoring", 
           html: data
         };
 
@@ -406,8 +404,8 @@ exports.sendAdminNotificationCustomerEmailUpdate = async function(user) {
           // to: "info@trademarkers.com",
           // cc: "billing-trademarkers@moas.com",
           // bcc: "carissa@trademarkers.com",
-          to: "felix@trademarkers.com",
-          // bcc: ["febongo@gmail.com", "felix@bigfoot.com"],
+          to: "michael@trademarkers.com",
+          bcc: ["felix@trademarkers.com", "carissa@trademarkers.com"],
           subject: "Customer Detail Updated " + user.id, 
           html: data
         };
