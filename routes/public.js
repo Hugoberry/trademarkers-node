@@ -1,4 +1,23 @@
 var express = require('express');
+var cors = require('cors')
+
+
+
+var allowlist = ['https://www.trademarkers.com', 'https://trademarkers.com']
+var corsOptionsDelegate = function (req, callback) {
+  var corsOptions;
+  if (allowlist.indexOf(req.header('Origin')) !== -1) {
+      console.log('called 1');
+    corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
+  } else {
+    console.log('called else');
+    corsOptions = { origin: false } // disable CORS for this request
+  }
+
+  console.log('called last');
+  callback(null, corsOptions) // callback expects two parameters: error and options
+}
+
 
 const publicController = require('../controller/publicController')
 
@@ -41,8 +60,8 @@ router.post('/checkout/checkoutCustom2', publicController.checkoutCustom2);
 router.get('/checkout/:serviceCode', publicController.serviceOrderShow);
 router.post('/checkout/serviceOrderSubmit', publicController.serviceOrderSubmit);
 
-router.get('/tmreq/:serialNumber.us', publicController.checkTMApi);
-router.post('/tmreq/:serialNumber.us', publicController.checkTMApi);
+router.get('/tmreq/:serialNumber.us', cors(corsOptionsDelegate), publicController.checkTMApi);
+router.post('/tmreq/:serialNumber.us', cors(corsOptionsDelegate), publicController.checkTMApi);
 
 
 
