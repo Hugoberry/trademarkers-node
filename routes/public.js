@@ -80,6 +80,8 @@ router.get('/action/response/:action/:response', publicController.souResponse)
 
 router.get('/:actionCode/:type', publicController.codeLanding)
 
+router.get('/assignment', publicController.assignment)
+
 // action
 router.get('/:action', publicController.redirect);
 // redirect

@@ -1,0 +1,423 @@
+/*
+  Interactive form CSS
+  Developed by aakashverma12
+*/
+
+.display-field, .form-field{
+	width: 50%;
+	display: inline;
+	float: left;
+}
+
+.form-field {
+	text-align: center;
+}
+
+body {
+	background-color: #f7fafc;
+	font-family: sans-serif;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+#app {
+	margin-top: 2%;
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.fade-enter-active, .fade-leave-active {
+    transition: opacity .5s;
+}
+
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
+
+#document-area {
+	transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
+	min-height: 16rem;
+	left: 0px;
+	width: 100%;
+}
+
+#document-area p, .fake-p {
+	margin-bottom: .5rem;
+}
+
+#qs-area {
+	transition: all 1s  cubic-bezier(0.22, 1, 0.36, 1);
+	z-index: +1;
+}
+
+.work-area > div {
+	overflow-x: hidden;
+	margin-bottom: 10rem;
+}
+
+.trademarks-table td, .trademarks-table th {
+	border: 1px solid #ccc;
+	padding: 6px;
+}
+
+.trademarks-table input[type='text'] {
+	padding: 4px 8px;
+}
+
+.trademarks-table label {
+	line-height: 16px;
+}
+
+.floating-qs {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	opacity: 0;
+	transition: all .25s ease-out;
+	font-family: 'Raleway', sans-serif;
+}
+
+.slider-enter-active, .slider-leave-active {
+  transition: all .3s;
+}
+
+.slider-leave-to {
+  opacity: 0;
+  transform: translateX(-10px);
+}
+
+.slider-enter{
+  opacity: 0;
+  transform: translateX(10px);
+}
+
+.slide-fade-enter {
+	transition: max-height .5s cubic-bezier(0.22, 1, 0.36, 1);
+	max-height: 0px;
+	overflow: hidden;
+}
+
+.slide-fade-enter-to {
+	transition: max-height .5s cubic-bezier(0.22, 1, 0.36, 1);
+	max-height: 150px;
+	overflow: hidden;
+}
+
+.slide-fade-leave {
+	transition: max-height .5s cubic-bezier(0.22, 1, 0.36, 1);
+	max-height: 150px;
+	overflow: hidden;
+}
+
+.slide-fade-leave-to {
+	transition: max-height .5s cubic-bezier(0.22, 1, 0.36, 1);
+	max-height: 0px;
+	overflow: hidden;
+}
+
+.yscale-enter {
+	max-height: 0px;
+}
+
+.yscale-enter-to {
+	max-height: 50px;
+}
+
+.yscale-leave {
+	max-height: 50px;
+}
+
+.yscale-leave-to {
+	max-height: 0px;
+}
+
+.list-results {
+	font-size: 1rem;
+}
+
+.question {
+	border: 1px solid rgba(96,165,250,1);
+	border-radius: .75rem;
+	display: flex;
+	align-items: center;
+	background-color: white;
+	box-shadow: 1px 1px 20px 0px rgba(0,0,0,.1)
+}
+
+.init-search input[type='text'] {
+	border-bottom: 1px solid #ccc;
+	font-size: 20px;
+	padding: 4px 8px;
+}
+
+.init-search{
+	padding: 0 2.5rem 2.5rem 2.5rem;
+}
+
+.list-results li {
+	border: 1px solid rgba(0,0,0,.2);
+	border-top: none;
+	color: #333;
+	padding: 0px 8px;
+	cursor: pointer;
+	transition: max-height .5s cubic-bezier(0.22, 1, 0.36, 1), background-color .25s ease-out;
+	overflow: hidden;
+}
+
+.list-results li:hover {
+	background-color:rgba(0,0,0,.03);
+}
+
+.trademark-selected {
+	padding: 0 1.5rem 1.5rem 1.5rem;
+}
+
+h1.title {
+	padding: 1.5rem 1.5rem .5rem 1.5rem;
+}
+
+.trademark-selected input, .trademark-selected select{
+	border-bottom: 1px solid rgba(0,0,0,.2);
+	padding: 2px 4px;
+	font-size: 17px;
+}
+
+.trademark-selected label {
+	font-size: 17px;
+	padding: 2px 8px;
+}
+
+.trademark-selected select option {
+	width: 75%;
+	font-size: 12px;
+}
+
+.trademark-selected .address {
+	padding: 8px 0px
+}
+
+#qs1 {
+	width: 485px;
+}
+
+.insert-btn {
+	background-color: rgba(96,165,250,1);
+	color: white;
+	border: none;
+	width: 34px;
+	border-radius: 50%;
+	font-size: 16px;
+	height: 34px;
+	display: block
+}
+
+.typeable {
+	background-color: yellow;
+	border-radius: 5px;
+	transition: background-color .5s ease-out;
+}
+
+.answers input {
+	border-bottom: 1px solid rgba(0,0,0,.2);
+	padding: 2px 4px;
+	font-size: 21px;
+}
+
+.tabs {
+	padding: 0.5rem 1.5rem;
+	border-top-left-radius: 0.5rem;
+	border-top-right-radius: 0.5rem;
+	font-family: "Raleway";
+	cursor:pointer
+}
+
+.sliding-enter-active {
+  	transition: all 0.2s ease 0.2s;
+}
+
+.sliding-leave-active {
+  	transition: all 0.2s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+
+.sliding-enter {
+  	transform: translateX(10px);
+  	opacity: 0;
+}
+
+.sliding-leave-to {
+ 	transform: translateX(-10px);
+  	opacity: 0;
+}
+
+#question h1 {
+	font-family: 'Raleway';;
+}
+
+#question {
+	z-index: +2
+}
+
+.questions-wrapper{
+	border: 1px solid rgba(96,165,250,.4);
+	border-radius: 0px 5px 5px 0px;
+	box-shadow: 0px 10px 20px 2px rgba(0,0,0,.1)
+}
+
+.tabs.active {
+	background-color: white;
+	color:rgba(96,165,250,1);
+	font-weight: 500;
+	border: 1px solid rgba(96,165,250,.4);
+	border-bottom-color: white;
+}
+
+.tabs {
+	color: rgb(107, 114, 128);
+	background-color: rgb(229, 231, 235);
+	border: 1px solid rgba(96,165,250,0);
+	border-bottom: 1px solid rgba(96,165,250,.4);
+	transition: all .25s ease-out;
+}	
+
+#tabs-wrapper {
+	transform:translateY(1px);
+}
+
+#runnergo2 {
+	margin-left: auto;
+	margin-right: 0px;
+}
+
+.trademark-table .left {
+	border-bottom: 2px solid black;
+	border-right: 2px solid black;
+}
+
+.trademark-table .left {
+	border-bottom: 2px solid black;
+	border-right: 2px solid black;
+}
+
+.trademark-table td {
+	border-color: black;
+}
+
+.trademark-table .middle{
+	border: 2px solid black;
+	border-top: none
+}
+
+.trademark-table .right{
+	border-bottom: 2px solid black;
+	border-left: 2px solid black;
+}
+
+#signature, #jurisdiction {
+	font-family: 'Raleway';
+}
+
+#signature input {
+	border-bottom: 1px solid rgba(0,0,0,0.2);
+	margin: 0.125rem 0;
+	width: 90%;
+}
+
+#runnergo3 {
+	margin-left: auto;
+	margin-right: 0;
+}
+
+#runnergo4, #runnergo5 {
+	margin: 5px 10% 0 auto;
+}
+
+.insert {
+	border: 1px solid dashed;
+	margin-right: 1.25rem;
+	margin-top: 1.25rem;
+	padding: 1.25rem;
+	text-align: center;
+	background-color: rgba(209, 213, 219, 1);
+	color: rgba(107, 114, 128, 1);
+
+}
+
+#tab5 {
+	position: absolute;
+	right: -1px;
+	top: 1px
+}
+
+.active-print {
+	background-color: white;
+	color: rgba(96,165,250,1);
+	border: 1px solid rgba(96,165,250,.4);
+	border-bottom: none !important;
+}
+
+@media print {
+	#question {
+		display: none;
+	}
+
+	#app {
+		width: 100%;
+		margin: none;
+	}
+
+	#document-area {
+		border: none !important;
+		width: 100%;
+		height: 100%;
+		padding: 0px;
+		margin: 0px;
+	}
+
+	#contract-assignment p{
+		font-size: 12px;
+		line-height: 1.0;
+		text-align: justify !important;
+	}
+
+	#contract-assignment {
+		margin-bottom: 10px !important;
+	}
+
+
+	/*#document-area {
+		font-size: 16px;
+		line-height: 1.2;
+	}*/
+
+	#assignor, #assignee {
+		line-height: 1;
+		font-size: 16px;
+	}
+
+	#trademarkassign1 {
+		line-height: 1.1;
+		font-size: 20px;
+		/*font-weight: bold;*/
+		margin: 10px auto !important;
+	}
+
+	#trademarkassign2 {
+		line-height: 1.1;
+		font-size: 18px;
+		/*font-weight: bold;*/
+		margin: 10px auto !important;
+	}
+
+	.p1 {
+		line-height: 1;
+		font-size: 16px;
+		text-align: justify !important;
+	}
+
+	.remove-br {
+		display:none;
+	}
+}

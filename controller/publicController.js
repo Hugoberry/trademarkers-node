@@ -1222,6 +1222,20 @@ exports.checkTMApi = async function(req, res, next) {
   }
 }
 
+exports.assignment = async function(req, res, next) {
+
+  res.locals = {
+    siteTitle: "Trademark Search",
+    description: "Check trademark status",
+    keywords: "Trademark Status, trademarkers status",
+  };
+  
+  res.render("assignment", { 
+    layout  : "layouts/public-layout-assignment", 
+    title   : ""
+  });
+}
+
 
 
 

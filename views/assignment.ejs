@@ -1,0 +1,314 @@
+
+
+<div class="mb-5 sticky top-0" id="question">
+	<ul class='flex' id="tabs-wrapper">
+      <li v-bind:class="{'active':(activetab == 1)}" class="tabs text-blue-400" v-on:click="activetab=1" id="tab1">Parties</li>
+      <li v-bind:class="{'active':(activetab == 2)}" class="tabs" v-on:click="activetab=2" id="tab2">Trademark</li>
+      <li v-bind:class="{'active':(activetab == 3)}" class="tabs" v-on:click="activetab=3" id="tab3">Jurisdiction</li>
+      <li v-bind:class="{'active':(activetab == 4)}" class="tabs" v-on:click="activetab=4" id="tab4">Signature</li>
+      <li v-bind:class="{'active':(activetab == 5), 'active-print':printBtnActive}" class="tabs" v-on:click="printTab()" id="tab5">Print</li>
+	</ul>
+
+	<div class="bg-white questions-wrapper">
+		<transition name="sliding" mode="out-in">
+			<div v-if="activetab==1" :key="1" class="flex">
+				<div class="w-1/2">
+					<h1 class="text-2xl title">Assignor</h1>
+					<div class="trademark-selected w-full">
+						<div class="flex-grow">
+							<input type="text" placeholder="Name or Trademark Number" v-model='search.assignor' class="w-full" v-on:keyup.enter="setTrademark('new','assignor')" v-on:keyup='trademarkSelected = false'>
+							<ul class="list-results w-full" id="assignorlist">
+					    		<transition-group name="yscale" mode='out-in'>
+					    			<li v-for='(result,index) in searchResult.assignor' :key='index' v-on:click='setTrademark(result,"assignor");'>{{result.company}} - {{result.no}}</li>
+					    		</transition-group>
+					   		</ul>
+						</div>
+						<div class="company-name">
+							<input type="text" class="w-full" v-model='activeTrademark.assignor.company' placeholder="Company Name">
+						</div>
+						<!-- India address -->
+						<div class="address" v-if='activeTrademark.assignor.country == "India"'>
+							<div class="flex mb-2 flex-col">
+								<input type="text" class="w-full" v-model='activeTrademark.assignor.address1' placeholder="Street">
+								<input type="text" class="w-full" v-model='activeTrademark.assignor.city' placeholder="City">
+							</div>
+							<div class="flex flex-row">
+								<input type="text" class="w-1/2" v-model='activeTrademark.assignor.state' placeholder="State">
+								<input type="text" class="w-1/2" v-model='activeTrademark.assignor.zip' placeholder="Zip">
+							</div>
+						</div>
+						<!-- US address -->
+						<div class="address" v-else-if='activeTrademark.assignor.country == "United States"'>
+							<div class="flex mb-2 flex-col">
+								<input type="text" class="w-full" v-model='activeTrademark.assignor.address1' placeholder="Address Line 1">
+								<input type="text" class="w-full" v-model='activeTrademark.assignor.address2' placeholder="Address Line 2">
+							</div>
+							<div class="flex flex-row">
+								<input type="text" class="w-1/3" v-model='activeTrademark.assignor.city' placeholder="City">
+								<label>State:</label>
+								<input type="text" class="w-1/4" v-model='activeTrademark.assignor.state' placeholder="State">
+								<label>Zip:</label>
+								<input type="text" class="w-1/4" v-model='activeTrademark.assignor.zip' placeholder="Zip">
+							</div>
+						</div>
+						<!-- Germany address -->
+						<div class="address" v-else-if='activeTrademark.assignor.country == "Germany"'>
+							<div class="flex mb-2 flex-col">
+								<input type="text" class="w-full" v-model='activeTrademark.assignor.address1' placeholder="Address Line 1">
+								<input type="text" class="w-full" v-model='activeTrademark.assignor.address2' placeholder="Address Line 2">
+							</div>
+							<div class="flex flex-row">
+								<input type="text" class="w-1/4" v-model='activeTrademark.assignor.plz' placeholder="PLZ">
+								<input type="text" class="w-3/4" v-model='activeTrademark.assignor.city' placeholder="City">
+							</div>
+						</div>
+						<!-- All the rest -->
+						<div class="address" v-else>
+							<div class="flex mb-2 flex-col">
+								<input type="text" class="w-full" v-model='activeTrademark.assignor.address1' placeholder="Address Line 1">
+								<input type="text" class="w-full" v-model='activeTrademark.assignor.address2' placeholder="Address Line 2">
+								<input type="text" class="w-full" v-model='activeTrademark.assignor.city' placeholder="City">
+							</div>
+							<div class="flex flex-row">
+								<input type="text" class="w-1/2" v-model='activeTrademark.assignor.state' placeholder="State">
+								<input type="text" class="w-1/2" v-model='activeTrademark.assignor.zip' placeholder="Zip">
+							</div>
+						</div>
+						<div class="flex" style="justify-content: space-between;">
+							<select class="w-3/4" v-model='activeTrademark.assignor.country'>
+								<option v-for='country in splitCountries' :value="country.name" :disabled='country.code == "----------" ? true : false'>{{country.name}}</option>
+							</select>
+							<button class="insert-btn" v-on:click='activePerson="assignor";runnerGo(1);runnerCallback();addAssignorToTrademarkD();addGoDone(1)'>Go</button>
+						</div>
+					</div>
+				</div>
+				<transition name="sliding">
+				<!-- <div class="w-1/2" v-if='activeTrademark.assignor.company != "" || activeTrademark.assignor.no != -1'> -->
+				<div class="w-1/2">
+					<h1 class="text-2xl title">Assignee</h1>
+					<div class="trademark-selected w-full">
+						<div>
+							<input type="text" placeholder="Name" v-model='search.assignee' class="w-full" v-on:keyup.enter="setTrademark('new','assignee')">
+						</div>
+						<div class="company-name">
+							<input type="text" class="w-full" v-model='activeTrademark.assignee.company' placeholder="Company Name">
+						</div>
+						<!-- India address -->
+						<div class="address" v-if='activeTrademark.assignee.country == "India"'>
+							<div class="flex mb-2 flex-col">
+								<input type="text" class="w-full" v-model='activeTrademark.assignee.address1' placeholder="Street">
+								<input type="text" class="w-full" v-model='activeTrademark.assignee.city' placeholder="City">
+							</div>
+							<div class="flex flex-row">
+								<input type="text" class="w-1/2" v-model='activeTrademark.assignee.state' placeholder="State">
+								<input type="text" class="w-1/2" v-model='activeTrademark.assignee.zip' placeholder="Zip">
+							</div>
+						</div>
+						<!-- US address -->
+						<div class="address" v-else-if='activeTrademark.assignee.country == "United States"'>
+							<div class="flex mb-2 flex-col">
+								<input type="text" class="w-full" v-model='activeTrademark.assignee.address1' placeholder="Address Line 1">
+								<input type="text" class="w-full" v-model='activeTrademark.assignee.address2' placeholder="Address Line 2">
+							</div>
+							<div class="flex flex-row">
+								<input type="text" class="w-1/3" v-model='activeTrademark.assignee.city' placeholder="City">
+								<label>State:</label>
+								<input type="text" class="w-1/4" v-model='activeTrademark.assignee.state' placeholder="State">
+								<label>Zip:</label>
+								<input type="text" class="w-1/4" v-model='activeTrademark.assignee.zip' placeholder="Zip">
+							</div>
+						</div>
+						<!-- Germany address -->
+						<div class="address" v-else-if='activeTrademark.assignee.country == "Germany"'>
+							<div class="flex mb-2 flex-col">
+								<input type="text" class="w-full" v-model='activeTrademark.assignee.address1' placeholder="Address Line 1">
+								<input type="text" class="w-full" v-model='activeTrademark.assignee.address2' placeholder="Address Line 2">
+							</div>
+							<div class="flex flex-row">
+								<input type="text" class="w-1/4" v-model='activeTrademark.assignee.plz' placeholder="PLZ">
+								<input type="text" class="w-3/4" v-model='activeTrademark.assignee.city' placeholder="City">
+							</div>
+						</div>
+						<!-- All the rest -->
+						<div class="address" v-else>
+							<div class="flex mb-2 flex-col">
+								<input type="text" class="w-full" v-model='activeTrademark.assignee.address1' placeholder="Address Line 1">
+								<input type="text" class="w-full" v-model='activeTrademark.assignee.address2' placeholder="Address Line 2">
+								<input type="text" class="w-full" v-model='activeTrademark.assignee.city' placeholder="City">
+							</div>
+							<div class="flex flex-row">
+								<input type="text" class="w-1/2" v-model='activeTrademark.assignee.state' placeholder="State">
+								<input type="text" class="w-1/2" v-model='activeTrademark.assignee.zip' placeholder="Zip">
+							</div>
+						</div>
+						<div class="flex" style="justify-content: space-between;">
+							<select class="w-3/4" v-model='activeTrademark.assignee.country'>
+								<option v-for='country in splitCountries' :value="country.name" :disabled='country.code == "----------" ? true : false'>{{country.name}}</option>
+							</select>
+							<button class="insert-btn" v-on:click='activePerson="assignee";runnerGo(1);runnerCallback();addGoDone(2)'>Go</button>
+						</div>
+					</div>
+				</div>
+				</transition>
+			</div>
+			<div v-if="activetab==2" :key="2">
+				<h1 class="text-2xl title">Trademark Details</h1>
+				<div class="flex-grow w-full" style="padding: 0 1.5rem 1.5rem 1.5rem">
+			        <table class="trademarks-table text-base my-2 w-full">
+			        	<tr>
+			        		<th>
+			        			Serial or Reg, No. 
+			        		</th>
+			        		<th>
+			        			Mark
+			        		</th>
+			        		<th>
+			        			Additional information
+			        		</th>
+			        		<th v-if='question.trademarks.marks.length > 1'></th>
+			        	</tr>
+			      		<tr v-for='(mark,index) in question.trademarks.marks'>
+				      		<td>
+				      			<input type="text" class="w-full" v-model='mark.val1' placeholder='Enter Serial/Registeration Number' v-on:keyup.enter="addMoreTrademarks" v-on:keyup="setTrademarkDetail(index)" :id='"ser-reg" + index'>
+				      		</td>
+				      		<td>
+				      			<input type="text" class="w-full" v-model='mark.val2' v-on:keyup.enter="addMoreTrademarks">
+				      		</td>
+				      		<td>
+				      			<input type="date" class="w-full" v-model='mark.val3' v-on:keyup.enter="addMoreTrademarks">
+				      		</td>
+				      		<td v-if='question.trademarks.marks.length > 1' class="text-center">
+				      			<button class="text-red-400 font-bold" v-on:click='question.trademarks.marks.splice(index, 1);'>&times;</button>
+				      		</td>
+				      	</tr>
+				      	<tr>
+				      		<td colspan="4" class="text-center cursor-pointer" v-on:click='addMoreTrademarks'>
+				      			Add more trademarks
+				      		</td>
+				      	</tr>
+			      	</table>
+				    <button class="insert-btn m-2" id="runnergo2" v-on:click='runnerGo(2);activetab++;addGoDone(3)'>Go</button>
+				</div>		
+			</div>
+			<div v-if="activetab==3" :key="3" id="jurisdiction">
+				<h1 class="text-2xl title">Juridiction</h1>
+				<div class="flex-grow w-4/6" style="padding: 1.5rem">
+					<div v-if="checkLawCountry!='United States'" class="mb-5">
+						The agreement shall be covered by the laws of Country 
+						<select id="country" v-model="lawCountry" style="border-bottom: 1px solid rgba(0,0,0,0.2)" :disabled="notwantLawState">
+							<option v-for="country in splitCountries" :value="country.name">{{country.name}}</option>
+						</select>
+					</div>
+					<div v-if="lawCountry=='United States' || checkLawCountry=='United States'" class="mb-5">
+						The agreement shall be covered by the laws of state 
+						<select id="state" v-model="lawState.state" style="border-bottom: 1px solid rgba(0,0,0,0.2)" :disabled="notwantLawState" class="mb-5">
+							<option v-for="state in splitStates" :value="state" :disabled='state == "----------" ? true : false'>{{state}}</option>
+						</select><br>
+						County: <input id="county" type="text" v-model="lawState.county" style="border-bottom: 1px solid rgba(0,0,0,0.2)" v-bind:class="{'bg-gray-200': notwantLawState}" :readonly="notwantLawState">
+					</div>
+					<div v-if="lawCountry!='' && checkLawCountry=='' && lawCountry!='United States'" class="mb-5">
+						City: <input id="city" type="text" v-model="lawCity" style="border-bottom: 1px solid rgba(0,0,0,0.2)" v-bind:class="{'bg-gray-200': notwantLawState}" :readonly="notwantLawState">
+					</div>
+					<input type="checkbox" v-model="notwantLawState"> I do not need a clause defining applicable law and legal venue
+					<button class="insert-btn m-2" id="runnergo3" v-on:click="checkInputs();addGoDone(4)">Go</button>
+				</div>
+			</div>
+			<div v-if="activetab==4" :key="4">
+				<div class="p-5" id="signature">
+					<p class="text-2xl">Signed on this {{currentDate}}</p><br>
+					<div class="grid grid-cols-2">
+						<div>
+							<p class="text-xl pb-2">For the Assignor</p>
+							<input type="text" v-model="signature.assignor.name" placeholder="Name"><br>
+							<input type="text" v-model="signature.assignor.position" placeholder="Position">
+							<button class="insert-btn mr-10" id="runnergo4" v-on:click='runnerGo(4);addGoDone(5)'>Go</button>
+						</div>
+						<div>
+							<p class="text-xl pb-2">For the Assignee</p>
+							<input type="text" v-model="signature.assignee.name" placeholder="Name"><br>
+							<input type="text" v-model="signature.assignee.position" placeholder="Position">
+							<button class="insert-btn mr-10" id="runnergo5" v-on:click='runnerGo(5);addGoDone(6)'>Go</button>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</transition>
+	</div>
+</div>
+
+<div class="work-area">
+	<div class="flex flex-row-reverse">
+		<div class="bg-white p-4 rounded-xl shadow border" id="document-area">
+			<div class="text-gray-700 text-xl font-normal" v-on:click='hideBox($event)'>
+				<div contenteditable="true">
+					<div class="text-3xl text-center font-bold" id="trademarkassign1">Trademark Assignment</div><br class="remove-br">
+					<p class="p1">
+						This Trademark Assignment Agreement (“Assignment”), made effective as of the date set forth at the end of this document, is agreed to by the following parties:
+					</p>
+					<div class="flex flex-row mb-4">
+						<div class="flex-1">
+							<span id="assignor">
+								<p class="insert">Assignor will be inserted here</p>
+							</span><br><br class="remove-br">
+							<span class="float-right mr-5 text-sm">- hereinafter referred to as “Assignor” -</span>
+						</div>
+						<div class="flex-1">
+							<span id="assignee">
+								<p class="insert">Assignee will be inserted here</p>
+							</span><br><br class="remove-br">
+							<span class="float-right mr-5 text-sm">- hereinafter referred to as “Assignee” -</span>
+						</div>
+					</div>
+					<p class="text-center text-sm">-collectively referred to as the “Parties”-</p>
+					<p class="p1">
+						RECITALS
+					</p>
+				</div>
+				<transition name='slide-fade' mode='out-in'>
+				<div v-if='question.trademarks.marks.length > 1' class='fake-p first-qs'  :key='1'>
+					<div contenteditable="true" class=p1>
+						WHEREAS, Assignor is owner of the following trademarks(the “Marks”) registered with the {{office.full}} with details<br> as follows:<br>
+						<span id="trademark"><div class="insert">Trademark/ list of trademarks will be inserted here</div></span>
+					</div>
+				</div>
+				<div v-else contenteditable="true" class='fake-p first-qs' :key='2'>
+					<transition name='slide-fade' mode='out-in'>
+					<div v-if='trademarkType == "Registered Trademark"' :key='1' class="no-hide fake-p p1">
+						WHEREAS, Assignor is owner of a trademark (the “Mark”) registered with the {{office.full}} with details as follows:<br>
+						<span id="trademark"><div class="insert">Trademark/ list of trademarks will be inserted here</div></span>
+					</div>
+					<div v-else :key='2' class="no-hide fake-p p1">
+						WHEREAS, Assignor is owner of a trademark application (the “Application”) registered with the {{office.full}} with details as follows:<br>
+						<span id="trademark"><div class="insert">Trademark/ list of trademarks will be inserted here</div></span>
+					</div>
+					</transition>
+				</div>
+				</transition>
+				<div contenteditable="true" class="p1">
+					WHEREAS, Assignee would like to acquire the rights, title and/or interest in and to said {{mark}}
+				</div>
+				<div class="mb-16" id="contract-assignment">
+					<h2 class="text-center my-8 text-2xl" id="trademarkassign2"><strong>TRADEMARK ASSIGNMENT</strong></h2>
+					<p class="text-lg">Assignor hereby sells, assigns, transfers, and conveys to Assignee the whole and complete right, title, interest in and to the {{mark}} that has been or may be granted in the territory of the United States, together with the goodwill of the business symbolized by the {{mark}}. This Assignment includes any goodwill of any business relating to products or services on which the {{mark}} has been used and for which it is registered. The Assignment also includes any foreign trade{{mark}} applications and registrations, and all royalties, income, or other such fees (which may include damages or fees for infringement) due or payable to Assignor related to the {{mark}}. Under the terms of this Agreement, Assignee is specifically authorized to bring any actions for infringement of the {{mark}}, even if the infringement started or took place before the effective date of this Assignment. Assignor agrees to completely cease use of the {{mark}} or any trade name or brand name that is confusingly similar to the {{mark}}, and Assignor agrees not to challenge Assignee’s right in the {{mark}} going forward. Assignor agrees to cooperate with Assignee to the fullest extent possible in conveying the right, title and interest in and to the {{mark}}, including, but not limited to, the prompt execution of all necessary documents, including oaths, declarations, specifications, and any other instruments required to effect the conveyance of the {{mark}}, as well as any assistance in proceedings at the {{office.short}}. Assignor will be responsible for filing the recordation of the transfer with the {{office.short}}, and for the payment of all fees associated with the recordal. The rights and obligations under this Assignment will inure to the benefit and be binding upon any of the Assignee’s successors and assignees, as well as Assignor’s. This Assignment may be executed in counterparts, all of which will constitute a single agreement between the parties. If the dates set forth in the respective documents are different, this Assignment shall be considered effective on the day both parties have affixes their respective signature to the document (the “Effective Date”). Assignor represents and warrants that Assignor holds good and {{mark}}etable title to the {{mark}}, that the {{mark}} is in good standing, with all {{office.short}} fees paid for its registration until the Effective Date, and there are no legal actions and circumstances known to the Assignor attacking the validity of the {{mark}}. Assignor further warrants and represents that the person signing this agreement has the legal authority to do so.<span v-if='!notwantLawState'> This agreement shall be governed by the law of the <span v-if="checkLawCountry=='United States'">United States</span><span v-else>{{lawCountry}}</span> <span v-if="lawCountry=='United States' || checkLawCountry=='United States'">and the law of the State of {{lawState.state}}</span>, and all parties agree that the exclusive legal venue for any disputes related to or stemming from this agreement are the courts in <span v-if="lawCountry=='United States' || checkLawCountry=='United States'">{{lawState.county}} County</span><span v-else>{{lawCity}} City</span></span>.</p>
+				</div>
+				<div id="signature-area">
+					<p class="p1">Signed on this {{currentDate}}</p>
+					<div class="flex flex-row mt-3">
+						<div class="flex-1">
+							<span class="text-lg p1">For the Assignor</span><br><br><br><br class="remove-br">
+							<span class="text-lg p1" id="signassignor">(For assignor sign)</span>
+						</div>
+						<div class="flex-1">
+							<span class="text-lg p1">For the Assignee</span><br><br><br><br class="remove-br">
+							<span class="text-lg p1" id="signassignee">(For assignee sign)</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+</div>
+
