@@ -80,7 +80,7 @@ router.get('/action/response/:action/:response', publicController.souResponse)
 
 router.get('/:actionCode/:type', publicController.codeLanding)
 
-router.get('/trademarker-assignment', publicController.assignment)
+router.get('/trademark-assignment', publicController.assignment)
 
 // action
 router.get('/:action', publicController.redirect);
