@@ -37,6 +37,8 @@ let moment = require('moment');
 
 const emailValidator = require('deep-email-validator');
 
+const { toInteger } = require('lodash');
+
 
 var groupBy = function(xs, key) {
   return xs.reduce(function(rv, x) {
@@ -452,7 +454,7 @@ exports.codeLanding = async function(req, res, next) {
 
       // add open here
       let souData = {
-        noClick: action.tracking.length
+        noClick: (action.tracking ? action.tracking.length : 0)
       }
       let souRec = await rpoSouNotifications.findBySerial(action.serialNumber)
 
