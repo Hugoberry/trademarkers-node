@@ -428,3 +428,47 @@ exports.sendAdminNotificationCustomerEmailUpdate = async function(user) {
 
 
 }
+
+
+exports.sendCertificateNotification = async function(trademark) {
+
+  // return;
+  ejs.renderFile(__dirname+"/../email-templates/orderAdminNotification.ejs", { order: order }, async function (err, data) {
+    if (err) {
+        console.log(err);
+    } else {
+      // fs.readFile(mailData.fileUrl, function (err, file) {
+        let mainOptions = {
+          sender: process.env.MAIL_FROM,
+          replyTo: process.env.MAIL_FROM,
+          from: process.env.MAIL_FROM, 
+          to: "info@trademarkers.com",
+          bcc: ["carissa@trademarkers.com", "billing-trademarkers@moas.com"],
+          // to: "felix@trademarkers.com",
+          // bcc: ["febongo@gmail.com", "felix@bigfoot.com"],
+          subject: "New order | " + order.charge.description, 
+          html: data
+        };
+
+        transporter.sendMail(mainOptions, function (err, info) {
+          
+          let res;
+          
+          if (err) {
+            console.log(err);
+            res = err;
+          } else {
+            console.log(info);
+            res = info;
+
+          }
+
+        });
+      // })
+       
+    }
+    
+  });
+
+
+}

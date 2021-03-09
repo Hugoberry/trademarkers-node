@@ -155,7 +155,7 @@ module.exports = {
 	},
 
 	
-
+ 
 	
 	updateDetails: function(id,data) {
 

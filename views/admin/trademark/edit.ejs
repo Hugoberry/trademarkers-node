@@ -1,74 +1,45 @@
 <div class="col-md-12" style="margin-bottom:20px;">    
-    <h2>Edit Task 
-        <span class="create-btn"><a href="/njs-admin/tasks/add"><i class="fa fa-plus"></i></a></span>
+    <h2>Edit Trademark
     </h2>
 
-    <form class="row" action="/njs-admin/manage/tasks/edit/<%= task._id %>" method="post">
+    <% if(trademark) { %>
+    <form class="row" action="/njs-admin/manage/trademark/edit/<%= trademark._id %>" method="post" encType="multipart/form-data">
 
     
 
         <div class="col-md-12">
 
             <div class="form-group">
-                <label>Select Researcher</label>
-                <select class="form-control" name="user_id">
-                    <% users.forEach(function(user,key) { %>
-                        <option value="<%= user._id %>" <%= user._id == task.user_id ? 'selected':'' %>><%= user.name %></option>
-                    <% }) %>
-                </select>
+                <label>Trademark</label>
+                <input type="text" class="form-control" value="<%= trademark.mark %>" placeholder="" name="mark" disabled>
             </div>
 
             <div class="form-group">
-                <label>Task Name</label>
-                <input type="text" class="form-control" value="<%= task.task_name %>" placeholder="" name="task_name" required>
+                <label>Serial Number</label>
+                <input type="text" class="form-control" value="<%= trademark.serialNumber %>" placeholder="" name="serialNumber" disabled>
             </div>
 
             <div class="form-group">
-                <label>Completion Date</label>
-                <input type="date" class="form-control" value="<%= task.complication_date %>" placeholder="" name="complication_date" required>
+                <label>Registration Number</label>
+                <input type="text" class="form-control" value="<%= trademark.registrationNumber %>" placeholder="" name="registrationNumber" disabled>
             </div>
 
-            <div class="form-group">
-                <label>Task Status</label>
-                <select class="form-control" name="task_status">
-                    <option value="pending" <%= task.task_status == 'pending' ? 'selected':'' %>>Pending</option>
-                    <option value="review" <%= task.task_status == 'review' ? 'selected':'' %>>For Review</option>
-                    <option value="complete" <%= task.task_status == 'complete' ? 'selected':'' %>>Complete</option>
-                </select>
-            </div>
+
             <hr>
         </div>
-        
 
         <div class="col-md-12">
-            <div id="taskDetails" class="row">
-                <% task.details.forEach(function(detail,key) { %>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label>Task# <%= detail.task_number %></label>
-                        <input type="hidden" class="form-control" value="<%= detail.task_number %>" name="details[<%= detail.task_number %>][task_number]">
-                    </div>
-        
-                    <div class="form-group">
-                        <label>Task Description/Scope</label>
-                        <textarea class="form-control" name="details[<%= detail.task_number %>][task_description]"><%= detail.task_description %></textarea>
-                    </div>
 
-                    <div class="form-group">
-                        <label>Task Detail Status</label>
-                        <select class="form-control" name="details[<%= detail.task_number %>][task_status]">
-                            <option value="pending" <%= task.task_status == 'pending' ? 'selected':'' %>>Pending</option>
-                            <option value="ongoing" <%= task.task_status == 'ongoing' ? 'selected':'' %>>Ongoing</option>
-                            <option value="review" <%= task.task_status == 'review' ? 'selected':'' %>>For Review</option>
-                            <option value="complete" <%= task.task_status == 'complete' ? 'selected':'' %>>Complete</option>
-                        </select>
-                    </div>
-
-                </div>
-                <% }) %>
-
+            <div class="form-group">
+                <label>Trademark Certificate</label>
+                <input type="file" class="form-control" placeholder="" name="certificate" >
             </div>
+
+
+
+
         </div>
+ 
         
 
         <div class="col-md-12">
@@ -78,6 +49,7 @@
         </div>
 
     </form>
+    <% } %>
 </div>
         
 

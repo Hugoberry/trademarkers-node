@@ -546,29 +546,22 @@ exports.deliveryMethod = async function(req, res, next) {
   let pdfUrl = '', pngName = '', pdfName='';
 
   if ( trdId ) {
-    trademark = await rpoTrademarks.fetchTmById(trdId)
+    trademark = await rpoTrademarksMongo.getBySerial(trdId)
     
-    if (trademark) {
-      // console.log(trademark[0]);
+    if (trademark && trademark[0].certificate) {
+      console.log(trademark[0]);
 
-      trademarkCertificate = await rpoTrademarks.fetchTmCertById(trdId)
+      // trademarkCertificate = await rpoTrademarks.fetchTmCertById(trdId)
       // console.log('Cert',trademarkCertificate);
 
-      if (trademarkCertificate[0]) {
-        trademarkCertificate = trademarkCertificate[0]
+      // if (trademarkCertificate[0]) {
+        // trademarkCertificate = trademarkCertificate[0]
 
-        pdfUrl = "https://trademarkers.com/uploads/"+ trademarkCertificate.name;
+        pdfUrl = "/uploads/certificate/"+ trademark[0].certificate.customName;
         
-        pdfName = trademarkCertificate.name
-        pngName = trademarkCertificate.name.replace('.pdf','')
+        pdfName = trademark[0].certificate.customName
+        pngName = trademark[0].certificate.customName.replace('.pdf','')
 
-        // download pdf from server
-        // const { DownloaderHelper } = require('node-downloader-helper');
-        // const download = new DownloaderHelper(pdfUrl, __dirname + "/../public/pdf" );
-        // download.on('end', () => console.log('Download Completed'))
-        // await download.start();
-
-        // var pdf2image = require('pdf2image');
 
         var input   = __dirname + "/../public/pdf/" + pdfName;
  
@@ -588,7 +581,7 @@ exports.deliveryMethod = async function(req, res, next) {
         });
         
 
-      }
+      
 
     } // end if trademark
   }
@@ -600,7 +593,6 @@ exports.deliveryMethod = async function(req, res, next) {
     layout  : 'layouts/public-layout-interactive', 
     title   : 'Your Trademark Certificate is now available!',
     trademark: trademark[0],
-    trademarkCertificate : trademarkCertificate,
     pngName: pngName,
     pdfName: pdfName
   });

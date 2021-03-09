@@ -21,6 +21,8 @@ router.get('/manage/tasks/edit/:id', verify, adminTask.taskEdit);
 router.post('/manage/tasks/edit/:id', verify, adminTask.taskEditSubmit);
 
 router.get('/manage/trademark', verify, adminTrademark.index);
+router.get('/manage/trademark/edit/:id', verify, adminTrademark.edit);
+router.post('/manage/trademark/edit/:id', verify, adminTrademark.editSubmit);
  
 router.get('/manage/events', verify, adminEvent.events);
 router.get('/manage/events/view/:id', verify, adminEvent.show);

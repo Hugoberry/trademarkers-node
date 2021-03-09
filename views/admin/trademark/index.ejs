@@ -6,6 +6,12 @@
         <strong><%= flash.success %></strong>
     </div>
     <% } %>
+
+    <% if (flash.error) { %>
+    <div class="alert alert-danger" role="alert">
+        <strong><%= flash.error %></strong>
+    </div>
+    <% } %>
 </div>
                     
 <div clss="col-md-12">
@@ -29,7 +35,7 @@
                 <td><%= trademark.registrationNumber %></td>
                 <td><%= trademark.status %></td>
                 <td><%= trademark.statusDate %></td>
-                <td>action</td>
+                <td><a href="/njs-admin/manage/trademark/edit/<%= trademark._id %>"><i class="fa fa-pen"></i></a></td>
             </tr>
             <% } }) %>
         </tbody>
