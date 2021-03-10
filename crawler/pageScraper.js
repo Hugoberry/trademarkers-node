@@ -35,7 +35,7 @@ scraperObject = {
             // let url = 'https://tsdr.uspto.gov/#caseNumber=88799623&caseSearchType=US_APPLICATION&caseType=DEFAULT&searchType=statusSearch';
             let page = await browser.newPage();
             let dataValues = {};
-            console.log("url => ", url);
+            // console.log("url => ", url);
             await page.goto(url);
 
             try {
@@ -207,7 +207,7 @@ scraperObject = {
                     }
 
                 }
-                // console.log("holder",holderLabel);
+                console.log("scrape value",dataValues);
        
                 addTrademarkMongo(dataValues);
 

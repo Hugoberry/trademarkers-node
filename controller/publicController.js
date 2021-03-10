@@ -1193,6 +1193,10 @@ exports.checkTMApi = async function(req, res, next) {
   await new Promise(resolve => setTimeout(resolve, 2000));
   
   let trademark  = await rpoTrademarksMongo.getBySerial(req.params.serialNumber)
+
+  if (!trademark.length) {
+    trademark = await rpoTrademarksMongo.getByReg(req.params.serialNumber)
+  }
   
   if (trademark.length > 0) {
 
@@ -1206,10 +1210,10 @@ exports.checkTMApi = async function(req, res, next) {
   } else {
 
     // add to trademarks
-    let data = {
-      serialNumber: req.params.serialNumber
-    }
-    rpoTrademarksMongo.put(data);
+    // let data = {
+    //   serialNumber: req.params.serialNumber
+    // }
+    // rpoTrademarksMongo.put(data);
     res.json({
       response:"ok"
     });
