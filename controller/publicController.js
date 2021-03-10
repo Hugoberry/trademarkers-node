@@ -549,7 +549,7 @@ exports.deliveryMethod = async function(req, res, next) {
     trademark = await rpoTrademarksMongo.getBySerial(trdId)
     
     if (trademark && trademark[0].certificate) {
-      console.log(trademark[0]);
+      // console.log(trademark[0]);
 
       // trademarkCertificate = await rpoTrademarks.fetchTmCertById(trdId)
       // console.log('Cert',trademarkCertificate);
@@ -558,12 +558,12 @@ exports.deliveryMethod = async function(req, res, next) {
         // trademarkCertificate = trademarkCertificate[0]
 
         pdfUrl = "/uploads/certificate/"+ trademark[0].certificate.customName;
-        
+        // console.log(pdfUrl);
         pdfName = trademark[0].certificate.customName
         pngName = trademark[0].certificate.customName.replace('.pdf','')
 
 
-        var input   = __dirname + "/../public/pdf/" + pdfName;
+        var input   = __dirname + "/../public/uploads/certificate/" + pdfName;
  
         pdf2img.setOptions({
           type: 'png',                                // png or jpg, default jpg
@@ -574,20 +574,23 @@ exports.deliveryMethod = async function(req, res, next) {
           page: null,                                 // convert selected page, default null (if null given, then it will convert all pages)
           quality: 100                                // jpg compression quality, default: 100
         });
+
+        // console.log(input);
         
-        pdf2img.convert(input, function(err, info) {
+        let gen = await pdf2img.convert(input, function(err, info) {
+          console.log("gen ong");
           if (err) return err;
           else return info;
         });
         
-
+        console.log(gen);
       
 
     } // end if trademark
   }
 
   // wait for the generated png files
-  await new Promise(resolve => setTimeout(resolve, 2000));
+  await new Promise(resolve => setTimeout(resolve, 5000));
 
   res.render('trademark-order/delivery', { 
     layout  : 'layouts/public-layout-interactive', 
