@@ -231,7 +231,7 @@ scraperObject = {
 
                 return null;
 
-            }
+            } 
             
         // }
 

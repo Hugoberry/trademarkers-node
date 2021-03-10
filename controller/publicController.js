@@ -1205,13 +1205,13 @@ exports.checkTMApi = async function(req, res, next) {
     res.json({
       mark: trademark[0].mark,
       ownerName: trademark[0].ownerName,
-      ownerAddress: trademark[0].ownerAddress,
-      ownerStreet: trademark[0].ownerStreet,
-      ownerProvince: trademark[0].ownerProvince,
-      ownerState: trademark[0].ownerState,
-      ownerCountry: trademark[0].ownerCountry,
-      ownerPostalCode: trademark[0].ownerPostalCode,
-      legalEntityType: trademark[0].legalEntityType
+      ownerAddress: trademark[0].ownerAddress
+      // ownerStreet: trademark[0].ownerStreet,
+      // ownerProvince: trademark[0].ownerProvince,
+      // ownerState: trademark[0].ownerState,
+      // ownerCountry: trademark[0].ownerCountry,
+      // ownerPostalCode: trademark[0].ownerPostalCode,
+      // legalEntityType: trademark[0].legalEntityType
     });
 
   } else {
