@@ -204,10 +204,22 @@ scraperObject = {
                     if(holderLabel[i]) {
 
                         dataValues[returnStatusLabel(holderLabel[i])] = holderValue[i].replace(/<\/?[^>]+(>|$)/g, "");
+
+                        if ( returnStatusLabel(holderLabel[i]) == "ownerAddress") {
+                            let address = dataValues[returnStatusLabel(holderLabel[i])]
+
+                            let arrAddress = address.split(/\r?\n/);
+                            // console.log(arrAddress);
+                            dataValues.ownerStreet = (arrAddress[0] ? arrAddress[0] : '')
+                            dataValues.ownerProvince = (arrAddress[2] ? arrAddress[2] : '')
+                            dataValues.ownerState = (arrAddress[3] ? arrAddress[3] : '')
+                            dataValues.ownerCountry = (arrAddress[4] ? arrAddress[4] : '')
+                            dataValues.ownerPostalCode = (arrAddress[5] ? arrAddress[5] : '')
+                        }
                     }
 
                 }
-                console.log("scrape value",dataValues);
+                // console.log("scrape value",dataValues);
        
                 addTrademarkMongo(dataValues);
 
@@ -449,7 +461,7 @@ async function addTrademarkMongo(trademark) {
             if (err) {
                 reject(err);
             } else {
-                console.log("result => ", result);
+                // console.log("result => ", result);
                 if (!result) {
                     conn.getDb().collection('tm_trademarks').insertOne(trademark, 
                         function(err, res2) {
@@ -500,7 +512,7 @@ async function addTrademarkMongoScraped(trademark) {
             if (err) {
                 reject(err);
             } else {
-                console.log("result => ", result);
+                // console.log("result => ", result);
                 if (!result) {
                     conn.getDb().collection('tm_trademarks_scraped').insertOne(trademark, 
                         function(err, res2) {
