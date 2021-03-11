@@ -27,8 +27,8 @@ var oppositionCronService = require('./services/oppositionCronService')
 var oaCronService = require('./services/oaCronService')
 var orderService = require('./services/orderService')
 
-var country = require('countrystatesjs');
-const lookup = require('country-code-lookup')
+// var country = require('countrystatesjs');
+// const lookup = require('country-code-lookup')
 
 var app = express();
 
@@ -130,20 +130,21 @@ conn.connectToServer( function( err, client ) {
   //   scheduled: true,
   //   timezone: "America/New_York"
   // });
-  String.prototype.capitalize = function(){
-    return this.replace( /(^|\s)([a-z])/g , function(m,p1,p2){ return p1+p2.toUpperCase(); } );
-   };
+
+  // String.prototype.capitalize = function(){
+  //   return this.replace( /(^|\s)([a-z])/g , function(m,p1,p2){ return p1+p2.toUpperCase(); } );
+  //  };
    
-  let countryName = "UNITED STATES";
-  let state = "MICHIGAN";
+  // let countryName = "UNITED STATES";
+  // let state = "MICHIGAN";
 
-  capitalizedString = countryName.toLowerCase().capitalize();
+  // capitalizedString = countryName.toLowerCase().capitalize();
 
-  // console.log(capitalizedString);
-  let lu = lookup.byCountry(capitalizedString);
-  console.log(lookup.byCountry(capitalizedString));
 
-  console.log(country.state(lu.iso3, state.toLowerCase().capitalize() ));
+  // let lu = lookup.byCountry(capitalizedString);
+  // console.log(lookup.byCountry(capitalizedString));
+
+  // console.log(country.state(lu.iso3, state.toLowerCase().capitalize() ));
 
   cron.schedule('0 */20 9-16 * * mon-fri', () => { 
      oaCronService.sendNOACron();
