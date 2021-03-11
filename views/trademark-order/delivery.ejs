@@ -64,31 +64,67 @@
                             <h2 class="h6 crt-fct-form-title"><strong>Please Decide</strong></h2>
                           </div>
 
-                          <div class="crt-fct-opt crt-fct-opt-rgemail">
-                            <fieldset class="fieldset">
-                              <input type="radio" name="deliveryType" id="ShipmentByRegularEmail" style="display:none">
-                              <label for="ShipmentByRegularEmail"><em class="fas fa-envelope tm-ico"></em> Shipment via Regular email</label>
-                            </fieldset>
-                              <!-- <div class="cnfrm-info">
-                                <div class="form-field">
-                                  <input type="hidden" name="confirmEmail" id="ConfirmEmail" value="/delivery-method/<%= trademark.id %>/regular">
-                                  <label for="ConfirmEmail">Email to nirwangogna1786@gmail.com</label>
-                                </div>
-                              </div> -->
-                          </div>
-
-                          <div class="crt-fct-opt crt-fct-opt-fedex">
-                            <fieldset class="fieldset">
-                              <input type="radio" name="deliveryType" id="ShipmentByFedex" style="display:none">
-                              <label for="ShipmentByFedex"><em class="fab fa-fedex tm-ico"></em> Shipment via Fedex <span>+ Flat fee $80</span></label>
-                            </fieldset>
-
-                            <!-- <div class="cnfrm-info">
-                              <div class="form-field">
-                                <input type="checkbox" name="confirmAddress" id="confirmAddress">
-                                <label for="confirmAddress">Deliver to #435 Jagatpur Phillaur Punjab India 144410</label>
+                          <div class="shpmnt-options">
+                            
+                            <div class="crt-fct-opt crt-fct-opt-rgemail">
+                              <div class="opt-head">
+                                <input type="checkbox" name="shipmentType" id="ShipmentByRegularEmail">
+                                <label for="ShipmentByRegularEmail"><em class="fal fa-envelope tm-ico"></em> Shipment via Regular Mail</label>
                               </div>
-                            </div> -->
+                              <fieldset class="fieldset">
+                                 <div class="pre-addr-info">
+                                  <p class="mb-1">Deliver to:</p>
+                                  <p class="mb-0 address-txt text-color-bt80">Name: Stephens, Asya</br>
+                                    Address: 1103 E Church St Apt 8O</br>
+                                    Fort Valley, GEORGIA</br>
+                                    UNITED STATES 31030</br>
+                                    Contact number: 123456456</br></p>
+                                </div>
+                                <div class="addr-form">
+                                  <div class="form-field">
+                                    <input type="name" class="form-control" name="name" id="Name" placeholder="Name">
+                                  </div>
+                                  <div class="form-field">
+                                    <input type="text" class="form-control" name="contact" id="Contact" placeholder="Contact">
+                                  </div>
+                                  <div class="form-field">
+                                    <textarea class="form-control" name="shipmentAddress" id="ShipmentAddress" placeholder="Address"></textarea>
+                                  </div>
+                                </div>
+                                <button type="button" class="btn-link text-sm btn-chng-info" id="ChangeMailAddress">Change Address</button>
+                              </fieldset>
+                             </div>
+
+                             <div class="crt-fct-opt crt-fct-opt-fedex">
+                              <div class="opt-head">
+                                <input type="checkbox" name="shipmentType" id="ShipmentByFedex">
+                                <label for="ShipmentByFedex"><em class="fab fa-fedex tm-ico"></em> Shipment via Fedex <span>+ Flat fee $80</span></label>
+                              </div>
+
+                              <fieldset class="fieldset">
+                                <div class="pre-addr-info">
+                                  <p class="mb-1">Deliver to:</p>
+                                  <p class="mb-0 address-txt text-color-bt80">Name: Stephens, Asya</br>
+                                    Address: 1103 E Church St Apt 8O</br>
+                                    Fort Valley, GEORGIA</br>
+                                    UNITED STATES 31030</br>
+                                    Contact number: 123456456</br></p>
+                                </div>
+                                <div class="addr-form">
+                                  <div class="form-field">
+                                    <input type="name" class="form-control" name="name" id="Name" placeholder="Name">
+                                  </div>
+                                  <div class="form-field">
+                                    <input type="text" class="form-control" name="contact" id="Contact" placeholder="Contact">
+                                  </div>
+                                  <div class="form-field">
+                                    <textarea class="form-control" name="shipmentAddress" id="ShipmentAddress" placeholder="Address"></textarea>
+                                  </div>
+                                </div>
+                                <button type="button" class="mt-2 btn-link text-sm btn-chng-info" id="ChangeShipmentAddress">Change Address</button>
+                              </fieldset>
+                             </div>
+
                           </div>
 
                           <div class="form-group">
