@@ -49,6 +49,7 @@ Thumbs.db
 *.wmv
 
 .env
+.package-lock.json
 public/pdf/*
 public/uploads/*
 package-lock.json
