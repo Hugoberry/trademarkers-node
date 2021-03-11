@@ -2,6 +2,13 @@ const mysql = require('mysql');
 const moment = require('moment');
 let ObjectID = require('mongodb').ObjectID;
 
+var country = require('countrystatesjs');
+const lookup = require('country-code-lookup')
+
+
+String.prototype.capitalize = function(){
+    return this.replace( /(^|\s)([a-z])/g , function(m,p1,p2){ return p1+p2.toUpperCase(); } );
+};
 // MYSQL
 const connection = mysql.createConnection({
     host     : 'tmsql01.cnobnjjh1a2c.us-west-1.rds.amazonaws.com',
@@ -215,6 +222,25 @@ scraperObject = {
                             dataValues.ownerState = (arrAddress[3] ? arrAddress[3] : '')
                             dataValues.ownerCountry = (arrAddress[4] ? arrAddress[4] : '')
                             dataValues.ownerPostalCode = (arrAddress[5] ? arrAddress[5] : '')
+
+                            let countryNameCapitalized = dataValues.ownerCountry.toLowerCase().capitalize();
+                            let state = dataValues.ownerState.toLowerCase().capitalize();
+                          
+                            
+                            //  console.log("this",capitalizedString);
+                          
+                            let countryLu = lookup.byCountry(countryNameCapitalized);
+                            let stateLu = country.state( countryLu.iso3, dataValues.ownerState.toLowerCase().capitalize() )
+
+                            // console.log(countryLu);
+                            // console.log( stateLu );
+
+                            // replace state and country
+                            dataValues.ownerAddress = dataValues.ownerAddress.replace(dataValues.ownerCountry,countryLu.country)
+                            dataValues.ownerAddress = dataValues.ownerAddress.replace(dataValues.ownerState,stateLu.abbreviation)
+
+                            dataValues.ownerCountry = countryLu.country
+                            dataValues.ownerState = stateLu.abbreviation
                         }
                     }
 
