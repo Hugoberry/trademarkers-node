@@ -230,17 +230,17 @@ scraperObject = {
                             //  console.log("this",capitalizedString);
                           
                             let countryLu = lookup.byCountry(countryNameCapitalized);
-                            let stateLu = country.state( countryLu.iso3, dataValues.ownerState.toLowerCase().capitalize() )
+                            
+                            if ( countryLu ) {
+                                let stateLu = country.state( countryLu.iso3, dataValues.ownerState.toLowerCase().capitalize() )
+                                // replace state and country
+                                dataValues.ownerAddress = dataValues.ownerAddress.replace(dataValues.ownerCountry,countryLu.country)
+                                dataValues.ownerAddress = dataValues.ownerAddress.replace(dataValues.ownerState,stateLu.abbreviation)
 
-                            // console.log(countryLu);
-                            // console.log( stateLu );
-
-                            // replace state and country
-                            dataValues.ownerAddress = dataValues.ownerAddress.replace(dataValues.ownerCountry,countryLu.country)
-                            dataValues.ownerAddress = dataValues.ownerAddress.replace(dataValues.ownerState,stateLu.abbreviation)
-
-                            dataValues.ownerCountry = countryLu.country
-                            dataValues.ownerState = stateLu.abbreviation
+                                dataValues.ownerCountry = countryLu.country
+                                dataValues.ownerState = stateLu.abbreviation
+                            }
+                            
                         }
                     }
 
