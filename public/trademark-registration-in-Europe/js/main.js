@@ -15,19 +15,21 @@ var svgs = { low: low, medium: medium };
 
 var map = new MapViewer();
 map.fetchMap("js/low.geo.json", "low", false);
-map.fetchText("EUR");
+map.fetchPrices("js/prices.csv");
+for (let k in continents)
+  map.fetchText(k);
+map.fetchText("price");
 map.setCanvas(canvas, canvas2);
 map.resize(window.innerWidth, window.innerHeight);
 
 let url = new URL(window.location.href);
 let targ = url.searchParams.get("c");
-if (targ) {
+if (targ)
   targ = targ.toUpperCase();
-  map.selectFeature(targ, 0);
-} else {
-  map.focusOnFeature("EUR");
+else
+  map.focusOnFeature("EM");
+if (!targ || !map.selectFeature(targ, 0))
   map.resetZoom(3);
-}
 map.showPresenter();
 
 var lastupdate = Date.now();

@@ -2,32 +2,61 @@ const sea = "#fff";
 const dark = "#888";
 const land = "#ccc";
 const blue = "#448";
+const green = "#484";
 const selected = "#fff";
 const shadow = "#000";
 const border = "#bbb";
 const epsilon = 0.1;
 const NS = "http://www.w3.org/2000/svg";
 
+const EUIPO =
+[
+  "BE","BG","CZ","DK","DE","EE","IE","GR","ES","FR","HR","IT","CY","LV","LT","LU","HU","MT","NL","AT","PL","PT","RO","SI","SK","FI","SE"
+];
+const ARIPO =
+[
+  "BW","GM","GH","KE","LS","LR","MW","MZ","NA","RW","ST","SL","SO","SD","SZ","TZ","UG","ZM","ZW"
+];
+const OAPI =
+[
+  "BJ","BF","CM","CF","TD","CI","GQ","GA","GN","GW","ML","MR","NE","SN","TG","KM"
+];
+
+const names =
+{
+  EM: "Europe",
+  NAMERICA: "North America",
+  AFRICA: "Africa",
+  AISA: "Asia",
+  SAMERICA: "South America",
+  OCEANIA: "Oceania",
+  BNX: "Benelux",
+  OA: "OAPI Treaty",
+  ARIPO: "ARIPO Tready"
+}
 const continents =
 {
-  EUR: ["NY","AL","AT","BA","BE","BG","BY","CH","CY","CZ","DE","DK","EE","ES","FI","FR","GB","GE","GR","HR","HU","IE","IS","IT","KV","LT","LU","LV","MD","ME","MK","NL","NO","PL","PT","RO","RS","SE","SI","SK","UA"],
-  NAM: ["BS","BZ","CA","CR","CU","DO","GL","GT","HN","HT","JM","MX","NI","PA","PR","SV","TT","US"],
-  AFR: ["SM","AO","BF","BI","BJ","BW","CD","CF","CG","CI","CM","DJ","DZ","EG","EH","ER","ET","GA","GH","GM","GN","GQ","GW","KE","LR","LS","LY","MA","MG","ML","MR","MW","MZ","NA","NE","NG","RW","SD","SL","SN","SO","SS","SZ","TD","TG","TN","TZ","UG","ZA","ZM","ZW"],
-  ASA: ["AE","AF","AM","AZ","BD","BN","BT","CN","ID","IL","IN","IQ","IR","JO","JP","KG","KH","KP","KR","KW","KZ","LA","LB","LK","MM","MN","MY","NP","OM","PH","PK","PS","QA","RU","SA","SY","TH","TJ","TL","TM","TR","TW","UZ","VN","YE"],
-  SAM: ["AR","BO","BR","CL","CO","EC","FK","GF","GY","PE","PY","SR","UY","VE"],
-  OCE: ["AU","FJ","NC","NZ","PG","SB","VU"]
+  EM: ["NY","AL","AT","BA","BE","BG","BY","CH","CY","CZ","DE","DK","EE","ES","FI","FR","GB","GE","GR","HR","HU","IE","IS","IT","KV","LT","LU","LV","MD","ME","MK","NL","NO","PL","PT","RO","RS","SE","SI","SK","UA"],
+  NAMERICA: ["BS","BZ","CA","CR","CU","DO","GL","GT","HN","HT","JM","MX","NI","PA","PR","SV","TT","US"],
+  AFRICA: ["SM","AO","BF","BI","BJ","BW","CD","CF","CG","CI","CM","DJ","DZ","EG","EH","ER","ET","GA","GH","GM","GN","GQ","GW","KE","LR","LS","LY","MA","MG","ML","MR","MW","MZ","NA","NE","NG","RW","SD","SL","SN","SO","SS","SZ","TD","TG","TN","TZ","UG","ZA","ZM","ZW"],
+  AISA: ["AE","AF","AM","AZ","BD","BN","BT","CN","ID","IL","IN","IQ","IR","JO","JP","KG","KH","KP","KR","KW","KZ","LA","LB","LK","MM","MN","MY","NP","OM","PH","PK","PS","QA","RU","SA","SY","TH","TJ","TL","TM","TR","TW","UZ","VN","YE"],
+  SAMERICA: ["AR","BO","BR","CL","CO","EC","FK","GF","GY","PE","PY","SR","UY","VE"],
+  OCEANIA: ["AU","FJ","NC","NZ","PG","SB","VU"]
 }
 const regions =
 {
-  BX: ["BE","NL","LU"]
+  BX: ["BE","NL","LU"],
+  OA: [...OAPI],
+  ARIPO: [...ARIPO]
 }
-const EU =
-[
-  "BE","BG","CZ","DK","DE","EE","IE","EL","ES","FR","HR","IT","CY","LV","LT","LU","HU","MT","NL","AT","PL","PT","RO","SI","SK","FI","SE"
-]
+
 const colors = {};
-for (let i = 0; i < EU.length; i++)
-  colors[ EU[i] ] = blue;
+for (let i = 0; i < EUIPO.length; i++)
+  colors[ EUIPO[i] ] = blue;
+for (let i = 0; i < ARIPO.length; i++)
+  colors[ ARIPO[i] ] = blue;
+for (let i = 0; i < OAPI.length; i++)
+  colors[ OAPI[i] ] = green;
 
 var spritesheet = new Image();
 spritesheet.src = "img/girl10x5.png";
@@ -46,6 +75,7 @@ class MapViewer {
     this.flags = {};
     this.geo = {};
     this.data = {};
+    this.prices = {};
     this.x = 0; this.y = 0; this.z = 1;
     this.rect = {};
     this.time = 0;
@@ -153,31 +183,25 @@ class MapViewer {
     xmlhttp.send();
   }
 
-  fetchText(iso, header) {
+  fetchText(iso, header, delayed) {
+    if (delayed == undefined)
+      delayed = false;
     let file = "text/"+iso.toLowerCase()+".html";
+    console.log(file);
     lpanel.innerHTML = "";
     cpanel.innerHTML = header || "";
     rpanel.innerHTML = "";
+    message.innerHTML = "";
     speech.style["display"] = "none";
     content.style["display"] = "none";
     let map = this;
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
-      let doc;
-      if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-        doc = new DOMParser().parseFromString(xmlhttp.responseText, "text/html");
-        // replace urls with javascript
-        let loc = window.location;
-        let cur = loc.protocol+'//'+loc.host+loc.pathname+"?c=";
-        let list = doc.getElementsByTagName("A");
-        for (let i = 0; i < list.length; i++) {
-          let a = list[i].href.toLowerCase();
-          if (a.substring(0,cur.length) == cur)
-            list[i].setAttribute("href", "javascript:map.selectFeature('"+a.substring(cur.length)+"')");
-        }
-        map.data[iso] = doc;
-      }
+      if (xmlhttp.readyState != 4) return;
+      if (xmlhttp.status == 200)
+        map.data[iso] = xmlhttp.responseText;
       if (header !== undefined) {
+        let doc = map.resyncPage(iso);
         if (doc) {
           let left = doc.getElementById("left");
           if (left) lpanel.innerHTML = left.innerHTML;
@@ -190,22 +214,79 @@ class MapViewer {
         }
         if (lpanel.innerHTML == "") {
           let feat = map.getFeatureById(iso);
-          let doc2 = map.data[feat.properties.continent];
+          let doc2 = map.resyncPage(feat.properties.continent);
           if (doc2) lpanel.innerHTML = doc2.getElementById("left").innerHTML;
+        }
+        if (rpanel.innerHTML == "") {
+          let doc2 = map.resyncPage("price");
+          if (doc2 && map.prices[iso]) {
+            map.resyncPage(doc2);
+            rpanel.innerHTML = doc2.getElementById("right").innerHTML;
+          }
         }
       }
     };
-    xmlhttp.open("GET", file, true);
+    xmlhttp.open("GET", file, delayed);
     xmlhttp.send();
   }
   
-  receiveText(xmlrpc, iso) {
+  fetchPrices(file) {
+    let map = this;
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+      if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+        let csv = xmlhttp.responseText.split("\n");
+        for (let i = 0; i < csv.length; i++) {
+          let price = csv[i].split(";");
+          let k = price.shift();
+          map.prices[k] = price;
+        }
+      }
+    }
+    xmlhttp.open("GET", file, false);
+    xmlhttp.send();
+  }
+  
+  resyncPage(page) {
+    let data = this.data[page];
+    if (!data) return;
+    let doc = new DOMParser().parseFromString(data, "text/html");
+
+    let iso2 = this.selected;
+    if (iso2) {
+      let sel = this.getFeatureById(iso2);
+      doc.body.innerHTML = doc.body.innerHTML.replace('${iso}', iso2.toLowerCase());
+      doc.body.innerHTML = doc.body.innerHTML.replace('${ISO}', iso2);
+      doc.body.innerHTML = doc.body.innerHTML.replace('${NAME}', sel.properties.name);
+    }
+    // replace urls with javascript
+    let loc = window.location;
+    let cur = loc.protocol+'//'+loc.host+loc.pathname+"?c=";
+    let list = doc.getElementsByTagName("A");
+    for (let i = 0; i < list.length; i++) {
+      let a = list[i].href.toLowerCase();
+      if (a.substring(0,cur.length) == cur)
+        list[i].setAttribute("href", "javascript:map.selectFeature('"+a.substring(cur.length)+"')");
+    }
+    let prices = doc.getElementsByClassName("price");
+    for (let i = 0; i < prices.length; i++) {
+      let a = prices[i].innerHTML.trim();
+      let c = a.match(/\$\{(.+)\[(.+)\]\}/);
+      if (c) {
+        let k = c[1];
+        if (k == "ISO") k = this.selected;
+        if (map.prices[k])
+          prices[i].innerHTML = map.prices[k][ c[2] ];
+      }
+    }
+    return doc;
   }
   
   defineGroup(list, q) {
     let out = [];
     for (let i = 0; i < list.length; i++) {
       let feat = this.getFeatureById(list[i], q);
+      if (!feat) continue;
       let geo = feat.geometry;
       let coords = geo.coordinates;
       if (geo.type == "MultiPolygon") {
@@ -227,11 +308,13 @@ class MapViewer {
   defineRegion(iso, list, q) {
     for (let i = 0; i < list.length; i++) {
       let feat = this.getFeatureById(list[i], q);
+      if (!feat) continue;
       feat.properties.region = iso;
     }
     let first = this.getFeatureById(list[0], q);
     let feat = this.defineGroup(list, q);
     feat.properties.type = "Region";
+    feat.properties.name = names[iso];
     feat.properties.continent = first.properties.continent;
     feat.properties.iso2 = iso;
     this.geo[q].features.push(feat);
@@ -245,6 +328,7 @@ class MapViewer {
     }
     let feat = this.defineGroup(list, q);
     feat.properties.type = "Continent";
+    feat.properties.name = names[iso];
     feat.properties.iso2 = iso;
     this.geo[q].features.push(feat);
     return feat;
@@ -413,10 +497,10 @@ class MapViewer {
     let id1 = this.selected;
     if (id2 === id1) return;
     this.deselectFeature();
-    this.selected = id2;
-    this.tselected = this.time;
     let sel = this.getFeatureById(id2, "medium");
     if (!sel) return;
+    this.selected = id2;
+    this.tselected = this.time;
 
     let prop = sel.properties;
     if (prop.continent)
@@ -433,14 +517,15 @@ class MapViewer {
 
     this.focusOnFeature(id2, delay);
     if (prop.type == "Country") {
-      let header = '<h1><img src="flags/'+id2+'.svg" class="shadow">'+sel.properties.name+'</h1>';    
+      let header = '<h1><img src="flags/'+id2.toLowerCase()+'.svg" class="shadow">'+sel.properties.name+'</h1>';    
       this.fetchFlag(id2);
       this.setPresenter("gesture3");
-      this.fetchText(id2, header);
+      this.fetchText(id2, header, true);
     } else {
       this.setPresenter("gesture2");
-      this.fetchText(id2, "");
+      this.fetchText(id2, "", true);
     }
+    return sel;
   }
   
   getGeo(q) {
@@ -461,6 +546,7 @@ class MapViewer {
         return feat;
       }
     }
+    console.log(id+" not found");
   }
 
   focusOnRect(rect, delay, sx) {
@@ -478,9 +564,11 @@ class MapViewer {
   
   focusOnFeature(iso2, delay) {
     let feat = this.getFeatureById(iso2);
-    if (feat)
+    if (feat) {
+      console.assert(feat.geometry.rect, feat);
       this.focusOnRect(feat.geometry.rect, delay, (feat.properties.type == "Country") ? 1/2: 1);
-    this.fetchText(iso2);
+    }
+    //this.fetchText(iso2);
   }
   
   drawGroup(canvas, data, group, ratio) {
