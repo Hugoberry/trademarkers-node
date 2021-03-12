@@ -173,7 +173,11 @@ exports.updateCustomerFormSubmit = async function(req, res, next) {
   
 }
 
-
+exports.index = function(req, res, next) {
+  
+  res.render('customer/', { layout: 'layouts/public-layout-customer', title: 'Customer' });
+    
+}
 
 
 
