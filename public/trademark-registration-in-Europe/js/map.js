@@ -201,29 +201,12 @@ class MapViewer {
       if (xmlhttp.status == 200)
         map.data[iso] = xmlhttp.responseText;
       if (header !== undefined) {
-        let doc = map.resyncPage(iso);
-        if (doc) {
-          let left = doc.getElementById("left");
-          if (left) lpanel.innerHTML = left.innerHTML;
-          let main = doc.getElementById("center");
-          if (main) cpanel.innerHTML = header+main.innerHTML;
-          let right = doc.getElementById("right");
-          if (right) rpanel.innerHTML = right.innerHTML;
-          let msg = doc.getElementById("message");
-          if (msg) message.innerHTML = msg.innerHTML; 
-        }
-        if (lpanel.innerHTML == "") {
-          let feat = map.getFeatureById(iso);
-          let doc2 = map.resyncPage(feat.properties.continent);
-          if (doc2) lpanel.innerHTML = doc2.getElementById("left").innerHTML;
-        }
-        if (rpanel.innerHTML == "") {
-          let doc2 = map.resyncPage("price");
-          if (doc2 && map.prices[iso]) {
-            map.resyncPage(doc2);
-            rpanel.innerHTML = doc2.getElementById("right").innerHTML;
-          }
-        }
+        let feat = map.getFeatureById(iso);
+        if (feat && feat.properties.continent)
+          map.resyncPage(feat.properties.continent, iso);          
+        if (map.prices[iso])
+          map.resyncPage("price", iso);
+        map.resyncPage(iso);
       }
     };
     xmlhttp.open("GET", file, delayed);
@@ -247,16 +230,15 @@ class MapViewer {
     xmlhttp.send();
   }
   
-  resyncPage(page) {
+  resyncPage(page, iso) {
     let data = this.data[page];
     if (!data) return;
     let doc = new DOMParser().parseFromString(data, "text/html");
 
-    let iso2 = this.selected;
-    if (iso2) {
-      let sel = this.getFeatureById(iso2);
-      doc.body.innerHTML = doc.body.innerHTML.replace('${iso}', iso2.toLowerCase());
-      doc.body.innerHTML = doc.body.innerHTML.replace('${ISO}', iso2);
+    if (iso) {
+      let sel = this.getFeatureById(iso);
+      doc.body.innerHTML = doc.body.innerHTML.replace('${iso}', iso.toLowerCase());
+      doc.body.innerHTML = doc.body.innerHTML.replace('${ISO}', iso);
       doc.body.innerHTML = doc.body.innerHTML.replace('${NAME}', sel.properties.name);
     }
     // replace urls with javascript
@@ -268,17 +250,28 @@ class MapViewer {
       if (a.substring(0,cur.length) == cur)
         list[i].setAttribute("href", "javascript:map.selectFeature('"+a.substring(cur.length)+"')");
     }
+
     let prices = doc.getElementsByClassName("price");
     for (let i = 0; i < prices.length; i++) {
       let a = prices[i].innerHTML.trim();
       let c = a.match(/\$\{(.+)\[(.+)\]\}/);
       if (c) {
         let k = c[1];
-        if (k == "ISO") k = this.selected;
+        if (k == "ISO") k = iso;
         if (map.prices[k])
           prices[i].innerHTML = map.prices[k][ c[2] ];
       }
     }
+
+    let left = doc.getElementById("left");
+    if (left) lpanel.innerHTML = left.innerHTML;
+    let main = doc.getElementById("center");
+    if (main) cpanel.innerHTML = header+main.innerHTML;
+    let right = doc.getElementById("right");
+    if (right) rpanel.innerHTML = right.innerHTML;
+    let msg = doc.getElementById("message");
+    if (msg) message.innerHTML = msg.innerHTML; 
+
     return doc;
   }
   

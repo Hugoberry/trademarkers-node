@@ -16,9 +16,9 @@ var svgs = { low: low, medium: medium };
 var map = new MapViewer();
 map.fetchMap("js/low.geo.json", "low", false);
 map.fetchPrices("js/prices.csv");
+map.fetchText("price");
 for (let k in continents)
   map.fetchText(k);
-map.fetchText("price");
 map.setCanvas(canvas, canvas2);
 map.resize(window.innerWidth, window.innerHeight);
 
