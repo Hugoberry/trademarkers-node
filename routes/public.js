@@ -3,7 +3,7 @@ var cors = require('cors')
 
 
 
-var allowlist = ['https://www.trademarkers.com', 'https://trademarkers.com']
+var allowlist = ['https://www.trademarkers.com', 'https://trademarkers.com', 'http://localhost:4200', 'http://trademarkers.staging.test/']
 var corsOptionsDelegate = function (req, callback) {
   var corsOptions;
   if (allowlist.indexOf(req.header('Origin')) !== -1) {
@@ -85,7 +85,7 @@ router.get('/trademark-assignment', publicController.assignment)
 // action
 router.get('/:action', publicController.redirect);
 // redirect
-router.get('*', publicController.redirect);
+// router.get('*', publicController.redirect);
 
 router.get('/services', publicController.service);
 router.get('/blog', publicController.blog);
