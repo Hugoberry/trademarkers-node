@@ -119,7 +119,7 @@ exports.updateCustomerForm = async function(req, res, next) {
   let user = await rpoUserMongo.getById(custId);
 
   if (user.length <= 0){
-    user = await rpoUser.getUserByID(custId)
+    user = await rpoUser.getUserByID( )
     if (user) 
     rpoUserMongo.putUser(user[0])
   }
@@ -175,7 +175,11 @@ exports.updateCustomerFormSubmit = async function(req, res, next) {
 
 exports.index = function(req, res, next) {
   
-  res.render('customer/', { layout: 'layouts/public-layout-customer', title: 'Customer' });
+  res.render('customer/', { 
+    layout: 'layouts/public-layout-customer', 
+    title: 'Customer',
+    user: helpers.getLoginUser(req)
+  });
     
 }
 

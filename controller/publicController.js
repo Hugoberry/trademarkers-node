@@ -58,54 +58,84 @@ exports.home = async function(req, res, next) {
 
     let continents = await rpoContinents.getContinents();
 
+    let user = helpers.getLoginUser(req);
+console.log(user);
     res.render('public/index', { 
       layout: 'layouts/public-layout', 
       title: 'Trademarkers LLC', 
-      continents: continents
+      continents: continents,
+      user: user
     });
-    
+     
 }
 
 exports.about = function(req, res, next) {
 
   // activityService.logger(req.ip, req.originalUrl, "Visited About Page");
 
-  res.render('public/about', { layout: 'layouts/public-layout-default', title: 'About' });
+  let user = helpers.getLoginUser(req);
+
+  res.render('public/about', { 
+    layout: 'layouts/public-layout-default', 
+    title: 'About',
+    user: user
+  });
 }
 
 exports.terms = function(req, res, next) {
 
   // activityService.logger(req.ip, req.originalUrl, "Visited Terms Page");
+  let user = helpers.getLoginUser(req);
 
-  res.render('public/terms', { layout: 'layouts/public-layout-default', title: 'terms' });
+  res.render('public/terms', { 
+    layout: 'layouts/public-layout-default', 
+    title: 'terms',
+    user: user
+  });
 }
 
 exports.privacy = function(req, res, next) {
 
   // activityService.logger(req.ip, req.originalUrl, "Visited Privacy Page");
 
-  res.render('public/privacy', { layout: 'layouts/public-layout-default', title: 'privacy' });
+  res.render('public/privacy', { 
+    layout: 'layouts/public-layout-default', 
+    title: 'privacy',
+    user: helpers.getLoginUser(req)
+  });
 }
 
 exports.service = function(req, res, next) {
 
   // activityService.logger(req.ip, req.originalUrl, "Visited Service Page");
 
-  res.render('public/service', { layout: 'layouts/public-layout-default', title: 'service' });
+  res.render('public/service', { 
+    layout: 'layouts/public-layout-default', 
+    title: 'service',
+    user: helpers.getLoginUser(req)
+  });
 }
 
 exports.cookies = function(req, res, next) {
 
   // activityService.logger(req.ip, req.originalUrl, "Visited Cookies Page");
 
-  res.render('public/cookies', { layout: 'layouts/public-layout-default', title: 'cookies' });
+  res.render('public/cookies', { 
+    layout: 'layouts/public-layout-default', 
+    title: 'cookies',
+    user: helpers.getLoginUser(req)
+  });
 }
 
 exports.blog = function(req, res, next) {
 
   // activityService.logger(req.ip, req.originalUrl, "Visited Blog Page");
 
-  res.render('public/blog', { layout: 'layouts/public-layout-default', title: 'blog' });
+  res.render('public/blog', { 
+    layout: 'layouts/public-layout-default', 
+    title: 'blog',
+    user: helpers.getLoginUser(req)
+  });
 }
 
 exports.contact = function(req, res, next) {
@@ -121,42 +151,66 @@ exports.classes = function(req, res, next) {
 
   // activityService.logger(req.ip, req.originalUrl, "Visited Classes Page");
 
-  res.render('public/classes', { layout: 'layouts/public-layout-default', title: 'classes' });
+  res.render('public/classes', { 
+    layout: 'layouts/public-layout-default', 
+    title: 'classes',
+    user: helpers.getLoginUser(req)
+  });
 }
 
 exports.resources = function(req, res, next) {
 
   // activityService.logger(req.ip, req.originalUrl, "Visited Resources Page");
 
-  res.render('public/resources', { layout: 'layouts/public-layout-default', title: 'resources' });
+  res.render('public/resources', { 
+    layout: 'layouts/public-layout-default', 
+    title: 'resources',
+    user: helpers.getLoginUser(req)
+  });
 }
 
 exports.prices = function(req, res, next) {
 
   // activityService.logger(req.ip, req.originalUrl, "Visited Price Page");
 
-  res.render('public/prices', { layout: 'layouts/public-layout-default', title: 'prices' });
+  res.render('public/prices', { 
+    layout: 'layouts/public-layout-default', 
+    title: 'prices',
+    user: helpers.getLoginUser(req)
+  });
 }
 
 exports.registration = function(req, res, next) {
 
   // activityService.logger(req.ip, req.originalUrl, "Visited Registration Page");
 
-  res.render('public/registration', { layout: 'layouts/public-layout-default', title: 'registration' });
+  res.render('public/registration', { 
+    layout: 'layouts/public-layout-default', 
+    title: 'registration',
+    user: helpers.getLoginUser(req)
+  });
 }
 
 exports.service_contract = function(req, res, next) {
 
   // activityService.logger(req.ip, req.originalUrl, "Visited Service Page");
 
-  res.render('public/service_contract', { layout: 'layouts/public-layout-default', title: 'service_contract' });
+  res.render('public/service_contract', { 
+    layout: 'layouts/public-layout-default', 
+    title: 'service_contract',
+    user: helpers.getLoginUser(req)
+  });
 }
 
 exports.udrp = function(req, res, next) {
 
   // activityService.logger(req.ip, req.originalUrl, "Visited UDRP Page");
 
-  res.render('public/udrp', { layout: 'layouts/public-layout-default', title: 'Uniform Domain-Name Dispute-Resolution Policy' });
+  res.render('public/udrp', { 
+    layout: 'layouts/public-layout-default', 
+    title: 'Uniform Domain-Name Dispute-Resolution Policy',
+    user: helpers.getLoginUser(req)
+  });
 }
 
 exports.redirect = async function(req, res, next) {
@@ -227,7 +281,12 @@ exports.ytVideo = function(req, res, next) {
 
   activityService.logger(req.ip, req.originalUrl, "Checking YT video " + ytId);
 
-  res.render('video/index', { layout: 'layouts/public-layout', title: 'Youtube Videos', ytId: ytId });
+  res.render('video/index', { 
+    layout: 'layouts/public-layout', 
+    title: 'Youtube Videos', 
+    ytId: ytId,
+    user: helpers.getLoginUser(req)
+  });
 }
 
 exports.submitContact = async function(req, res, next) {
@@ -293,7 +352,8 @@ exports.generatePdf = async function(req, res, next) {
     layout  : 'layouts/public-layout-default', 
     title   : 'Generate Pdf', 
     pdfs    : pdfs,
-    senders : senders
+    senders : senders,
+    user: helpers.getLoginUser(req)
   });
 }
 
@@ -410,7 +470,7 @@ exports.codeLanding = async function(req, res, next) {
     // let crawl = await usptoCrawlService.usptoCrawl('1999445')
     casesMysql = await rpoTrademarks.fetchTmBySerial(code)
 
-    console.log("casesMysql",casesMysql)
+    // console.log("casesMysql",casesMysql)
     if (casesMysql.length) {
       trademarkMysql = await rpoTrademarks.fetchTmByMark(casesMysql[0].trademark);
 
@@ -419,9 +479,7 @@ exports.codeLanding = async function(req, res, next) {
         action.trademark = trademarkMysql[0]
       }
 
-    } else {
-      next()
-    }
+    } 
 
 
   } else {
@@ -530,7 +588,8 @@ exports.codeLanding = async function(req, res, next) {
     action : action,
     classArr: classArr,
     tkey: process.env.PAYK,
-    trademark: trademark
+    trademark: trademark,
+    user: helpers.getLoginUser(req)
   });
 
   // res.send()
@@ -597,7 +656,8 @@ exports.deliveryMethod = async function(req, res, next) {
     title   : 'Your Trademark Certificate is now available!',
     trademark: trademark[0],
     pngName: pngName,
-    pdfName: pdfName
+    pdfName: pdfName,
+    user: helpers.getLoginUser(req)
   });
 
 
@@ -786,7 +846,8 @@ exports.serviceOrderCustom = async function(req, res, next) {
     layout  : "layouts/public-layout-interactive", 
     title   : "",
     tkey: process.env.PAYK,
-    order: order[0]
+    order: order[0],
+    user: helpers.getLoginUser(req)
   });
 }
 
@@ -878,7 +939,8 @@ exports.serviceOrderCustom2 = async function(req, res, next) {
     layout  : "layouts/public-layout-interactive", 
     title   : "",
     tkey: process.env.PAYK,
-    order: order[0]
+    order: order[0],
+    user: helpers.getLoginUser(req)
   });
 }
 
@@ -971,7 +1033,8 @@ exports.serviceOrderShow = async function(req, res, next) {
     layout  : "layouts/public-layout-interactive", 
     title   : "",
     tkey: process.env.PAYK,
-    serviceOrder: serviceOrder[0]
+    serviceOrder: serviceOrder[0],
+    user: helpers.getLoginUser(req)
   });
 }
 
@@ -1064,7 +1127,8 @@ exports.generateService = async function(req, res, next) {
   res.render(
     "trademark-order/add-service", { 
     layout  : "layouts/public-layout-interactive", 
-    title   : ""
+    title   : "",
+    user: helpers.getLoginUser(req)
   });
 }
 
@@ -1174,7 +1238,8 @@ exports.oppositionProof = async function(req, res, next) {
   
   res.render("public/opposition-proof-of-use", { 
     layout  : "layouts/public-layout-interactive", 
-    title   : ""
+    title   : "",
+    user: helpers.getLoginUser(req)
   });
 }
 

@@ -4,7 +4,7 @@ const {verify} = require('../controller/middleware');
 
 const controller = require('../controller/customerController')
 
-router.get('/', controller.index);
+router.get('/', verify, controller.index);
 
 router.get('/TC-:id-7C', controller.updateCustomerForm);
 router.post('/TC-:id-7C/submit', controller.updateCustomerFormSubmit);

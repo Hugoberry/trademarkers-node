@@ -16,7 +16,12 @@ exports.convertIntToDate = function(idate) {
 
 exports.getLoginUser = function(req) {
     let decode = jwt.decode(req.cookies.jwt, {complete: true});
-    let user = JSON.parse(decode.payload.user);
+
+    let user;
+    if (decode) {
+        user = JSON.parse(decode.payload.user);
+    }
+    // let user = JSON.parse(decode.payload.user);
 
     return user
 }
