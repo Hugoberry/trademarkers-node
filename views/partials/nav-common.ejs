@@ -122,11 +122,12 @@
 <ul class="header-nav">
 
 
+    
+
+    <% if(user) { %>
     <li class="">
         <a class="nav-link" href="/cart"><i class="fas fa-shopping-cart"></i> </a>
     </li>
-
-    <% if(user) { %>
     <li class="dropdown">
         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
             <%= user.name %>
