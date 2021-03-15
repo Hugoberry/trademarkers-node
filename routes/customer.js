@@ -12,6 +12,8 @@ router.post('/TC-:id-7C/submit', controller.updateCustomerFormSubmit);
 router.get('/orders', controller.orders);
 router.get('/orders/:id', controller.orderDetail);
 
+router.get('/dashboard', verify, controller.redirect);
+
 
 
 module.exports = router;

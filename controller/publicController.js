@@ -270,9 +270,6 @@ exports.redirect = async function(req, res, next) {
     
   } 
 
-  
-
-  // 
 }
 
 exports.ytVideo = function(req, res, next) {

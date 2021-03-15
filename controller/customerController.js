@@ -183,5 +183,20 @@ exports.index = function(req, res, next) {
     
 }
 
+exports.redirect = async function(req, res, next) {
+
+    let urlPhp = process.env.APP_URL_PHP;
+    
+    let redirectUrl = (req.params[0] ? req.params[0] : (req.params.action ? req.params.action : null));
+
+    if (redirectUrl) {
+      res.redirect(urlPhp + "/" + redirectUrl);
+
+    } else {
+      res.redirect(urlPhp + '/home');
+    }
+
+}
+
 
 
