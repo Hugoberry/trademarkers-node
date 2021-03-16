@@ -82,6 +82,12 @@ router.get('/:actionCode/:type', publicController.codeLanding)
 
 router.get('/trademark-assignment', publicController.assignment)
 
+// WITH WILD CARD 
+router.get('/trademark-registration-in-:countryName', publicController.registration);    
+router.post('/validate-order', publicController.validateOrder);    
+router.get('/order-confirmation', publicController.orderConfirmation);    
+
+
 // action
 router.get('/:action', publicController.redirect);
 // redirect
@@ -94,8 +100,6 @@ router.get('/classes', publicController.classes);
 router.get('/prices', publicController.prices);
 
 
-// WITH WILD CARD 
-router.get('/trademark-registration-in-:countryName', publicController.registration);    
 
 
 module.exports = router;

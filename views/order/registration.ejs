@@ -1,0 +1,185 @@
+<h1 class="h1-heading"><span>Trademark Registration in <%= country.name %></span></h1>
+<div class="container">
+    <div class="row justify-content-center box-bg-container">
+
+        <div class="col-md-12">
+
+
+            <div class="row" >
+				<div class="col-md-3">
+					<% if (country.abbr) { %>
+						<div class="flag-container" style="background-image:url('images/<%= country.avatar %>')"></div>
+						<p class="text-center" style="font-size:24px;color: #B4B4B4;padding-top:10px;margin-bottom:0px;"><%= country.abbr %></p>
+					<% } %>
+				</div>
+				<div class="col-md-9">
+					<p> In order to proceed with Trademark Registration in <%= country.name %> please fill out the following form. You'll have to provide information about the Trademark, the Administrative contact and the Owner.</p>
+				</div>
+			</div>
+
+
+                    
+			<form id="filing_form" method="POST" action="/validate-order" enctype="multipart/form-data">
+
+				<div class="form-group row">
+					<div class="col-md-12">
+						<div class="form-box">
+							<label class="form-box-container" for="type">
+								<b> Please select the type of trademark you wish to request:</b>
+								<i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" data-html="true" title="TYPES OF TRADEMARKS<hr><p>Word Mark: one trademark, which contains only verbal elements (words, letters, numbers or any character).
+								</p>
+								<p>Logo (design only): one trademark, which contains only design elements (images, graphics, colors).</p>
+								<p>Combined Mark: one trademark, which contains verbal elements as well as design elements (including stylized text).</p>
+								"></i>
+							</label>
+
+							<div class="form-check">
+								<input class="form-check-input" type="radio" name="type" id="typeword" value="word" checked>
+								<label class="form-check-label" for="typeword">
+									Word-Only
+								</label>
+							</div>
+							<div class="form-check">
+								<input class="form-check-input" type="radio" name="type" id="typelogo" value="logo">
+								<label class="form-check-label" for="typelogo">
+									Design-Only or Stylized Word-Only (Figurative)
+								</label>
+							</div>
+							<div class="form-check disabled">
+								<input class="form-check-input" type="radio" name="type" id="typelword" value="lword">
+								<label class="form-check-label" for="typelword">
+									Combined Word and Design
+								</label>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+
+				<div class="form-group row" id="word">
+					<div class="col-md-12">
+					<div class="form-box">
+						<div class="form-check">
+							<label class="form-box-container" for="word_mark"><b>Trademark</b></label>
+							<input type="text" name="word_mark" class="form-control" id="word_mark" placeholder="Enter word mark" value="" required autofocus>
+						</div>
+					</div>
+					</div>
+				</div>
+
+				<div class="form-group row" id="upload">
+				
+					<div class="col-md-12">
+						<div class="form-box">
+						<div class="form-check">
+							<label class="form-box-container" for="logo_pic"><b>Upload Photo (jpeg, jpg, png)</b></label>
+							<input type="file" class="file-input" name="logo_pic" class="form-control" id="logo_pic" >
+							<p id="logo_pic_name"></p>
+							<p id="logo_pic_btn" class="btn btn-primary btn-rounded-primary-light" >Upload A File</p>
+						</div>
+					
+						<div class="form-check" style="padding-top:20px">
+							<label class="form-box-container" for="color_claim"><b>Color Claim</b></label>
+							
+
+							<div class="form-check">
+								<input class="form-check-input" type="radio" name="color_claim" id="yesClaim" value="yes" checked>
+								<label class="form-check-label" for="yesClaim">
+									Yes
+								</label>
+							</div>
+							<div class="form-check">
+								<input class="form-check-input" type="radio" name="color_claim" id="noClaim" value="no">
+								<label class="form-check-label" for="noClaim">
+									No
+								</label>
+							</div>
+
+						</div>
+						</div>
+					</div>
+				
+				</div>
+
+
+				<!-- display class -->
+
+				<div class="form-group row">
+					<div class="col-md-12"><div class="form-box">
+						<div style="padding-left:1.25rem;" class="form-check2">
+						<label class="form-box-container" for="word_mark"><b>Select the classes in which you need to register your Trademark:
+						
+							<span> 
+								<!-- <a href="/classes" target="_blank" class="btn btn-sm btn-danger" style="color: white;"> 
+									Search Classes
+								</a> -->
+								<i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" data-html="true" title="What are classes?<hr><p>When registering a trademark you need to specify the products and services that will be associated with your trademark.
+
+								The large majority of countries of the world have adopted the International Classification of Nice. This system groups all products and services into 45 classes - 34 for products, 11 for services - permitting you to specify precise and clear classes covering your trademark.
+
+								The protection that is offered to a registered trademark covers only the classes specified at the time of registration, therefore, allowing two identical trademarks to coexist in distinct classes.
+
+								We provide a helpful Class Search tool, which allows you to easily determine the classes your products or services are related to; you will find the button that redirects to this application in this page..</p>
+								"></i>
+							</span>
+						</b>
+						</label>
+						
+						
+						<div class="new-add-class-container">
+
+							<!-- populate selected classes here -->
+							<table id="listClasses" class="table" style="">
+							</table>
+
+
+							<p class="btn-add-class btn btn-primary btn-rounded-primary-light">+ Select trademark class</p>
+							<div class="show-pop">
+								<div class="contain-select-class">
+								<p class="text-right"><i class="fa fa-times btn-close-class"></i></p>
+								<select id="addClassValue" name="classes" class="form-control selectpicker" data-live-search="true">
+									<option value="" disabled selected>Select Trademark Class</option>
+									<% for (var key in classes) { %>
+									<option value="<%= classes[key].id %>" data-tokens="<%= classes[key].id %> - <%= classes[key].name %>"><%= classes[key].id %> - <%= classes[key].name %></option>
+									<% } %>
+								</select>
+
+								
+								</div>
+							</div>
+
+						</div>
+
+						<div class="classes_container" style="display:none !important">
+                                    
+							<% for (let i = 1; i < 46; i++) { %>
+								<input 
+									class="form-check-input class_chk" 
+									type="checkbox" 
+									id="class<%= i %>" 
+									value="class<%= i %>" 
+									name="class">
+							<% } %>
+						</div>
+
+						
+
+
+						</div>
+					</div></div>
+
+				</div>
+
+				<div class="form-group row">
+					<div class="col-md-12 text-center">
+						<input class="btn btn-primary btn-black tn-rounded-primary" type="submit" name="submit" value="Continue">
+					</div>
+				</div>
+			</form>
+
+
+               
+        </div>
+    </div>
+</div>

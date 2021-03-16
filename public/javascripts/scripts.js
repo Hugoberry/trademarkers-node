@@ -95,7 +95,7 @@ $( document ).ready(function() {
     // return false;
   });
 
-  if ( $(".classes_container").length ) {
+  if ( $("#listClasses").length ) {
     listPopulate()
   }
 
@@ -137,7 +137,7 @@ function listPopulate() {
             console.log(sThisVal);
             let classNumber = sThisVal.replace("class","");
 
-            let description_input = '<input id="class7" type="text" class="form-control" name="description[]" placeholder="Enter Goods/Services on this trademark" data-id="'+classNumber+'">';
+            let description_input = '<input id="class7" type="text" class="form-control" name="description" placeholder="Enter Goods/Services on this trademark" data-id="'+classNumber+'">';
 
             liDisplay += "<tr>" + 
                             "<td>" + classNumber + "</td>" +
