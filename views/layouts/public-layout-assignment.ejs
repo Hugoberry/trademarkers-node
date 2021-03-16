@@ -17,602 +17,715 @@
   <div id="app">
 
     <%- body %>
+
   </div>
-    <style>
+
+<style>
 	
-      .required {
-        border: 1px solid red !important;
-      }
-      
-      </style>
-      
-      </body>
-      <script src="/countries.json"></script>
-      <script src="/states.json"></script>
-      <script>
-      String.prototype.capitalize = function() {
-          return this.charAt(0).toUpperCase() + this.slice(1);
-      }
-      // This is the date for user's system
-      var signDate = new Date();
-      
-      // This is the date when you get date from the IP
-      //var signDate = new Date('22 Jan 1999');
-      var app = new Vue({
-        el: '#app',
-        data: {
-          question: {
-            appType: {
-              shown: true
-            },
-            trademarks: {
-              marks: [
-                {
-                  val1: '',
-                  val2: '',
-                  val3: ''
-                }
-              ]
-            }
-          },
-          trademarkSelected: false,
-          hasManyTrademark: false,
-          trademarks: [
-            {	
-              company: 'Google',
-              no: 323423,
-              city: 'Pennsylvanian',
-              state: 'CA',
-              address1: '2 West way',
-              address2: '7th Street',
-              zip: '125008',
-              country: 'United States'	
-            },
-            {	
-              company: 'Paytm',
-              no: 527384,
-              city: 'Hisar',
-              state: 'Haryana',
-              address1: 'house no 4, azad nagar',
-              zip: '243532',
-              country: 'India'
-            },
-            {	
-              company: 'ChinesePod',
-              no: 527688,
-              city: 'Chengdu',
-              state: 'Shenzen',
-              address1: '4 greenfield',
-              zip: '543323',
-              country: 'China'
-            },
-            {	
-              company: 'Rondevouz',
-              no: 435237,
-              city: 'Berlin',
-              address1: '34th Downtown',
-              address2: 'Tatoine',
-              plz: '456323',
-              country: 'Germany'
-            }
-          ],
-          trademarkDetails: [
-            {
-              no: 12345,
-              mark: 'Facebook'
-            },
-            {
-              no: 56789,
-              mark: 'Amazon'
-            },
-            {
-              no: 134679,
-              mark: 'Bewakoof'
-            }
-          ],
-          activeQs: 1,
-          activeTrademark: {
-            assignee: {
-              no: -1,
-              state: "",
-              company: "",
-              street: "",
-              zip: "",
-              country: "United States",
-              address1: "",
-              address2: ""
-            },
-            assignor: {
-              no: -1,
-              state: "",
-              company: "",
-              street: "",
-              zip: "",
-              country: "United States",
-              address1: "",
-              address2: ""
-            }
-          },
-          search: {
-            assignee: '',
-            assignor: ''
-          },
-          qsArea: {
-            top: 0,
-            left: 0,
-            active: false	
-          },
-          activePerson: 'assignor',
-          activeSign: '',
-          typed: {
-            assignee: null,
-            assignor: null,
-            trademark: null,
-            signassignee: null,
-            signassignor: null
-          },
-          countries: countries,
-          mon: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-          activetab: 1,
-          states: states,
-          notwantLawState: false,
-          lawCountry: '',
-          lawCity: '',
-          lawState: {
-            state: '',
-            county: ''
-          },
-          signature: {
-            assignor: {
-              name: '',
-              position: ''
-            },
-            assignee: {
-              name: '',
-              position: ''
-            }
-          },
-          signDate: signDate,
-          goDone: []
-        },
-        computed: {
-          trademarkType: function() {
-            return (this.question.trademarks.marks[0].val1.length > 7) ? "Registered Trademark" : "Trademark Application";
-          },
-          searchResult: function() {
-            var data = {};
-            if (this.trademarkSelected)
-              return {assignor: [], assignor: []};
-            data.assignor = (this.search.assignor == "") ? [] : this.trademarks.filter((item)=>{
-                    return (item.no.toString().includes(this.search.assignor) || item.company.toLowerCase().includes(this.search.assignor.toString().toLowerCase()));
-                }); 
-            data.assignee = (this.search.assignee == "") ? [] : this.trademarks.filter((item)=>{
-                    return (item.no.toString().includes(this.search.assignee) || item.company.toLowerCase().includes(this.search.assignee.toString().toLowerCase()));
-                }); 
-            return data;
-          },
-          splitCountries: function() {
-            var countries = this.countries;
-            if(this.activetab == 3){
-              var priority = [this.activeTrademark.assignee.country,this.activeTrademark.assignor.country];
-            }else{
-              var priority = ['United States',this.activeTrademark.assignee.country,this.activeTrademark.assignor.country, 'Germany'];
-            }
-            
-            var final = [{
-              name: '----------',
-              code: '----------'
-            }];
-            countries.forEach((el,i) => {
-              if (priority.includes(el.name))
-                final.unshift(el)
-              else
-                final.push(el)
-            })
-            return final;
-          },
-          splitStates: function() {
-            var states = this.states;
-            if((typeof this.activeTrademark.assignee.state !== "undefined") && (typeof this.activeTrademark.assignor.state !== "undefined")){
-              var priority = [this.activeTrademark.assignee.state.toLowerCase(),this.activeTrademark.assignor.state.toLowerCase()];
-            }else if(typeof this.activeTrademark.assignee.state.toLowerCase() !== "undefined"){
-              var priority = [this.activeTrademark.assignee.state.toLowerCase()];
-            }else if(typeof this.activeTrademark.assignor.state.toLowerCase() !== "undefined"){
-              var priority = [this.activeTrademark.assignor.state.toLowerCase()];
-            }else{
-              var priority = [];
-            }
-            // var priority = [this.activeTrademark.assignee.state.toLowerCase() ?? '',this.activeTrademark.assignor.state.toLowerCase() ?? ''];
-            
-            var final = ['----------'];
-            states.forEach((el,i) => {
-              if (priority.includes(el.toLowerCase()))
-                final.unshift(el)
-              else
-                final.push(el)
-            })
-            return final;
-          },
-          countryText: function() {
-            var finalText = "";
-            var dataText = this.activeTrademark[this.activePerson];
-            switch (dataText.country) {
-              case 'United States':
-                finalText = '<strong>' + dataText.company + '</strong><br> ' + dataText.address1 + '<br>  ' + dataText.address2 + '<br> ' + dataText.city + ', ' + dataText.state + ', ' + dataText.zip + '<br><br class="remove-br"><strong>' + dataText.country + '</strong>';
-                break;
-              case 'India':
-                finalText = '<strong>' + dataText.company + '</strong><br> ' + dataText.address1 + '<br> ' + dataText.city + '<br> ' + dataText.state + ', ' + dataText.zip + '<br><br class="remove-br"><strong>' + dataText.country + '</strong>';
-                break;
-              case 'Germany':
-                finalText = '<strong>' + dataText.company + '</strong><br> ' + dataText.address1 + '<br> '  + dataText.plz + ', '+ dataText.city + '<br><br><strong>' + dataText.country + '</strong>';
-                break;
-              default:
-                finalText = '<strong>' + dataText.company + '</strong><br> ' + dataText.address1 + '<br> ' + dataText.address2 + '<br> ' + dataText.city + ', ' + dataText.state + ', ' + dataText.zip + '<br><br class="remove-br"><strong>' + dataText.country + '</strong>';
-                break;
-            }
-            return finalText.replaceAll('undefined<br>', '').replaceAll('undefined', '');
-          },
-          regserialText: function() {
-            var finalText = "";
-            if (this.question.trademarks.marks.length > 1){
-              // Loop through each application
-              var finalText = '<table class="w-full trademark-table text-center mt-2"><tr><th class="left w-2/6">Serial or Reg, No.</th><th class="middle border-black w-2/6">Mark</th><th class="right w-2/6">Additional information</th></tr>';
-              this.question.trademarks.marks.forEach((el,index) => {
-                var type = (el.val1.length > 7) ? "Registered Trademark" : "Trademark Application";
-                date = new Date(el.val3);
-                var str = el.val1.toLowerCase();
-                var final = el.val1;
-                  if (str.charAt(0) == 'e' || str.charAt(str.length-1) == 'e') {
-                    final = ' EUTM/A ' + el.val1;
-                  }
-      
-                  final = final.replace('e', '').replace('b','');
-                  if (type == 'Registered Trademark')
-                  if(index == this.question.trademarks.marks.length-1){
-                    finalText = finalText + '<tr><td class="border-r-2 w-2/6">Registration:'+final+'  </td><td class="border-l-2 border-r-2 w-2/6">'+el.val2+'</td><td class="border-l-2 w-2/6">Filed: '+this.mon[date.getMonth()]+" "+date.getDate()+", "+date.getFullYear()+'</td></tr>';
-                  }
-                  else{
-                    finalText = finalText + '<tr><td class="left w-2/6">Registration:'+final+'  </td><td class="middle w-2/6">'+el.val2+'</td><td class="right w-2/6">Filed: '+this.mon[date.getMonth()]+" "+date.getDate()+", "+date.getFullYear()+'</td></tr>';
-                  }
-                else {
-                  if(index == this.question.trademarks.marks.length-1){
-                    finalText = finalText + '<tr><td class="border-r-2 w-2/6">Serial:'+final+'  </td><td class="border-l-2 border-r-2 w-2/6">'+el.val2+'</td><td class="border-l-2 w-2/6">Filed: '+this.mon[date.getMonth()]+" "+date.getDate()+", "+date.getFullYear()+'</td></tr>';
-                  }
-                  else{
-                    finalText = finalText + '<tr><td class="left w-2/6">Serial:'+final+'  </td><td class="middle w-2/6">'+el.val2+'</td><td class="right w-2/6">Filed: '+this.mon[date.getMonth()]+" "+date.getDate()+", "+date.getFullYear()+'</td></tr>';
-                  }
-                }
-              })
-              finalText = finalText + '</table>';
-            }else {
-              if (this.trademarkType == 'Registered Trademark'){
-                finalText = 'Registration Number: '+this.question.trademarks.marks[0].val1+'  Registration Date: '+this.question.trademarks.marks[0].val3;
-              } else {
-                finalText = 'Serial Number: '+this.question.trademarks.marks[0].val1+'  Application Date: '+this.question.trademarks.marks[0].val3;
-              }
-            }
-            return finalText.replaceAll('undefined', ' ').replaceAll('NaN', " ");
-          },
-          countTrademarks: function(){
-            if (this.question.trademarks.marks.length > 1){
-              return true;
-            }else{
-              return false;
-            }
-          },
-          mark: function(){
-            if(this.countTrademarks){
-              return "Marks";
-            } else if(this.trademarkType=='Trademark Application' && !this.question.trademarks.have){
-              return "Application";
-            } else if(this.trademarkType=='Registered Trademark' && !this.question.trademarks.have){
-              return "Mark";
-            }
-          },
-          currentDate: function(){
-            var date = this.signDate;
-            if(date.getDate() == 1 || date.getDate() == 21 || date.getDate() == 31){
-              return date.getDate()+"st Day of "+this.mon[date.getMonth()]+" "+date.getFullYear();
-            } else if(date.getDate() == 2 || date.getDate() == 22){
-              return date.getDate()+"nd Day of "+this.mon[date.getMonth()]+" "+date.getFullYear();
-            } else if(date.getDate() == 3 || date.getDate() == 23){
-              return date.getDate()+"rd Day of "+this.mon[date.getMonth()]+" "+date.getFullYear();
-            } else{
-              return date.getDate()+"th Day of "+this.mon[date.getMonth()]+" "+date.getFullYear();
-            } 
-          },
-          office: function() {
-            var us = {
-              full: 'United States Patent and Trademark Office (“USPTO”)',
-              short: 'USPTO'
-            };
-            var eu = {
-              full: 'European Union Intellectual Property Office (“EUIPO”)',
-              short: 'EUIPO'
-            };
-            var be = {
-              full: 'Benelux Intellectual Property Office (“BOIP”)',
-              short: 'BIPO'
-            };
-            var final = us;
-            var marks = this.question.trademarks.marks;
-            for(var i = 0; i < marks.length; i++) {
-              var str = marks[i].val1.toLowerCase();
-                if (str.charAt(0) == 'e' || str.charAt(str.length-1) == 'e') {
-                    final = eu;
-                    break;
-                }
-                if (str.charAt(0) == 'b' || str.charAt(str.length-1) == 'b') {
-                    final = be;
-                    break;
-                }
-            }
-            return final;
-          },
-          checkLawCountry: function(){
-            if(this.activeTrademark.assignee.country == "United States" && this.activeTrademark.assignor.country == "United States"){
-              return "United States";
-            }else{
-              return "";
-            }
-          },
-          printBtnActive: function(){
-            if(this.goDone.length == 6){
-              if(this.goDone.includes(1) && this.goDone.includes(2) && this.goDone.includes(3) && this.goDone.includes(4) && this.goDone.includes(5) && this.goDone.includes(6)){
-                return true;
-              }else{
-                return false;
-              }
-            }else{
-              return false;
-            }
-          }
-        },
-        watch: {
-          'qsArea.top': function (val) {
-            setTimeout(()=>{
-              this.renderBox();
-            },50)
-            },	
-            search: function(val) {
-              $.ajax({
-                url: 'http://dev158.trademarkers.com/getTMdata/QDWy2UU29NE/'+val
-              })
-              .done(function(msg) {
-                console.log(msg);	
-              })
-            }
-        },
-        methods: {
-          addMoreTrademarks: function() {
-            var length = this.question.trademarks.marks.push({
-              type: 'Trademark Application',
-              val1: '',
-              val2: ''
-            });
-            setTimeout(()=>{
-              document.getElementById('ser-reg'+(length-1)).focus();
-            },50)
-          },
-          showSecondQuestion: function() {
-            setTimeout(() => this.secondQuestion = true ,1000);
-          },
-          renderBox: function() {
-            var pos = this.qsArea;
-              var fh = $('.floating-qs').height();
-            var fw = $('.floating-qs').width();
-            $('.floating-qs').css({
-              'transition':'all 0s ease-out',
-            });
-            $('.floating-qs').css({
-              'transform':'translate('+(pos.left - (fw*.02))+'px,'+(pos.top - fh)+'px)'
-            });
-            setTimeout(()=>{
-              $('.floating-qs').css({
-                'transition':'all .6s cubic-bezier(0.22, 1, 0.36, 1)'
-              });
-              $('.floating-qs').css({
-                'transform':'translate('+(pos.left)+'px,'+(pos.top - fh)+'px)',
-                'opacity': 1,
-                'pointer-events': 'auto'
-              });
-            },10)
-            this.qsArea.active = true;
-          },
-          setTrademark: function(result,which) {
-            this.trademarkSelected = true;
-            if (result == 'new') {
-              var empty = {
-                no: 0,
-                state: "",
-                company: "",
-                street: "",
-                zip: "",
-                country: "United States",
-                address1: "",
-                address2: ""
-              }
-              if (isNaN(this.search[which]))
-              {
-                //this is a string
-                empty.company = this.search[which];
-              } else {
-                //This is a number
-                empty.no = this.search[which];
-              }
-              this.activeTrademark[which] = empty;
-            } else {
-              this.activeTrademark[which] = result;
-              this.search[which] = result.no;
-            }
-          },
-          hideBox: function(event) {
-            var box = event.target.classList;
-            if (box instanceof Array) {
-              if (box.includes('no-hide')) {
-                return 0;
-              }
-            }
-            $('.floating-qs').css({
-                'opacity': 0,
-                'pointer-events': 'none'
-            });
-          },
-          backToList: function(which) {
-            this.activeTrademark[which].no = -1;
-          },
-          runnerCallback: function() {
-            if (this.typed.assignee != null && this.typed.assignor != null )
-            {
-              this.activetab++;
-            }
-          },
-          sign: function(active){
-            var finalText = '';
-            if(active == 'assignor'){
-              finalText = this.signature.assignor.name+'<br>'+ this.signature.assignor.position;
-            }else if(active == 'assignee'){
-              finalText = this.signature.assignee.name+'<br>'+ this.signature.assignee.position;
-            }
-            return finalText;
-          },
-          runnerGo: function(qs) {
-            //This is the function which types
-            var writer = null;
-            var text = null;
-            switch (qs) {
-              case 1:
-                // Assignee and assiner qs
-                text = this.countryText;
-                writer = this.activePerson;
-                //this.search[this.activePerson] = "";
-                break;
-              case 2:
-                // Trademark vs registeration qs
-                text = this.regserialText;
-                writer = 'trademark';
-                break;
-              case 4:
-                text = this.sign('assignor');
-                writer = 'signassignor'; 
-                location.href = '#signature-area'
-                break;
-              case 5:
-                text = this.sign('assignee');
-                writer = 'signassignee'; 
-                location.href = '#signature-area'
-                break;
-            }
-      
-            var options = {
-              strings: ['',text],
-              typeSpeed: .01,
-              onComplete: (self) => {
-                $('#'+writer).css('background-color', 'initial');
-              }
-            };
-            if (this.typed[writer] != null)
-              this.typed[writer].destroy();
-            
-            this.typed[writer] = new Typed('#'+writer, options);
-            
-          },
-          setTrademarkDetail: function(index){
-            var value1 = this.question.trademarks.marks[index].val1;
-            var value2;
-      
-            this.trademarkDetails.forEach(function(item){
-              if(item.no == value1){
-                value2 = item.mark;
-              }
-            })
-            this.question.trademarks.marks[index].val2 = value2;
-          },
-          checkInputs: function(){
-            if(this.lawCountry == 'United States' || this.checkLawCountry == 'United States'){
-              if(this.lawState.state != ''){
-                if(this.lawState.county != ''){
-                  $('#state').removeClass('required');
-                  $('#county').removeClass('required');
-                  this.activetab++;
-                }else if(this.notwantLawState){
-                  $('#state').removeClass('required');
-                  $('#county').removeClass('required');
-                  this.activetab++;
-                }else{
-                  $('#state').removeClass('required');
-                  $('#county').addClass('required');
-                }
-              }else if(this.notwantLawState){
-                this.activetab++;
-                $('#state').removeClass('required');
-                $('#county').removeClass('required');
-              }else{
-                 $('#state').addClass('required');
-                 $('#county').addClass('required');
-              }
-            }else{
-              if(this.lawCountry != ""){
-                if(this.lawCity != ""){
-                  $('#country').removeClass('required');
-                  $('#city').removeClass('required');
-                  this.activetab++;
-                }else if(this.notwantLawState){
-                  $('#country').removeClass('required');
-                  $('#city').removeClass('required');
-                  this.activetab++;
-                }else{
-                  $('#country').removeClass('required');
-                  $('#city').addClass('required');
-                }
-              }else if(this.notwantLawState){
-                this.activetab++;
-                $('#country').removeClass('required');
-                $('#city').removeClass('required');
-              }else{
-                $('#country').addClass('required');
-                $('#city').addClass('required');
-              }
-              
-            }
-          },
-          addAssignorToTrademarkD: function(){
-            this.question.trademarks.marks[0].val1 = this.activeTrademark.assignor.no.toString();
-            this.question.trademarks.marks[0].val2 = this.activeTrademark.assignor.company;
-          },
-          addGoDone: function(num){
-            if(!this.goDone.includes(num)){
-              this.goDone.push(num);
-            }
-          },
-          printTab: function(){
-            var print;
-            if(this.goDone.length == 6){
-              if(this.goDone.includes(1) && this.goDone.includes(2) && this.goDone.includes(3) && this.goDone.includes(4) && this.goDone.includes(5) && this.goDone.includes(6)){
-                window.print();
-              }else{
-                alert('Please fill all the details');
-              }
-            }else{
-              alert('Please fill all the details');
-            }
-          }
-        }
-      });
-      $.ajax({
-        url: 'https://www.trademarkers.com/tmreq/88823262.us',
-        type: 'GET'
-      })
-      .done(function(msg) {
-        console.log(msg);
-      })
-      .fail(function() {
-        console.log("error");
-      })
-      .always(function() {
-        console.log("complete");
-      });
-      
-      </script>
-      
-      </html>
+.required {
+	border: 1px solid red !important;
+}
+
+</style>
+
+</body>
+<script src="countries.json"></script>
+<script src="states.json"></script>
+<script>
+String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+}
+// This is the date for user's system
+var signDate = new Date();
+
+// This is the date when you get date from the IP
+//var signDate = new Date('22 Jan 1999');
+var app = new Vue({
+	el: '#app',
+	data: {
+		question: {
+			appType: {
+				shown: true
+			},
+			trademarks: {
+				marks: [
+					{
+						val1: '',
+						val2: '',
+						val3: ''
+					}
+				]
+			}
+		},
+		trademarkSelected: false,
+		hasManyTrademark: false,
+		trademarks: [
+			{	
+				company: 'Google',
+				no: 323423,
+				city: 'Pennsylvanian',
+				state: 'CA',
+				address1: '2 West way',
+				address2: '7th Street',
+				zip: '125008',
+				country: 'United States'	
+			},
+			{	
+				company: 'Paytm',
+				no: 527384,
+				city: 'Hisar',
+				state: 'Haryana',
+				address1: 'house no 4, azad nagar',
+				zip: '243532',
+				country: 'India'
+			},
+			{	
+				company: 'ChinesePod',
+				no: 527688,
+				city: 'Chengdu',
+				state: 'Shenzen',
+				address1: '4 greenfield',
+				zip: '543323',
+				country: 'China'
+			},
+			{	
+				company: 'Rondevouz',
+				no: 435237,
+				city: 'Berlin',
+				address1: '34th Downtown',
+				address2: 'Tatoine',
+				plz: '456323',
+				country: 'Germany'
+			}
+		],
+		trademarkDetails: [
+			{
+				no: 12345,
+				mark: 'Facebook'
+			},
+			{
+				no: 56789,
+				mark: 'Amazon'
+			},
+			{
+				no: 134679,
+				mark: 'Bewakoof'
+			}
+		],
+		activeQs: 1,
+		activeTrademark: {
+			assignee: {
+				no: -1,
+				state: "",
+				company: "",
+				street: "",
+				zip: "",
+				country: "United States",
+				address1: "",
+				address2: ""
+			},
+			assignor: {
+				no: -1,
+				state: "",
+				company: "",
+				street: "",
+				zip: "",
+				country: "United States",
+				address1: "",
+				address2: ""
+			}
+		},
+		search: {
+			assignee: '',
+			assignor: ''
+		},
+		qsArea: {
+			top: 0,
+			left: 0,
+			active: false	
+		},
+		activePerson: 'assignor',
+		activeSign: '',
+		typed: {
+			assignee: null,
+			assignor: null,
+			trademark: null,
+			signassignee: null,
+			signassignor: null
+		},
+		countries: countries,
+		mon: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+		activetab: 1,
+		states: states,
+		notwantLawState: false,
+		lawCountry: '',
+		lawCity: '',
+		lawState: {
+			state: '',
+			county: ''
+		},
+		signature: {
+			assignor: {
+				name: '',
+				position: ''
+			},
+			assignee: {
+				name: '',
+				position: ''
+			}
+		},
+		signDate: signDate,
+		goDone: []
+	},
+	computed: {
+		trademarkType: function() {
+			return (this.question.trademarks.marks[0].val1.length > 7) ? "Registered Trademark" : "Trademark Application";
+		},
+		searchResult: function() {
+			var data = {};
+			if (this.trademarkSelected)
+				return {assignor: [], assignor: []};
+			data.assignor = (this.search.assignor == "") ? [] : this.trademarks.filter((item)=>{
+			        return (item.no.toString().includes(this.search.assignor) || item.company.toLowerCase().includes(this.search.assignor.toString().toLowerCase()));
+			    }); 
+			data.assignee = (this.search.assignee == "") ? [] : this.trademarks.filter((item)=>{
+			        return (item.no.toString().includes(this.search.assignee) || item.company.toLowerCase().includes(this.search.assignee.toString().toLowerCase()));
+			    }); 
+			return data;
+		},
+		splitCountries: function() {
+			var countries = this.countries;
+			if(this.activetab == 3){
+				var priority = [this.activeTrademark.assignee.country,this.activeTrademark.assignor.country];
+			}else{
+				var priority = ['United States',this.activeTrademark.assignee.country,this.activeTrademark.assignor.country, 'Germany'];
+			}
+			
+			var final = [{
+				name: '----------',
+				code: '----------'
+			}];
+			countries.forEach((el,i) => {
+				if (priority.includes(el.name))
+					final.unshift(el)
+				else
+					final.push(el)
+			})
+			return final;
+		},
+		splitStates: function() {
+			var states = this.states;
+			if((typeof this.activeTrademark.assignee.state !== "undefined") && (typeof this.activeTrademark.assignor.state !== "undefined")){
+				var priority = [this.activeTrademark.assignee.state.toLowerCase(),this.activeTrademark.assignor.state.toLowerCase()];
+			}else if(typeof this.activeTrademark.assignee.state.toLowerCase() !== "undefined"){
+				var priority = [this.activeTrademark.assignee.state.toLowerCase()];
+			}else if(typeof this.activeTrademark.assignor.state.toLowerCase() !== "undefined"){
+				var priority = [this.activeTrademark.assignor.state.toLowerCase()];
+			}else{
+				var priority = [];
+			}
+			// var priority = [this.activeTrademark.assignee.state.toLowerCase() ?? '',this.activeTrademark.assignor.state.toLowerCase() ?? ''];
+			
+			var final = ['----------'];
+			states.forEach((el,i) => {
+				if (priority.includes(el.toLowerCase()))
+					final.unshift(el)
+				else
+					final.push(el)
+			})
+			return final;
+		},
+		countryText: function() {
+			var finalText = "";
+			var dataText = this.activeTrademark[this.activePerson];
+			switch (dataText.country) {
+				case 'United States':
+					finalText = '<strong>' + dataText.company + '</strong><br> ' + dataText.address1 + '<br>  ' + dataText.address2 + '<br> ' + dataText.city + ', ' + dataText.state + ', ' + dataText.zip + '<br><br><strong>' + dataText.country + '</strong>';
+					break;
+				case 'India':
+					finalText = '<strong>' + dataText.company + '</strong><br> ' + dataText.address1 + '<br> ' + dataText.city + '<br> ' + dataText.state + ', ' + dataText.zip + '<br><br><strong>' + dataText.country + '</strong>';
+					break;
+				case 'Germany':
+					finalText = '<strong>' + dataText.company + '</strong><br> ' + dataText.address1 + '<br> '  + dataText.plz + ', '+ dataText.city + '<br><br><strong>' + dataText.country + '</strong>';
+					break;
+				default:
+					finalText = '<strong>' + dataText.company + '</strong><br> ' + dataText.address1 + '<br> ' + dataText.address2 + '<br> ' + dataText.city + ', ' + dataText.state + ', ' + dataText.zip + '<br><br><strong>' + dataText.country + '</strong>';
+					break;
+			}
+			return finalText.replaceAll('undefined<br>', '').replaceAll('undefined', '');
+		},
+		regserialText: function() {
+			var finalText = "";
+			if (this.question.trademarks.marks.length > 1){
+				// Loop through each application
+				var finalText = '<table class="w-full trademark-table text-center mt-2"><tr><th class="left w-2/6">Serial or Reg, No.</th><th class="middle border-black w-2/6">Mark</th><th class="right w-2/6">Additional information</th></tr>';
+				this.question.trademarks.marks.forEach((el,index) => {
+					var type = (el.val1.length > 7) ? "Registered Trademark" : "Trademark Application";
+					date = new Date(el.val3);
+					var str = el.val1.toLowerCase();
+					var final = el.val1;
+				    if (str.charAt(0) == 'e' || str.charAt(str.length-1) == 'e') {
+				    	final = ' EUTM/A ' + el.val1;
+				    }
+
+				    final = final.replace('e', '').replace('b','');
+			    	if (type == 'Registered Trademark')
+						if(index == this.question.trademarks.marks.length-1){
+							finalText = finalText + '<tr class="top-bor"><td class="border-r-2 w-2/6">Registration:'+final+'  </td><td class="border-l-2 border-r-2 w-2/6">'+el.val2+'</td><td class="border-l-2 w-2/6">Filed: '+this.mon[date.getMonth()]+" "+date.getDate()+", "+date.getFullYear()+'</td></tr>';
+						}
+						else{
+							finalText = finalText + '<tr class="top-bor"><td class="left w-2/6">Registration:'+final+'  </td><td class="middle w-2/6">'+el.val2+'</td><td class="right w-2/6">Filed: '+this.mon[date.getMonth()]+" "+date.getDate()+", "+date.getFullYear()+'</td></tr>';
+						}
+					else {
+						if(index == this.question.trademarks.marks.length-1){
+							finalText = finalText + '<tr class="top-bor"><td class="border-r-2 w-2/6">Serial:'+final+'  </td><td class="border-l-2 border-r-2 w-2/6">'+el.val2+'</td><td class="border-l-2 w-2/6">Filed: '+this.mon[date.getMonth()]+" "+date.getDate()+", "+date.getFullYear()+'</td></tr>';
+						}
+						else{
+							finalText = finalText + '<tr class="top-bor"><td class="left w-2/6">Serial:'+final+'  </td><td class="middle w-2/6">'+el.val2+'</td><td class="right w-2/6">Filed: '+this.mon[date.getMonth()]+" "+date.getDate()+", "+date.getFullYear()+'</td></tr>';
+						}
+					}
+				})
+				finalText = finalText + '</table>';
+			}else {
+				if (this.trademarkType == 'Registered Trademark'){
+					finalText = 'Registration Number: '+this.question.trademarks.marks[0].val1+'  Registration Date: '+this.question.trademarks.marks[0].val3;
+				} else {
+					finalText = 'Serial Number: '+this.question.trademarks.marks[0].val1+'  Application Date: '+this.question.trademarks.marks[0].val3;
+				}
+			}
+			return finalText.replaceAll('undefined', ' ').replaceAll('NaN', " ");
+		},
+		countTrademarks: function(){
+			if (this.question.trademarks.marks.length > 1){
+				return true;
+			}else{
+				return false;
+			}
+		},
+		mark: function(){
+			if(this.countTrademarks){
+				return "Marks";
+			} else if(this.trademarkType=='Trademark Application' && !this.question.trademarks.have){
+				return "Application";
+			} else if(this.trademarkType=='Registered Trademark' && !this.question.trademarks.have){
+				return "Mark";
+			}
+		},
+		currentDate: function(){
+			var date = this.signDate;
+			if(date.getDate() == 1 || date.getDate() == 21 || date.getDate() == 31){
+				return date.getDate()+"st Day of "+this.mon[date.getMonth()]+" "+date.getFullYear();
+			} else if(date.getDate() == 2 || date.getDate() == 22){
+				return date.getDate()+"nd Day of "+this.mon[date.getMonth()]+" "+date.getFullYear();
+			} else if(date.getDate() == 3 || date.getDate() == 23){
+				return date.getDate()+"rd Day of "+this.mon[date.getMonth()]+" "+date.getFullYear();
+			} else{
+				return date.getDate()+"th Day of "+this.mon[date.getMonth()]+" "+date.getFullYear();
+			} 
+		},
+		office: function() {
+			var us = {
+				full: 'United States Patent and Trademark Office (“USPTO”)',
+				short: 'USPTO'
+			};
+			var eu = {
+				full: 'European Union Intellectual Property Office (“EUIPO”)',
+				short: 'EUIPO'
+			};
+			var be = {
+				full: 'Benelux Intellectual Property Office (“BOIP”)',
+				short: 'BIPO'
+			};
+			var final = us;
+			var marks = this.question.trademarks.marks;
+			for(var i = 0; i < marks.length; i++) {
+				var str = marks[i].val1.toLowerCase();
+			    if (str.charAt(0) == 'e' || str.charAt(str.length-1) == 'e') {
+			        final = eu;
+			        break;
+			    }
+			    if (str.charAt(0) == 'b' || str.charAt(str.length-1) == 'b') {
+			        final = be;
+			        break;
+			    }
+			}
+			return final;
+		},
+		checkLawCountry: function(){
+			if(this.activeTrademark.assignee.country == "United States" && this.activeTrademark.assignor.country == "United States"){
+				return "United States";
+			}else{
+				return "";
+			}
+		},
+		printBtnActive: function(){
+			if(this.goDone.length == 6){
+				if(this.goDone.includes(1) && this.goDone.includes(2) && this.goDone.includes(3) && this.goDone.includes(4) && this.goDone.includes(5) && this.goDone.includes(6)){
+					return true;
+				}else{
+					return false;
+				}
+			}else{
+				return false;
+			}
+		}
+	},
+	watch: {
+		'qsArea.top': function (val) {
+			setTimeout(()=>{
+				this.renderBox();
+			},50)
+	    },	
+	    search: function(val) {
+	    	$.ajax({
+	    		url: 'http://dev158.trademarkers.com/getTMdata/QDWy2UU29NE/'+val
+	    	})
+	    	.done(function(msg) {
+	    		console.log(msg);	
+	    	})
+	    }
+	},
+	methods: {
+		addMoreTrademarks: function() {
+			var length = this.question.trademarks.marks.push({
+				type: 'Trademark Application',
+				val1: '',
+				val2: ''
+			});
+			setTimeout(()=>{
+				document.getElementById('ser-reg'+(length-1)).focus();
+			},50)
+		},
+		showSecondQuestion: function() {
+			setTimeout(() => this.secondQuestion = true ,1000);
+		},
+		renderBox: function() {
+			var pos = this.qsArea;
+	    	var fh = $('.floating-qs').height();
+			var fw = $('.floating-qs').width();
+			$('.floating-qs').css({
+				'transition':'all 0s ease-out',
+			});
+			$('.floating-qs').css({
+				'transform':'translate('+(pos.left - (fw*.02))+'px,'+(pos.top - fh)+'px)'
+			});
+			setTimeout(()=>{
+				$('.floating-qs').css({
+					'transition':'all .6s cubic-bezier(0.22, 1, 0.36, 1)'
+				});
+				$('.floating-qs').css({
+					'transform':'translate('+(pos.left)+'px,'+(pos.top - fh)+'px)',
+					'opacity': 1,
+					'pointer-events': 'auto'
+				});
+			},10)
+			this.qsArea.active = true;
+		},
+		setTrademark: function(result,which) {
+			this.trademarkSelected = true;
+			if (result == 'new') {
+				var empty = {
+					no: 0,
+					state: "",
+					company: "",
+					street: "",
+					zip: "",
+					country: "United States",
+					address1: "",
+					address2: ""
+				}
+				if (isNaN(this.search[which]))
+				{
+					//this is a string
+					empty.company = this.search[which];
+				} else {
+					//This is a number
+					empty.no = this.search[which];
+				}
+				this.activeTrademark[which] = empty;
+			} else {
+				this.activeTrademark[which] = result;
+				this.search[which] = result.no;
+			}
+		},
+		hideBox: function(event) {
+			var box = event.target.classList;
+			if (box instanceof Array) {
+				if (box.includes('no-hide')) {
+					return 0;
+				}
+			}
+			$('.floating-qs').css({
+					'opacity': 0,
+					'pointer-events': 'none'
+			});
+		},
+		backToList: function(which) {
+			this.activeTrademark[which].no = -1;
+		},
+		runnerCallback: function() {
+			if (this.typed.assignee != null && this.typed.assignor != null )
+			{
+				this.activetab++;
+			}
+		},
+		sign: function(active){
+			var finalText = '';
+			if(active == 'assignor'){
+				finalText = this.signature.assignor.name+'<br>'+ this.signature.assignor.position;
+			}else if(active == 'assignee'){
+				finalText = this.signature.assignee.name+'<br>'+ this.signature.assignee.position;
+			}
+			return finalText;
+		},
+		runnerGo: function(qs) {
+			//This is the function which types
+			var writer = null;
+			var text = null;
+			switch (qs) {
+				case 1:
+					// Assignee and assiner qs
+					text = this.countryText;
+					writer = this.activePerson;
+					//this.search[this.activePerson] = "";
+					break;
+				case 2:
+					// Trademark vs registeration qs
+					text = this.regserialText;
+					writer = 'trademark';
+					break;
+				case 4:
+					text = this.sign('assignor');
+					writer = 'signassignor'; 
+					location.href = '#signature-area'
+					break;
+				case 5:
+					text = this.sign('assignee');
+					writer = 'signassignee'; 
+					location.href = '#signature-area'
+					break;
+			}
+
+			var options = {
+			  strings: ['',text],
+			  typeSpeed: .01,
+			  onComplete: (self) => {
+			  	$('#'+writer).css('background-color', 'initial');
+			  }
+			};
+			if (this.typed[writer] != null)
+				this.typed[writer].destroy();
+			
+			this.typed[writer] = new Typed('#'+writer, options);
+			
+		},
+		setTrademarkDetail: function(index){
+			var value1 = this.question.trademarks.marks[index].val1;
+			var value2;
+
+			this.trademarkDetails.forEach(function(item){
+				if(item.no == value1){
+					value2 = item.mark;
+				}
+			})
+			this.question.trademarks.marks[index].val2 = value2;
+		},
+		checkInputs: function(){
+			if(this.lawCountry == 'United States' || this.checkLawCountry == 'United States'){
+				if(this.lawState.state != ''){
+					if(this.lawState.county != ''){
+						$('#state').removeClass('required');
+						$('#county').removeClass('required');
+						this.activetab++;
+					}else if(this.notwantLawState){
+						$('#state').removeClass('required');
+						$('#county').removeClass('required');
+						this.activetab++;
+					}else{
+						$('#state').removeClass('required');
+						$('#county').addClass('required');
+					}
+				}else if(this.notwantLawState){
+					this.activetab++;
+					$('#state').removeClass('required');
+					$('#county').removeClass('required');
+				}else{
+				 	$('#state').addClass('required');
+				 	$('#county').addClass('required');
+				}
+			}else{
+				if(this.lawCountry != ""){
+					if(this.lawCity != ""){
+						$('#country').removeClass('required');
+						$('#city').removeClass('required');
+						this.activetab++;
+					}else if(this.notwantLawState){
+						$('#country').removeClass('required');
+						$('#city').removeClass('required');
+						this.activetab++;
+					}else{
+						$('#country').removeClass('required');
+						$('#city').addClass('required');
+					}
+				}else if(this.notwantLawState){
+					this.activetab++;
+					$('#country').removeClass('required');
+					$('#city').removeClass('required');
+				}else{
+					$('#country').addClass('required');
+					$('#city').addClass('required');
+				}
+				
+			}
+		},
+		addAssignorToTrademarkD: function(){
+			this.question.trademarks.marks[0].val1 = this.activeTrademark.assignor.no.toString();
+			this.question.trademarks.marks[0].val2 = this.activeTrademark.assignor.company;
+		},
+		addGoDone: function(num){
+			if(!this.goDone.includes(num)){
+				this.goDone.push(num);
+			}
+		},
+		printTab: function(){
+			var print;
+			if(this.goDone.length == 6){
+				if(this.goDone.includes(1) && this.goDone.includes(2) && this.goDone.includes(3) && this.goDone.includes(4) && this.goDone.includes(5) && this.goDone.includes(6)){
+					window.print();
+				}else{
+					alert('Please fill all the details');
+				}
+			}else{
+				alert('Please fill all the details');
+			}
+		},
+		getDocx: function() {
+			var area = $('#document-area').clone();
+			area.find('.insert').css('color', 'red');
+			area.find('#trademarkassign1 p').css({'line-height': '1.1', 'font-size': '20px', 'text-align': "center", 'font-weight': 'bold'});
+			var td1 = area.find('#assignor').html();
+			var td2 = area.find('#assignee').html();
+			td1 = td1.replace('<br>', '<p>')
+			td2 = td2.replace('<br>', '<p>')
+			td1 = td1.replace('<br><br>', '</p><p>')
+			td2 = td2.replace('<br><br>', '</p><p>')
+			td1 = td1.replaceAll('<br>', '</p><p>')
+			td2 = td2.replaceAll('<br>', '</p><p>')
+			area.find('.next-span').css({'font-size': '12px', 'line-height': '1', 'text-align': 'center'});
+			var td3 = area.find('#assignor-span').html();
+			var td4 = area.find('#assignee-span').html();
+
+			area.find('.grid-contain').html('<table style="border:none; margin: auto none; width: 80%"><tr style="border:none"><td style="border:none">'+td1+'</td><td style="border:none">'+td2+'</td></tr><tr style="border:none"><td style="border:none"><span style="font-size:12px; line-height:1; text-align:right">'+td3+'</span></td><td style="border:none;"><span style="font-size:12px; line-height:1; text-align:right">'+td4+'</span></td></tr></table>');
+
+			area.find('.trademark-table').css({'width': "100%", 'text-align': 'center'})
+
+			area.find('#trademarkassign2').css({'line-height': '1.1', 'font-size': '20px', 'text-align': "center"});
+			area.find('#contract-assignment p').css({'font-size': '12px', 'line-height': '1.0', 'text-align': 'justify'})
+			area.find('#assignor,#assignee').css({'line-height': '1','font-size': '16px'})
+			area.find('.p1').css({'line-height': '1','font-size': '16px','text-align': 'justify'})
+			area.find('#signassignee, #signassignor').css({'background-color': 'white'});
+			var td5 = area.find('.sign-nor').html()
+			var td6 = area.find('.sign-nee').html()
+			td5 = td5.replace('<br><br>', '');
+			td6 = td6.replace('<br><br>', '');
+			area.find('#signature-area div').html('<table style="border:none; width: 100%"><tr style="border:none"><td style="border:none">'+td5+'</td><td style="border:none">'+td6+'</td></tr></table>');
+
+			var data = area.html();
+			data = data.replaceAll('<span class="typed-cursor typed-cursor--blink">|</span>', '')
+			data = data.replaceAll('<p></p>', '');
+			data = data.replace('<span id="trademark" style="background-color: initial;">','');
+			data = data.replace('</td></tr></tbody></table></span></div></div>','</td></tr></tbody></table></div></div>');
+
+			console.log(data);
+			$.ajax({
+				url: 'http://localhost:5000',
+				type: 'POST',
+				data: {data: data},
+			})
+			.done(function(msg) {
+				console.log("success",msg);
+				window.open('http://localhost:5000/file?fileid='+msg, '_blank');
+			})
+			.fail(function() {
+				console.log("error");
+			})
+			.always(function() {
+				console.log("complete");
+			});
+		},
+		nextInput: function(num, type){
+			if(type == "nor" || type == "nee"){
+				if(num == 50){
+					$('#'+type+'f').focus();
+					return
+				}
+				if(num == 10){
+					$('#'+type).click();
+					return
+				}
+				num++
+				if(num == 0){
+					$('#'+type+""+num).focus()
+					return
+				}
+				if(this.activeTrademark.assignor.country == "United States"){
+					if(num == 6){
+						$('#'+type+'country').focus();
+					}else{
+						$('#'+type+'us'+num).focus();
+					}
+				}else if(this.activeTrademark.assignor.country == "India"){
+					if(num == 5){
+						$('#'+type+'country').focus();
+					}else{
+						$('#'+type+'in'+num).focus();
+					}
+					
+				}else if(this.activeTrademark.assignor.country == "Germany"){
+					if(num == 5){
+						$('#'+type+'country').focus();
+					}else{
+						$('#'+type+'gr'+num).focus();
+					}
+					
+				}else{
+					if(num == 6){
+						$('#'+type+'country').focus();
+					}else{
+						$('#'+type+'all'+num).focus();
+					}
+				}
+			}
+			else if(type == "sign"){
+				if(num == 2){
+					$('#runnergo4').click()
+				}else if(num == 4){
+					$('#runnergo5').click()
+				}
+				num++
+				if(num == 5){
+					$('#sign1').focus()
+				}else{
+					$('#sign'+num).focus()
+				}
+			}
+		}
+	}
+});
+$.ajax({
+	url: 'https://www.trademarkers.com/tmreq/88823262.us',
+	type: 'GET'
+})
+.done(function(msg) {
+	console.log(msg);
+})
+.fail(function() {
+	console.log("error");
+})
+.always(function() {
+	console.log("complete");
+});
+
+</script>
+
+</html>

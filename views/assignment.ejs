@@ -1,5 +1,3 @@
-
-
 <div class="mb-5 sticky top-0" id="question">
 	<ul class='flex' id="tabs-wrapper">
       <li v-bind:class="{'active':(activetab == 1)}" class="tabs text-blue-400" v-on:click="activetab=1" id="tab1">Parties</li>
@@ -7,6 +5,7 @@
       <li v-bind:class="{'active':(activetab == 3)}" class="tabs" v-on:click="activetab=3" id="tab3">Jurisdiction</li>
       <li v-bind:class="{'active':(activetab == 4)}" class="tabs" v-on:click="activetab=4" id="tab4">Signature</li>
       <li v-bind:class="{'active':(activetab == 5), 'active-print':printBtnActive}" class="tabs" v-on:click="printTab()" id="tab5">Print</li>
+      <button class='tabs' v-on:click='getDocx' id="get-docx">Get Document</button>
 	</ul>
 
 	<div class="bg-white questions-wrapper">
@@ -16,7 +15,7 @@
 					<h1 class="text-2xl title">Assignor</h1>
 					<div class="trademark-selected w-full">
 						<div class="flex-grow">
-							<input type="text" placeholder="Name or Trademark Number" v-model='search.assignor' class="w-full" v-on:keyup.enter="setTrademark('new','assignor')" v-on:keyup='trademarkSelected = false'>
+							<input type="text" placeholder="Name or Trademark Number" v-model='search.assignor' class="w-full" v-on:keyup.enter="setTrademark('new','assignor');nextInput(-1, 'nor')" v-on:keyup='trademarkSelected = false' id="norf">
 							<ul class="list-results w-full" id="assignorlist">
 					    		<transition-group name="yscale" mode='out-in'>
 					    			<li v-for='(result,index) in searchResult.assignor' :key='index' v-on:click='setTrademark(result,"assignor");'>{{result.company}} - {{result.no}}</li>
@@ -24,61 +23,61 @@
 					   		</ul>
 						</div>
 						<div class="company-name">
-							<input type="text" class="w-full" v-model='activeTrademark.assignor.company' placeholder="Company Name">
+							<input type="text" class="w-full" v-model='activeTrademark.assignor.company' placeholder="Company Name" v-on:keyup.enter="nextInput(0, 'nor')" id="nor0"> 
 						</div>
 						<!-- India address -->
 						<div class="address" v-if='activeTrademark.assignor.country == "India"'>
 							<div class="flex mb-2 flex-col">
-								<input type="text" class="w-full" v-model='activeTrademark.assignor.address1' placeholder="Street">
-								<input type="text" class="w-full" v-model='activeTrademark.assignor.city' placeholder="City">
+								<input type="text" class="w-full" v-model='activeTrademark.assignor.address1' placeholder="Street" v-on:keyup.enter="nextInput(1, 'nor')" id="norin1">
+								<input type="text" class="w-full" v-model='activeTrademark.assignor.city' placeholder="City" v-on:keyup.enter="nextInput(2, 'nor')" id="norin2">
 							</div>
 							<div class="flex flex-row">
-								<input type="text" class="w-1/2" v-model='activeTrademark.assignor.state' placeholder="State">
-								<input type="text" class="w-1/2" v-model='activeTrademark.assignor.zip' placeholder="Zip">
+								<input type="text" class="w-1/2" v-model='activeTrademark.assignor.state' placeholder="State" v-on:keyup.enter="nextInput(3, 'nor')" id="norin3">
+								<input type="text" class="w-1/2" v-model='activeTrademark.assignor.zip' placeholder="Zip" v-on:keyup.enter="nextInput(4, 'nor')" id="norin4">
 							</div>
 						</div>
 						<!-- US address -->
 						<div class="address" v-else-if='activeTrademark.assignor.country == "United States"'>
 							<div class="flex mb-2 flex-col">
-								<input type="text" class="w-full" v-model='activeTrademark.assignor.address1' placeholder="Address Line 1">
-								<input type="text" class="w-full" v-model='activeTrademark.assignor.address2' placeholder="Address Line 2">
+								<input type="text" class="w-full" v-model='activeTrademark.assignor.address1' placeholder="Address Line 1" v-on:keyup.enter="nextInput(1, 'nor')" id="norus1">
+								<input type="text" class="w-full" v-model='activeTrademark.assignor.address2' placeholder="Address Line 2" v-on:keyup.enter="nextInput(2, 'nor')" id="norus2">
 							</div>
 							<div class="flex flex-row">
-								<input type="text" class="w-1/3" v-model='activeTrademark.assignor.city' placeholder="City">
+								<input type="text" class="w-1/3" v-model='activeTrademark.assignor.city' placeholder="City" v-on:keyup.enter="nextInput(3, 'nor')" id="norus3">
 								<label>State:</label>
-								<input type="text" class="w-1/4" v-model='activeTrademark.assignor.state' placeholder="State">
+								<input type="text" class="w-1/4" v-model='activeTrademark.assignor.state' placeholder="State" v-on:keyup.enter="nextInput(4, 'nor')" id="norus4">
 								<label>Zip:</label>
-								<input type="text" class="w-1/4" v-model='activeTrademark.assignor.zip' placeholder="Zip">
+								<input type="text" class="w-1/4" v-model='activeTrademark.assignor.zip' placeholder="Zip" v-on:keyup.enter="nextInput(5, 'nor')" id="norus5">
 							</div>
 						</div>
 						<!-- Germany address -->
 						<div class="address" v-else-if='activeTrademark.assignor.country == "Germany"'>
 							<div class="flex mb-2 flex-col">
-								<input type="text" class="w-full" v-model='activeTrademark.assignor.address1' placeholder="Address Line 1">
-								<input type="text" class="w-full" v-model='activeTrademark.assignor.address2' placeholder="Address Line 2">
+								<input type="text" class="w-full" v-model='activeTrademark.assignor.address1' placeholder="Address Line 1" v-on:keyup.enter="nextInput(1, 'nor')" id="norgr1">
+								<input type="text" class="w-full" v-model='activeTrademark.assignor.address2' placeholder="Address Line 2" v-on:keyup.enter="nextInput(2, 'nor')" id="norgr2">
 							</div>
 							<div class="flex flex-row">
-								<input type="text" class="w-1/4" v-model='activeTrademark.assignor.plz' placeholder="PLZ">
-								<input type="text" class="w-3/4" v-model='activeTrademark.assignor.city' placeholder="City">
+								<input type="text" class="w-1/4" v-model='activeTrademark.assignor.plz' placeholder="PLZ" v-on:keyup.enter="nextInput(3, 'nor')" id="norgr3">
+								<input type="text" class="w-3/4" v-model='activeTrademark.assignor.city' placeholder="City" v-on:keyup.enter="nextInput(4, 'nor')" id="norgr4">
 							</div>
 						</div>
 						<!-- All the rest -->
 						<div class="address" v-else>
 							<div class="flex mb-2 flex-col">
-								<input type="text" class="w-full" v-model='activeTrademark.assignor.address1' placeholder="Address Line 1">
-								<input type="text" class="w-full" v-model='activeTrademark.assignor.address2' placeholder="Address Line 2">
-								<input type="text" class="w-full" v-model='activeTrademark.assignor.city' placeholder="City">
+								<input type="text" class="w-full" v-model='activeTrademark.assignor.address1' placeholder="Address Line 1" v-on:keyup.enter="nextInput(1, 'nor')" id="norall1">
+								<input type="text" class="w-full" v-model='activeTrademark.assignor.address2' placeholder="Address Line 2" v-on:keyup.enter="nextInput(2, 'nor')" id="norall2">
+								<input type="text" class="w-full" v-model='activeTrademark.assignor.city' placeholder="City" v-on:keyup.enter="nextInput(3, 'nor')" id="norall3">
 							</div>
 							<div class="flex flex-row">
-								<input type="text" class="w-1/2" v-model='activeTrademark.assignor.state' placeholder="State">
-								<input type="text" class="w-1/2" v-model='activeTrademark.assignor.zip' placeholder="Zip">
+								<input type="text" class="w-1/2" v-model='activeTrademark.assignor.state' placeholder="State" v-on:keyup.enter="nextInput(4, 'nor')" id="norall4">
+								<input type="text" class="w-1/2" v-model='activeTrademark.assignor.zip' placeholder="Zip" v-on:keyup.enter="nextInput(5, 'nor')" id="norall5">
 							</div>
 						</div>
 						<div class="flex" style="justify-content: space-between;">
-							<select class="w-3/4" v-model='activeTrademark.assignor.country'>
+							<select class="w-3/4" v-model='activeTrademark.assignor.country' id="norcountry" v-on:keyup.enter="nextInput(10, 'nor')">
 								<option v-for='country in splitCountries' :value="country.name" :disabled='country.code == "----------" ? true : false'>{{country.name}}</option>
 							</select>
-							<button class="insert-btn" v-on:click='activePerson="assignor";runnerGo(1);runnerCallback();addAssignorToTrademarkD();addGoDone(1)'>Go</button>
+							<button class="insert-btn" id="nor" v-on:click='activePerson="assignor";runnerGo(1);runnerCallback();addAssignorToTrademarkD();addGoDone(1);nextInput(50, "nee")'>Go</button>
 						</div>
 					</div>
 				</div>
@@ -88,64 +87,64 @@
 					<h1 class="text-2xl title">Assignee</h1>
 					<div class="trademark-selected w-full">
 						<div>
-							<input type="text" placeholder="Name" v-model='search.assignee' class="w-full" v-on:keyup.enter="setTrademark('new','assignee')">
+							<input type="text" placeholder="Name" v-model='search.assignee' class="w-full" v-on:keyup.enter="setTrademark('new','assignee');nextInput(-1, 'nee')" id="neef">
 						</div>
 						<div class="company-name">
-							<input type="text" class="w-full" v-model='activeTrademark.assignee.company' placeholder="Company Name">
+							<input type="text" class="w-full" v-model='activeTrademark.assignee.company' placeholder="Company Name" v-on:keyup.enter="nextInput(0, 'nee')" id="nee0">
 						</div>
 						<!-- India address -->
 						<div class="address" v-if='activeTrademark.assignee.country == "India"'>
 							<div class="flex mb-2 flex-col">
-								<input type="text" class="w-full" v-model='activeTrademark.assignee.address1' placeholder="Street">
-								<input type="text" class="w-full" v-model='activeTrademark.assignee.city' placeholder="City">
+								<input type="text" class="w-full" v-model='activeTrademark.assignee.address1' placeholder="Street" v-on:keyup.enter="nextInput(1, 'nee')" id="neein1">
+								<input type="text" class="w-full" v-model='activeTrademark.assignee.city' placeholder="City" v-on:keyup.enter="nextInput(2, 'nee')" id="neein2">
 							</div>
 							<div class="flex flex-row">
-								<input type="text" class="w-1/2" v-model='activeTrademark.assignee.state' placeholder="State">
-								<input type="text" class="w-1/2" v-model='activeTrademark.assignee.zip' placeholder="Zip">
+								<input type="text" class="w-1/2" v-model='activeTrademark.assignee.state' placeholder="State" v-on:keyup.enter="nextInput(3, 'nee')" id="neein3">
+								<input type="text" class="w-1/2" v-model='activeTrademark.assignee.zip' placeholder="Zip" v-on:keyup.enter="nextInput(4, 'nee')" id="neein4">
 							</div>
 						</div>
 						<!-- US address -->
 						<div class="address" v-else-if='activeTrademark.assignee.country == "United States"'>
 							<div class="flex mb-2 flex-col">
-								<input type="text" class="w-full" v-model='activeTrademark.assignee.address1' placeholder="Address Line 1">
-								<input type="text" class="w-full" v-model='activeTrademark.assignee.address2' placeholder="Address Line 2">
+								<input type="text" class="w-full" v-model='activeTrademark.assignee.address1' placeholder="Address Line 1" v-on:keyup.enter="nextInput(1, 'nee')" id="neeus1">
+								<input type="text" class="w-full" v-model='activeTrademark.assignee.address2' placeholder="Address Line 2" v-on:keyup.enter="nextInput(2, 'nee')" id="neeus2">
 							</div>
 							<div class="flex flex-row">
-								<input type="text" class="w-1/3" v-model='activeTrademark.assignee.city' placeholder="City">
+								<input type="text" class="w-1/3" v-model='activeTrademark.assignee.city' placeholder="City" v-on:keyup.enter="nextInput(3, 'nee')" id="neeus3">
 								<label>State:</label>
-								<input type="text" class="w-1/4" v-model='activeTrademark.assignee.state' placeholder="State">
+								<input type="text" class="w-1/4" v-model='activeTrademark.assignee.state' placeholder="State" v-on:keyup.enter="nextInput(4, 'nee')" id="neeus4">
 								<label>Zip:</label>
-								<input type="text" class="w-1/4" v-model='activeTrademark.assignee.zip' placeholder="Zip">
+								<input type="text" class="w-1/4" v-model='activeTrademark.assignee.zip' placeholder="Zip" v-on:keyup.enter="nextInput(5, 'nee')" id="neeus5">
 							</div>
 						</div>
 						<!-- Germany address -->
 						<div class="address" v-else-if='activeTrademark.assignee.country == "Germany"'>
 							<div class="flex mb-2 flex-col">
-								<input type="text" class="w-full" v-model='activeTrademark.assignee.address1' placeholder="Address Line 1">
-								<input type="text" class="w-full" v-model='activeTrademark.assignee.address2' placeholder="Address Line 2">
+								<input type="text" class="w-full" v-model='activeTrademark.assignee.address1' placeholder="Address Line 1" v-on:keyup.enter="nextInput(1, 'nee')" id="neegr1">
+								<input type="text" class="w-full" v-model='activeTrademark.assignee.address2' placeholder="Address Line 2" v-on:keyup.enter="nextInput(2, 'nee')" id="neegr2">
 							</div>
 							<div class="flex flex-row">
-								<input type="text" class="w-1/4" v-model='activeTrademark.assignee.plz' placeholder="PLZ">
-								<input type="text" class="w-3/4" v-model='activeTrademark.assignee.city' placeholder="City">
+								<input type="text" class="w-1/4" v-model='activeTrademark.assignee.plz' placeholder="PLZ" v-on:keyup.enter="nextInput(3, 'nee')" id="neegr3">
+								<input type="text" class="w-3/4" v-model='activeTrademark.assignee.city' placeholder="City" v-on:keyup.enter="nextInput(4, 'nee')" id="neegr4">
 							</div>
 						</div>
 						<!-- All the rest -->
 						<div class="address" v-else>
 							<div class="flex mb-2 flex-col">
-								<input type="text" class="w-full" v-model='activeTrademark.assignee.address1' placeholder="Address Line 1">
-								<input type="text" class="w-full" v-model='activeTrademark.assignee.address2' placeholder="Address Line 2">
-								<input type="text" class="w-full" v-model='activeTrademark.assignee.city' placeholder="City">
+								<input type="text" class="w-full" v-model='activeTrademark.assignee.address1' placeholder="Address Line 1" v-on:keyup.enter="nextInput(1, 'nee')" id="neeall1">
+								<input type="text" class="w-full" v-model='activeTrademark.assignee.address2' placeholder="Address Line 2" v-on:keyup.enter="nextInput(2, 'nee')" id="neeall2">
+								<input type="text" class="w-full" v-model='activeTrademark.assignee.city' placeholder="City" v-on:keyup.enter="nextInput(3, 'nee')" id="neeall3">
 							</div>
 							<div class="flex flex-row">
-								<input type="text" class="w-1/2" v-model='activeTrademark.assignee.state' placeholder="State">
-								<input type="text" class="w-1/2" v-model='activeTrademark.assignee.zip' placeholder="Zip">
+								<input type="text" class="w-1/2" v-model='activeTrademark.assignee.state' placeholder="State" v-on:keyup.enter="nextInput(4, 'nee')" id="neeall4">
+								<input type="text" class="w-1/2" v-model='activeTrademark.assignee.zip' placeholder="Zip" v-on:keyup.enter="nextInput(5, 'nee')" id="neeall5">
 							</div>
 						</div>
 						<div class="flex" style="justify-content: space-between;">
-							<select class="w-3/4" v-model='activeTrademark.assignee.country'>
+							<select class="w-3/4" v-model='activeTrademark.assignee.country' v-on:keyup.enter="nextInput(10, 'nee')" id="neecountry">
 								<option v-for='country in splitCountries' :value="country.name" :disabled='country.code == "----------" ? true : false'>{{country.name}}</option>
 							</select>
-							<button class="insert-btn" v-on:click='activePerson="assignee";runnerGo(1);runnerCallback();addGoDone(2)'>Go</button>
+							<button class="insert-btn" id="nee" v-on:click='activePerson="assignee";runnerGo(1);runnerCallback();addGoDone(2);nextInput(50, "nor")'>Go</button>
 						</div>
 					</div>
 				</div>
@@ -219,14 +218,14 @@
 					<div class="grid grid-cols-2">
 						<div>
 							<p class="text-xl pb-2">For the Assignor</p>
-							<input type="text" v-model="signature.assignor.name" placeholder="Name"><br>
-							<input type="text" v-model="signature.assignor.position" placeholder="Position">
+							<input type="text" v-model="signature.assignor.name" placeholder="Name" v-on:keyup.enter="nextInput(1, 'sign')" id="sign1"><br>
+							<input type="text" v-model="signature.assignor.position" placeholder="Position" v-on:keyup.enter="nextInput(2, 'sign')" id="sign2">
 							<button class="insert-btn mr-10" id="runnergo4" v-on:click='runnerGo(4);addGoDone(5)'>Go</button>
 						</div>
 						<div>
 							<p class="text-xl pb-2">For the Assignee</p>
-							<input type="text" v-model="signature.assignee.name" placeholder="Name"><br>
-							<input type="text" v-model="signature.assignee.position" placeholder="Position">
+							<input type="text" v-model="signature.assignee.name" placeholder="Name" v-on:keyup.enter="nextInput(3, 'sign')" id="sign3"><br>
+							<input type="text" v-model="signature.assignee.position" placeholder="Position" v-on:keyup.enter="nextInput(4, 'sign')" id="sign4">
 							<button class="insert-btn mr-10" id="runnergo5" v-on:click='runnerGo(5);addGoDone(6)'>Go</button>
 						</div>
 					</div>
@@ -242,25 +241,25 @@
 		<div class="bg-white p-4 rounded-xl shadow border" id="document-area">
 			<div class="text-gray-700 text-xl font-normal" v-on:click='hideBox($event)'>
 				<div contenteditable="true">
-					<div class="text-3xl text-center font-bold" id="trademarkassign1">Trademark Assignment</div><br class="remove-br">
+					<div class="text-3xl text-center font-bold" id="trademarkassign1"><p>Trademark Assignment</p></div>
 					<p class="p1">
 						This Trademark Assignment Agreement (“Assignment”), made effective as of the date set forth at the end of this document, is agreed to by the following parties:
 					</p>
-					<div class="flex flex-row mb-4">
-						<div class="flex-1">
+					<div class="flex flex-row mb-4 grid-contain">
+						<div class="flex-1 grid-item1">
 							<span id="assignor">
 								<p class="insert">Assignor will be inserted here</p>
 							</span><br><br class="remove-br">
-							<span class="float-right mr-5 text-sm">- hereinafter referred to as “Assignor” -</span>
+							<span class="float-right mr-5 text-sm" id="assignor-span">- hereinafter referred to as “Assignor” -</span>
 						</div>
-						<div class="flex-1">
+						<div class="flex-1 grid-item2">
 							<span id="assignee">
 								<p class="insert">Assignee will be inserted here</p>
 							</span><br><br class="remove-br">
-							<span class="float-right mr-5 text-sm">- hereinafter referred to as “Assignee” -</span>
+							<span class="float-right mr-5 text-sm" id="assignee-span">- hereinafter referred to as “Assignee” -</span>
 						</div>
 					</div>
-					<p class="text-center text-sm">-collectively referred to as the “Parties”-</p>
+					<p class="text-center text-sm next-span">-collectively referred to as the “Parties”-</p>
 					<p class="p1">
 						RECITALS
 					</p>
@@ -268,25 +267,25 @@
 				<transition name='slide-fade' mode='out-in'>
 				<div v-if='question.trademarks.marks.length > 1' class='fake-p first-qs'  :key='1'>
 					<div contenteditable="true" class=p1>
-						WHEREAS, Assignor is owner of the following trademarks(the “Marks”) registered with the {{office.full}} with details<br> as follows:<br>
-						<span id="trademark"><div class="insert">Trademark/ list of trademarks will be inserted here</div></span>
+						<p>WHEREAS, Assignor is owner of the following trademarks(the “Marks”) registered with the {{office.full}} with details<br> as follows:</p>
+						<span id="trademark"><div class="insert"><p>Trademark/ list of trademarks will be inserted here</div></span></p>
 					</div>
 				</div>
 				<div v-else contenteditable="true" class='fake-p first-qs' :key='2'>
 					<transition name='slide-fade' mode='out-in'>
 					<div v-if='trademarkType == "Registered Trademark"' :key='1' class="no-hide fake-p p1">
-						WHEREAS, Assignor is owner of a trademark (the “Mark”) registered with the {{office.full}} with details as follows:<br>
-						<span id="trademark"><div class="insert">Trademark/ list of trademarks will be inserted here</div></span>
+						<p>WHEREAS, Assignor is owner of a trademark (the “Mark”) registered with the {{office.full}} with details as follows:</p>
+						<span id="trademark"><div class="insert"><p>Trademark/ list of trademarks will be inserted here</div></span></p>
 					</div>
 					<div v-else :key='2' class="no-hide fake-p p1">
-						WHEREAS, Assignor is owner of a trademark application (the “Application”) registered with the {{office.full}} with details as follows:<br>
-						<span id="trademark"><div class="insert">Trademark/ list of trademarks will be inserted here</div></span>
+						<p>WHEREAS, Assignor is owner of a trademark application (the “Application”) registered with the {{office.full}} with details as follows:</p>
+						<span id="trademark"><div class="insert"><p>Trademark/ list of trademarks will be inserted here</div></span></p>
 					</div>
 					</transition>
 				</div>
 				</transition>
 				<div contenteditable="true" class="p1">
-					WHEREAS, Assignee would like to acquire the rights, title and/or interest in and to said {{mark}}
+					<p>WHEREAS, Assignee would like to acquire the rights, title and/or interest in and to said {{mark}}</p>
 				</div>
 				<div class="mb-16" id="contract-assignment">
 					<h2 class="text-center my-8 text-2xl" id="trademarkassign2"><strong>TRADEMARK ASSIGNMENT</strong></h2>
@@ -295,11 +294,11 @@
 				<div id="signature-area">
 					<p class="p1">Signed on this {{currentDate}}</p>
 					<div class="flex flex-row mt-3">
-						<div class="flex-1">
+						<div class="flex-1 sign-nor">
 							<span class="text-lg p1">For the Assignor</span><br><br><br><br class="remove-br">
 							<span class="text-lg p1" id="signassignor">(For assignor sign)</span>
 						</div>
-						<div class="flex-1">
+						<div class="flex-1 sign-nee">
 							<span class="text-lg p1">For the Assignee</span><br><br><br><br class="remove-br">
 							<span class="text-lg p1" id="signassignee">(For assignee sign)</span>
 						</div>
@@ -308,7 +307,5 @@
 			</div>
 		</div>
 	</div>
-</div>
-
 </div>
 
