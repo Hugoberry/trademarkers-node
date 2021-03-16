@@ -358,6 +358,16 @@ h1.title {
 	border-bottom: none !important;
 }
 
+#get-docx {
+	background-color: white;
+	color:rgba(96,165,250,1);
+	font-weight: 500;
+	border: 1px solid rgba(96,165,250,.4);
+	position: absolute;
+    right: 83px;
+    top: 1px;
+}
+
 @media print {
 	#question {
 		display: none;
