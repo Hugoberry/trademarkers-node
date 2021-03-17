@@ -1,0 +1,39 @@
+<div class="container">
+	<div class="row justify-content-center box-bg-container">
+		<div class="col-md-12">
+		
+			<h2>Cart</h2>
+
+			<% if (cartItems.length) { %>
+			<table class="table">
+				<tr>
+					<th>Country</th>
+					<th>Service</th>
+					<th>Type</th>
+					<th>Mark</th>
+					<th>Class</th>
+					<th>Price</th>
+				</tr>
+				<% for(let i=0; i < cartItems.length; i++) { %>
+					<tr>
+						<th><%= cartItems[i].country.abbr %></th>
+						<th><%= cartItems[i].serviceType %></th>
+						<th><%= cartItems[i].type %></th>
+						<th><%= cartItems[i].word_mark %></th>
+						<th><%= cartItems[i].class %></th>
+						<th>$<%= cartItems[i].price %></th>
+					</tr>
+				<% } %>
+			</table>
+			<% } else { %>
+				<p>Sorry, Cart Empty</p>
+			<% } %>
+
+
+			
+			
+		</div>
+
+
+	</div>
+</div>

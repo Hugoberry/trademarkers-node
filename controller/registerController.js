@@ -80,7 +80,6 @@ exports.validateOrder = async function(req, res, next) {
 
 exports.addToCart = async function(req, res, next) {
 
-  console.log('first=>', req.body);
   let type;
 
   if(req.body.serviceType == "registration") {
@@ -100,12 +99,15 @@ exports.addToCart = async function(req, res, next) {
     price: prices[0]
   }
 
+  let country = await rpoCountries.getById(req.body.countryId * 1);
   let amount = helpers.calculatePrice(dataPrice);
-
+  let currentUser = helpers.getLoginUser(req)
   // console.log(amount,req.body);
   let data = req.body
-  data.user = helpers.getLoginUser(req)._id;
+  data.user_id = currentUser._id;
+  data.user = currentUser;
   data.price = amount;
+  data.country = country[0];
 
   await rpoCartItems.put(data)
   // console.log(data);
@@ -113,8 +115,17 @@ exports.addToCart = async function(req, res, next) {
   res.redirect("/cart");
 }
 
-exports.orderConfirmation = async function(req, res, next) {
+exports.cart = async function(req, res, next) {
 
-  console.log(req.body);
+  let currentUser = helpers.getLoginUser(req) 
+  let cartItems = await rpoCartItems.fetchCustomerCart(currentUser._id)
+  console.log(cartItems);
+
+  res.render('order/cart', { 
+    layout: 'layouts/public-layout-default', 
+    title: 'cart',
+    user: currentUser,
+    cartItems: cartItems
+  });
 
 }

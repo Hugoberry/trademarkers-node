@@ -88,7 +88,8 @@ router.get('/trademark-assignment', publicController.assignment)
 router.get('/trademark-:serviceType-in-:countryName', registerController.registration);    
 router.post('/validate-order', registerController.validateOrder);    
 router.post('/add-to-cart', registerController.addToCart);    
-router.get('/order-confirmation', registerController.orderConfirmation);    
+// router.get('/order-confirmation', registerController.orderConfirmation);    
+router.get('/cart', registerController.cart);    
 
 
 // action

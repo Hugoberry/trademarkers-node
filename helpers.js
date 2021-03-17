@@ -70,7 +70,7 @@ exports.getCartCount = async function() {
     if (decode) {
         user = JSON.parse(decode.payload.user);
 
-        let cartItems = rpoCartItems.fetchCustomerCart(user._id)
+        let cartItems = await rpoCartItems.fetchCustomerCart(user._id)
 
         return cartItems.length;
     } else {
