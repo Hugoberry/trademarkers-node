@@ -58,6 +58,7 @@ conn.connectToServer( function( err, client ) {
   // start the rest of your app here
 
   app.locals.moment = require('moment');
+  app.locals.helpers = require('./helpers');
 
   var publicRouter = require('./routes/public');
   var customerRouter = require('./routes/customer');

@@ -3,6 +3,53 @@
 		<div class="col-md-12">
 		
 			<h2>Confirm Order</h2>
+
+			<table class="table">
+				<tr>
+					<th>Country</th>
+					<th>Service</th>
+					<th>Type</th>
+					<th>Mark</th>
+					<th>Class</th>
+					<th>Price</th>
+				</tr>
+				<tr>
+					<td><%= country.name %></td>
+					<td><%= data.serviceType %></td>
+					<td><%= data.type %></td>
+					<td><%= data.word_mark %></td>
+					<td><%= data.class.join(',') %></td>
+					<td>$<%= amount %></td>
+				</tr>
+			</table>
+
+
+			<% if( user ) { %>
+
+			<form id="addToCart" method="POST" action="/add-to-cart">
+				<div class="form-group row">
+					<div class="col-md-12 text-center">
+						<input class="" type="hidden" name="countryId" value="<%= data.countryId %>">
+						<input class="" type="hidden" name="serviceType" value="<%= data.serviceType %>">
+						<input class="" type="hidden" name="type" value="<%= data.type %>">
+						<input class="" type="hidden" name="word_mark" value="<%= data.word_mark %>">
+						<% 
+							
+							for (let i=0; i < data.class.length; i++) {
+							
+						%>
+							<input class="" type="hidden" name="class" value="<%= data.class[i] %>">
+							<input class="" type="hidden" name="description" value="<%= data.description[i] %>">
+						<% } %>
+
+						<input class="btn btn-primary btn-black tn-rounded-primary" type="submit" value="Add to cart">
+					</div>
+				</div>
+			</form>
+
+			<% } else { %>
+				<p>Please login to add items into your cart</p>
+			<% } %>
 			
 		</div>
 

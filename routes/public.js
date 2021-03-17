@@ -20,6 +20,7 @@ var corsOptionsDelegate = function (req, callback) {
 
 
 const publicController = require('../controller/publicController')
+const registerController = require('../controller/registerController')
 
 var router = express.Router();
 
@@ -82,10 +83,12 @@ router.get('/:actionCode/:type', publicController.codeLanding)
 
 router.get('/trademark-assignment', publicController.assignment)
 
-// WITH WILD CARD 
-router.get('/trademark-registration-in-:countryName', publicController.registration);    
-router.post('/validate-order', publicController.validateOrder);    
-router.get('/order-confirmation', publicController.orderConfirmation);    
+// WITH WILD CARD REGISTER CONTROLLER
+// REMOVE OTHER FUNCTION UNDER PUBLIC TO REGISTER SPECIALLY THE SERVICE
+router.get('/trademark-:serviceType-in-:countryName', registerController.registration);    
+router.post('/validate-order', registerController.validateOrder);    
+router.post('/add-to-cart', registerController.addToCart);    
+router.get('/order-confirmation', registerController.orderConfirmation);    
 
 
 // action

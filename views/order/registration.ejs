@@ -158,7 +158,7 @@
 									class="form-check-input class_chk" 
 									type="checkbox" 
 									id="class<%= i %>" 
-									value="class<%= i %>" 
+									value="<%= i %>" 
 									name="class">
 							<% } %>
 						</div>
@@ -173,6 +173,8 @@
 
 				<div class="form-group row">
 					<div class="col-md-12 text-center">
+						<input class="" type="hidden" name="countryId" value="<%= country.id %>">
+						<input class="" type="hidden" name="serviceType" value="<%= serviceType %>">
 						<input class="btn btn-primary btn-black tn-rounded-primary" type="submit" name="submit" value="Continue">
 					</div>
 				</div>

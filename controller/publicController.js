@@ -21,7 +21,7 @@ var rpoTrademarksMongo = require('../repositories/mongoTrademarks');
 var rpoCharge = require('../repositories/charges');
 var rpoOrder = require('../repositories/orders');
 var rpoSouNotifications = require('../repositories/souNotifications');
-var rpoTrademarkClasses = require('../repositories/trademarkClasses');
+
 
 var rpoServiceAction = require('../repositories/serviceAction');
 
@@ -181,58 +181,6 @@ exports.prices = function(req, res, next) {
   });
 }
 
-exports.registration = async function(req, res, next) {
-
-  let countryName = req.params.countryName;
-  let country;
-  let classes = await rpoTrademarkClasses.getClasses();
-
-  if ( countryName ) {
-
-    countryName = countryName.replace("_"," ")
-    country = await rpoCountries.getByName(countryName)
-
-    if (!country) {
-      // redirect to register
-    }
-  } else {
-    // redirect to register
-  }
-
-  res.render('order/registration', { 
-    layout: 'layouts/public-layout-default', 
-    title: 'registration',
-    country: country[0],
-    classes: classes,
-    user: helpers.getLoginUser(req)
-  });
-}
-
-exports.validateOrder = async function(req, res, next) {
-
-  console.log(req.body);
-//  let data = {
-
-//  }
-  res.render('order/confirmation', { 
-    layout: 'layouts/public-layout-default', 
-    title: 'confirmation',
-    user: helpers.getLoginUser(req) ? helpers.getLoginUser(req) : null
-  });
-}
-
-exports.orderConfirmation = async function(req, res, next) {
-
-  console.log(req.body);
-//  let data = {
-
-//  }
-  // res.render('order/confirmation', { 
-  //   layout: 'layouts/public-layout-default', 
-  //   title: 'confirmation',
-  //   user: helpers.getLoginUser(req)
-  // });
-}
 
 exports.service_contract = function(req, res, next) {
 

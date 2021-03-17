@@ -1,6 +1,8 @@
 let moment = require('moment');
 const jwt = require('jsonwebtoken');
 
+var rpoCartItems = require('./repositories/cartItems');
+
 exports.convertIntToDate = function(idate) {
 
     let s = idate+"";
@@ -38,4 +40,42 @@ exports.makeid = function(length) {
     return result;
 }
 
+exports.calculatePrice = function(data) {
+    // PARAMETER PASSED TO CALL THIS FUNCTION
+    // let data = {
+    //     type: req.body.type,
+    //     noClass: req.body.class.length,
+    //     price: prices[0]
+    //   }
+    let amount = init = add = 0;
 
+    if (data.type == "word") {
+        init = data.price.initial_cost
+        add = data.price.additional_cost
+    } else {
+        init = data.price.logo_initial_cost
+        add = data.price.logo_additional_cost
+    }
+
+    amount = init + ( add * ( data.noClass - 1 ) )
+    console.log('length ',data.noClass);
+    return amount;
+}
+
+exports.getCartCount = async function() {
+    
+    let decode = jwt.decode(req.cookies.jwt, {complete: true});
+
+    let user;
+    if (decode) {
+        user = JSON.parse(decode.payload.user);
+
+        let cartItems = rpoCartItems.fetchCustomerCart(user._id)
+
+        return cartItems.length;
+    } else {
+        return 0;
+    }
+    
+    
+}
