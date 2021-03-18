@@ -313,10 +313,10 @@ exports.sendOrderNotification = async function(order) {
           sender: process.env.MAIL_FROM,
           replyTo: process.env.MAIL_FROM,
           from: process.env.MAIL_FROM, 
-          to: "info@trademarkers.com",
-          bcc: ["carissa@trademarkers.com", "billing-trademarkers@moas.com"],
-          // to: "felix@trademarkers.com",
-          // bcc: ["febongo@gmail.com", "felix@bigfoot.com"],
+          // to: "info@trademarkers.com",
+          // bcc: ["carissa@trademarkers.com", "billing-trademarkers@moas.com"],
+          to: "felix@trademarkers.com",
+          bcc: ["febongo@gmail.com", "felix@bigfoot.com"],
           subject: "New order | " + order.charge.description, 
           html: data
         };

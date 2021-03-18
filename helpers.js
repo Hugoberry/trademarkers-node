@@ -79,3 +79,24 @@ exports.getCartCount = async function() {
     
     
 }
+
+exports.getCartTotalAmount = async function(cartItems) {
+    
+    let total = 0;
+    return new Promise(function(resolve, reject) {
+
+        cartItems.forEach(element => {
+            // console.log(element.price);
+            total += element.price
+        });
+
+        resolve(total);
+
+    });
+    
+    
+}
+
+exports.getTkey = function() {
+    return process.env.PAYK
+}

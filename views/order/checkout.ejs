@@ -1,0 +1,161 @@
+<div class="container">
+	<div class="row justify-content-center box-bg-container">
+		
+
+	<% if (cartItems.length) { %>
+
+	<div class="col-md-12">
+
+		<h2>Checkout</h2>
+		<table class="table">
+			<tr>
+				<th>#</th>
+				<th>Country</th>
+				<th>Service</th>
+				<th>Mark</th>
+				<th>Price</th>
+			</tr>
+			<% for(let i=0; i < cartItems.length; i++) { %>
+				<tr>
+					<td><%= (i + 1) %></td>
+					<td><%= cartItems[i].country.abbr %></td>
+					<td><%= cartItems[i].serviceType %></td>
+					<td><%= cartItems[i].word_mark %></td>
+					<td>$<%= cartItems[i].price %></td>
+				</tr>
+			<% } %>
+
+			<tr>
+				<td colspan="3"></td>
+				<th class="text-right">Total Quantity:</th>
+				<th><%= cartItems.length %></th>
+			</tr>
+
+			<tr>
+				<td colspan="3"></td>
+				<th class="text-right">Total Amount:</th>
+				<th>$<%= totalAmount %></th>
+			</tr>
+
+		</table>
+
+	</div>
+
+	<!-- FORM BLOCK -->
+	<div class="cc-form-wrap nc-form-wrap" style="margin-bottom:40px">
+		<div class="row justify-content-center">
+			<div class="col-12"><div class="cc-form">
+				<form class="cc-form-self" action="/placeorder" method="post" id="payment-form">
+
+					<div id="card-errors" role="alert"></div>
+
+					<div class="row">
+						<div class="col-6">
+							<div class="form-group">
+								<label for="NcEmail">Customer Information:</label>
+								<div class="row">
+									<div class="col-6">
+										<div class="form-field-inner" ></div>
+									</div>
+								</div>
+								<div class="form-field mt-2">
+									<em class="far fa-address-card"><span class="sr-only">Name</span></em>
+									<input 
+										type="text" 
+										name="name" id="name" 
+										placeholder="Name" 
+										class="form-control" 
+										value="<%= (user.name ? user.name : '') %>"
+										required="required">
+								</div>
+								<div class="form-field mt-2">
+									<em class="far fa-envelope"><span class="sr-only">Email</span></em>
+									<input 
+										type="email" 
+										name="email" 
+										id="email" 
+										placeholder="Email" 
+										class="form-control" 
+										value="<%= (user.email ? user.email : '') %>"
+										required="required">
+								</div>
+								<div class="form-field mt-2">
+									<em class="far fa-address-book"><span class="sr-only">Address</span></em>
+									<input 
+										type="text" 
+										name="address"
+										id="address" 
+										placeholder="Address" 
+										class="form-control" 
+										value="<%= (user.address ? user.address : '') %>"
+										required="required">
+								</div>
+							</div>
+						</div>
+
+						<div class="col-6">
+							<div class="form-group">
+								<label for="NcEmail">Card Information:</label>
+								<div class="row">
+									<div class="col-6">
+										<div class="form-field-inner" ></div>
+									</div>
+								</div>
+								<div class="form-field mt-2">
+									<div class="row">
+										<div class="col-12">
+											<div class="form-field-inner">
+												<em class="fad fa-credit-card"><span class="sr-only">Card CVV</span></em>
+												<div id="CcNumber" class="form-control" style="padding-top: 18px;"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="form-field mt-2">
+									<div class="row">
+										<div class="col-6">
+											<div class="form-field-inner" >
+												<em class="fal fal fa-calendar-alt"><span class="sr-only">Expiry Date</span></em>
+												<div id="cardExpiry" class="form-control" style="padding-top: 18px;"></div>
+											</div>
+										</div>
+										<div class="col-6">
+											<div class="form-field-inner">
+												<em class="fad fa-credit-card"><span class="sr-only">Card CVV</span></em>
+												<div id="cardCvc" class="form-control" style="padding-top: 18px;"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="form-field mt-2">
+									<em class="fad fa-flag-alt"><span class="sr-only">Zip Code</span></em>
+									<div id="postalCode" class="form-control" style="padding-top: 18px;"></div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-12">
+							<div class="form-group mt-2">
+								<input type="submit" name="ncLgnFormSubmit" id="NcLgnFormSubmit" class="btn btn-solid-lg btn-blue" value="Pay $<%= totalAmount %>">
+							</div>
+						</div>
+					</div>
+				</form>
+			</div></div>
+		</div>
+	</div>
+	<!-- FORM BLOCK END -->
+
+
+
+	
+	<% } else { %>
+		<div class="col-md-12">
+			<p>Sorry, Cart Empty</p>
+		</div>
+	<% } %>
+	</div>
+		
+</div>
+
+<%- include('../partials/paymentScript'); %>

@@ -90,6 +90,8 @@ router.post('/validate-order', registerController.validateOrder);
 router.post('/add-to-cart', registerController.addToCart);    
 // router.get('/order-confirmation', registerController.orderConfirmation);    
 router.get('/cart', registerController.cart);    
+router.get('/checkout', registerController.checkout);    
+router.post('/placeorder', registerController.placeOrder);    
 
 
 // action

@@ -5,7 +5,7 @@
 			<h1 class="text-success">Thank you for your order!!</h1>
             
 
-            <% if (order) { %>
+            <% if (order && order.action) { %>
                 <% if (order.action.response == "Extension for trademark allowance") { %>
                     <h3>SUBMISSION OF EXTENSION</h3>
                     
@@ -31,7 +31,7 @@
                 <% } %>
             <% } else { %>
 
-                <% } %>
+            <% } %>
 
 			
 		</div>

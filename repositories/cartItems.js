@@ -23,11 +23,14 @@ module.exports = {
 		);
 
 	},
-
+ 
 	fetchCustomerCart : async function(user_id) {
 		return new Promise(function(resolve, reject) {
 
-			let query = { user_id: user_id };
+			let query = { 
+				user_id: user_id,
+				status: 'pending'
+			};
 
 			let db = conn.getDb();
 			
@@ -43,5 +46,21 @@ module.exports = {
 
 		});
 	},
+
+	update: function(id,data) {
+
+        let query = { _id: ObjectID(id) };
+
+		conn.getDb().collection(_table).updateOne(query,{$set: data }, function(err, result) {
+			// if (err) {
+			// 	console.log('Error updating user: ' + err);
+			// 	// res.send({'error':'An error has occurred'});
+			// } else {
+			// 	// console.log('' + result + ' document(s) updated');
+			// 	// res.send(result);
+			// }
+		});
+
+    }
 
 };
