@@ -117,7 +117,29 @@ $( document ).ready(function() {
     });
   }
 
+  $('input[name="type"]').change(function(){
+    // alert($(this).val());
+    if ($(this).val() == 'word') {
+      $("#upload").hide()
+    } else {
+      $("#upload").show()
+    }
+  });
 
+  $("#filing_form").submit(function(){
+    let classvalue = $(".class").val()
+
+
+    if (!classvalue) {
+      alert('Please Enter Class');
+      
+      return false;
+    }
+    
+  })
+
+
+  
 
 // =====================================================
 //  functions below

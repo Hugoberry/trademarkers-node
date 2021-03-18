@@ -399,8 +399,6 @@ exports.uploadSouSubmit = async function(req, res, next) {
 
     }
       
-
-     
   });
 
 

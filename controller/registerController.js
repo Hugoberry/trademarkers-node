@@ -64,6 +64,25 @@ exports.validateOrder = async function(req, res, next) {
   //   rpoPrices.put(element);
   // });
 
+  let uploadPath;
+  let logo_pic;
+  let logoName;
+
+  if ( req.files.logo_pic ) {
+    // updload file
+    logoName = toInteger(moment().format('YYMMDDHHMMSS')) + '-' + logo_pic.name;
+    logo_pic = req.files.logo_pic;
+    uploadPath = __dirname + '/../public/uploads/' + logoName;
+    console.log(logo_pic);
+    req.body.logoName = logoName;
+    // Use the mv() method to place the file somewhere on your server
+    logo_pic.mv(uploadPath, function(err) {
+     
+        
+    });
+
+  }
+
   // calculate price ask helpers.js
   let data = {
     type: req.body.type,
