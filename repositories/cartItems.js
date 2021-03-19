@@ -28,7 +28,7 @@ module.exports = {
 		return new Promise(function(resolve, reject) {
 
 			let query = { 
-				user_id: user_id,
+				user_id: ObjectID(user_id),
 				status: 'pending'
 			};
 

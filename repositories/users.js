@@ -225,10 +225,16 @@ module.exports = {
 						}, 
 						function(err, res2) {
 							if (err) throw err;
+
+							if (res2) {
+						        resolve(res2);
+							}
 						});
+					} else {
+						resolve(result);
+
 					}
 
-					resolve(result);
 				}
 			});
 

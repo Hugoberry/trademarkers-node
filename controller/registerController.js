@@ -1,5 +1,7 @@
 
 const stripe = require("stripe")(process.env.PAYTEST);
+const jwt = require('jsonwebtoken');
+// const url = require('url');
 
 var rpoTrademarkClasses = require('../repositories/trademarkClasses');
 var rpoCountries = require('../repositories/countries');
@@ -7,6 +9,8 @@ var rpoPrices = require('../repositories/prices');
 var rpoCartItems = require('../repositories/cartItems');
 var rpoCharge = require('../repositories/charges');
 var rpoOrder = require('../repositories/orders');
+var rpoUser = require('../repositories/users');
+var rpoUserMongo = require('../repositories/usersMongo');
 
 var helpers = require('../helpers');
 
@@ -14,7 +18,7 @@ var mailService = require('../services/mailerService');
 var orderService = require('../services/orderService');
 var activityService = require('../services/activityLogService');
 
-const { toInteger } = require('lodash');
+const { toInteger, unset } = require('lodash');
 let moment = require('moment');
 
 exports.registration = async function(req, res, next) {
@@ -68,7 +72,7 @@ exports.validateOrder = async function(req, res, next) {
   let logo_pic;
   let logoName;
 
-  if ( req.files.logo_pic ) {
+  if ( req.files && req.files.logo_pic ) {
     // updload file
     logoName = toInteger(moment().format('YYMMDDHHMMSS')) + '-' + logo_pic.name;
     logo_pic = req.files.logo_pic;
@@ -92,7 +96,6 @@ exports.validateOrder = async function(req, res, next) {
 
   let amount = helpers.calculatePrice(data);
 
-  console.log(amount, req.body);
 
   res.render('order/confirmation', { 
     layout: 'layouts/public-layout-default', 
@@ -107,6 +110,8 @@ exports.validateOrder = async function(req, res, next) {
 exports.addToCart = async function(req, res, next) {
 
   let type;
+  let data = req.body;
+  let actionLogin;
 
   if(req.body.serviceType == "registration") {
     type = "Registration"
@@ -128,23 +133,90 @@ exports.addToCart = async function(req, res, next) {
   let country = await rpoCountries.getById(req.body.countryId * 1);
   let amount = helpers.calculatePrice(dataPrice);
   let currentUser = helpers.getLoginUser(req)
-  // console.log(amount,req.body);
-  let data = req.body
+
+  // get customer
+  if ( req.body.action == 'notLogin') {
+    // check user in mysql and mongo if not create new user
+    let userMy = await rpoUser.getUserByEmail(req.body.email);
+    let userMd = await rpoUserMongo.findUser(req.body.email);
+
+    if (userMd.length > 0) {
+      // found update or store in mongo
+      currentUser = await rpoUser.putUser(userMd[0])
+      actionLogin = "old"
+    } else if( userMu.length > 0 ) {
+      actionLogin = "old"
+      currentUser = await rpoUser.putUser(userMy[0])
+    } else {
+      // new user
+      let userData = {
+        name: req.body.name,
+        email: req.body.email,
+        address: req.body.address,
+        isNew: true,
+        created_at: toInteger(moment().format('YYMMDD')),
+        created_at_formatted: moment().format()
+      }
+      await rpoUserMongo.putUser(userData)
+      currentUser = await rpoUserMongo.findUser(req.body.email);
+      // console.log("new", currentUser);
+
+      actionLogin = "new"
+    }
+
+    if (currentUser.length > 0) {
+      currentUser = currentUser[0];
+    }
+    
+
+    // let payload = {currentUser: JSON.stringify(currentUser)}
+
+    //create the access token with the shorter lifespan
+    // let accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
+    // expiresIn: (60 * 60) * 6
+    // });
+    // res.locals.currentUser = currentUser
+      // res.cookie("currentUser", currentUser);
+    // console.log(userM);
+  }
+
+  // console.log('current user   ',currentUser);
+
+  
+  // data.logoName = req.body.logoName
+  // data.countryId = req.body.countryId
+  // data.serviceType = req.body.serviceType
+  // data.type = req.body.type
+  // data.word_mark = req.body
+  // data.class = req.body
+  // data.description = req.body
   data.user_id = currentUser._id;
   data.user = currentUser;
   data.price = amount;
   data.country = country[0];
-  data.status = 'pending'
+  data.status = 'pending';
+  data.created_at = toInteger(moment().format('YYMMDD'));
+  data.created_at_formatted = moment().format();
 
   await rpoCartItems.put(data)
   // console.log(data);
+  // res.locals.currentUser = currentUser
 
-  res.redirect("/cart");
+  res.redirect("/cart?uid="+currentUser._id);
 }
 
 exports.cart = async function(req, res, next) {
 
+
+
+
   let currentUser = helpers.getLoginUser(req) 
+
+  if (!currentUser) {
+    currentUser = req.cookies.currentUser
+    // fetch a get from url
+  }
+
   let cartItems = await rpoCartItems.fetchCustomerCart(currentUser._id)
   console.log(cartItems);
 
@@ -212,8 +284,9 @@ exports.placeOrder = async function(req, res, next) {
         custom: true,
         paid: true,
         customerId: currentUser._id,
+        cartItems: cartItems,
         created_at: toInteger(moment().format('YYMMDD')),
-        cartItems: cartItems
+        created_at_formatted: moment().format()
       }
   
       console.log('put', order);

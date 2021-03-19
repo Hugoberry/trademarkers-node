@@ -104,13 +104,18 @@ module.exports = {
 		});
 	},
 
-	putUser: function(data) {
+	putUser: async function(data) {
+
+		return new Promise(function(resolve, reject) {
 
         conn.getDb().collection(_table).insertOne(data, 
-			function(err, res2) {
+			function(err, result) {
 				if (err) throw err;
+
+				resolve(result);
 			}
 		);
+	});
 
 	},
 	

@@ -49,7 +49,69 @@
 			</form>
 
 			<% } else { %>
-				<p>Please login to add items into your cart</p>
+			<form id="addToCart" method="POST" action="/add-to-cart">
+				<div class="form-group row">
+					<div class="col-md-4 text-center">
+						<input class="" type="hidden" name="action" value="notLogin">
+						<input class="" type="hidden" name="logoName" value="<%= data.logoName %>">
+						<input class="" type="hidden" name="countryId" value="<%= data.countryId %>">
+						<input class="" type="hidden" name="serviceType" value="<%= data.serviceType %>">
+						<input class="" type="hidden" name="type" value="<%= data.type %>">
+						<input class="" type="hidden" name="word_mark" value="<%= data.word_mark %>">
+						<% 
+							
+							for (let i=0; i < data.class.length; i++) {
+							
+						%>
+							<input class="" type="hidden" name="class" value="<%= data.class[i] %>">
+							<input class="" type="hidden" name="description" value="<%= data.description[i] %>">
+						<% } %>
+
+						<div class="col-12">
+							<div class="form-group">
+								<label for="NcEmail">Customer Information:</label>
+								<div class="row">
+									<div class="col-6">
+										<div class="form-field-inner" ></div>
+									</div>
+								</div>
+								<div class="form-field mt-2">
+									<input 
+										type="text" 
+										name="name" id="name" 
+										placeholder="Name" 
+										class="form-control" 
+										required="required">
+								</div>
+								<div class="form-field mt-2">
+									<input 
+										type="email" 
+										name="email" 
+										id="email" 
+										placeholder="Email" 
+										class="form-control" 
+										required="required">
+								</div>
+								<div class="form-field mt-2">
+									<input 
+										type="text" 
+										name="address"
+										id="address" 
+										placeholder="Address" 
+										class="form-control" 
+										required="required">
+								</div>
+
+								<div class="form-field mt-2">
+									<input class="btn btn-primary btn-black tn-rounded-primary" type="submit" value="Add to cart">
+								</div>
+							</div>
+						</div>
+
+						
+					</div>
+				</div>
+			</form>
 			<% } %>
 			
 		</div>

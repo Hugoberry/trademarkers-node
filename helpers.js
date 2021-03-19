@@ -2,6 +2,7 @@ let moment = require('moment');
 const jwt = require('jsonwebtoken');
 
 var rpoCartItems = require('./repositories/cartItems');
+let ObjectID = require('mongodb').ObjectID;
 
 exports.convertIntToDate = function(idate) {
 
@@ -20,8 +21,24 @@ exports.getLoginUser = function(req) {
     let decode = jwt.decode(req.cookies.jwt, {complete: true});
 
     let user;
-    if (decode) {
+    if (decode && decode.payload.user) {
         user = JSON.parse(decode.payload.user);
+
+        if ( user && user._id ) {
+            user._id = ObjectID(user._id)
+        }
+    }
+    // let user = JSON.parse(decode.payload.user);
+
+    return user
+}
+
+exports.getCurrentUser = function(req) {
+    let decode = jwt.decode(req.cookies.jwt, {complete: true});
+
+    let user;
+    if (decode) {
+        user = JSON.parse(decode.payload.currentUser);
     }
     // let user = JSON.parse(decode.payload.user);
 

@@ -129,14 +129,39 @@ $( document ).ready(function() {
   $("#filing_form").submit(function(){
     let classvalue = $(".class").val()
 
+    // let flag = false;
+    // $('input:checkbox.class_chk').each(function () {
+    //   var sThisVal = (this.checked ? $(this).val() : "");
 
-    if (!classvalue) {
+    //   if (sThisVal) {
+    //     flag = true
+    //   }
+    // })
+    // console.log("selected class",$('input:checkbox.class_chk').val());
+    // console.log('value',classvalue);
+
+    let classValues = $('input:checkbox.class_chk:checked').serialize()
+
+    if (!classValues) {
       alert('Please Enter Class');
       
       return false;
     }
     
   })
+
+  $(document).on('click','#listClasses .btnRemoveClass',function(e) {
+    let value = $(this).data('class-number');
+    let classNumber = "class" + value;
+
+    var this_class = $("."+classNumber);
+    // console.log(this_class);
+    $("#"+classNumber).trigger('click');
+
+    $(".reset").removeClass('hide-class');
+
+    listPopulate();
+  });
 
 
   
