@@ -131,7 +131,7 @@ conn.connectToServer( function( err, client ) {
   // });
 
   cron.schedule('0 */20 9-16 * * mon-fri', () => { 
-    //  oaCronService.sendNOACron();
+     oaCronService.sendNOACron();
   }, {
     scheduled: true,
     timezone: "America/New_York"
