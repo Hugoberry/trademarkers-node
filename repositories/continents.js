@@ -1,6 +1,8 @@
 let _table = process.env.TBLEXT + "continents";
 let conn = require('../config/DbConnect');
 
+var ObjectID = require('mongodb').ObjectID;
+
 // dirty connection MYSQL
 const mysql = require('mysql');
 const connection = mysql.createConnection({

@@ -53,7 +53,7 @@
 				
 				<ul id="continentsToggle" class="continentsToggle ">
 				<% for (var key in continents) { %>
-					<% if(continents[key].countries) { %>
+					<% if(continents[key].countries.length > 0) { %>
 					<li class="<%= (continents[key].name == 'Europe' ? 'active':'') %>" data-abbr="<%= continents[key].id %>" data-name="<%= continents[key].name %>"><%= continents[key].name %></li>
 					<% } %>
 				<% } %>
@@ -65,7 +65,7 @@
 				
 				<% for (var key in continents) { %>
 				<div class="row continent continent-<%= continents[key]['id'] %> <%= (continents[key].name == 'Europe' ? 'show':'') %>" >
-					<% for ( var ckey in continents[key].countries ) { %>
+					<% for ( var ckey in continents[key].countries ) { if(continents[key].countries[ckey].name ) { %>
 					
 					<div class="col-md-3">
 						<a href="/trademark-registration-in-<%= continents[key].countries[ckey].name.replace(' ', '_').toLowerCase() %>" >
@@ -73,7 +73,7 @@
 						</a>
 					</div>
 	
-					<% } %>
+					<% } } %>
 				</div>
 				<% } %>
 				
