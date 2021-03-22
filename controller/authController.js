@@ -20,10 +20,10 @@ exports.showLogin = function(req, res, next) {
 
     // let urlPhp = process.env.APP_URL_PHP;
 
-    // res.redirect(urlPhp + '/login');
+    res.redirect(urlPhp + '/login');
 
     
-    res.render('public/login', { title: 'Login Form' });
+    // res.render('public/login', { title: 'Login Form' });
 }
 
 exports.login2 = async function(req, res){
