@@ -19,7 +19,7 @@ $( document ).ready(function() {
             } else if ( result.user.role_id == 5 ) {
               document.location.href = '/njs-admin';
             } else {
-              document.location.href = '/home';
+              document.location.href = '/customer';
             }
             // document.location.href = '/researcher';
           } else {
@@ -162,6 +162,36 @@ $( document ).ready(function() {
 
     listPopulate();
   });
+
+  $(".removeCartItem").click(function(){
+    // alert( $(this).attr('data-id') );
+
+    $.ajax({
+      url: "/api/v1/removeCartItem",
+      type:"GET",
+      dataType:"json",
+      data: {
+        id: $(this).attr('data-id')
+      },
+      contentType: "application/json",
+      success: function( result ) {
+        location.reload();
+        
+      }
+    });   
+
+  });
+
+  // get cart items count
+  $.ajax({
+    url: "/api/v1/getcartItems",
+    type:"GET",
+    contentType: "application/json",
+    success: function( result ) {
+      $("#shopping-cart").text(result.count)
+      // console.log(result);
+    }
+  });    
 
 
   

@@ -144,7 +144,7 @@ exports.addToCart = async function(req, res, next) {
       // found update or store in mongo
       currentUser = await rpoUser.putUser(userMd[0])
       actionLogin = "old"
-    } else if( userMu.length > 0 ) {
+    } else if( userMy.length > 0 ) {
       actionLogin = "old"
       currentUser = await rpoUser.putUser(userMy[0])
     } else {

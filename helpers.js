@@ -79,7 +79,7 @@ exports.calculatePrice = function(data) {
     return amount;
 }
 
-exports.getCartCount = async function() {
+exports.getCartCount = async function(req) {
     
     let decode = jwt.decode(req.cookies.jwt, {complete: true});
 

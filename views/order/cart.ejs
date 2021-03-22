@@ -13,6 +13,7 @@
 					<th>Mark</th>
 					<th>Class</th>
 					<th>Price</th>
+					<th></th>
 				</tr>
 				<% for(let i=0; i < cartItems.length; i++) { %>
 					<tr>
@@ -22,6 +23,8 @@
 						<th><%= cartItems[i].word_mark %></th>
 						<th><%= cartItems[i].class %></th>
 						<th>$<%= cartItems[i].price %></th>
+						<th><span class="removeCartItem" data-id="<%= cartItems[i]._id %>"><i class="fa fa-trash"></i></span></th>
+
 					</tr>
 				<% } %>
 

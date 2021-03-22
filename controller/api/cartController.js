@@ -3,7 +3,8 @@ const variables = require('../../config/variables');
 
 
 var rpo = require('../../repositories/carts');
-
+var rpoCartItems = require('../../repositories/cartItems');
+let helpers = require('../../helpers')
 
 exports.add = async function(req, res, next) {
 
@@ -32,6 +33,31 @@ exports.add = async function(req, res, next) {
     
     
     
+}
+
+exports.getcartItems = async function(req, res, next) {
+  let count = await helpers.getCartCount(req)
+
+  res.json({
+    count:count
+  });
+}
+
+exports.removeCartItem = async function(req, res, next) {
+// console.log(res.body);
+// console.log(res.params);
+
+  let fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+  let url = new URL(fullUrl);
+  let params = new URLSearchParams(url.search);
+  let cartId = params.get("id")
+
+    // console.log(userId);
+
+  let response = await rpoCartItems.remove(cartId)
+  res.json({
+    result:response
+  });
 }
 
 

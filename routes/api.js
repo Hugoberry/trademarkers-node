@@ -19,7 +19,8 @@ router.get('/olead/getall', adminController.getRecords);
 
 // router.get('/mail/open', mailOpenController.open);
 
-
+router.get('/getcartItems', cartController.getcartItems);
+router.get('/removeCartItem', cartController.removeCartItem);
 
 
 module.exports = router;
