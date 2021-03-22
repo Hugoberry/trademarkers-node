@@ -4,7 +4,7 @@
 		
 			<h2>Cart</h2>
 
-			<% if (cartItems.length) { %>
+			<% if (cartItems && cartItems.length) { %>
 			<table class="table">
 				<tr>
 					<th>Country</th>
@@ -24,14 +24,29 @@
 						<th>$<%= cartItems[i].price %></th>
 					</tr>
 				<% } %>
+
+				<tr>
+					<th colspan="5"><p class="text-right">Total Amount:</p></th>
+					<th>$<%= totalAmount %></th>
+				</tr>
 			</table>
 			<% } else { %>
 				<p>Sorry, Cart Empty</p>
 			<% } %>
 
+			
+			<div class="col-12">
+				<div class="form-group mt-2 text-center">
+					<% if( !guest ) {%>
+						<a href="/checkout" class="btn btn-primary btn-black tn-rounded-primary">Proceed to Checkout</a>
+					<% } else { %>
+						<a href="/checkout?uid=<%= guest._id %>" class="btn btn-primary btn-black tn-rounded-primary">Proceed to Checkout</a>
+					<% } %>
+					<!-- <input type="button" name="ncLgnFormSubmit" id="NcLgnFormSubmit" class="btn btn-solid-lg btn-blue" value="Proceed to checkout"> -->
+				</div>
+			</div>
+			
 
-			
-			
 		</div>
 
 

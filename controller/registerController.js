@@ -207,24 +207,44 @@ exports.addToCart = async function(req, res, next) {
 
 exports.cart = async function(req, res, next) {
 
-
-
-
-  let currentUser = helpers.getLoginUser(req) 
+  let cartItems;
+  let userId;
+  let guest;
+  let currentUser = helpers.getLoginUser(req);
+  let isloggedIn = false;
 
   if (!currentUser) {
-    currentUser = req.cookies.currentUser
-    // fetch a get from url
+    let fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+    let url = new URL(fullUrl);
+    let params = new URLSearchParams(url.search);
+    userId = params.get("uid")
+
+    guest = await rpoUserMongo.getByIdM(userId);
+ 
+  } else {
+    userId = currentUser._id
+    isloggedIn = true;
   }
 
-  let cartItems = await rpoCartItems.fetchCustomerCart(currentUser._id)
-  console.log(cartItems);
+  if (userId) {
+    cartItems = await rpoCartItems.fetchCustomerCart(userId)
+  }
 
-  res.render('order/cart', { 
+  if( !cartItems ) {
+    res.redirect("/"); 
+  }
+
+  let amount = await helpers.getCartTotalAmount(cartItems);
+  
+
+  res.render('order/cart', {
     layout: 'layouts/public-layout-default', 
     title: 'cart',
     user: currentUser,
-    cartItems: cartItems
+    guest:guest ? guest[0] : null,
+    cartItems: cartItems,
+    totalAmount: amount,
+    isloggedIn: isloggedIn
   });
 
 }
@@ -232,7 +252,28 @@ exports.cart = async function(req, res, next) {
 exports.checkout = async function(req, res, next) {
 
   let currentUser = helpers.getLoginUser(req) 
-  let cartItems = await rpoCartItems.fetchCustomerCart(currentUser._id)
+  let cartItems;
+  let userId;
+
+  if (!currentUser) {
+    let fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+    let url = new URL(fullUrl);
+    let params = new URLSearchParams(url.search);
+    userId = params.get("uid")
+    // console.log('1', userId);
+    currentUser = await rpoUserMongo.getByIdM(userId);
+ 
+  } else {
+    // console.log('2');
+    userId = currentUser._id
+  }
+// console.log(userId);
+  
+  cartItems = await rpoCartItems.fetchCustomerCart(userId)
+
+  if( !cartItems ) {
+    res.redirect("/"); 
+  }
 
   let amount = await helpers.getCartTotalAmount(cartItems);
 
@@ -289,7 +330,7 @@ exports.placeOrder = async function(req, res, next) {
         created_at_formatted: moment().format()
       }
   
-      console.log('put', order);
+      // console.log('put', order);
   
       
   
