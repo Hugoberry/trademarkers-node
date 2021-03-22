@@ -18,7 +18,7 @@ var rpoUsers = require('../repositories/users');
 
 exports.showLogin = function(req, res, next) {
 
-    // let urlPhp = process.env.APP_URL_PHP;
+    let urlPhp = process.env.APP_URL_PHP;
 
     res.redirect(urlPhp + '/login');
 
