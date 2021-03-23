@@ -130,17 +130,21 @@ conn.connectToServer( function( err, client ) {
   //   timezone: "America/New_York"
   // });
 
-  cron.schedule('0 */20 9-16 * * mon-fri', () => { 
-     oaCronService.sendNOACron();
-  }, {
-    scheduled: true,
-    timezone: "America/New_York"
-  });
+  if ( process.env.ENVIRONMENT != "dev" ) {
 
-  // oaCronService.sendSOUSummaryNotification();
-  cron.schedule('0 0 8 * * mon', () => { 
-    oaCronService.sendSOUSummaryNotification();
-  });
+    cron.schedule('0 */20 9-16 * * mon-fri', () => { 
+      oaCronService.sendNOACron();
+    }, {
+      scheduled: true,
+      timezone: "America/New_York"
+    });
+    
+    cron.schedule('0 0 8 * * mon', () => { 
+      oaCronService.sendSOUSummaryNotification();
+    });
+
+  }
+  
 
   // orderService.syncOrders()
 

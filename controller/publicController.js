@@ -61,7 +61,7 @@ exports.home = async function(req, res, next) {
 
     continents.forEach(async continent => {
       let countries = await rpoCountries.getByContinent(continent.id)
-console.log('asd');
+// console.log('asd');
       rpoContinents.updateDetails(continent._id, {countries: countries });
     });
 

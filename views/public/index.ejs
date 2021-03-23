@@ -65,11 +65,11 @@
 				
 				<% for (var key in continents) { %>
 				<div class="row continent continent-<%= continents[key]['id'] %> <%= (continents[key].name == 'Europe' ? 'show':'') %>" >
-					<% for ( var ckey in continents[key].countries ) { if(continents[key].countries[ckey].name ) { %>
-					
+					<% for ( var ckey in continents[key].countries ) { if( continents[key].countries[ckey].name ) { %>
+
 					<div class="col-md-3">
-						<a href="/trademark-registration-in-<%= continents[key].countries[ckey].name.replace(' ', '_').toLowerCase() %>" >
-							<img src="images/<%= continents[key].countries[ckey].avatar %>"><%= continents[key].countries[ckey].name %>
+						<a href="/trademark-registration-in-<%= continents[key].countries[ckey].name.replace(/\s/g, '_').toLowerCase() %>" >
+							<% if( continents[key].countries[ckey].avatar && continents[key].countries[ckey].avatar != "Test") { %><img src="images/<%= continents[key].countries[ckey].avatar %>"><% } %><%= continents[key].countries[ckey].name %>
 						</a>
 					</div>
 	
