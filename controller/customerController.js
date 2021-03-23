@@ -175,14 +175,14 @@ exports.updateCustomerFormSubmit = async function(req, res, next) {
 
 exports.index = function(req, res, next) {
   
-  let urlPhp = process.env.APP_URL_PHP;
-  res.redirect(urlPhp + '/home');
+  // let urlPhp = process.env.APP_URL_PHP;
+  // res.redirect(urlPhp + '/home');
 
-  // res.render('customer/', { 
-  //   layout: 'layouts/public-layout-customer', 
-  //   title: 'Customer',
-  //   user: helpers.getLoginUser(req)
-  // });
+  res.render('customer/', { 
+    layout: 'layouts/public-layout-customer', 
+    title: 'Customer',
+    user: helpers.getLoginUser(req)
+  });
     
 }
 

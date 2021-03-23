@@ -72,7 +72,7 @@ exports.validateOrder = async function(req, res, next) {
   let logo_pic;
   let logoName;
 
-  if ( req.files && req.files.logo_pic ) {
+  if ( req.files && req.files.logo_pic ) {  
     // updload file
     logoName = toInteger(moment().format('YYMMDDHHMMSS')) + '-' + logo_pic.name;
     logo_pic = req.files.logo_pic;
@@ -167,38 +167,33 @@ exports.addToCart = async function(req, res, next) {
     if (currentUser.length > 0) {
       currentUser = currentUser[0];
     }
-    
-
-    // let payload = {currentUser: JSON.stringify(currentUser)}
-
-    //create the access token with the shorter lifespan
-    // let accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-    // expiresIn: (60 * 60) * 6
-    // });
-    // res.locals.currentUser = currentUser
-      // res.cookie("currentUser", currentUser);
-    // console.log(userM);
+ 
   }
 
-  // console.log('current user   ',currentUser);
 
-  
-  // data.logoName = req.body.logoName
-  // data.countryId = req.body.countryId
-  // data.serviceType = req.body.serviceType
-  // data.type = req.body.type
-  // data.word_mark = req.body
-  // data.class = req.body
-  // data.description = req.body
   data.user_id = currentUser._id;
   data.user = currentUser;
   data.price = amount;
   data.country = country[0];
-  data.status = 'pending';
+  data.status = 'active';
   data.created_at = toInteger(moment().format('YYMMDD'));
   data.created_at_formatted = moment().format();
 
+  // if(actionLogin){
+
+  //   if( actionLogin == 'new' ){
+  //     data.status = 'pending';
+  //   } else {
+  //     data.status = 'active';
+  //   }
+
+  // }
+
   await rpoCartItems.put(data)
+
+  if(actionLogin && actionLogin != ''){
+
+  }
   // console.log(data);
   // res.locals.currentUser = currentUser
 
@@ -271,9 +266,9 @@ exports.checkout = async function(req, res, next) {
   
   cartItems = await rpoCartItems.fetchCustomerCart(userId)
 
-  if( !cartItems ) {
-    res.redirect("/"); 
-  }
+  // if( !cartItems ) {
+  //   res.redirect("/"); 
+  // }
 
   let amount = await helpers.getCartTotalAmount(cartItems);
 
@@ -292,6 +287,12 @@ exports.placeOrder = async function(req, res, next) {
 
   // fetch details
   let currentUser = helpers.getLoginUser(req) 
+
+  // redirect customer to login
+  if( !currentUser ) {
+    res.redirect("/cart"); 
+  }
+
   let cartItems = await rpoCartItems.fetchCustomerCart(currentUser._id)
   let orderCode = await orderService.createOrderCode();
   let description = "Trademark Order #" + orderCode;

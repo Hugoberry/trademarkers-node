@@ -58,35 +58,38 @@
 						<input class="" type="hidden" name="serviceType" value="<%= data.serviceType %>">
 						<input class="" type="hidden" name="type" value="<%= data.type %>">
 						<input class="" type="hidden" name="word_mark" value="<%= data.word_mark %>">
-						<% 
-							
-							for (let i=0; i < data.class.length; i++) {
-							
-						%>
+						
+						<% for (let i=0; i < data.class.length; i++) { %>
 							<input class="" type="hidden" name="class" value="<%= data.class[i] %>">
 							<input class="" type="hidden" name="description" value="<%= data.description[i] %>">
 						<% } %>
 
 						<div class="col-12">
 							<div class="form-group row box-form">
-								<label for="NcEmail">Customer Information:</label>
+								<label for="NcEmail">Please Login to continue</label>
+								<div id="loginMessage" class="alert alert-danger" role="alert" style="display:none">
+									
+								</div>
+								<div class="form-check">
+									<input type="radio" class="form-check-input" name="customerType" value="old" id="customerTypeOld" checked>
+									<label class="form-check-label" for="customerTypeOld">Login</label>
+								</div>
 				
+								<div class="form-check">
+									<input type="radio" class="form-check-input" name="customerType" value="new" id="customerTypeNew">
+									<label class="form-check-label" for="exampleCheck1">Create New Account</label>
+								</div>
+									
+								
+
 								<div class="form-field mt-2">
 									<input 
 										type="text" 
 										name="name" id="name" 
 										placeholder="Name" 
-										class="form-control" 
-										required="required">
-								</div>
-								<div class="form-field mt-2">
-									<input 
-										type="email" 
-										name="email" 
-										id="email" 
-										placeholder="Email" 
-										class="form-control" 
-										required="required">
+										class="form-control"
+										style="display:none"
+										>
 								</div>
 								<div class="form-field mt-2">
 									<input 
@@ -95,8 +98,26 @@
 										id="address" 
 										placeholder="Address" 
 										class="form-control" 
-										required="required">
+										style="display:none"
+										>
 								</div>
+								<div class="form-field mt-2">
+									<input 
+										type="email" 
+										name="email" 
+										id="email" 
+										placeholder="Email" 
+										class="form-control">
+								</div>
+								<div class="form-field mt-2">
+									<input 
+										type="password" 
+										name="customerPassword" 
+										id="customerPassword" 
+										placeholder="Enter Password" 
+										class="form-control">
+								</div>
+								
 
 								<div class="form-field mt-2">
 									<input class="btn btn-primary btn-black tn-rounded-primary" type="submit" value="Add to cart">

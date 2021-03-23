@@ -3,6 +3,8 @@ const variables = require('../../config/variables');
 // const jwt = require('jsonwebtoken')
 
 var rpoUsers = require('../../repositories/usersMongo');
+var rpoUsersMy = require('../../repositories/users');
+
 
 
 exports.add = async function(req, res, next) {
@@ -40,6 +42,33 @@ exports.add = async function(req, res, next) {
       });
     }
 
+}
+
+exports.checkEmailExist = async function(req, res, next) {
+
+  let user;
+
+  let fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+  let url = new URL(fullUrl);
+  let params = new URLSearchParams(url.search);
+  let email = params.get("email")
+
+  let userExistMongo = await rpoUsers.findUser(email);
+  if (userExistMongo) {
+    user = userExistMongo[0]
+  }
+
+  if (!user) {
+    let userExistMySql = await rpoUsersMy.getUserByEmail(email);
+    user = userExistMySql[0]
+  }
+
+  // console.log(email,user);
+
+  res.json({
+    ...user
+  }); 
+  
 }
 
 

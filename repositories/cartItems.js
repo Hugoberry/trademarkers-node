@@ -29,7 +29,7 @@ module.exports = {
 
 			let query = { 
 				user_id: ObjectID(user_id),
-				status: 'pending'
+				status: 'active'
 			};
 
 			let db = conn.getDb();

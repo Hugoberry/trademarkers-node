@@ -22,5 +22,8 @@ router.get('/olead/getall', adminController.getRecords);
 router.get('/getcartItems', cartController.getcartItems);
 router.get('/removeCartItem', cartController.removeCartItem);
 
+// CHECK IF EMAIL EXISTING
+router.get('/checkEmailExist', userController.checkEmailExist);
+
 
 module.exports = router;

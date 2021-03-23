@@ -128,18 +128,6 @@ $( document ).ready(function() {
 
   $("#filing_form").submit(function(){
     let classvalue = $(".class").val()
-
-    // let flag = false;
-    // $('input:checkbox.class_chk').each(function () {
-    //   var sThisVal = (this.checked ? $(this).val() : "");
-
-    //   if (sThisVal) {
-    //     flag = true
-    //   }
-    // })
-    // console.log("selected class",$('input:checkbox.class_chk').val());
-    // console.log('value',classvalue);
-
     let classValues = $('input:checkbox.class_chk:checked').serialize()
 
     if (!classValues) {
@@ -193,6 +181,79 @@ $( document ).ready(function() {
     }
   });    
 
+  $("#addToCart").submit(function(){
+
+    if( $('input[name="customerType"]').val() ) {
+
+      if ( $('input[name="customerType"]').val() == 'old' ) {
+
+        // check if both fields are not empty
+        if ( !$("#email").val() || !$("#customerPassword").val() ) {
+          // message field
+          $("#loginMessage").text('Please enter your Email/Password').show()
+        } else {
+          // check cedentials
+          $.ajax({
+            url: "/login/auth",
+            type:"GET",
+            dataType:"json",
+            data: {
+              username: $("#email").val(),
+              password: $("#customerPassword").val(),
+            },
+            contentType: "application/json",
+            success: function( result ) {
+              console.log(result);
+  
+              if (!result.status) {
+                $("#loginMessage").text(result.message).show()
+                return false;
+              } else {
+                location.reload();
+              }
+              
+            }
+          }); 
+        }
+        // try to login
+       
+      } else {
+        // process and login customer
+        
+
+      }
+
+      
+    } 
+
+    // $.ajax({
+    //   url: "/api/v1/checkEmailExist",
+    //   type:"GET",
+    //   dataType:"json",
+    //   data: {
+    //     email: $("#email").val()
+    //   },
+    //   contentType: "application/json",
+    //   success: function( result ) {
+    //     console.log(result);
+        
+    //   }
+    // });  
+    
+    // return false
+
+  });
+
+  $('input[name="customerType"]').change(function(){
+
+    if ($(this).val() == 'old') {
+      $("#name").hide()
+      $("#address").hide()
+    } else {
+      $("#name").show()
+      $("#address").show()
+    }
+  });
 
   
 
