@@ -1,7 +1,7 @@
 
 const stripe = require("stripe")(process.env.PAYTEST);
 const jwt = require('jsonwebtoken');
-// const url = require('url');
+var bcrypt = require('bcrypt');
 
 var rpoTrademarkClasses = require('../repositories/trademarkClasses');
 var rpoCountries = require('../repositories/countries');
@@ -135,39 +135,70 @@ exports.addToCart = async function(req, res, next) {
   let currentUser = helpers.getLoginUser(req)
 
   // get customer
-  if ( req.body.action == 'notLogin') {
-    // check user in mysql and mongo if not create new user
-    let userMy = await rpoUser.getUserByEmail(req.body.email);
-    let userMd = await rpoUserMongo.findUser(req.body.email);
+  // if ( req.body.action == 'notLogin') {
+  //   // check user in mysql and mongo if not create new user
+  //   let userMy = await rpoUser.getUserByEmail(req.body.email);
+  //   let userMd = await rpoUserMongo.findUser(req.body.email);
 
-    if (userMd.length > 0) {
-      // found update or store in mongo
-      currentUser = await rpoUser.putUser(userMd[0])
-      actionLogin = "old"
-    } else if( userMy.length > 0 ) {
-      actionLogin = "old"
-      currentUser = await rpoUser.putUser(userMy[0])
-    } else {
-      // new user
-      let userData = {
-        name: req.body.name,
-        email: req.body.email,
-        address: req.body.address,
-        isNew: true,
-        created_at: toInteger(moment().format('YYMMDD')),
-        created_at_formatted: moment().format()
-      }
-      await rpoUserMongo.putUser(userData)
-      currentUser = await rpoUserMongo.findUser(req.body.email);
-      // console.log("new", currentUser);
+  //   if (userMd.length > 0) {
+  //     // found update or store in mongo
+  //     currentUser = await rpoUser.putUser(userMd[0])
+  //     actionLogin = "old"
+  //   } else if( userMy.length > 0 ) {
+  //     actionLogin = "old"
+  //     currentUser = await rpoUser.putUser(userMy[0])
+  //   } else {
+  //     // new user
+  //     let userData = {
+  //       name: req.body.name,
+  //       email: req.body.email,
+  //       address: req.body.address,
+  //       isNew: true,
+  //       created_at: toInteger(moment().format('YYMMDD')),
+  //       created_at_formatted: moment().format()
+  //     }
+  //     await rpoUserMongo.putUser(userData)
+  //     currentUser = await rpoUserMongo.findUser(req.body.email);
+  //     // console.log("new", currentUser);
 
-      actionLogin = "new"
-    }
+  //     actionLogin = "new"
+  //   }
 
-    if (currentUser.length > 0) {
-      currentUser = currentUser[0];
-    }
+  //   if (currentUser.length > 0) {
+  //     currentUser = currentUser[0];
+  //   }
  
+  // }
+
+  // VERSION 2 MODIFICATION
+  if ( req.body.customerType == 'new') {
+
+    var hash = bcrypt.hashSync(req.body.customerPassword, 10); 
+
+    hash = hash.replace("$2b$", "$2y$");
+
+    let userData = {
+      name: req.body.name,
+      address: req.body.address,
+      email: req.body.email,
+      password: hash,
+      created_at: toInteger(moment().format('YYMMDD')),
+      created_at_formatted: moment().format()
+    }
+    let newUser = await rpoUserMongo.putUser(userData);
+    // console.log('new', newUser.insertedId);
+    let newInsertedUser = await rpoUserMongo.getByIdM(newUser.insertedId);
+    currentUser = newInsertedUser[0]
+    console.log(currentUser);
+
+    let payload = {user: JSON.stringify(currentUser)}
+
+    let accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
+    expiresIn: (60 * 60) * 6
+    });
+
+    res.cookie("jwt", accessToken);
+
   }
 
 
@@ -191,9 +222,11 @@ exports.addToCart = async function(req, res, next) {
 
   await rpoCartItems.put(data)
 
-  if(actionLogin && actionLogin != ''){
 
-  }
+
+  // if(actionLogin && actionLogin != ''){
+
+  // }
   // console.log(data);
   // res.locals.currentUser = currentUser
 

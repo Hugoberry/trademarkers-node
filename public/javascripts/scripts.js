@@ -185,12 +185,15 @@ $( document ).ready(function() {
 
     if( $('input[name="customerType"]').val() ) {
 
-      if ( $('input[name="customerType"]').val() == 'old' ) {
+      if ( $('input[name="customerType"]:checked').val() == 'old' ) {
 
         // check if both fields are not empty
         if ( !$("#email").val() || !$("#customerPassword").val() ) {
           // message field
           $("#loginMessage").text('Please enter your Email/Password').show()
+
+          return false;
+
         } else {
           // check cedentials
           $.ajax({
@@ -219,7 +222,59 @@ $( document ).ready(function() {
        
       } else {
         // process and login customer
-        
+        if ( 
+            !$("#email").val() || 
+            !$("#customerPassword").val() ||
+            !$("#name").val() ||
+            !$("#address").val() 
+          ){
+            let message="";
+            
+            
+            if (!$("#email").val()) {
+              message += "Please Enter Email<br>"
+            }
+
+            if (!$("#customerPassword").val()) {
+              message += "Please Enter Password <br>"
+            }
+
+            if (!$("#name").val()) {
+              message += "Please Enter Name <br>"
+            }
+
+            if (!$("#address").val()) {
+              message += "Please Enter Address "
+            }
+
+            $("#loginMessage").html(message).show()
+
+            return false;
+        } else {
+
+          $.ajax({
+            url: "/api/v1/checkEmailExist",
+            type:"GET",
+            dataType:"json",
+            data: {
+              email: $("#email").val()
+            },
+            contentType: "application/json",
+            success: function( result ) {
+              console.log(result);
+              if (result) {
+
+                $("#loginMessage").text("Email Already Exist").show()
+                return false
+
+              } else {
+
+                // add customer and add cart item
+
+              }
+            }
+          });  
+        }
 
       }
 
