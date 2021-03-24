@@ -59,17 +59,17 @@ exports.home = async function(req, res, next) {
 
     let continents = await rpoContinents.getContinents();
 
-    continents.forEach(async continent => {
-      let countries = await rpoCountries.getByContinent(continent.id)
-// console.log('asd');
-      rpoContinents.updateDetails(continent._id, {countries: countries });
-    });
+    // continents.forEach(async continent => {
+    //   let countries = await rpoCountries.getByContinent(continent.id)
+
+    //   rpoContinents.updateDetails(continent._id, {countries: countries });
+    // });
 
     let user = helpers.getLoginUser(req);
 
     res.render('public/index', { 
       layout: 'layouts/public-layout', 
-      title: 'Trademarkers LLC', 
+      title: 'Trademarkers LLC',
       continents: continents,
       user: user
     });
