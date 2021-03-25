@@ -1,0 +1,88 @@
+<script src="/interactive/js/jquery.min.js"></script> <!-- jQuery for Bootstrap's JavaScript plugins -->
+  <script src="/interactive/js/bootstrap.min.js"></script> <!-- Bootstrap framework -->
+
+  <script>
+  $( document ).ready(function() {
+    $(".frm-sou").submit(function(){
+      
+      let action = $(this).attr('data-action');
+      let number = $(this).attr('data-action-number');
+      let response = $(this).attr('data-respond');
+      let name = $("#decName").val()
+      // let redUrl = 'pay';
+
+      $.ajax({
+        url: "/action/response/"+action+"/"+response,
+        type:"GET",
+        dataType:"json",
+        data: {
+          action: action,
+          response: response,
+          decName: name
+        },
+        contentType: "application/json",
+        success: function( result ) {
+
+          if ( (response * 1) < 3) { 
+            $(location).attr('href', '/'+ number +'/pay')
+          } else { 
+            $(location).attr('href', '/')
+          }
+          
+        }
+      }); 
+
+        return false;
+    });
+
+    var shipmentOptions = $('.crt-fct-opt input[type="checkbox"]');
+
+        var shipmentOptInput = $('.crt-fct-opt-rgemail input[type="checkbox"]');
+        var fedexShipmentOptInput = $('.crt-fct-opt-fedex input[type="checkbox"]');
+
+        var shipmentEmail = $('.crt-fct-opt-rgemail #ShipmentEmail');
+        var shipmentAddress = $('.crt-fct-opt-fedex #ShipmentAddress');
+
+        $(shipmentOptions).change(function(){
+          if(this.checked != true){
+            $(this).parent('.opt-head').parent('.crt-fct-opt').removeClass('crt-fct-opt-active');
+            return false;
+          }
+          else{
+            $('.crt-fct-opt').removeClass('crt-fct-opt-active');
+            $('.crt-fct-opt input[type="checkbox"]').prop("checked", false);
+            $(this).prop("checked", true);
+            $(this).parent('.opt-head').parent('.crt-fct-opt').addClass('crt-fct-opt-active');
+            return true;
+          }
+        });
+
+        $('.crt-fct-opt-rgemail .btn-chng-info').click(function(){
+          $(this).prop('disabled', true);
+          $('.crt-fct-opt-rgemail').addClass('addr-change-active');
+        });
+
+        $('.crt-fct-opt-fedex .btn-chng-info').click(function(){
+          $(this).prop('disabled', true);
+          $('.crt-fct-opt-fedex').addClass('addr-change-active');
+        });
+
+        $('#CertificateDeliverySelection').click(function(){
+            if(fedexShipmentOptInput.prop("checked") != true){
+              $('.cc-section-on-call').removeClass("cc-section-on-call-active");
+              $('html, body').animate({scrollTop: "0"}, 1000);
+              return false;
+            }  
+            else{
+              $('.cc-section-on-call').addClass("cc-section-on-call-active");
+              $('html, body').animate({scrollTop: "900"}, 1000);
+              setTimeout(function(){
+                  $('.cc-form-self #name').focus();
+
+              }, 100);
+              return true;
+            }
+        });
+
+  });
+</script>

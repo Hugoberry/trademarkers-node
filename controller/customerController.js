@@ -179,7 +179,7 @@ exports.index = function(req, res, next) {
   // res.redirect(urlPhp + '/home');
 
   res.render('customer/', { 
-    layout: 'layouts/public-layout-customer', 
+    layout: 'layouts/customer-layout-interactive', 
     title: 'Customer',
     user: helpers.getLoginUser(req)
   });

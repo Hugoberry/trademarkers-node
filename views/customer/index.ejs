@@ -1,9 +1,19 @@
-<div class="col-md-12" style="margin-bottom:20px;">    
-    <% if(user) { %>
-    <h2>My Dashboard</h2>
-    <h3><%= user.name %></h3>
-    <% } else { %>
-        <h2>My Dashboard</h2>
-    <% } %>
-</div>
+<section class="tm-section qa-panel-section">
+    <div class="container h-100">
+      <div class="row h-100 align-items-start">
+        <div class="col-12">
+            <div class="ar-wrap qa-stp">
+              <div class="ar-box stp-row">
+                <div class="ar-box-head"><h1 class="ar-title">My Dashboard</h1></div>
+                <div class="ar-cinfo">
+                  <div class="ar-cname ar-info-line">Customer Name: <span class="ar-value"><%= user.name %></span></div>
+                  <div class="ar-cno ar-info-line">Customer Email: <span class="ar-value"><%= user.email %></span></div>
+                </div>
+              </div>
+              
+            </div>
+        </div>
+      </div>
+    </div>
+  </section>
                     
