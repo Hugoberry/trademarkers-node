@@ -24,11 +24,11 @@ module.exports = {
 
 	},
  
-	fetchCustomerCart : async function(user_id) {
+	fetchCustomerCart : async function(userId) {
 		return new Promise(function(resolve, reject) {
 
 			let query = { 
-				user_id: ObjectID(user_id),
+				userId: ObjectID(userId),
 				status: 'active'
 			};
 

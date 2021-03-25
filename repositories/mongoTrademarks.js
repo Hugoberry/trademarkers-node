@@ -194,11 +194,19 @@ module.exports = {
 	
 	put: function(data) {
 
+		return new Promise(function(resolve, reject) {
+
         conn.getDb().collection(_table).insertOne(data, 
-			function(err, res2) {
-				if (err) throw err;
+			function(err, res) {
+				if (err) {
+					reject(err);
+				} else {
+					resolve(res)
+				}
 			}
 		);
+
+		})
 
 	},
 

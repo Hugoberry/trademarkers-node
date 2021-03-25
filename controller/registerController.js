@@ -11,6 +11,7 @@ var rpoCharge = require('../repositories/charges');
 var rpoOrder = require('../repositories/orders');
 var rpoUser = require('../repositories/users');
 var rpoUserMongo = require('../repositories/usersMongo');
+var rpoTrademark = require('../repositories/mongoTrademarks');
 
 var helpers = require('../helpers');
 
@@ -72,6 +73,7 @@ exports.validateOrder = async function(req, res, next) {
   let logo_pic;
   let logoName;
 
+  req.body.logoName = "";
   if ( req.files && req.files.logo_pic ) {  
     // updload file
     logoName = toInteger(moment().format('YYMMDDHHMMSS')) + '-' + logo_pic.name;
@@ -110,7 +112,7 @@ exports.validateOrder = async function(req, res, next) {
 exports.addToCart = async function(req, res, next) {
 
   let type;
-  let data = req.body;
+  let data;
   let actionLogin;
 
   if(req.body.serviceType == "registration") {
@@ -201,8 +203,21 @@ exports.addToCart = async function(req, res, next) {
 
   }
 
+  // if (typeof req.body.logoName !== "undefined") {
+  //   data.logoName = req.body.logoName;
+  // }
 
-  data.user_id = currentUser._id;
+  data = req.body;
+
+  delete req.body.email
+  delete req.body.customerPassword
+
+  data.serviceType = req.body.serviceType;
+  data.type = req.body.type;
+  data.word_mark = req.body.word_mark;
+  data.class = req.body.class;
+  data.description = req.body.description;
+  data.userId = currentUser._id;
   data.user = currentUser;
   data.price = amount;
   data.country = country[0];
@@ -358,7 +373,7 @@ exports.placeOrder = async function(req, res, next) {
         charge: charge,
         custom: true,
         paid: true,
-        customerId: currentUser._id,
+        userId: currentUser._id,
         cartItems: cartItems,
         created_at: toInteger(moment().format('YYMMDD')),
         created_at_formatted: moment().format()
@@ -376,13 +391,31 @@ exports.placeOrder = async function(req, res, next) {
       activityService.logger(req.ip, req.originalUrl, "checkout L3P-6T");
 
       // update cart items to complete
-      await cartItems.forEach(items => {
+      await cartItems.forEach(async items => {
 
         let data = {
           status: 'complete',
           orderNumber: orderCode
         }
+        // update cart status
         rpoCartItems.update(items._id, data);
+
+        // create trademark from cart item
+        let trademark = {
+          userId: items.userId,
+          userEmail: items.user.email,
+          serialNumber: null,
+          word_mark: items.word_mark,
+          serviceType: items.serviceType,
+          type: items.type,
+          class: items.class,
+          description: items.description,
+          country: items.country.name,
+          created_at: toInteger(moment().format('YYMMDD')),
+          created_at_formatted: moment().format()
+        }
+
+        await rpoTrademark.put(trademark);
 
       });
   
