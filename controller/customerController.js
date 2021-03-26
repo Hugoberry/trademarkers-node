@@ -15,19 +15,27 @@ var helpers = require('../helpers');
 var activityService = require('../services/activityLogService');
 var mailService = require('../services/mailerService');
 
-let customerId = 1293;
+// let customerId = 1293;
 
 exports.orders = async function(req, res, next) {
 
+  let currentData = helpers.getLoginUser(req);
+
+  let customerId = currentData._id;
   // FETCH ORDERS
   // let orders = await rpo.fetchOrderByUserMongo(customerId);
-  let trademarks = await rpoTm.fetchTmByUser(customerId);
-  let user = await rpoUser.getUserByID(customerId);
+  let trademarks = await rpoTmMongo.getById(currentData._id);
 
-  let customer = {
-    name:user[0].name,
-    id:user[0].id
-  }
+  // if (currentData.id) {
+
+  // }
+  // let user = await rpoUser.getUserByID(customerId);
+
+  // let customer = {
+  //   name:currentData.name,
+  //   email:currentData.name,
+  //   id:currentData._id
+  // }
   // console.log('trademarks',trademarks);
   
   let data = {
@@ -56,7 +64,7 @@ exports.orders = async function(req, res, next) {
 
   }
 
-  console.log(data.trademark);
+  // console.log(data.trademark);
 
   data.trademark.forEach(element => {
     if (element) {
@@ -74,7 +82,7 @@ exports.orders = async function(req, res, next) {
   res.render('customer/orders', { 
     layout: 'layouts/public-layout-interactive', 
     title: 'Trademarkers LLC Order Status',
-    customer: customer,
+    customer: currentData,
     trademarks: trademarks,
     data: data
   });

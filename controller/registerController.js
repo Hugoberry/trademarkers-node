@@ -411,6 +411,7 @@ exports.placeOrder = async function(req, res, next) {
           class: items.class,
           description: items.description,
           country: items.country.name,
+          countryId: items.country.id,
           created_at: toInteger(moment().format('YYMMDD')),
           created_at_formatted: moment().format()
         }
