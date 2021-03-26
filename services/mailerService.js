@@ -48,8 +48,8 @@ exports.newServiceOrder = async function(data) {
   sender: 'Trademarkers LLC',
   replyTo: process.env.MAIL_FROM,
   from: process.env.MAIL_FROM, 
-  // to: toMail,
-  bcc: bcc,
+  to: toMail,
+  // bcc: bcc,
   subject: subject, 
   html: `<p>Hi Admin,</p>
           <p>New Service action created!</p>
