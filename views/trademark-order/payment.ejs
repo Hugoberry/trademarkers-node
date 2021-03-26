@@ -303,10 +303,10 @@ var style = {
 // Add an instance of the card Element into the `card-element` <div>.
 // card.mount('#card-element');
 
-var acc = elements.create('cardNumber', {style: style});
+var acc = elements.create('cardNumber', {style: style, placeholder: 'Card Number'});
 var cardExpiry = elements.create('cardExpiry', {style: style});
 var cardCvc = elements.create('cardCvc', {style: style});
-var postalCode = elements.create('postalCode', {style: style});
+var postalCode = elements.create('postalCode', {style: style, placeholder: 'Postal Code'});
 var emailAddress = document.getElementById("email");
 
 

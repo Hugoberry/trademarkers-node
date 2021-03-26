@@ -568,11 +568,11 @@ exports.codeLanding = async function(req, res, next) {
     break;
   }
 
-  res.locals = {
-    siteTitle: "Trademark Search",
-    description: "Check trademark status",
-    keywords: "Trademark Status, trademarkers status",
-  };
+  // res.locals = {
+  //   siteTitle: "Trademark Search",
+  //   description: "Check trademark status",
+  //   keywords: "Trademark Status, trademarkers status",
+  // };
 
   res.render(render, { 
     layout  : layout, 
