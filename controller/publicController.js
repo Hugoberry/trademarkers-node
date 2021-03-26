@@ -1112,11 +1112,11 @@ exports.serviceOrderSubmit = async function(req, res, next) {
 
 exports.generateService = async function(req, res, next) {
 
-  res.locals = {
-    siteTitle: "Trademark Search",
-    description: "Check trademark status",
-    keywords: "Trademark Status, trademarkers status",
-  };
+  // res.locals = {
+  //   siteTitle: "Trademark Search",
+  //   description: "Check trademark status",
+  //   keywords: "Trademark Status, trademarkers status",
+  // };
 
   res.render(
     "trademark-order/add-service", { 
@@ -1128,7 +1128,7 @@ exports.generateService = async function(req, res, next) {
 
 exports.generateServiceSubmit = async function(req, res, next) {
 
-  console.log('a');
+  // console.log('a');
   try {
    
     let code = '';
@@ -1145,7 +1145,7 @@ exports.generateServiceSubmit = async function(req, res, next) {
       }
 
     }
-    console.log('loop end', code);
+    // console.log('loop end', code);
     let data = {
       code: code,
       name: req.body.name,
