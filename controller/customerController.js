@@ -26,9 +26,16 @@ exports.orders = async function(req, res, next) {
   // let orders = await rpo.fetchOrderByUserMongo(customerId);
   let trademarks = await rpoTmMongo.getById(currentData._id);
 
-  // if (currentData.id) {
-
-  // }
+  console.log(trademarks);
+  if (currentData.isNew) {
+    console.log('new')
+  } else {
+    if ( !currentData.isMigrate ) {
+      console.log('migrate orders');
+    } else {
+      console.log('ignore')
+    }
+  }
   // let user = await rpoUser.getUserByID(customerId);
 
   // let customer = {
