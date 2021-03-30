@@ -59,17 +59,17 @@ exports.home = async function(req, res, next) {
 
     let continents = await rpoContinents.getContinents();
 
-    continents.forEach(async continent => {
-      let countries = await rpoCountries.getByContinent(continent.id)
-// console.log('asd');
-      rpoContinents.updateDetails(continent._id, {countries: countries });
-    });
+    // continents.forEach(async continent => {
+    //   let countries = await rpoCountries.getByContinent(continent.id)
+
+    //   rpoContinents.updateDetails(continent._id, {countries: countries });
+    // });
 
     let user = helpers.getLoginUser(req);
 
     res.render('public/index', { 
       layout: 'layouts/public-layout', 
-      title: 'Trademarkers LLC', 
+      title: 'Trademarkers LLC',
       continents: continents,
       user: user
     });
@@ -568,11 +568,11 @@ exports.codeLanding = async function(req, res, next) {
     break;
   }
 
-  res.locals = {
-    siteTitle: "Trademark Search",
-    description: "Check trademark status",
-    keywords: "Trademark Status, trademarkers status",
-  };
+  // res.locals = {
+  //   siteTitle: "Trademark Search",
+  //   description: "Check trademark status",
+  //   keywords: "Trademark Status, trademarkers status",
+  // };
 
   res.render(render, { 
     layout  : layout, 
@@ -1112,11 +1112,11 @@ exports.serviceOrderSubmit = async function(req, res, next) {
 
 exports.generateService = async function(req, res, next) {
 
-  res.locals = {
-    siteTitle: "Trademark Search",
-    description: "Check trademark status",
-    keywords: "Trademark Status, trademarkers status",
-  };
+  // res.locals = {
+  //   siteTitle: "Trademark Search",
+  //   description: "Check trademark status",
+  //   keywords: "Trademark Status, trademarkers status",
+  // };
 
   res.render(
     "trademark-order/add-service", { 
@@ -1128,7 +1128,7 @@ exports.generateService = async function(req, res, next) {
 
 exports.generateServiceSubmit = async function(req, res, next) {
 
-  console.log('a');
+  // console.log('a');
   try {
    
     let code = '';
@@ -1145,7 +1145,7 @@ exports.generateServiceSubmit = async function(req, res, next) {
       }
 
     }
-    console.log('loop end', code);
+    // console.log('loop end', code);
     let data = {
       code: code,
       name: req.body.name,

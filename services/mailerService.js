@@ -40,8 +40,8 @@ exports.contact = async function(data) {
 
 exports.newServiceOrder = async function(data) {
 
-  let toMail = "mg@bigfoot.com";
-  let bcc = "felix@bigfoot.com";
+  let toMail = "info@trademarkers.com";
+  let bcc = ["carissa@trademarkers.com", "billing-trademarkers@moas.com","felix@bigfoot.com"];
   let subject = "New Service Action | " + data.code;
 
   return await transporter.sendMail({
@@ -313,10 +313,10 @@ exports.sendOrderNotification = async function(order) {
           sender: process.env.MAIL_FROM,
           replyTo: process.env.MAIL_FROM,
           from: process.env.MAIL_FROM, 
-          // to: "info@trademarkers.com",
-          // bcc: ["carissa@trademarkers.com", "billing-trademarkers@moas.com"],
-          to: "felix@trademarkers.com",
-          bcc: ["febongo@gmail.com", "felix@bigfoot.com"],
+          to: "info@trademarkers.com",
+          bcc: ["carissa@trademarkers.com", "billing-trademarkers@moas.com","felix@bigfoot.com"],
+          // to: "felix@trademarkers.com",
+          // bcc: ["febongo@gmail.com", "felix@bigfoot.com"],
           subject: "New order | " + order.charge.description, 
           html: data
         };
