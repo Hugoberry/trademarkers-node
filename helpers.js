@@ -1,6 +1,8 @@
 let moment = require('moment');
 const jwt = require('jsonwebtoken');
 
+const variables = require('./config/variables');
+
 var rpoCartItems = require('./repositories/cartItems');
 let ObjectID = require('mongodb').ObjectID;
 
@@ -116,4 +118,27 @@ exports.getCartTotalAmount = async function(cartItems) {
 
 exports.getTkey = function() {
     return process.env.PAYK
+}
+
+exports.convertSecretCode = function(code) {
+
+    let secretAmountDecode='', secretDescription='';
+
+    for (let i = 0; code.length > i; i++) {
+
+        if ( Number.isInteger( parseInt(code[i]) ) ) {
+          // number
+          secretDescription = variables.secretAmount[code[i]]
+        } else {
+          // char
+          secretAmountDecode += variables.secretAmount[code[i]]
+        }
+
+    }
+
+    return {
+        secretDescription : secretDescription,
+        secretAmountDecode : secretAmountDecode
+    }
+
 }

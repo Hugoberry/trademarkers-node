@@ -56,7 +56,7 @@ exports.orders = async function(req, res, next) {
 
   }
 
-  console.log(data.trademark);
+  // console.log(data.trademark);
 
   data.trademark.forEach(element => {
     if (element) {
