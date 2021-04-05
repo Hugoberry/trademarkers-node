@@ -428,7 +428,7 @@ exports.codeLanding = async function(req, res, next) {
 
   let code = req.params.actionCode;
   let type = req.params.type;
-  let secretAmountDecode = '', secretDescription='';
+  let secretAmountDecode = '', secretDescription='', secretCustomer='';
 
   // LOOK FOR A WAY TO REDIRECT CUSTOMER AND PREFILLED FORM
   // OR CREATE A NEW NODEJS SETUP FOR ADDING TO CART IN MYSQL
@@ -571,23 +571,31 @@ exports.codeLanding = async function(req, res, next) {
         layout = 'layouts/public-layout-interactive'
         render = 'trademark-order/checkout-order'
 
-        
+        let arrType = type.split('-')
+        let arrTypeValue = arrType[0]
+        type = arrTypeValue
+        if (!arrTypeValue) {
+          res.redirect('/service-order/pay');
+        }
 
-        for (let i = 0; [...type].length > i; i++) {
+        if ( typeof arrType[1] !== "undefined" ) {
+          secretCustomer = arrType[1]
+        }
 
-          if ( typeof variables.secretAmount[[...type][i]] == 'undefined' ) {
+        for (let i = 0; [...arrTypeValue].length > i; i++) {
+
+          if ( typeof variables.secretAmount[[...arrTypeValue][i]] == 'undefined' ) {
             console.log(i,'found not declared variable');
             res.redirect('/service-order/pay');
           }
 
         }
 
-        let arrSecret = await helpers.convertSecretCode([...type]);
+        let arrSecret = await helpers.convertSecretCode([...arrTypeValue]);
 
         // console.log(arrSecret);
         secretAmountDecode = parseInt(arrSecret.secretAmountDecode);
         secretDescription = arrSecret.secretDescription;
-
       }
       // res.redirect('/');
     break;
@@ -611,6 +619,7 @@ exports.codeLanding = async function(req, res, next) {
     user: helpers.getLoginUser(req),
     secretAmountDecode: secretAmountDecode,
     secretDescription: secretDescription,
+    secretCustomer: secretCustomer,
     code: type
 
   });
@@ -811,6 +820,7 @@ exports.checkout = async function(req, res, next) {
       action: action[0],
       customerId: action[0].userId,
       created_at: toInteger(moment().format('YYMMDD')),
+      created_at_formatted: moment().format()
     }
 
     
@@ -918,6 +928,7 @@ exports.checkoutCustom = async function(req, res, next) {
       action: 'L3P-5T',
       customerId: '',
       created_at: toInteger(moment().format('YYMMDD')),
+      created_at_formatted: moment().format()
     }
 
     console.log('put', order);
@@ -1010,6 +1021,7 @@ exports.checkoutCustom2 = async function(req, res, next) {
       action: 'L3P-6T',
       customerId: '',
       created_at: toInteger(moment().format('YYMMDD')),
+      created_at_formatted: moment().format()
     }
 
     console.log('put', order);
@@ -1111,6 +1123,7 @@ exports.serviceOrderSubmit = async function(req, res, next) {
       action: req.body.code,
       customerId: '',
       created_at: toInteger(moment().format('YYMMDD')),
+      created_at_formatted: moment().format()
     }
 
     console.log('put', order);
@@ -1156,7 +1169,11 @@ exports.serviceOrderCustom3 = async function(req, res, next) {
   let description = arrSecret.secretDescription + " | " + orderCode + " | " + customer;
   let price = arrSecret.secretAmountDecode;
 
-  console.log(arrSecret.secretAmountDecode);
+  if ( req.body.customerId ) {
+    description += " " + req.body.customerId
+  }
+
+  console.log('this',arrSecret.secretAmountDecode);
 
   // 
   try{
@@ -1186,8 +1203,9 @@ exports.serviceOrderCustom3 = async function(req, res, next) {
       custom: true,
       paid: true,
       action: req.body.code,
-      customerId: '',
+      customerId: req.body.customerId,
       created_at: toInteger(moment().format('YYMMDD')),
+      created_at_formatted: moment().format()
     }
 
     // console.log('put', order);
