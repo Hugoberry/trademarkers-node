@@ -403,6 +403,7 @@ exports.placeOrder = async function(req, res, next) {
         // create trademark from cart item
         let trademark = {
           userId: items.userId,
+          orderCode: orderCode,
           userEmail: items.user.email,
           serialNumber: null,
           word_mark: items.word_mark,

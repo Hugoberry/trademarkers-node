@@ -15,23 +15,66 @@ var helpers = require('../helpers');
 var activityService = require('../services/activityLogService');
 var mailService = require('../services/mailerService');
 
+const { toInteger, unset } = require('lodash');
+let moment = require('moment');
 // let customerId = 1293;
 
 exports.orders = async function(req, res, next) {
 
-  let currentData = helpers.getLoginUser(req);
+  let currentUser = helpers.getLoginUser(req);
 
-  let customerId = currentData._id;
+  // let customerId = currentDat._id;
+
+  let currentData = await rpoUserMongo.getByIdM(currentUser._id)
+
+  currentData = currentData[0]
+
+  // console.log(currentdata);
   // FETCH ORDERS
   // let orders = await rpo.fetchOrderByUserMongo(customerId);
-  let trademarks = await rpoTmMongo.getById(currentData._id);
+  // let trademarks = await rpoTmMongo.getByCustomerId(currentData._id);
 
-  console.log(trademarks);
+  let trademarks;
+  // console.log(trademarks);
   if (currentData.isNew) {
     console.log('new')
   } else {
+    // console.log('else', currentData);
     if ( !currentData.isMigrate ) {
-      console.log('migrate orders');
+      console.log('migrate ordersss');
+      // fetch trademarks from mysql and update customer ismigrate to true
+      let data = {
+        isMigrate : true
+      }
+      rpoUserMongo.updateUser(currentData._id, data);
+
+      let mysqlTrademarks = await rpoTm.fetchTmByUser(currentData._id);
+
+      for (let i=0; mysqlTrademarks.length > i; i++) {
+        console.log(mysqlTrademarks[i]);
+
+        let trademark = {
+          userId: currentData._id,
+          orderCode: mysqlTrademarks[i].order_id,
+          userEmail: '',
+          serialNumber: mysqlTrademarks[i].filing_number,
+          word_mark: mysqlTrademarks[i].name,
+          serviceType: mysqlTrademarks[i].service,
+          type: mysqlTrademarks[i].type,
+          class: mysqlTrademarks[i].classes,
+          description: mysqlTrademarks[i].classes_description,
+          country: mysqlTrademarks[i].country_id,
+          countryId: mysqlTrademarks[i].country_id,
+          created_at: toInteger(moment(mysqlTrademarks[i].created_at).format('YYMMDD')),
+          created_at_formatted: moment(mysqlTrademarks[i].created_at).format()
+        }
+
+        await rpoTmMongo.put(trademark);
+
+      }
+
+      // console.log(mysqlTrademarks);
+
     } else {
       console.log('ignore')
     }
@@ -45,39 +88,39 @@ exports.orders = async function(req, res, next) {
   // }
   // console.log('trademarks',trademarks);
   
-  let data = {
-    trademark:[]
-  };
+  // let data = {
+  //   trademark:[]
+  // };
   
-  for(let i = 0; i < trademarks.length; i++) {
+  // for(let i = 0; i < trademarks.length; i++) {
 
-    let country = await rpoCountry.getById(trademarks[i].country_id)
-    let cronTrademark = await rpoTmMongo.getBymysqlID(trademarks[i].id);
+  //   let country = await rpoCountry.getById(trademarks[i].country_id)
+  //   let cronTrademark = await rpoTmMongo.getBymysqlID(trademarks[i].id);
   
-    let formattedData = {
-      // country: country[0],
-      mark : trademarks[i],
-      markMongo : cronTrademark[0]
-    }
-    // console.log(cronTrademark);
-    if ( typeof data.trademark[trademarks[i].country_id] === 'undefined' ) {
-      data.trademark[trademarks[i].country_id] = {
-        data : new Array()
-      }
-    }
+  //   let formattedData = {
+  //     // country: country[0],
+  //     mark : trademarks[i],
+  //     markMongo : cronTrademark[0]
+  //   }
+  //   // console.log(cronTrademark);
+  //   if ( typeof data.trademark[trademarks[i].country_id] === 'undefined' ) {
+  //     data.trademark[trademarks[i].country_id] = {
+  //       data : new Array()
+  //     }
+  //   }
 
-    data.trademark[trademarks[i].country_id].countryName = country[0].name
-    data.trademark[trademarks[i].country_id].data.push(formattedData)
+  //   data.trademark[trademarks[i].country_id].countryName = country[0].name
+  //   data.trademark[trademarks[i].country_id].data.push(formattedData)
 
-  }
+  // }
 
   // console.log(data.trademark);
 
-  data.trademark.forEach(element => {
-    if (element) {
-      console.log("el", element);
-    }
-  });
+  // data.trademark.forEach(element => {
+  //   if (element) {
+  //     console.log("el", element);
+  //   }
+  // });
 
   res.locals = {
     siteTitle: "Trademark Search",
@@ -91,7 +134,7 @@ exports.orders = async function(req, res, next) {
     title: 'Trademarkers LLC Order Status',
     customer: currentData,
     trademarks: trademarks,
-    data: data
+    // data: data
   });
     
 }

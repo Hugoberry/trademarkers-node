@@ -118,6 +118,24 @@ module.exports = {
 		});
 	},
 
+	getByCustomerId : async function(id) {
+		return new Promise(function(resolve, reject) {
+
+			let query = { userId: id };
+			
+			conn.getDb().collection(_table).find(query).toArray(function(err, result) {
+					
+				if (err) {
+					reject(err);
+				} else {
+					resolve(result);
+				}
+
+			});
+
+		});
+	},
+
 	getBySerial : async function(serial) {
 		return new Promise(function(resolve, reject) {
 
