@@ -95,7 +95,7 @@ exports.validateOrder = async function(req, res, next) {
     noClass: req.body.class.length,
     price: prices[0]
   }
-
+  console.log(data);
   let amount = helpers.calculatePrice(data);
 
 
@@ -406,13 +406,14 @@ exports.placeOrder = async function(req, res, next) {
           orderCode: orderCode,
           userEmail: items.user.email,
           serialNumber: null,
-          word_mark: items.word_mark,
+          mark: items.word_mark,
           serviceType: items.serviceType,
           type: items.type,
           class: items.class,
           description: items.description,
           country: items.country.name,
           countryId: items.country.id,
+          status: 'pending',
           created_at: toInteger(moment().format('YYMMDD')),
           created_at_formatted: moment().format()
         }

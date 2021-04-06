@@ -782,6 +782,7 @@ exports.checkout = async function(req, res, next) {
       action: action[0],
       customerId: action[0].userId,
       created_at: toInteger(moment().format('YYMMDD')),
+      created_at_formatted: moment().format()
     }
 
     
@@ -889,6 +890,7 @@ exports.checkoutCustom = async function(req, res, next) {
       action: 'L3P-5T',
       customerId: '',
       created_at: toInteger(moment().format('YYMMDD')),
+      created_at_formatted: moment().format()
     }
 
     console.log('put', order);
@@ -981,6 +983,7 @@ exports.checkoutCustom2 = async function(req, res, next) {
       action: 'L3P-6T',
       customerId: '',
       created_at: toInteger(moment().format('YYMMDD')),
+      created_at_formatted: moment().format()
     }
 
     console.log('put', order);
@@ -1082,6 +1085,7 @@ exports.serviceOrderSubmit = async function(req, res, next) {
       action: req.body.code,
       customerId: '',
       created_at: toInteger(moment().format('YYMMDD')),
+      created_at_formatted: moment().format()
     }
 
     console.log('put', order);

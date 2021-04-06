@@ -22,24 +22,15 @@ let moment = require('moment');
 exports.orders = async function(req, res, next) {
 
   let currentUser = helpers.getLoginUser(req);
-
-  // let customerId = currentDat._id;
-
   let currentData = await rpoUserMongo.getByIdM(currentUser._id)
-
   currentData = currentData[0]
 
-  // console.log(currentdata);
-  // FETCH ORDERS
-  // let orders = await rpo.fetchOrderByUserMongo(customerId);
-  // let trademarks = await rpoTmMongo.getByCustomerId(currentData._id);
-
   let trademarks;
-  // console.log(trademarks);
+
   if (currentData.isNew) {
     console.log('new')
   } else {
-    // console.log('else', currentData);
+
     if ( !currentData.isMigrate ) {
       console.log('migrate ordersss');
       // fetch trademarks from mysql and update customer ismigrate to true
@@ -51,20 +42,23 @@ exports.orders = async function(req, res, next) {
       let mysqlTrademarks = await rpoTm.fetchTmByUser(currentData._id);
 
       for (let i=0; mysqlTrademarks.length > i; i++) {
-        console.log(mysqlTrademarks[i]);
+
+        // FETCH COUNTRY
+        let country = await rpoCountry.getById(mysqlTrademarks[i].country_id);
 
         let trademark = {
           userId: currentData._id,
           orderCode: mysqlTrademarks[i].order_id,
           userEmail: '',
           serialNumber: mysqlTrademarks[i].filing_number,
-          word_mark: mysqlTrademarks[i].name,
+          mark: mysqlTrademarks[i].name,
           serviceType: mysqlTrademarks[i].service,
           type: mysqlTrademarks[i].type,
           class: mysqlTrademarks[i].classes,
           description: mysqlTrademarks[i].classes_description,
-          country: mysqlTrademarks[i].country_id,
+          country: country[0].name,
           countryId: mysqlTrademarks[i].country_id,
+          status: mysqlTrademarks[i].status,
           created_at: toInteger(moment(mysqlTrademarks[i].created_at).format('YYMMDD')),
           created_at_formatted: moment(mysqlTrademarks[i].created_at).format()
         }
@@ -73,67 +67,47 @@ exports.orders = async function(req, res, next) {
 
       }
 
-      // console.log(mysqlTrademarks);
-
     } else {
       console.log('ignore')
     }
   }
-  // let user = await rpoUser.getUserByID(customerId);
-
-  // let customer = {
-  //   name:currentData.name,
-  //   email:currentData.name,
-  //   id:currentData._id
-  // }
-  // console.log('trademarks',trademarks);
   
-  // let data = {
-  //   trademark:[]
-  // };
-  
-  // for(let i = 0; i < trademarks.length; i++) {
+  trademarks = await rpoTmMongo.getByCustomerId(currentData._id);
 
-  //   let country = await rpoCountry.getById(trademarks[i].country_id)
-  //   let cronTrademark = await rpoTmMongo.getBymysqlID(trademarks[i].id);
-  
-  //   let formattedData = {
-  //     // country: country[0],
-  //     mark : trademarks[i],
-  //     markMongo : cronTrademark[0]
-  //   }
-  //   // console.log(cronTrademark);
-  //   if ( typeof data.trademark[trademarks[i].country_id] === 'undefined' ) {
-  //     data.trademark[trademarks[i].country_id] = {
-  //       data : new Array()
-  //     }
-  //   }
+  // console.log(trademarks);
 
-  //   data.trademark[trademarks[i].country_id].countryName = country[0].name
-  //   data.trademark[trademarks[i].country_id].data.push(formattedData)
+  let trademarkSortedData = [];
 
-  // }
+  for ( let i=0; i < trademarks.length; i++) {
+    trademarkSortedData[trademarks[i].countryId] 
 
-  // console.log(data.trademark);
+    if ( typeof trademarkSortedData[trademarks[i].countryId] === "undefined" ) {
+      trademarkSortedData[trademarks[i].countryId] = {
+        data:[],
+        reg:0,
+        pen:0
+      }
+    }
 
-  // data.trademark.forEach(element => {
-  //   if (element) {
-  //     console.log("el", element);
-  //   }
-  // });
+    trademarkSortedData[trademarks[i].countryId].countryName = trademarks[i].country
+    trademarkSortedData[trademarks[i].countryId].data.push(trademarks[i])
 
-  res.locals = {
-    siteTitle: "Trademark Search",
-    description: "Check trademark status",
-    keywords: "Trademark Status, trademarkers status",
-  };
+    if ( trademarks[i] == "Registered" ) {
+      trademarkSortedData[trademarks[i].countryId].reg++
+    } else {
+      trademarkSortedData[trademarks[i].countryId].pen++
+    }
+  }
 
-
+  trademarkSortedData.forEach(element => {
+    console.log(element);
+  });
+  // console.log('formatted',trademarkSortedData);
   res.render('customer/orders', { 
     layout: 'layouts/public-layout-interactive', 
     title: 'Trademarkers LLC Order Status',
     customer: currentData,
-    trademarks: trademarks,
+    trademarks: trademarkSortedData,
     // data: data
   });
     
