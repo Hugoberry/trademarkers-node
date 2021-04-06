@@ -126,11 +126,11 @@ exports.orderDetail = async function(req, res, next) {
     trademark[0].publicationDateFormatted = helpers.convertIntToDate(trademark[0].publicationDate);
   }
 
-  res.locals = {
-    siteTitle: "Trademark Search",
-    description: "Check trademark status",
-    keywords: "Trademark Status, trademarkers status",
-  };
+  // res.locals = {
+  //   siteTitle: "Trademark Search",
+  //   description: "Check trademark status",
+  //   keywords: "Trademark Status, trademarkers status",
+  // };
   
 
   res.render('customer/orderDetails', { 

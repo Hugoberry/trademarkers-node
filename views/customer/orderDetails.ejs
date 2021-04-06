@@ -31,7 +31,7 @@
                     <div class="ar-cname ar-info-line">Publication Date: <span class="ar-value"><%= moment(trademark.publicationDateFormatted).format('MMM D, YYYY') %></span></div>
                   <% } %>
 
-                  <% if( trademark.documents.length > 0 ) { %>
+                  <% if( trademark.documents && trademark.documents.length > 0 ) { %>
                     <div class="ar-cname ar-info-line">Documents: </div>
                     <ul>
                     <% trademark.documents.forEach(function(document,key) { %>
