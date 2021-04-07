@@ -14,13 +14,14 @@ $( document ).ready(function() {
 
           if ( result.status == true ) {
             console.log(result.user);
-            if ( result.user.role_id == 4 ){
-              document.location.href = '/researcher';
-            } else if ( result.user.role_id == 5 ) {
-              document.location.href = '/njs-admin';
-            } else {
-              document.location.href = '/customer';
-            }
+            // if ( result.user.role_id == 4 ){
+            //   document.location.href = '/researcher';
+            // } else if ( result.user.role_id == 5 ) {
+            //   document.location.href = '/njs-admin';
+            // } else {
+            //   document.location.href = '/customer';
+            // }
+            document.location.href = '/customer';
             // document.location.href = '/researcher';
           } else {
             $(".alert-warning strong").html(result.message);
