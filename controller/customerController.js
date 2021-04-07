@@ -34,7 +34,7 @@ exports.orders = async function(req, res, next) {
   } else {
 
     if ( currentData && !currentData.isMigrate ) {
-      console.log('migrate ordersss');
+      // console.log('migrate ordersss');
       // fetch trademarks from mysql and update customer ismigrate to true
       let data = {
         isMigrate : true
@@ -48,7 +48,7 @@ exports.orders = async function(req, res, next) {
         // FETCH COUNTRY
         let country = await rpoCountry.getById(mysqlTrademarks[i].country_id);
 
-        console.log(mysqlTrademarks[i].order_id);
+        // console.log(mysqlTrademarks[i].order_id);
         let trademark = {
           userId: currentData._id,
           orderCode: mysqlTrademarks[i].order_id,
