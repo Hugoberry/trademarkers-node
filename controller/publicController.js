@@ -428,6 +428,7 @@ exports.codeLanding = async function(req, res, next) {
 
   let code = req.params.actionCode;
   let type = req.params.type;
+  let secretAmountDecode = '', secretDescription='', secretCustomer='';
 
   // LOOK FOR A WAY TO REDIRECT CUSTOMER AND PREFILLED FORM
   // OR CREATE A NEW NODEJS SETUP FOR ADDING TO CART IN MYSQL
@@ -436,6 +437,7 @@ exports.codeLanding = async function(req, res, next) {
   let classes = await rpoClasses.getAll();
   let actions = await rpoAction.getAction(code);
   let action = actions[0] ? actions[0] : null;
+  let secretAmount;
 
   let title = "", layout = "layouts/public-layout-default";
   let classArr = [];
@@ -518,7 +520,7 @@ exports.codeLanding = async function(req, res, next) {
       title = "Payment Page"
       layout = 'layouts/public-layout-interactive'
       render = 'trademark-order/payment'
-      console.log('test');
+
     break;
 
     case 'delivery' :
@@ -564,6 +566,37 @@ exports.codeLanding = async function(req, res, next) {
     break;
 
     default:
+      if (code == "pay") {
+        title = "Statement of Use"
+        layout = 'layouts/public-layout-interactive'
+        render = 'trademark-order/checkout-order'
+
+        let arrType = type.split('-')
+        let arrTypeValue = arrType[0]
+        type = arrTypeValue
+        if (!arrTypeValue) {
+          res.redirect('/service-order/pay');
+        }
+
+        if ( typeof arrType[1] !== "undefined" ) {
+          secretCustomer = arrType[1]
+        }
+
+        for (let i = 0; [...arrTypeValue].length > i; i++) {
+
+          if ( typeof variables.secretAmount[[...arrTypeValue][i]] == 'undefined' ) {
+            console.log(i,'found not declared variable');
+            res.redirect('/service-order/pay');
+          }
+
+        }
+
+        let arrSecret = await helpers.convertSecretCode([...arrTypeValue]);
+
+        // console.log(arrSecret);
+        secretAmountDecode = parseInt(arrSecret.secretAmountDecode);
+        secretDescription = arrSecret.secretDescription;
+      }
       // res.redirect('/');
     break;
   }
@@ -583,7 +616,12 @@ exports.codeLanding = async function(req, res, next) {
     classArr: classArr,
     tkey: process.env.PAYK,
     trademark: trademark,
-    user: helpers.getLoginUser(req)
+    user: helpers.getLoginUser(req),
+    secretAmountDecode: secretAmountDecode,
+    secretDescription: secretDescription,
+    secretCustomer: secretCustomer,
+    code: type
+
   });
 
   // res.send()
@@ -1089,6 +1127,88 @@ exports.serviceOrderSubmit = async function(req, res, next) {
     }
 
     console.log('put', order);
+
+    
+
+    mailService.sendOrderNotification(order);
+    rpoOrder.put(order);
+    res.flash('success', 'Payment Successful!');
+    rpoCharge.put(charge);
+
+    activityService.logger(req.ip, req.originalUrl, "Checkout " + req.params.serviceCode);
+
+    res.redirect("/thank-you/"+orderCode); 
+  } else {
+    res.flash('error', 'Sorry!, Something went wrong, try again later.');
+    res.redirect("/checkout/" + req.body.code); 
+    // return with error
+  }
+
+} catch (err) {
+  res.flash('error', err.error);
+  console.log("errors",err);
+  console.log("errors message",err.message);
+}
+
+}
+
+// SERVICE ORDER WITH SECRET CODE AMOUNT AND SERVICE
+exports.serviceOrderCustom3 = async function(req, res, next) {
+
+  req.body.stripeEmail = req.body.email;
+
+  // compute price
+  
+  
+  // let name = "", payment = serviceCode[0].description;
+  let customer = req.body.email ? req.body.email : "";
+
+  let arrSecret = await helpers.convertSecretCode([...req.body.code]);
+  let orderCode = await orderService.createOrderCode();
+
+  let description = arrSecret.secretDescription + " | " + orderCode + " | " + customer;
+  let price = arrSecret.secretAmountDecode;
+
+  if ( req.body.customerId ) {
+    description += " " + req.body.customerId
+  }
+
+  console.log('this',arrSecret.secretAmountDecode);
+
+  // 
+  try{
+  const charge = await stripe.charges.create({
+    amount: (price * 100),
+    currency: 'usd',
+    source: req.body.stripeToken,
+    description: description,
+    // customer: customer,
+    metadata : {
+      'customer': "" + customer,
+      'description': "" + description,
+      'customerName' : req.body.name,
+      'customerAddress' : req.body.address
+    },
+    receipt_email: customer
+  });
+
+  if ( charge.paid ) {
+
+    // save
+    
+
+    let order = {
+      orderNumber: orderCode,
+      charge: charge,
+      custom: true,
+      paid: true,
+      action: req.body.code,
+      customerId: req.body.customerId,
+      created_at: toInteger(moment().format('YYMMDD')),
+      created_at_formatted: moment().format()
+    }
+
+    // console.log('put', order);
 
     
 

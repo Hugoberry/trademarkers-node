@@ -1,0 +1,305 @@
+
+
+    <section class="tm-sl-head-section tm-sl-section so-panel-section">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-12">
+              <div class="tm-sl-head">
+                <div class="row">
+                  <div class="col-xl-9 col-lg-8">
+                    
+
+                      <h1 class="h1"><strong>Service Order</strong></h1>
+                      
+
+                      
+                      <div class="srvc-row srvc-dec-us">
+                        <h2 class="h5 srvc-title"><%= secretDescription %></h2>
+                      </div>
+                      <!-- <br>
+                      <h2 class="h5"> < Trademark info here > </h2> -->
+         
+                  </div>
+
+                 
+                  <div class="col-xl-3 col-lg-4">
+                    <div class="ntc-box tm-ord-bx">
+                        <div class="nt-bx-head"><h2 class="h6 mb-0"><strong>Summary of charges: </strong></h2></div>
+                        <div class="nt-bx-body">
+                          <h5 class="h6"><strong></strong></h5>
+                          <div class="cst-list">
+                            
+                            <!-- <div class="cst-itm">
+                              <span class="cst-label">Amount (EUR): </span>
+                              <span class="cst-value">€300.00</span>
+                            </div> -->
+                            <div class="cst-itm">
+                              <span class="cst-label">Amount (USD): </span>
+                              <span class="cst-value">$<%= secretAmountDecode %></span>
+                            </div>
+                            <div class="cst-itm cst-item-ttl">
+                              <span class="cst-label">Total: </span>
+                              <span class="cst-value">$<%= secretAmountDecode %></span>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                  </div>
+
+                  
+
+
+
+
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="tm-sl-section bg-white">
+      <div class="container">
+        
+
+
+         <div class="cc-form-wrap nc-form-wrap">
+            <div class="row justify-content-center">
+              <div class="col-12">
+                
+                   
+                    <div class="cc-form">
+                    <form class="cc-form-self" action="/checkout/serviceordercustom" method="post" id="payment-form">
+                    
+                      
+                      <div id="card-errors" role="alert"></div>
+
+                      <div class="row">
+                        <div class="col-6">
+
+                          <input type="hidden" name="code" value="<%= code %>" required="required">
+                          <input type="hidden" name="price" value="<%= secretAmountDecode %>" required="required">
+                          <input type="hidden" name="customerId" value="<%= secretCustomer %>" required="required">
+                          
+                      
+                          <div class="form-group">
+
+                            <label for="NcEmail">Customer Information:</label>
+                            <div class="row">
+                              <div class="col-6">
+                                <div class="form-field-inner" >
+                                  
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="form-field mt-2">
+                              <em class="far fa-address-card"><span class="sr-only">Name</span></em>
+                              <input type="text" name="name" id="name" placeholder="Name" class="form-control" required="required">
+                            </div>
+                            
+                            <div class="form-field mt-2">
+                              <em class="far fa-envelope"><span class="sr-only">Email</span></em>
+                              <input type="email" name="email" id="email" placeholder="Email" class="form-control" required="required">
+                            </div>
+
+                            <div class="form-field mt-2">
+                              <em class="far fa-address-book"><span class="sr-only">Address</span></em>
+                              <input type="text" name="address" id="address" placeholder="Address" class="form-control" required="required">
+                            </div>
+
+                          </div>
+                        </div>
+
+                    <div class="col-6">
+
+                      <div class="form-group">
+                        
+
+                        <label for="NcEmail">Card Information:</label>
+                        <div class="row">
+                          <div class="col-6">
+                            <div class="form-field-inner" >
+                              
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-field mt-2">
+                          <div class="row">
+                            <div class="col-12">
+                              <div class="form-field-inner">
+                                <em class="fad fa-credit-card"><span class="sr-only">Card CVV</span></em>
+                                <div id="CcNumber" class="form-control" style="padding-top: 18px;"></div>
+                              </div>
+                            </div>
+                          </div>
+                         </div>
+
+            
+                         <div class="form-field mt-2">
+                          <div class="row">
+                            <div class="col-6">
+                              <div class="form-field-inner" >
+                                <em class="fal fal fa-calendar-alt"><span class="sr-only">Expiry Date</span></em>
+                                <div id="cardExpiry" class="form-control" style="padding-top: 18px;"></div>
+                              </div>
+                            </div>
+                            <div class="col-6">
+                              <div class="form-field-inner">
+                                <em class="fad fa-credit-card"><span class="sr-only">Card CVV</span></em>
+                                <div id="cardCvc" class="form-control" style="padding-top: 18px;"></div>
+                              </div>
+                            </div>
+                          </div>
+                         </div>
+
+                         <div class="form-field mt-2">
+                          <em class="fad fa-flag-alt"><span class="sr-only">Zip Code</span></em>
+                          <div id="postalCode" class="form-control" style="padding-top: 18px;"></div>
+                        </div>
+
+                      </div>
+
+
+                    </div>
+
+                    <div class="col-12">
+                      <div class="form-group mt-2">
+                        <input type="submit" name="ncLgnFormSubmit" id="NcLgnFormSubmit" class="btn btn-solid-lg btn-blue" value="Pay $<%= secretAmountDecode %>">
+                      </div>
+                    </div>
+
+                  </div>
+
+
+                  </form></div>
+
+
+                  
+                
+              </div>
+            </div>
+         </div>
+      </div>
+    </section>
+
+    
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+      // Create a Stripe client.
+var stripe = Stripe('<%= tkey %>');
+
+// Create an instance of Elements.
+var elements = stripe.elements();
+
+// Custom styling can be passed to options when creating an Element.
+// (Note that this demo uses a wider set of styles than the guide below.)
+var style = {
+  base: {
+    color: '#000',
+    fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+    fontSmoothing: 'antialiased',
+    fontSize: '18px',
+    fontWeight: '600',
+    '::placeholder': {
+      color: '#6c757d',
+    },
+    iconColor: '#439ff2'
+  },
+  invalid: {
+    color: '#fa755a',
+    iconColor: '#fa755a'
+  }
+};
+
+// Create an instance of the card Element.
+// var card = elements.create('card', {style: style});
+
+// Add an instance of the card Element into the `card-element` <div>.
+// card.mount('#card-element');
+
+var acc = elements.create('cardNumber', {style: style, placeholder: 'Card Number'});
+var cardExpiry = elements.create('cardExpiry', {style: style});
+var cardCvc = elements.create('cardCvc', {style: style});
+var postalCode = elements.create('postalCode', {style: style, placeholder: 'Postal Code'});
+var emailAddress = document.getElementById("email");
+
+
+// acc.classList.add("form-control");
+acc.mount('#CcNumber');
+cardExpiry.mount('#cardExpiry');
+cardCvc.mount('#cardCvc');
+postalCode.mount('#postalCode');
+
+// cardCvc.op
+
+// Handle real-time validation errors from the card Element.
+acc.on('change', function(event) {
+  var displayError = document.getElementById('card-errors');
+  if (event.error) {
+    displayError.textContent = event.error.message;
+  } else {
+    displayError.textContent = '';
+  }
+});
+
+cardExpiry.on('change', function(event) {
+  var displayError = document.getElementById('card-errors');
+  if (event.error) {
+    displayError.textContent = event.error.message;
+  } else {
+    displayError.textContent = '';
+  }
+});
+
+cardCvc.on('change', function(event) {
+  var displayError = document.getElementById('card-errors');
+  if (event.error) {
+    displayError.textContent = event.error.message;
+  } else {
+    displayError.textContent = '';
+  }
+});
+
+postalCode.on('change', function(event) {
+  var displayError = document.getElementById('card-errors');
+  if (event.error) {
+    displayError.textContent = event.error.message;
+  } else {
+    displayError.textContent = '';
+  }
+});
+
+// Handle form submission.
+var form = document.getElementById('payment-form');
+form.addEventListener('submit', function(event) {
+  event.preventDefault();
+
+  stripe.createToken(acc).then(function(result) {
+    if (result.error) {
+      // Inform the user if there was an error.
+      var errorElement = document.getElementById('card-errors');
+      errorElement.textContent = result.error.message;
+    } else {
+      // Send the token to your server.
+      stripeTokenHandler(result.token);
+    }
+  });
+});
+
+// Submit the form with the token ID.
+function stripeTokenHandler(token) {
+  // Insert the token ID into the form so it gets submitted to the server
+  var form = document.getElementById('payment-form');
+  var hiddenInput = document.createElement('input');
+  hiddenInput.setAttribute('type', 'hidden');
+  hiddenInput.setAttribute('name', 'stripeToken');
+  hiddenInput.setAttribute('value', token.id);
+  form.appendChild(hiddenInput);
+
+  // Submit the form
+  form.submit();
+}
+    </script>

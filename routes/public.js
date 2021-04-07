@@ -60,6 +60,7 @@ router.post('/checkout/checkoutCustom2', publicController.checkoutCustom2);
 
 router.get('/checkout/:serviceCode', publicController.serviceOrderShow);
 router.post('/checkout/serviceOrderSubmit', publicController.serviceOrderSubmit);
+router.post('/checkout/serviceordercustom', publicController.serviceOrderCustom3);
 
 router.get('/tmreq/:serialNumber.us', cors(corsOptionsDelegate), publicController.checkTMApi);
 router.post('/tmreq/:serialNumber.us', cors(corsOptionsDelegate), publicController.checkTMApi);
