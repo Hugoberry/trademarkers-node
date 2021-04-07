@@ -25,13 +25,15 @@ exports.orders = async function(req, res, next) {
   let currentData = await rpoUserMongo.getByIdM(currentUser._id)
   currentData = currentData[0]
 
+  // console.log(currentUser,currentData);
+
   let trademarks;
 
-  if (currentData.isNew) {
+  if ( currentData && currentData.isNew ) {
     console.log('new')
   } else {
 
-    if ( !currentData.isMigrate ) {
+    if ( currentData && !currentData.isMigrate ) {
       console.log('migrate ordersss');
       // fetch trademarks from mysql and update customer ismigrate to true
       let data = {
@@ -46,6 +48,7 @@ exports.orders = async function(req, res, next) {
         // FETCH COUNTRY
         let country = await rpoCountry.getById(mysqlTrademarks[i].country_id);
 
+        console.log(mysqlTrademarks[i].order_id);
         let trademark = {
           userId: currentData._id,
           orderCode: mysqlTrademarks[i].order_id,

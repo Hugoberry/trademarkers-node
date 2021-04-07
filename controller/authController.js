@@ -162,7 +162,7 @@ function validateHashUser(pass, obj, res){
     var hash = obj.password;
     hash = hash.replace(/^\$2y(.+)$/i, '$2a$1');
 
-    bcrypt.compare(pass, hash, function(err, ress) {
+    bcrypt.compare(pass, hash, async function(err, ress) {
 
         if(!ress){
             
@@ -175,6 +175,12 @@ function validateHashUser(pass, obj, res){
 
         }else{     
 
+            let storedUser = await rpoUsers.putUser(obj);
+
+            // console.log(storedUser.insertedId);
+
+            obj._id = storedUser.insertedId;
+
             //use the payload to store information about the user such as username, user role, etc.
             let payload = {user: JSON.stringify(obj)}
 
@@ -183,7 +189,7 @@ function validateHashUser(pass, obj, res){
             expiresIn: (60 * 60) * 6
             });
 
-            rpoUsers.putUser(obj);
+            
 
             //send the access token to the client inside a cookie
             // res.setHeader('Cache-Control', 'private');
