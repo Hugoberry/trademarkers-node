@@ -6,6 +6,9 @@ $( document ).ready(function() {
         url: "/login/auth",
         type:"GET",
         dataType:"json",
+        xhrFields: {
+          withCredentials: false
+        }, 
         data: {
           username: $("#username").val(),
           password: $("#password").val()
