@@ -219,6 +219,15 @@ exports.login_ajax = async function(req,res){
 function validateHashUser(pass, obj, res){
 
     var hash = obj.password;
+
+    if (!hash) {
+        
+        res.json({
+            status:false,                  
+            message:"Email and password does not match"
+            });
+    }
+
     hash = hash.replace(/^\$2y(.+)$/i, '$2a$1');
 
     bcrypt.compare(pass, hash, async function(err, ress) {
