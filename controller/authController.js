@@ -118,6 +118,7 @@ exports.login = async function(req,res){
     let userExistMongo = await rpoUsersMongo.findUser(username);
 
     // if (userExistMongo)
+    console.log(req.query);
     console.log(userExistMongo);
 
     // check in mongo db
