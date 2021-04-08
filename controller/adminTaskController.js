@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 var rpoTask = require('../repositories/task');
-var rpoMongoTask = require('../repositories/taskMongo');
+// var rpoMongoTask = require('../repositories/taskMongo');
 var rpoUsers = require('../repositories/usersMongo');
 
 var mailService = require('../services/mailerService');
