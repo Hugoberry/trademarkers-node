@@ -220,8 +220,10 @@ function validateHashUser(pass, obj, res){
 
     var hash = obj.password;
 
+    console.log(obj);
+
     if (!hash) {
-        
+
         res.json({
             status:false,                  
             message:"Email and password does not match"
