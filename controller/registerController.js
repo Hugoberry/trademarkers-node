@@ -135,6 +135,7 @@ exports.addToCart = async function(req, res, next) {
   let country = await rpoCountries.getById(req.body.countryId * 1);
   let amount = helpers.calculatePrice(dataPrice);
   let currentUser = helpers.getLoginUser(req)
+  let newInsertedUser;
 
   // get customer
   // if ( req.body.action == 'notLogin') {
@@ -189,7 +190,7 @@ exports.addToCart = async function(req, res, next) {
     }
     let newUser = await rpoUserMongo.putUser(userData);
     // console.log('new', newUser.insertedId);
-    let newInsertedUser = await rpoUserMongo.getByIdM(newUser.insertedId);
+    newInsertedUser = await rpoUserMongo.getByIdM(newUser.insertedId);
     currentUser = newInsertedUser[0]
     console.log(currentUser);
 
@@ -217,8 +218,8 @@ exports.addToCart = async function(req, res, next) {
   data.word_mark = req.body.word_mark;
   data.class = req.body.class;
   data.description = req.body.description;
-  data.userId = currentUser._id;
-  data.user = currentUser;
+  data.userId = newInsertedUser[0]._id;
+  data.user = newInsertedUser[0];
   data.price = amount;
   data.country = country[0];
   data.status = 'active';
