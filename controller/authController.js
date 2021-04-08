@@ -145,7 +145,7 @@ exports.login = async function(req,res){
 
                 }
                 else{
-
+                    console.log("error", results);
                     res.json({
                         status:false,
                         message:"Email does not exits"
