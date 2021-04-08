@@ -4,11 +4,10 @@ $( document ).ready(function() {
     console.log('attempt.. ');
       $.ajax({
         url: "/login/auth",
-        type:"POST",
-        dataType:"json",
+        type:"GET",
         data: {
-          username: $("#username").val(),
-          password: $("#password").val()
+          "username": $("#username").val(),
+          "password": $("#password").val()
         },
         contentType: "application/json",
         success: function( result ) {

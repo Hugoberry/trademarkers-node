@@ -6,7 +6,6 @@ const {login, showLogin, refresh, loginApi, logoutApi} = require('../controller/
 // show login form
 router.get('/', showLogin)
 router.get('/auth', login)
-router.post('/auth', login)
 router.get('/refresh', refresh)
 
 router.get('/:hash/:email', loginApi)

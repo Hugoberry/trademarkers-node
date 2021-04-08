@@ -121,7 +121,7 @@ exports.login = async function(req,res){
     console.log("param",req.params);
     console.log("body",req.body);
     console.log("query",req.query);
-    console.log("all",req);
+    // console.log("all",req);
     console.log(userExistMongo);
 
     // check in mongo db

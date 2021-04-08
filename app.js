@@ -32,7 +32,7 @@ var app = express();
 
 app.use(fileUpload());
 
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 app.use(cookieParser())
 
 // view engine setup
