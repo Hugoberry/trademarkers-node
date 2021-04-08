@@ -19,7 +19,7 @@ $( document ).ready(function() {
             //   document.location.href = '/njs-admin';
             // } else {
             //   document.location.href = '/customer';
-            // }
+            // } 
             document.location.href = '/customer';
             // document.location.href = '/researcher';
           } else {
