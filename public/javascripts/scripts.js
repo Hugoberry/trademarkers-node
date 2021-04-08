@@ -22,7 +22,7 @@ $( document ).ready(function() {
             // } else {
             //   document.location.href = '/customer';
             // }
-            document.location.href = '/customer';
+            // document.location.href = '/customer';
             // document.location.href = '/researcher';
           } else {
             $(".alert-warning strong").html(result.message);
