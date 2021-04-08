@@ -12,7 +12,7 @@ $( document ).ready(function() {
         },
         contentType: "application/json",
         success: function( result ) {
-
+          console.log($("#username").val());
           if ( result.status == true ) {
             console.log(result.user);
             // if ( result.user.role_id == 4 ){
