@@ -14,7 +14,7 @@ const fileUpload = require('express-fileupload');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const mongoose = require('mongoose');
-var cors = require('cors')
+// var cors = require('cors')
 
 
 const expressLayouts = require('express-ejs-layouts');
@@ -47,7 +47,7 @@ app.use(lessMiddleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(expressLayouts);
 
-app.use(cors())
+// app.use(cors())
 
 
 // APP  CONTAINER =========== >> 
