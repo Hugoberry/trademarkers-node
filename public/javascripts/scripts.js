@@ -6,10 +6,10 @@ $( document ).ready(function() {
         url: "/login/auth",
         type:"GET",
         dataType:"json",
-        data: JSON.stringify({
+        data: {
           username: $("#username").val(),
           password: $("#password").val()
-        }),
+        },
         contentType: "application/json",
         success: function( result ) {
           console.log($("#username").val());
