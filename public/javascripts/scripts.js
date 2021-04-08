@@ -3,13 +3,12 @@ $( document ).ready(function() {
   $('#login-from').submit(function(){
     console.log('attempt.. ');
       $.ajax({
-        url: "/login/auth",
-        type:"GET",
+        url: "/login/auth2",
+        type:"post",
         data: {
           "username": $("#username").val(),
           "password": $("#password").val()
         },
-        contentType: "application/json",
         success: function( result ) {
           console.log($("#username").val());
           if ( result.status == true ) {

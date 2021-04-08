@@ -161,6 +161,61 @@ exports.login = async function(req,res){
 
 }
 
+exports.login_ajax = async function(req,res){
+
+    // return 'asd';
+    var username=req.body.username;
+    var password=req.body.password;
+
+    // CHECK MONGODB IF EXIST AND VALIDATE
+    let userExistMongo = await rpoUsersMongo.findUser(username);
+
+    // if (userExistMongo)
+    console.log("param",req.params);
+    console.log("body",req.body);
+    console.log("query",req.query);
+    // console.log("all",req);
+    console.log(userExistMongo);
+
+    // check in mongo db
+    if ( userExistMongo && userExistMongo[0]) {
+
+        console.log('Validating Via mongo DB...');
+        validateHashUser(password, userExistMongo[0], res);
+
+    } else {
+
+        connection.query('SELECT * FROM users WHERE email = ?',[username], function (error, results, fields) {
+            if (error) {
+                res.json({
+                  status:false,
+                  message:'there are some error with query'
+                  })
+            }else{
+
+                if(results.length >0){
+                    console.log('Validating Via MYSQL DB...');
+                    validateHashUser(password, results[0], res);
+
+                }
+                else{
+                    console.log("error", results);
+                    res.json({
+                        status:false,
+                        message:"Email does not exits"
+                    });
+
+                }
+
+            }
+        });
+
+    } // END ELSE
+
+
+
+}
+
 function validateHashUser(pass, obj, res){
 
     var hash = obj.password;
