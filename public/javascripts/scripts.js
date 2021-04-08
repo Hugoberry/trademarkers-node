@@ -1,6 +1,7 @@
 $( document ).ready(function() {
 
   $('#login-from').submit(function(){
+    console.log('attempt.. ');
       $.ajax({
         url: "/login/auth",
         type:"GET",
