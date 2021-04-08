@@ -4,7 +4,7 @@ $( document ).ready(function() {
     console.log('attempt.. ');
       $.ajax({
         url: "/login/auth",
-        type:"GET",
+        type:"POST",
         dataType:"json",
         data: {
           username: $("#username").val(),
