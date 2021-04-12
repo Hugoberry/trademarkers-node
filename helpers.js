@@ -4,6 +4,9 @@ const jwt = require('jsonwebtoken');
 const variables = require('./config/variables');
 
 var rpoCartItems = require('./repositories/cartItems');
+var rpoUser = require('./repositories/users');
+var rpoUserMongo = require('./repositories/usersMongo');
+
 let ObjectID = require('mongodb').ObjectID;
 
 exports.convertIntToDate = function(idate) {
@@ -19,7 +22,7 @@ exports.convertIntToDate = function(idate) {
     
 }
 
-exports.getLoginUser = function(req) {
+exports.getLoginUser = async function(req) {
     let decode = jwt.decode(req.cookies.jwt, {complete: true});
 
     let user;
@@ -28,6 +31,12 @@ exports.getLoginUser = function(req) {
 
         if ( user && user._id ) {
             user._id = ObjectID(user._id)
+        }
+
+        if ( user && !user._id ) {
+            let currentUserRecord = await rpoUserMongo.findUser(user.email)
+        
+            user = currentUserRecord[0]
         }
     }
     // let user = JSON.parse(decode.payload.user);
@@ -89,6 +98,12 @@ exports.getCartCount = async function(req) {
     if (decode) {
         user = JSON.parse(decode.payload.user);
 
+        if ( user && !user._id ) {
+            let currentUserRecord = await rpoUserMongo.findUser(user.email)
+        
+            user = currentUserRecord[0]
+        }
+
         let cartItems = await rpoCartItems.fetchCustomerCart(user._id)
 
         return cartItems.length;
@@ -104,12 +119,18 @@ exports.getCartTotalAmount = async function(cartItems) {
     let total = 0;
     return new Promise(function(resolve, reject) {
 
-        cartItems.forEach(element => {
-            // console.log(element.price);
-            total += element.price
-        });
+        if (cartItems) {
+            cartItems.forEach(element => {
+                // console.log(element.price);
+                total += element.price
+            });
+    
+            resolve(total);
+        } else {
+            resolve(0);
+        }
 
-        resolve(total);
+        
 
     });
     

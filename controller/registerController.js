@@ -47,7 +47,7 @@ exports.registration = async function(req, res, next) {
     country: country[0],
     classes: classes,
     serviceType: serviceType,
-    user: helpers.getLoginUser(req)
+    user: await helpers.getLoginUser(req)
   });
 }
 
@@ -105,7 +105,7 @@ exports.validateOrder = async function(req, res, next) {
     data: req.body,
     country: country[0],
     amount: amount,
-    user: helpers.getLoginUser(req)
+    user: await helpers.getLoginUser(req)
   });
 }
 
@@ -134,44 +134,8 @@ exports.addToCart = async function(req, res, next) {
 
   let country = await rpoCountries.getById(req.body.countryId * 1);
   let amount = helpers.calculatePrice(dataPrice);
-  let currentUser = helpers.getLoginUser(req)
+  let currentUser = await helpers.getLoginUser(req)
   let newInsertedUser;
-
-  // get customer
-  // if ( req.body.action == 'notLogin') {
-  //   // check user in mysql and mongo if not create new user
-  //   let userMy = await rpoUser.getUserByEmail(req.body.email);
-  //   let userMd = await rpoUserMongo.findUser(req.body.email);
-
-  //   if (userMd.length > 0) {
-  //     // found update or store in mongo
-  //     currentUser = await rpoUser.putUser(userMd[0])
-  //     actionLogin = "old"
-  //   } else if( userMy.length > 0 ) {
-  //     actionLogin = "old"
-  //     currentUser = await rpoUser.putUser(userMy[0])
-  //   } else {
-  //     // new user
-  //     let userData = {
-  //       name: req.body.name,
-  //       email: req.body.email,
-  //       address: req.body.address,
-  //       isNew: true,
-  //       created_at: toInteger(moment().format('YYMMDD')),
-  //       created_at_formatted: moment().format()
-  //     }
-  //     await rpoUserMongo.putUser(userData)
-  //     currentUser = await rpoUserMongo.findUser(req.body.email);
-  //     // console.log("new", currentUser);
-
-  //     actionLogin = "new"
-  //   }
-
-  //   if (currentUser.length > 0) {
-  //     currentUser = currentUser[0];
-  //   }
- 
-  // }
 
   // VERSION 2 MODIFICATION
   if ( req.body.customerType == 'new') {
@@ -205,8 +169,10 @@ exports.addToCart = async function(req, res, next) {
 
   }
 
-  // if (typeof req.body.logoName !== "undefined") {
-  //   data.logoName = req.body.logoName;
+  // if ( currentUser && !currentUser._id ) {
+  //   let currentUserRecord = await rpoUserMongo.findUser(currentUser.email)
+
+  //   currentUser = currentUserRecord[0]
   // }
 
   data = req.body;
@@ -255,7 +221,7 @@ exports.cart = async function(req, res, next) {
   let cartItems;
   let userId;
   let guest;
-  let currentUser = helpers.getLoginUser(req);
+  let currentUser = await helpers.getLoginUser(req);
   let isloggedIn = false;
 
   if (!currentUser) {
@@ -267,16 +233,25 @@ exports.cart = async function(req, res, next) {
     guest = await rpoUserMongo.getByIdM(userId);
  
   } else {
-    userId = currentUser._id
+    
     isloggedIn = true;
+
+    // if ( currentUser && !currentUser._id ) {
+    //   let currentUserRecord = await rpoUserMongo.findUser(currentUser.email)
+  
+    //   currentUser = currentUserRecord[0]
+    // }
+
+    userId = currentUser._id
   }
 
+  // console.log(currentUser);
   if (userId) {
     cartItems = await rpoCartItems.fetchCustomerCart(userId)
   }
 
   if( !cartItems ) {
-    res.redirect("/"); 
+    // res.redirect("/"); 
   }
 
   let amount = await helpers.getCartTotalAmount(cartItems);
@@ -296,7 +271,7 @@ exports.cart = async function(req, res, next) {
 
 exports.checkout = async function(req, res, next) {
 
-  let currentUser = helpers.getLoginUser(req) 
+  let currentUser = await helpers.getLoginUser(req) 
   let cartItems;
   let userId;
 
@@ -310,6 +285,13 @@ exports.checkout = async function(req, res, next) {
  
   } else {
     // console.log('2');
+
+    // if ( currentUser && !currentUser._id ) {
+    //   let currentUserRecord = await rpoUserMongo.findUser(currentUser.email)
+  
+    //   currentUser = currentUserRecord[0]
+    // }
+
     userId = currentUser._id
   }
 // console.log(userId);
@@ -336,7 +318,7 @@ exports.checkout = async function(req, res, next) {
 exports.placeOrder = async function(req, res, next) {
 
   // fetch details
-  let currentUser = helpers.getLoginUser(req) 
+  let currentUser = await helpers.getLoginUser(req) 
 
   // redirect customer to login
   if( !currentUser ) {
