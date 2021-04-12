@@ -128,6 +128,9 @@ exports.login = async function(req,res){
     if ( userExistMongo && userExistMongo[0]) {
 
         console.log('Validating Via mongo DB...');
+
+        
+
         validateHashUser(password, userExistMongo[0], res);
 
     } else {
@@ -181,6 +184,18 @@ exports.login_ajax = async function(req,res){
     if ( userExistMongo && userExistMongo[0]) {
 
         console.log('Validating Via mongo DB...');
+
+        // check for password and update record
+        if ( !userExistMongo[0].password && userExistMongo[0].id ) {
+            let userSQL = await rpoUsers.getUserByIdMysql(userExistMongo[0].id)
+
+            console.log("fetched from sql", userSQL);
+
+            userExistMongo[0].password = userSQL[0].password
+
+            rpoUsersMongo.updateUser(userExistMongo[0]._id, {password: userSQL[0].password})
+        }
+
         validateHashUser(password, userExistMongo[0], res);
 
     } else {
