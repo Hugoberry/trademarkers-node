@@ -65,7 +65,7 @@ exports.home = async function(req, res, next) {
     //   rpoContinents.updateDetails(continent._id, {countries: countries });
     // });
 
-    let user = helpers.getLoginUser(req);
+    let user = await helpers.getLoginUser(req);
 
     res.render('public/index', { 
       layout: 'layouts/public-layout', 
@@ -76,11 +76,11 @@ exports.home = async function(req, res, next) {
      
 }
 
-exports.about = function(req, res, next) {
+exports.about = async function(req, res, next) {
 
   // activityService.logger(req.ip, req.originalUrl, "Visited About Page");
 
-  let user = helpers.getLoginUser(req);
+  let user = await helpers.getLoginUser(req);
 
   res.render('public/about', { 
     layout: 'layouts/public-layout-default', 
@@ -89,10 +89,10 @@ exports.about = function(req, res, next) {
   });
 }
 
-exports.terms = function(req, res, next) {
+exports.terms = async function(req, res, next) {
 
   // activityService.logger(req.ip, req.originalUrl, "Visited Terms Page");
-  let user = helpers.getLoginUser(req);
+  let user = await helpers.getLoginUser(req);
 
   res.render('public/terms', { 
     layout: 'layouts/public-layout-default', 
@@ -101,47 +101,47 @@ exports.terms = function(req, res, next) {
   });
 }
 
-exports.privacy = function(req, res, next) {
+exports.privacy = async function(req, res, next) {
 
   // activityService.logger(req.ip, req.originalUrl, "Visited Privacy Page");
 
   res.render('public/privacy', { 
     layout: 'layouts/public-layout-default', 
     title: 'privacy',
-    user: helpers.getLoginUser(req)
+    user: await helpers.getLoginUser(req)
   });
 }
 
-exports.service = function(req, res, next) {
+exports.service = async function(req, res, next) {
 
   // activityService.logger(req.ip, req.originalUrl, "Visited Service Page");
 
   res.render('public/service', { 
     layout: 'layouts/public-layout-default', 
     title: 'service',
-    user: helpers.getLoginUser(req)
+    user: await helpers.getLoginUser(req)
   });
 }
 
-exports.cookies = function(req, res, next) {
+exports.cookies = async function(req, res, next) {
 
   // activityService.logger(req.ip, req.originalUrl, "Visited Cookies Page");
 
   res.render('public/cookies', { 
     layout: 'layouts/public-layout-default', 
     title: 'cookies',
-    user: helpers.getLoginUser(req)
+    user: await helpers.getLoginUser(req)
   });
 }
 
-exports.blog = function(req, res, next) {
+exports.blog = async function(req, res, next) {
 
   // activityService.logger(req.ip, req.originalUrl, "Visited Blog Page");
 
   res.render('public/blog', { 
     layout: 'layouts/public-layout-default', 
     title: 'blog',
-    user: helpers.getLoginUser(req)
+    user: await helpers.getLoginUser(req)
   });
 }
 
@@ -154,59 +154,59 @@ exports.contact = function(req, res, next) {
   // res.render('public/contact', { layout: 'layouts/public-layout-default', title: 'contact' });
 }
 
-exports.classes = function(req, res, next) {
+exports.classes = async function(req, res, next) {
 
   // activityService.logger(req.ip, req.originalUrl, "Visited Classes Page");
 
   res.render('public/classes', { 
     layout: 'layouts/public-layout-default', 
     title: 'classes',
-    user: helpers.getLoginUser(req)
+    user: await helpers.getLoginUser(req)
   });
 }
 
-exports.resources = function(req, res, next) {
+exports.resources = async function(req, res, next) {
 
   // activityService.logger(req.ip, req.originalUrl, "Visited Resources Page");
 
   res.render('public/resources', { 
     layout: 'layouts/public-layout-default', 
     title: 'resources',
-    user: helpers.getLoginUser(req)
+    user: await helpers.getLoginUser(req)
   });
 }
 
-exports.prices = function(req, res, next) {
+exports.prices = async function(req, res, next) {
 
   // activityService.logger(req.ip, req.originalUrl, "Visited Price Page");
 
   res.render('public/prices', { 
     layout: 'layouts/public-layout-default', 
     title: 'prices',
-    user: helpers.getLoginUser(req)
+    user: await helpers.getLoginUser(req)
   });
 }
 
 
-exports.service_contract = function(req, res, next) {
+exports.service_contract = async function(req, res, next) {
 
   // activityService.logger(req.ip, req.originalUrl, "Visited Service Page");
 
   res.render('public/service_contract', { 
     layout: 'layouts/public-layout-default', 
     title: 'service_contract',
-    user: helpers.getLoginUser(req)
+    user: await helpers.getLoginUser(req)
   });
 }
 
-exports.udrp = function(req, res, next) {
+exports.udrp = async function(req, res, next) {
 
   // activityService.logger(req.ip, req.originalUrl, "Visited UDRP Page");
 
   res.render('public/udrp', { 
     layout: 'layouts/public-layout-default', 
     title: 'Uniform Domain-Name Dispute-Resolution Policy',
-    user: helpers.getLoginUser(req)
+    user: await helpers.getLoginUser(req)
   });
 }
 
@@ -269,7 +269,7 @@ exports.redirect = async function(req, res, next) {
 
 }
 
-exports.ytVideo = function(req, res, next) {
+exports.ytVideo = async function(req, res, next) {
 
   let ytId = req.params.ytId;
 
@@ -279,7 +279,7 @@ exports.ytVideo = function(req, res, next) {
     layout: 'layouts/public-layout', 
     title: 'Youtube Videos', 
     ytId: ytId,
-    user: helpers.getLoginUser(req)
+    user: await helpers.getLoginUser(req)
   });
 }
 
@@ -347,7 +347,7 @@ exports.generatePdf = async function(req, res, next) {
     title   : 'Generate Pdf', 
     pdfs    : pdfs,
     senders : senders,
-    user: helpers.getLoginUser(req)
+    user: await helpers.getLoginUser(req)
   });
 }
 
@@ -616,7 +616,7 @@ exports.codeLanding = async function(req, res, next) {
     classArr: classArr,
     tkey: process.env.PAYK,
     trademark: trademark,
-    user: helpers.getLoginUser(req),
+    user: await helpers.getLoginUser(req),
     secretAmountDecode: secretAmountDecode,
     secretDescription: secretDescription,
     secretCustomer: secretCustomer,
@@ -689,7 +689,7 @@ exports.deliveryMethod = async function(req, res, next) {
     trademark: trademark[0],
     pngName: pngName,
     pdfName: pdfName,
-    user: helpers.getLoginUser(req)
+    user: await helpers.getLoginUser(req)
   });
 
 
@@ -880,7 +880,7 @@ exports.serviceOrderCustom = async function(req, res, next) {
     title   : "",
     tkey: process.env.PAYK,
     order: order[0],
-    user: helpers.getLoginUser(req)
+    user: await helpers.getLoginUser(req)
   });
 }
 
@@ -974,7 +974,7 @@ exports.serviceOrderCustom2 = async function(req, res, next) {
     title   : "",
     tkey: process.env.PAYK,
     order: order[0],
-    user: helpers.getLoginUser(req)
+    user: await helpers.getLoginUser(req)
   });
 }
 
@@ -1069,7 +1069,7 @@ exports.serviceOrderShow = async function(req, res, next) {
     title   : "",
     tkey: process.env.PAYK,
     serviceOrder: serviceOrder[0],
-    user: helpers.getLoginUser(req)
+    user: await helpers.getLoginUser(req)
   });
 }
 
@@ -1246,7 +1246,7 @@ exports.generateService = async function(req, res, next) {
     "trademark-order/add-service", { 
     layout  : "layouts/public-layout-interactive", 
     title   : "",
-    user: helpers.getLoginUser(req)
+    user: await helpers.getLoginUser(req)
   });
 }
 
@@ -1357,7 +1357,7 @@ exports.oppositionProof = async function(req, res, next) {
   res.render("public/opposition-proof-of-use", { 
     layout  : "layouts/public-layout-interactive", 
     title   : "",
-    user: helpers.getLoginUser(req)
+    user: await helpers.getLoginUser(req)
   });
 }
 

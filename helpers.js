@@ -163,3 +163,9 @@ exports.convertSecretCode = function(code) {
     }
 
 }
+
+exports.isAuth = function() {
+    let accessToken = req.cookies.jwt
+
+    return accessToken
+}

@@ -21,7 +21,7 @@ let moment = require('moment');
 
 exports.orders = async function(req, res, next) {
 
-  let currentUser = helpers.getLoginUser(req);
+  let currentUser = await helpers.getLoginUser(req);
   let currentData = await rpoUserMongo.getByIdM(currentUser._id)
   currentData = currentData[0]
 
@@ -208,7 +208,7 @@ exports.updateCustomerFormSubmit = async function(req, res, next) {
   
 }
 
-exports.index = function(req, res, next) {
+exports.index = async function(req, res, next) {
   
   // let urlPhp = process.env.APP_URL_PHP;
   // res.redirect(urlPhp + '/home');
@@ -216,7 +216,7 @@ exports.index = function(req, res, next) {
   res.render('customer/', { 
     layout: 'layouts/customer-layout-interactive', 
     title: 'Customer',
-    user: helpers.getLoginUser(req)
+    user: await helpers.getLoginUser(req)
   });
     
 }
