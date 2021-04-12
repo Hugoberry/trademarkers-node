@@ -192,8 +192,9 @@ exports.addToCart = async function(req, res, next) {
     // console.log('new', newUser.insertedId);
     newInsertedUser = await rpoUserMongo.getByIdM(newUser.insertedId);
     currentUser = newInsertedUser[0]
-    console.log(currentUser);
+    // console.log("currentUser",currentUser);
 
+    currentUser._id = newUser.insertedId
     let payload = {user: JSON.stringify(currentUser)}
 
     let accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
@@ -218,8 +219,8 @@ exports.addToCart = async function(req, res, next) {
   data.word_mark = req.body.word_mark;
   data.class = req.body.class;
   data.description = req.body.description;
-  data.userId = newInsertedUser[0]._id;
-  data.user = newInsertedUser[0];
+  data.userId = currentUser._id;
+  data.user = currentUser;
   data.price = amount;
   data.country = country[0];
   data.status = 'active';
@@ -245,7 +246,7 @@ exports.addToCart = async function(req, res, next) {
   // }
   // console.log(data);
   // res.locals.currentUser = currentUser
-
+console.log('here');
   res.redirect("/cart?uid="+currentUser._id);
 }
 
