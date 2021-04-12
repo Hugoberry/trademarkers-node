@@ -107,7 +107,7 @@ exports.orders = async function(req, res, next) {
   });
   // console.log('formatted',trademarkSortedData);
   res.render('customer/orders', { 
-    layout: 'layouts/public-layout-interactive', 
+    layout: 'layouts/customer-layout-interactive', 
     title: 'Trademarkers LLC Order Status',
     customer: currentData,
     trademarks: trademarkSortedData,

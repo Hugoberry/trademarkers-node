@@ -104,6 +104,10 @@ exports.getCartCount = async function(req) {
             user = currentUserRecord[0]
         }
 
+        if( !user ) {
+            return 0
+        }
+
         let cartItems = await rpoCartItems.fetchCustomerCart(user._id)
 
         return cartItems.length;

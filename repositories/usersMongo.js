@@ -24,6 +24,26 @@ module.exports = {
 		});
 	},
 
+	findUserNo : async function(userNo) {
+		return new Promise(function(resolve, reject) {
+
+			let query = { userNo: userNo };
+
+			let db = conn.getDb();
+			
+			db.collection(_table).find(query).toArray(function(err, result) {
+					
+				if (err) {
+					reject(err);
+				} else {
+					resolve(result);
+				}
+
+			});
+
+		});
+	},
+
 	getResearchers : async function() {
 		return new Promise(function(resolve, reject) {
 

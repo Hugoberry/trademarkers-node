@@ -144,11 +144,26 @@ exports.addToCart = async function(req, res, next) {
 
     hash = hash.replace("$2b$", "$2y$");
 
+    // GENERATE CUSTOMER NO
+    let flag = true
+    let custNo = ""
+
+    for ( ; flag; ) {
+        custNo = "CU-" + helpers.makeid(4)
+
+        let dataCustomer = await rpoUserMongo.findUserNo(custNo)
+        // console.log("check user", dataCustomer.length );
+        if ( dataCustomer.length <= 0 ) {
+            flag = false
+        }
+    }
+
     let userData = {
       name: req.body.name,
       address: req.body.address,
       email: req.body.email,
       password: hash,
+      custNo: custNo,
       created_at: toInteger(moment().format('YYMMDD')),
       created_at_formatted: moment().format()
     }
@@ -409,13 +424,15 @@ exports.placeOrder = async function(req, res, next) {
       res.redirect("/thank-you/"+orderCode); 
     } else {
       res.flash('error', 'Sorry!, Something went wrong, try again later.');
-      res.redirect("/checkout/L3P-6T"); 
+      res.redirect("/checkout"); 
       // return with error
     }
   } catch (err) {
-    res.flash('error', err.error);
-    console.log("errors",err);
-    console.log("errors message",err.message);
+    // res.flash('error', err.error);
+    // console.log("errors",err);
+    // console.log("errors message",err.message);
+    res.flash('error', 'Sorry!, Something went wrong, try again later.');
+    res.redirect("/checkout"); 
   }
 
 }

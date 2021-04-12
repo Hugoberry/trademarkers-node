@@ -15,6 +15,7 @@ const connection = mysql.createConnection({
 
 var rpoUsersMongo = require('../repositories/usersMongo');
 var rpoUsers = require('../repositories/users');
+var helpers = require('../helpers');
 
 exports.showLogin = function(req, res, next) {
 
@@ -208,8 +209,8 @@ exports.login_ajax = async function(req,res){
                   })
             }else{
 
-                if(results.length >0){
-                    console.log('Validating Via MYSQL DB...');
+                if(results.length > 0){
+                    console.log('ajax Validating Via MYSQL DB...');
                     validateHashUser(password, results[0], res);
 
                 }
@@ -260,11 +261,32 @@ function validateHashUser(pass, obj, res){
 
         }else{     
 
+            // GENERATE CUSTOMER NO
+            if (!obj.custNo) {
+                let flag = true
+                let custNo = ""
+
+                for ( ; flag; ) {
+                    custNo = "CU-" + helpers.makeid(4)
+
+                    let dataCustomer = await rpoUsersMongo.findUserNo(custNo)
+                    // console.log("check user", dataCustomer.length );
+                    if ( dataCustomer.length <= 0 ) {
+                        flag = false
+                    }
+                }
+                obj.custNo = custNo
+
+            }
+
+            
             let storedUser = await rpoUsers.putUser(obj);
 
             // console.log(storedUser.insertedId);
-
-            obj._id = storedUser.insertedId;
+            if (!obj._id) {
+                obj._id = storedUser.insertedId;
+            }
+            
 
             //use the payload to store information about the user such as username, user role, etc.
             let payload = {user: JSON.stringify(obj)}

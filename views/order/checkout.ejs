@@ -7,6 +7,19 @@
 	<div class="col-md-12">
 
 		<h2>Checkout</h2>
+
+		<% if (flash.success) { %>
+		<div class="alert alert-success" role="alert">
+			<strong><%= flash.success %></strong>
+		</div>
+		<% } %>
+
+		<% if (flash.error) { %>
+		<div class="alert alert-warning" role="alert">
+			<strong><%= flash.error %></strong>
+		</div>
+		<% } %>
+
 		<table class="table">
 			<tr>
 				<th>#</th>
