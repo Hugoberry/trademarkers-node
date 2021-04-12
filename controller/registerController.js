@@ -431,7 +431,7 @@ exports.placeOrder = async function(req, res, next) {
     // res.flash('error', err.error);
     // console.log("errors",err);
     // console.log("errors message",err.message);
-    res.flash('error', 'Sorry!, Something went wrong, try again later. ' + err.message);
+    res.flash('error', 'Sorry!, Something went wrong, try again later. No such token: a similar object exists in test mode');
     res.redirect("/checkout"); 
   }
 
