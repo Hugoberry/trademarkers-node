@@ -6,6 +6,7 @@ var fs = require('fs');
 var open = require('open');
 const jwt = require('jsonwebtoken');
 const stripe = require("stripe")(process.env.PAYTEST);
+var bcrypt = require('bcrypt');
 
 var path    = require('path');
 var pdf2img = require('pdf2img');
@@ -21,6 +22,7 @@ var rpoTrademarksMongo = require('../repositories/mongoTrademarks');
 var rpoCharge = require('../repositories/charges');
 var rpoOrder = require('../repositories/orders');
 var rpoSouNotifications = require('../repositories/souNotifications');
+var rpoUserMongo = require('../repositories/usersMongo');
 
 
 var rpoServiceAction = require('../repositories/serviceAction');
@@ -39,6 +41,7 @@ let moment = require('moment');
 const emailValidator = require('deep-email-validator');
 
 const { toInteger } = require('lodash');
+const { redirect } = require('./customerController');
 
 
 var groupBy = function(xs, key) {
@@ -110,6 +113,78 @@ exports.privacy = async function(req, res, next) {
     title: 'privacy',
     user: await helpers.getLoginUser(req)
   });
+}
+
+exports.register = async function(req, res, next) {
+// console.log('register');
+  // activityService.logger(req.ip, req.originalUrl, "Visited Service Page");
+  let user = await helpers.getLoginUser(req)
+  // console.log("token", user);
+  if ( user ) {
+    res.redirect("/customer")
+  }
+  // console.log('passed');
+  res.render('public/register', { 
+    layout: 'layouts/public-layout-default', 
+    title: 'service',
+    user: user
+  });
+}
+
+exports.registerSubmit = async function(req, res, next) {
+
+  var hash = bcrypt.hashSync(req.body.password, 10); 
+
+  hash = hash.replace("$2b$", "$2y$");
+
+  let flag = true
+  let custNo = ""
+
+  for ( ; flag; ) {
+      custNo = "CU-" + helpers.makeid(4)
+
+      let dataCustomer = await rpoUserMongo.findUserNo(custNo)
+      // console.log("check user", dataCustomer.length );
+      if ( dataCustomer.length <= 0 ) {
+          flag = false
+      }
+  }
+
+  let userData = {
+    name: req.body.lname + ", " + req.body.fname,
+    firstName:req.body.fname,
+    lastName:req.body.lname,
+    email: req.body.email,
+    secondaryEmail: req.body.email,
+    password: hash,
+    custNo: custNo,
+    created_at: toInteger(moment().format('YYMMDD')),
+    created_at_formatted: moment().format()
+  }
+  let newUser = await rpoUserMongo.putUser(userData);
+
+  newInsertedUser = await rpoUserMongo.getByIdM(newUser.insertedId);
+
+  helpers.setLoginUser(res,newInsertedUser[0])
+  // currentUser = newInsertedUser[0]
+
+  // currentUser._id = newUser.insertedId
+  // let payload = {user: JSON.stringify(currentUser)}
+
+  // let accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
+  // expiresIn: process.env.ACCESS_TOKEN_EXPIRES
+  // });
+
+  // res.cookie("jwt", accessToken);
+  
+  // let data = {
+  //   firstName: req.body.fname,
+  //   lastName: req.body.lname,
+  //   email: req.body.email,
+  // }
+
+
+  res.redirect("/customer/profile"); 
 }
 
 exports.service = async function(req, res, next) {
@@ -314,32 +389,17 @@ exports.submitContact = async function(req, res, next) {
       res.flash('error', 'Sorry, something went wrong, try again later!');
     }
 
-    // res.flash('success', 'NO!!!');
-
     res.redirect("/contact");
 
   }
 
-
-  // let info = require('../services/mailerService');
-  // let mailInfo = await info.contact(req.body);
-
-  // if (mailInfo && mailInfo.accepted) {
-  //   res.flash('success', 'Your Inquiry has been sent!');
-  // } else {
-  //   res.flash('error', 'Sorry, something went wrong, try again later!');
-  // }
-
-  // res.redirect("/contact");
-
-  // next();
 }
 
 exports.generatePdf = async function(req, res, next) {
 
   let pdfs = await rpoPdfs.getGeneratedPdfs();
   let senders = await rpoSenders.getSenders();
-  // console.log(pdfs);
+
   activityService.logger(req.ip, req.originalUrl, "Visited pdf generator Page");
 
   res.render('public/generate_pdf', { 

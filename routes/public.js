@@ -95,6 +95,8 @@ router.get('/trademark-assignment', publicController.assignment)
   router.post('/placeorder', registerController.placeOrder);    
 // }
 
+router.get('/register', publicController.register);
+router.post('/register', publicController.registerSubmit);
 
 // action
 router.get('/:action', publicController.redirect);

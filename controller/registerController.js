@@ -168,27 +168,20 @@ exports.addToCart = async function(req, res, next) {
       created_at_formatted: moment().format()
     }
     let newUser = await rpoUserMongo.putUser(userData);
-    // console.log('new', newUser.insertedId);
+
     newInsertedUser = await rpoUserMongo.getByIdM(newUser.insertedId);
     currentUser = newInsertedUser[0]
-    // console.log("currentUser",currentUser);
 
     currentUser._id = newUser.insertedId
     let payload = {user: JSON.stringify(currentUser)}
 
     let accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-    expiresIn: (60 * 60) * 6
+    expiresIn: process.env.ACCESS_TOKEN_EXPIRES
     });
 
     res.cookie("jwt", accessToken);
 
   }
-
-  // if ( currentUser && !currentUser._id ) {
-  //   let currentUserRecord = await rpoUserMongo.findUser(currentUser.email)
-
-  //   currentUser = currentUserRecord[0]
-  // }
 
   data = req.body;
 
@@ -208,26 +201,8 @@ exports.addToCart = async function(req, res, next) {
   data.created_at = toInteger(moment().format('YYMMDD'));
   data.created_at_formatted = moment().format();
 
-  // if(actionLogin){
-
-  //   if( actionLogin == 'new' ){
-  //     data.status = 'pending';
-  //   } else {
-  //     data.status = 'active';
-  //   }
-
-  // }
-
   await rpoCartItems.put(data)
 
-
-
-  // if(actionLogin && actionLogin != ''){
-
-  // }
-  // console.log(data);
-  // res.locals.currentUser = currentUser
-console.log('here');
   res.redirect("/cart?uid="+currentUser._id);
 }
 
@@ -425,12 +400,8 @@ exports.placeOrder = async function(req, res, next) {
     } else {
       res.flash('error', 'Sorry!, Something went wrong, try again later.');
       res.redirect("/checkout"); 
-      // return with error
     }
   } catch (err) {
-    // res.flash('error', err.error);
-    // console.log("errors",err);
-    // console.log("errors message",err.message);
     res.flash('error', 'Sorry!, Something went wrong, try again later. No such token: a similar object exists in test mode');
     res.redirect("/checkout"); 
   }

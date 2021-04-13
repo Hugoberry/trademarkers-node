@@ -480,7 +480,7 @@ function validateHashUser(pass, obj, res){
 
           //create the access token with the shorter lifespan
           let accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-          expiresIn: (60 * 60) * 6
+          expiresIn: process.env.ACCESS_TOKEN_EXPIRES
           });
 
           rpoUsers.putUser(obj);

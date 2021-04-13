@@ -1,0 +1,61 @@
+<div class="container">
+    <div class="row justify-content-center box-bg-container">
+        <div class="col-md-12">
+            <div style="max-width:400px;margin:auto;padding-bottom:20px;">
+
+                    <form id="signupForm" class="custom-frm" method="POST" action="register">
+                        
+                        <div id="alert-message" class="alert alert-warning" role="alert" style="display:none">
+                            
+                        </div>
+
+                        <div class="form-group row">
+                            <!-- <label for="fname">First Name<span class="asterisk"> *</span></label> -->
+                            <input placeholder="First Name" id="fname" type="text" class="form-control" name="fname" value="" required autofocus>
+                        </div>
+
+                        <div class="form-group row">
+                            <!-- <label for="lname">Last Name<span class="asterisk"> *</span></label> -->
+                            <input placeholder="Last Name" id="lname" type="text" class="form-control" name="lname" value="" required autofocus>
+                        </div>
+
+                        <div class="form-group row">
+                            <!-- <label for="email" >E-Mail Address<span class="asterisk"> *</span></label> -->
+                            <input placeholder="Email" id="email" type="email" class="form-control" name="email" value="" required>
+                        </div>
+
+                        
+
+                        <div class="form-group row">
+                            <!-- <label for="password">Password<span class="asterisk"> *</span></label> -->
+                            <input placeholder="Password" id="password" type="password" class="form-control" name="password" required>  
+                        </div>
+
+                        <div class="form-group row">
+                            <!-- <label for="password-confirm" >Confirm Password<span class="asterisk"> *</span></label> -->
+                            <input placeholder="Confirm Password" id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="terms" id="terms" required="">
+
+                                    <p>I accept the <a href="/terms_conditions"> Terms and Conditions</a>.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-0">
+                            <div class="col-md-12">
+                                <button type="button" id="signupbutton" class="btn btn-primary btn-rounded-primary" style="padding-left:40px;padding-right:40px;">
+                                    Register
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+               
+            </div>
+        </div>
+    </div>
+</div>

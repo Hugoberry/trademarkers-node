@@ -179,13 +179,6 @@ exports.updateCustomerForm = async function(req, res, next) {
 
 exports.updateCustomerFormSubmit = async function(req, res, next) {
 
-  // FETCH USER
-  // console.log(req.params.id);
-
-  
-
-  // console.log(req.body);
-
   let data = {
     firstName: req.body.fname,
     lastName: req.body.lname,
@@ -234,6 +227,51 @@ exports.redirect = async function(req, res, next) {
       res.redirect(urlPhp + '/home');
     }
 
+}
+
+// PROFILE
+exports.profile = async function(req, res, next) {
+
+  // let user = await helpers.getLoginUser(req)
+
+
+  res.render('customer/profile', { 
+    layout: 'layouts/customer-layout-interactive', 
+    title: 'Customer',
+    user: await helpers.getLoginUser(req)
+  });
+
+}
+
+
+exports.profileSubmit = async function(req, res, next) {
+
+  let data = {
+    firstName: req.body.fname,
+    lastName: req.body.lname,
+    suffix: req.body.suffix,
+    secondaryEmail: req.body.secondaryEmail,
+    contactNumber: req.body.contactNumber,
+    address: req.body.address,
+    mailingAddress: req.body.mailingAddress,
+    nameAddress: req.body.nameAddress
+  }
+
+  
+  await rpoUserMongo.updateUser(req.body.id, data)
+
+  let user = await rpoUserMongo.getByIdM(req.body.id);
+
+  helpers.setLoginUser(res,user[0])
+
+  res.flash('success', 'Update Successful!');
+
+  // send email notification
+  // mailService.sendAdminNotificationCustomerEmailUpdate(user[0]);
+
+  res.redirect("/customer/profile"); 
+
+  
 }
 
 

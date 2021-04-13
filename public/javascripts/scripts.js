@@ -281,22 +281,6 @@ $( document ).ready(function() {
       
     } 
 
-    // $.ajax({
-    //   url: "/api/v1/checkEmailExist",
-    //   type:"GET",
-    //   dataType:"json",
-    //   data: {
-    //     email: $("#email").val()
-    //   },
-    //   contentType: "application/json",
-    //   success: function( result ) {
-    //     console.log(result);
-        
-    //   }
-    // });  
-    
-    // return false
-
   });
 
   $('input[name="customerType"]').change(function(){
@@ -309,6 +293,45 @@ $( document ).ready(function() {
       $("#address").show()
     }
   });
+
+  $("#signupbutton").click(function() {
+    
+    if ( $("#password").val() != $("#password-confirm").val() ) {
+      // alert("invalid");
+      $("#alert-message").html("<strong>Password Mismatch</strong>");
+      $("#alert-message").show()
+      // return false
+    }
+
+    $.ajax({
+      url: "/api/v1/checkEmailExist",
+      type:"GET",
+      dataType:"json",
+      async: false,
+      data: {
+        email: $("#email").val()
+      },
+      contentType: "application/json",
+      success: function( result ) {
+        console.log(result);
+        if (result.email) {
+
+          $("#alert-message").html("<strong>Email Already Exist</strong>");
+          $("#alert-message").show()
+
+        } else if($("#password").val() != $("#password-confirm").val()){ 
+
+          $("#alert-message").html("<strong>Password Mismatch</strong>");
+          $("#alert-message").show()
+
+        } else {
+          $("#signupForm").trigger("submit")
+        }
+      }
+    }); 
+
+    // return false
+  })
 
   
 

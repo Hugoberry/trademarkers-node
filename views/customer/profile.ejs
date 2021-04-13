@@ -1,0 +1,128 @@
+
+
+    <section class="tm-section qa-panel-section">
+      <div class="container h-100">
+        <div class="row h-100 align-items-start">
+          <div class="col-12">
+
+              <% if (flash.success) { %>
+              <div class="alert alert-success" role="alert">
+                <strong><%= flash.success %></strong>
+              </div>
+              <% } %>
+        
+              <% if (flash.error) { %>
+                <div class="alert alert-warning" role="alert">
+                  <strong><%= flash.error %></strong>
+                </div>
+              <% } %>
+
+              <div class="ar-wrap qa-stp">
+                <div class="ar-box stp-row">
+                  <div class="ar-box-head"><h1 class="ar-title">Profile</h1></div>
+                  <div class="ar-cinfo">
+                    <%
+                      const capitalize = (s) => {
+                        if (typeof s !== 'string') return ''
+                        return s.charAt(0).toUpperCase() + s.slice(1)
+                      }
+
+                      let name = ""
+                      if ( user.firstName && user.lastName) {
+                        name = user.suffix + " " + capitalize(user.firstName) + " " + capitalize(user.lastName)
+                      } else {
+                        name = user.name
+                      }
+                    %>
+                    <div class="ar-cname ar-info-line">Customer Name: <span class="ar-value"><%= name %></span></div>
+                    <div class="ar-cno ar-info-line">Customer Email: <span class="ar-value"><%= user.email %></span></div>
+                    <div class="ar-cno ar-info-line">Customer No: <span class="ar-value"><%= user.custNo %></span></div>
+                  </div>
+                </div>
+
+                <div class="ard-wrap stp-row">
+                  <form class="cc-form-self" id="add-service" action="/customer/profile/submit" method="post">
+
+                      <div class="row">
+                        <div class="col-12">
+
+                          <div class="form-group">
+
+                              <div class="form-field mt-2">
+                                  <span>Name</span>
+                                  <div class="row">
+                                      <div class="col-2">
+                                          <div class="form-field-inner" >
+                                              <select class="form-control" name="suffix" >
+                                                  <option value="Mr." <%= user.suffix == "Mr." ? "selected":"" %>>Mr</option>
+                                                  <option value="Ms." <%= user.suffix == "Ms." ? "selected":"" %>>Ms</option>
+                                                  <option value="Mrs." <%= user.suffix == "Mrs." ? "selected":"" %>>Mrs</option>
+                                              </select>
+                                          </div>
+                                      </div>
+                                  <div class="col-5">
+                                      <div class="form-field-inner" >
+                                          <input type="text" name="fname" placeholder="First Name" class="form-control" value="<%= user.firstName %>" required="required">
+                                      </div>
+                                  </div>
+                                  <div class="col-5">
+                                      <div class="form-field-inner">
+                                          <input type="text" name="lname" placeholder="Last Name" class="form-control" value="<%= user.lastName %>" required="required">
+                                      </div>
+                                  </div>
+                                  </div>
+
+                              </div>
+
+                              <div class="form-field mt-2">
+                                  <span>Email to received notification</span>
+                                  <input type="email" name="secondaryEmail" id="secondaryEmail" placeholder="Secondary Email" class="form-control" value="<%= ( user.secondaryEmail ? user.secondaryEmail : user.email ) %>" required="required">
+                              </div>
+
+                              <div class="form-field mt-2">
+                                <span>Contact Number</span>
+                                <input type="text" name="contactNumber" placeholder="Contact Number" class="form-control" value="<%= user.contactNumber %>" required="required">
+                              </div>
+
+                              <div class="form-field mt-2">
+                                <span>Home Address</span>
+                                <input type="text" name="address" placeholder="Home Address" class="form-control" value="<%= user.address %>" required="required">
+                              </div>
+
+                              <div class="form-field mt-2">
+                                <span>Mailing Address</span>
+                                <input type="text" name="mailingAddress" placeholder="Mailing Address" class="form-control" value="<%= user.mailingAddress %>" required="required">
+                              </div>
+
+                              <div class="form-field-inner" >
+                                <span>I would like to be addressed with:</span>
+                                <select class="form-control" name="nameAddress" >
+                                    <option value="firstName" <%= user.nameAddress == "firstName" ? "selected":"" %>>First Name</option>
+                                    <option value="lastName" <%= user.nameAddress == "lastName" ? "selected":"" %>>Last Name</option>
+                                </select>
+                              </div>
+
+                              <div class="form-group mt-2 text-center">
+                                  <input type="hidden" name="id" value="<%= user._id %>">
+                                  <input type="submit" class="btn btn-solid-lg btn-blue" value="Update Details">
+                              </div>
+
+                          </div>
+
+                        </div>
+
+                      </div>
+
+
+                  </form>
+
+                  
+                </div>
+                
+              </div>
+          </div>
+
+
+        </div>
+      </div>
+    </section>

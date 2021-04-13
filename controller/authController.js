@@ -48,7 +48,7 @@ exports.login2 = async function(req, res){
     //create the access token with the shorter lifespan
     let accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
         algorithm: "HS256",
-        expiresIn: process.env.ACCESS_TOKEN_LIFE
+        expiresIn: process.env.ACCESS_TOKEN_EXPIRES
     })
 
     //send the access token to the client inside a cookie
@@ -102,7 +102,7 @@ exports.refresh = function (req, res){
     let newToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, 
     {
         algorithm: "HS256",
-        expiresIn: process.env.ACCESS_TOKEN_LIFE
+        expiresIn: process.env.ACCESS_TOKEN_EXPIRES
     })
 
     res.cookie("jwt", newToken, {secure: true, httpOnly: false})
@@ -293,7 +293,7 @@ function validateHashUser(pass, obj, res){
 
             //create the access token with the shorter lifespan
             let accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-            expiresIn: (60 * 60) * 6
+                expiresIn: process.env.ACCESS_TOKEN_EXPIRES
             });
 
             
@@ -325,7 +325,7 @@ exports.loginApi = async function(req, res, next) {
 
             //create the access token with the shorter lifespan
             let accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-            expiresIn: (60 * 60) * 6
+            expiresIn: process.env.ACCESS_TOKEN_EXPIRES
             });
 
             res.cookie("jwt", accessToken);

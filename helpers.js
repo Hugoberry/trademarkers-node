@@ -44,6 +44,21 @@ exports.getLoginUser = async function(req) {
     return user
 }
 
+exports.setLoginUser = function(res,obj) {
+    // console.log(obj);
+    //use the payload to store information about the user such as username, user role, etc.
+    let payload = {user: JSON.stringify(obj)}
+
+    //create the access token with the shorter lifespan
+    let accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
+    expiresIn: process.env.ACCESS_TOKEN_EXPIRES
+    });
+
+    res.cookie("jwt", accessToken);
+
+    return obj
+}
+
 exports.getCurrentUser = function(req) {
     let decode = jwt.decode(req.cookies.jwt, {complete: true});
 
@@ -168,8 +183,8 @@ exports.convertSecretCode = function(code) {
 
 }
 
-exports.isAuth = function() {
+exports.isAuth = function(req) {
     let accessToken = req.cookies.jwt
-
+    // console.log(accessToken);
     return accessToken
 }

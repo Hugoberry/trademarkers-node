@@ -16,7 +16,7 @@ exports.add = async function(req, res, next) {
 
     // let payload = {user: JSON.stringify(user)}
     // let accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-    //   expiresIn: (60 * 60) * 6
+    //   expiresIn: process.env.ACCESS_TOKEN_EXPIRES
     // });
     // console.log(accessToken);
     if ( user.length <= 0 ) {
