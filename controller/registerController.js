@@ -41,7 +41,7 @@ exports.registration = async function(req, res, next) {
     // redirect to register
   }
 
-  res.render('order/registration', { 
+  res.render('order/registration', {
     layout: 'layouts/public-layout-default', 
     title: 'registration',
     country: country[0],

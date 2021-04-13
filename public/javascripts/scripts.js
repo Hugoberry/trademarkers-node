@@ -217,6 +217,8 @@ $( document ).ready(function() {
               
             }
           }); 
+
+          return false
         }
         // try to login
        
