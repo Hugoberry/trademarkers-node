@@ -20,7 +20,7 @@ router.get('/olead/getall', adminController.getRecords);
 // router.get('/mail/open', mailOpenController.open);
 
 router.get('/getcartItems', cartController.getcartItems);
-router.get('/removeCartItem', cartController.removeCartItem);
+router.post('/removeCartItem', cartController.removeCartItem);
 
 // CHECK IF EMAIL EXISTING
 router.get('/checkEmailExist', userController.checkEmailExist);

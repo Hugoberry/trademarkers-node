@@ -44,17 +44,17 @@ exports.getcartItems = async function(req, res, next) {
 }
 
 exports.removeCartItem = async function(req, res, next) {
-console.log(res.body);
-console.log(res.params);
+console.log(req.body);
+// console.log(req.params);
 
-  let fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
-  let url = new URL(fullUrl);
-  let params = new URLSearchParams(url.search);
-  let cartId = params.get("id")
+  // let fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+  // let url = new URL(fullUrl);
+  // let params = new URLSearchParams(url.search);
+  // let cartId = params.get("id")
   
     // console.log(userId);
 
-  let response = await rpoCartItems.remove(cartId)
+  let response = await rpoCartItems.remove(req.body.id)
   res.json({
     result:response
   });

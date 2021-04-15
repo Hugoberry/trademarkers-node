@@ -173,7 +173,7 @@ $( document ).ready(function() {
 
     $.ajax({
       url: "/api/v1/removeCartItem",
-      type:"GET",
+      type:"post",
       data: {
         id: $(this).attr('data-id')
       },
