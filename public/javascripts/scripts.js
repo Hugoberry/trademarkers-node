@@ -296,7 +296,7 @@ $( document ).ready(function() {
                 $("#btn-add-to-cart").show();
               } else {
                 // alert('trigger');
-                // $("#addToCart").trigger('submit')
+                $("#addToCart").trigger('submit')
               }
             }
           });  
