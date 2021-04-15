@@ -419,6 +419,21 @@ $( document ).ready(function() {
     }
   })
 
+  $("#filing_form").on("submit",function(){
+    let flag = true
+    $(".classDescriptions").each(function() {
+      if ( !$(this).val() ){
+        flag = false
+        $(this).focus()
+      } 
+    })
+
+    if (!flag) {
+      alert("Please enter class description");
+    }
+    return flag
+  })
+
   
 
 // =====================================================
@@ -449,7 +464,7 @@ function listPopulate() {
             } 
             
             
-            let description_input = '<input id="class'+classNumber+'" value="'+class_description+'" type="text" class="form-control" name="description" placeholder="Enter Goods/Services on this trademark" data-id="'+classNumber+'">';
+            let description_input = '<input id="class'+classNumber+'" value="'+class_description+'" type="text" class="form-control classDescriptions" name="description" placeholder="Enter Goods/Services on this trademark" data-id="'+classNumber+'">';
 
             liDisplay += "<tr>" + 
                             "<td>" + classNumber + "</td>" +
