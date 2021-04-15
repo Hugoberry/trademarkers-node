@@ -1,0 +1,202 @@
+<div class="container">
+	<div class="row justify-content-center box-bg-container">
+		<div class="col-md-12">
+		
+			<h2>Customer Profile</h2>
+
+			<form id="addToCart" method="POST" action="/validate-order">
+				<div class="form-group guest-form row">
+					<div class="col-6 text-center">
+						<input class="" type="hidden" name="action" value="notLogin">
+						<input class="" type="hidden" name="logoName" value="<%= data.logoName %>">
+						<input class="" type="hidden" name="countryId" value="<%= data.countryId %>">
+						<input class="" type="hidden" name="serviceType" value="<%= data.serviceType %>">
+						<input class="" type="hidden" name="type" value="<%= data.type %>">
+						<input class="" type="hidden" name="word_mark" value="<%= data.word_mark %>">
+						
+						<% for (let i=0; i < data.class.length; i++) { %>
+							<input class="" type="hidden" name="class" value="<%= data.class[i] %>">
+							<input class="" type="hidden" name="description" value="<%= data.description[i] %>">
+						<% } %>
+
+						<div id="nature_block" class="col-md-6">
+                        <div class="form-group row">
+                            <span style="padding-left: 15px;"> Nature </span>
+                            <div class="col-md-12">
+								<select id="nature" name="nature" class="form-control">
+                                    <option value="Individual" <%= (user ? (user.nature == "Individual" ? "checked":"") : "") %>> Individual</option>
+                                    <option value="Company" <%= (user ? (user.nature == "Company" ? "checked":"") : "") %>> Company</option>
+                                </select>
+                            </div>
+                        </div>
+						</div>
+                    </div>
+
+
+                    <div id="company_block" class="col-md-6">
+                        <div class="form-group row" style="display:none">
+                            <span style="padding-left: 15px;"> Company Name </span>
+                            <div class="col-md-12">
+                                <input id="company" type="text" class="form-control" name="company" value="<%= ( user ? (user.company) : "") %>"  >
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- START WRAP NAME INFO -->
+                    <div id="wrap-name-info" class="col-md-12"><div class="row">
+                            
+                    <!-- NATURE INFORMATION HERE -->
+                    <div id="nature-label" class="col-md-12">
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <h4>Client Information</h4>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <span style="padding-left: 15px;"> First Name </span>
+                            <div class="col-md-12">
+                                <input id="first_name" type="text" class="form-control" name="fname" value="<%= (user ? user.firstName : "") %>" >
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <span style="padding-left: 15px;"> Last Name </span>
+                            <div class="col-md-12">
+                                <input id="name" type="text" class="form-control" name="lname" value="<%= (user ? user.lastName : "") %>" >
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <span style="padding-left: 15px;">Email Address <b class="asterisk">*</b></span>
+                            <div class="col-md-12">
+                                <input id="email" type="text" class="form-control" name="email" value="<%= (user ? user.email : "") %>" 
+                                required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group row">
+                            <span style="padding-left: 15px;"> Phone Number</span>
+                            <div class="col-md-12">
+                                <input id="phone" type="number" class="form-control" name="phone" value="<%= (user ? user.phone : "") %>" >
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="fax-block" class="col-md-3">
+                        <div class="form-group row">
+                            <span style="padding-left: 15px;"> Fax</span>
+                            <div class="col-md-12">
+                                <input id="fax" type="text" class="form-control" name="fax" value="<%= (user ? user.fax : "") %>" >
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="position-block" style="display:none" class="col-md-3">
+                        <div class="form-group row">
+                            <span style="padding-left: 15px;"> Position</span>
+                            <div class="col-md-12">
+                                <input id="position" type="text" class="form-control" name="position" value="<%= (user ? user.position : "") %>" >
+                            </div>
+                        </div>
+                    </div>
+
+                    </div></div><!-- END WRAP NAME INFO -->
+
+                    
+
+                    
+
+                    
+
+               
+                    
+                    <!-- ADDRESS INFORMATION HERE -->
+                    <div class="col-md-12">
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <h4>Address Information</h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="country_block" class="col-md-12">
+                        <div class="form-group row">
+                            <span style="padding-left: 15px;"> Country </span>
+                            <div class="col-md-12">
+								<select id="country" name="country" class="form-control">
+									<option value="">-</option>
+                                    <% countries.forEach(country => { %>
+                                        <% if(country.name) { %>
+                                        <option value="<%= country.name %>" <%= (user ? (user.country == country.name ? "selected" : "") : "") %>> <%= country.name %></option>
+                                        <% } %>
+                                    <% }) %>
+                                </select>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group row">
+                            <span style="padding-left: 15px;"> Address </span>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="street" value="<%= (user ? user.street : "") %>">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="city-block" class="col-md-2">
+                        <div class="form-group row">
+                            <span style="padding-left: 15px;"> <label id="city-label">City</label> </span>
+                            <div class="col-md-12">
+                                <input id="city" type="text" class="form-control" name="city" value="<%= (user ? user.city : "") %>">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="state-province-block" class="col-md-5">
+                        <div class="form-group row">
+                            <span style="padding-left: 15px;"> <label id="state-label">State/Province</label> </span>
+                            <div class="col-md-12">
+                                <input id="state" type="text" class="form-control" name="state" value="<%= (user ? user.state : "") %>">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="postal-block" class="col-md-5">
+                        <div class="form-group row">
+                            <span style="padding-left: 15px;"> <label id="postal-label">Postal Code</label></span>
+                            <div class="col-md-12">
+                                <input id="zip_code" type="text" class="form-control" name="zipCode" value="<%= (user ? user.zipCode : "") %>" >
+                            </div>
+                        </div>
+                    </div>
+
+				
+				</div>
+
+				<div class="col-md-12">
+                    <div class="form-group row mb-0">
+                    
+                        <button type="submit" class="btn btn-primary btn-rounded-primary btn-save-profile" style="margin:auto">
+                            proceed
+                        </button>
+                    </div>
+                </div>
+			</form>
+	
+			
+		</div>
+
+
+	</div>
+</div>

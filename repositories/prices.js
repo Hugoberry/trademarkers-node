@@ -12,6 +12,22 @@ const connection = mysql.createConnection({
 
 module.exports = {
 
+	getAll : async function() {
+		return new Promise(function(resolve, reject) {
+
+			conn.getDb().collection(_table).find().toArray(function(err, result) {
+					
+				if (err) {
+					reject(err);
+				} else {
+					resolve(result);
+				}
+
+			});
+
+		});
+	},
+
     getAllMysql : async function() {
         
         return new Promise(function(resolve, reject) {
@@ -42,6 +58,28 @@ module.exports = {
 			let query = { 
 				country_id: country_id ,
 				service_type: service_type
+			};
+
+			let db = conn.getDb();
+			
+			db.collection(_table).find(query).toArray(function(err, result) {
+					
+				if (err) {
+					reject(err);
+				} else {
+					resolve(result);
+				}
+
+			});
+
+		});
+	},
+
+	findPriceByCountryId : async function(country_id) {
+		return new Promise(function(resolve, reject) {
+
+			let query = { 
+				country_id: country_id
 			};
 
 			let db = conn.getDb();

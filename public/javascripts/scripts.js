@@ -69,7 +69,20 @@ $( document ).ready(function() {
         alert("Please Enter Class(es) 1 - 45");
         return false;
     }
-    
+
+
+    var selected = $("input:checkbox.class_chk:checked").map(function(){
+      return $(this).val();
+    }).get(); 
+    console.log(addClassValue,selected);
+
+    console.log($.inArray(addClassValue,selected));
+
+    if ( $.inArray(addClassValue,selected) >= 0 ) {
+      alert("Class already selected");
+      return false;
+    }
+
     $("#"+varSelected).trigger("click");
     $("#addClassValue").val('');
     listPopulate();
@@ -98,6 +111,10 @@ $( document ).ready(function() {
   if ( $("#listClasses").length ) {
     listPopulate()
   }
+
+  $(".btn-close-class").click(function(){
+    $(".show-pop").hide();
+  });
 
 
   if ( $("#contact-form").length ) {
@@ -181,7 +198,20 @@ $( document ).ready(function() {
     }
   });    
 
-  $("#addToCart").submit(function(){
+  $("#btn-add-to-cart").click(function(){
+
+    var submitFlag = true;
+
+    $("#btn-add-to-cart").hide();
+
+    const emailRegexp = /[a-zA-Z0-9._-]{3,}@[a-zA-Z0-9.-]{3,}\.[a-zA-Z]{2,4}/;
+
+    if (!emailRegexp.test($("#email").val())) {
+      $("#loginMessage").text('Please enter your Email').show()
+      $("#email").focus()
+      $("#btn-add-to-cart").show();
+      return false;
+    }
 
     if( $('input[name="customerType"]').val() ) {
 
@@ -191,26 +221,21 @@ $( document ).ready(function() {
         if ( !$("#email").val() || !$("#customerPassword").val() ) {
           // message field
           $("#loginMessage").text('Please enter your Email/Password').show()
-
-          return false;
-
+          $("#btn-add-to-cart").show();
         } else {
           // check cedentials
           $.ajax({
-            url: "/login/auth",
-            type:"GET",
-            dataType:"json",
+            url: "/login/auth2",
+            type:"post",
             data: {
-              username: $("#email").val(),
-              password: $("#customerPassword").val(),
+              'username': $("#email").val(),
+              'password': $("#customerPassword").val(),
             },
-            contentType: "application/json",
             success: function( result ) {
-              console.log(result);
   
               if (!result.status) {
                 $("#loginMessage").text(result.message).show()
-                return false;
+                $("#btn-add-to-cart").show();
               } else {
                 location.reload();
               }
@@ -218,7 +243,7 @@ $( document ).ready(function() {
             }
           }); 
 
-          return false
+
         }
         // try to login
        
@@ -227,31 +252,32 @@ $( document ).ready(function() {
         if ( 
             !$("#email").val() || 
             !$("#customerPassword").val() ||
-            !$("#name").val() ||
-            !$("#address").val() 
+            !$("#customerPasswordConfirm").val()
           ){
             let message="";
             
             
             if (!$("#email").val()) {
               message += "Please Enter Email<br>"
+              $("#btn-add-to-cart").show();
             }
 
             if (!$("#customerPassword").val()) {
               message += "Please Enter Password <br>"
+              $("#btn-add-to-cart").show();
             }
 
-            if (!$("#name").val()) {
-              message += "Please Enter Name <br>"
-            }
-
-            if (!$("#address").val()) {
-              message += "Please Enter Address "
+            if (!$("#customerPasswordConfirm").val()) {
+              message += "Please Enter Password <br>"
+              $("#btn-add-to-cart").show();
             }
 
             $("#loginMessage").html(message).show()
 
-            return false;
+        } else if( $("#customerPassword").val() != $("#customerPasswordConfirm").val() ) {
+
+          $("#loginMessage").html("Mismatch password").show()
+          $("#btn-add-to-cart").show();
         } else {
 
           $.ajax({
@@ -263,19 +289,20 @@ $( document ).ready(function() {
             },
             contentType: "application/json",
             success: function( result ) {
+              
+              // let res = $.parseJSON(result)
               console.log(result);
-              if (result) {
 
+              if ( typeof result.email != "undefined") {
                 $("#loginMessage").text("Email Already Exist").show()
-                return false
-
+                $("#btn-add-to-cart").show();
               } else {
-
-                // add customer and add cart item
-
+                // alert('trigger');
+                // $("#addToCart").trigger('submit')
               }
             }
           });  
+
         }
 
       }
@@ -285,14 +312,51 @@ $( document ).ready(function() {
 
   });
 
+  $("#addToCart").submit(function(){
+    const emailRegexp = /[a-zA-Z0-9._-]{3,}@[a-zA-Z0-9.-]{3,}\.[a-zA-Z]{2,4}/;
+
+    if ( $("#email").length && !emailRegexp.test($("#email").val())) {
+      alert('Please Enter email address')
+      $("#email").focus()
+      return false;
+    }
+  })
+
+  // if ( $("#addToCart").length ) {
+  //   $.ajax({
+  //     url: "/api/v1/checkEmailExist",
+  //     type:"GET",
+  //     dataType:"json",
+  //     data: {
+  //       email: $("#email").val()
+  //     },
+  //     contentType: "application/json",
+  //     success: function( result ) {
+  //       console.log(result);
+  //       if (result) {
+
+  //         $("#loginMessage").text("Email Already Exist").show()
+  //         return false
+
+  //       }
+  //     }
+  //   }); 
+  // }
+
+  // if ( $("#email").length ) {
+  //   $("#email").blur(function(){
+  //     alert('asd');
+  //   });
+  // }
+
+  
+
   $('input[name="customerType"]').change(function(){
 
     if ($(this).val() == 'old') {
-      $("#name").hide()
-      $("#address").hide()
+      $("#customerPasswordConfirm").hide()
     } else {
-      $("#name").show()
-      $("#address").show()
+      $("#customerPasswordConfirm").show()
     }
   });
 
@@ -335,6 +399,26 @@ $( document ).ready(function() {
     // return false
   })
 
+  // PROFILE SCRIPT FORM VALIDATE
+  $("#nature").change(function(){
+    // alert($(this).val());
+    if ($(this).val() == "Individual") {
+      // console.log('in');
+      // hide other fields
+      $("#company_block > div").hide()
+      $("#nature-label h4").text('Client Information');
+      $("#fax-block").show();
+      $("#position-block").hide();
+    } else {
+      // console.log('com');
+      $("#company_block > div").show()
+      $("#nature-label h4").text('Contact Person');
+      $("#fax-block").hide();
+      $("#position-block").show();
+      
+    }
+  })
+
   
 
 // =====================================================
@@ -343,23 +427,33 @@ $( document ).ready(function() {
 
 function listPopulate() {
 
-  var class_description = null;
+  // var class_description = null;
     let liHeadDisplay='<thead><tr><td> <b>Class Number</b></td><td> <b>Description</b></td><td class="text-center"> <b>Action</b></td></tr></thead>';
     let liDisplay='';
     $('input:checkbox.class_chk').each(function () {
         var sThisVal = (this.checked ? $(this).val() : "");
-        // console.log(sThisVal);
+        // console.log('val',sThisVal);
 
         if ( sThisVal ) {
             
-            console.log(sThisVal);
             let classNumber = sThisVal.replace("class","");
+            // let classDescriptionValue = sThisVal.val
+            // console.log( 'description',$("#class"+classNumber).val(), sThisVal )
 
-            let description_input = '<input id="class7" type="text" class="form-control" name="description" placeholder="Enter Goods/Services on this trademark" data-id="'+classNumber+'">';
+            let class_description = $("#class"+classNumber).val() ? $("#class"+classNumber).val() : ''
+
+            // console.log($("#class"+classNumber).length);
+            if ( $("#class"+classNumber).val() === sThisVal ) {
+              class_description = ''
+              // console.log('empty');
+            } 
+            
+            
+            let description_input = '<input id="class'+classNumber+'" value="'+class_description+'" type="text" class="form-control" name="description" placeholder="Enter Goods/Services on this trademark" data-id="'+classNumber+'">';
 
             liDisplay += "<tr>" + 
                             "<td>" + classNumber + "</td>" +
-                            "<td>" + (class_description ? class_description[classNumber] : description_input )+ "</td>" +
+                            "<td>" + description_input + "</td>" +
                             "<td class='text-center'> <i data-class-number='" +classNumber+"' class='fa fa-trash btnRemoveClass'></i>" + "</td>" +
 
                           "</tr>";

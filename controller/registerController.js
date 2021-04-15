@@ -12,6 +12,7 @@ var rpoOrder = require('../repositories/orders');
 var rpoUser = require('../repositories/users');
 var rpoUserMongo = require('../repositories/usersMongo');
 var rpoTrademark = require('../repositories/mongoTrademarks');
+var rpoPrice = require('../repositories/prices');
 
 var helpers = require('../helpers');
 
@@ -27,6 +28,42 @@ exports.registration = async function(req, res, next) {
   let countryName = req.params.countryName;
   let serviceType = req.params.serviceType;
   let country;
+  let prices;
+  let classes = await rpoTrademarkClasses.getClasses();
+
+  if ( countryName ) {
+
+    countryName = countryName.replace("_"," ")
+    country = await rpoCountries.getByName(countryName)
+    console.log(countryName,country);
+
+    
+    if (!country) {
+      // redirect to register
+    } else {
+      prices = await rpoPrice.findPriceByCountryId(country[0].id);
+    }
+
+    
+  }
+
+
+  res.render('order/registrationLanding', {
+    layout: 'layouts/public-layout-default', 
+    title: 'registration',
+    country: country[0],
+    prices: prices,
+    classes: classes,
+    serviceType: serviceType,
+    user: await helpers.getLoginUser(req)
+  });
+}
+
+exports.registrationProceed = async function(req, res, next) {
+
+  let countryName = req.params.countryName;
+  let serviceType = req.params.serviceType;
+  let country;
   let classes = await rpoTrademarkClasses.getClasses();
 
   if ( countryName ) {
@@ -37,23 +74,50 @@ exports.registration = async function(req, res, next) {
     if (!country) {
       // redirect to register
     }
-  } else {
-    // redirect to register
+
+    
   }
+
+  let prices = await rpoPrice.findPriceByCountryId(country[0].id);
 
   res.render('order/registration', {
     layout: 'layouts/public-layout-default', 
     title: 'registration',
     country: country[0],
+    prices: prices,
     classes: classes,
     serviceType: serviceType,
     user: await helpers.getLoginUser(req)
   });
 }
 
+exports.trademarkProfile = async function(req, res, next) {
+
+  console.log('asd')
+
+  let countries = await rpoCountries.getAll();
+
+  res.render('order/validateProfile', { 
+    layout: 'layouts/public-layout-default', 
+    title: 'confirmation',
+    data: req.body,
+    countries:countries,
+    user: await helpers.getLoginUser(req)
+  });
+}
+
+
+
 exports.validateOrder = async function(req, res, next) {
 
   let type;
+
+  // check if login and verify
+  console.log(req.body);
+  
+  if ( !helpers.isAuth(req) ) {
+    
+  } 
 
   if(req.body.serviceType == "registration") {
     type = "Registration"
@@ -158,12 +222,31 @@ exports.addToCart = async function(req, res, next) {
         }
     }
 
+    let cname = req.body.name ? req.body.name : ''
+
+    if (req.body.fname && req.body.lname) {
+      cname = req.body.lname + ", " + req.body.fname
+    }
+
+    console.log('req',req.body);
+
     let userData = {
-      name: req.body.name,
-      address: req.body.address,
+      name: cname,
+      firstName: req.body.fname,
+      lastName: req.body.lname,
       email: req.body.email,
+      secondaryEmail: req.body.email,
       password: hash,
       custNo: custNo,
+      nature: req.body.nature,
+      phone: req.body.phone,
+      fax: req.body.phone,
+      position: req.body.position,
+      country: req.body.country,
+      street: req.body.street,
+      city: req.body.city,
+      state: req.body.state,
+      zipCode: req.body.zipCode,
       created_at: toInteger(moment().format('YYMMDD')),
       created_at_formatted: moment().format()
     }
@@ -187,6 +270,7 @@ exports.addToCart = async function(req, res, next) {
 
   delete req.body.email
   delete req.body.customerPassword
+  delete req.body.customerPasswordConfirm
 
   data.serviceType = req.body.serviceType;
   data.type = req.body.type;
@@ -197,6 +281,15 @@ exports.addToCart = async function(req, res, next) {
   data.user = currentUser;
   data.price = amount;
   data.country = country[0];
+  nature = req.body.nature;
+  phone = req.body.phone;
+  fax = req.body.phone;
+  position = req.body.position;
+  country = req.body.country;
+  street = req.body.street;
+  city = req.body.city;
+  state = req.body.state;
+  zipCode = req.body.zipCode;
   data.status = 'active';
   data.created_at = toInteger(moment().format('YYMMDD'));
   data.created_at_formatted = moment().format();

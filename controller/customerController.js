@@ -152,6 +152,7 @@ exports.updateCustomerForm = async function(req, res, next) {
 
   let custId = req.params.id * 1;
   let user = await rpoUserMongo.getById(custId);
+  
 
   if (user.length <= 0){
     user = await rpoUser.getUserByID( )
@@ -173,6 +174,7 @@ exports.updateCustomerForm = async function(req, res, next) {
     layout: 'layouts/public-layout-interactive', 
     title: 'Trademarkers LLC Order Status',
     user: user[0]
+
   });
   
 }
@@ -233,12 +235,13 @@ exports.redirect = async function(req, res, next) {
 exports.profile = async function(req, res, next) {
 
   // let user = await helpers.getLoginUser(req)
-
+  let countries = await rpoCountry.getAll();
 
   res.render('customer/profile', { 
     layout: 'layouts/customer-layout-interactive', 
     title: 'Customer',
-    user: await helpers.getLoginUser(req)
+    user: await helpers.getLoginUser(req),
+    countries: countries
   });
 
 }
@@ -252,8 +255,16 @@ exports.profileSubmit = async function(req, res, next) {
     suffix: req.body.suffix,
     secondaryEmail: req.body.secondaryEmail,
     contactNumber: req.body.contactNumber,
-    address: req.body.address,
     mailingAddress: req.body.mailingAddress,
+    nature: req.body.nature,
+    phone: req.body.phone,
+    fax: req.body.fax,
+    position: req.body.position,
+    country: req.body.country,
+    street: req.body.street,
+    city: req.body.city,
+    state: req.body.state,
+    zipCode: req.body.zipCode,
     nameAddress: req.body.nameAddress
   }
 

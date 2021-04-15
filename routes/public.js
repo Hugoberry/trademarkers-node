@@ -87,8 +87,12 @@ router.get('/trademark-assignment', publicController.assignment)
 // WITH WILD CARD REGISTER CONTROLLER
 // REMOVE OTHER FUNCTION UNDER PUBLIC TO REGISTER SPECIALLY THE SERVICE
 // if ( process.env.ENVIRONMENT == "dev" ) {
-  router.get('/trademark-:serviceType-in-:countryName', registerController.registration);    
+
+  router.get('/trademark-:serviceType-in-:countryName-proceed', registerController.registrationProceed);
+  router.get('/trademark-:serviceType-in-:countryName', registerController.registration);        
+
   router.post('/validate-order', registerController.validateOrder);    
+  router.post('/trademark-profile', registerController.trademarkProfile);    
   router.post('/add-to-cart', registerController.addToCart);    
   router.get('/cart', registerController.cart);    
   router.get('/checkout', registerController.checkout);    

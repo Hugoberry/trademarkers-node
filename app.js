@@ -57,6 +57,13 @@ conn.connectToServer( function( err, client ) {
   if (err) console.log(err);
   // start the rest of your app here
 
+  // Create our number formatter.
+  var formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  });
+
+  app.locals.formatter = formatter;
   app.locals.moment = require('moment');
   app.locals.helpers = require('./helpers');
 

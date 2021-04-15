@@ -1,0 +1,229 @@
+<h1 class="h1-heading"><span>Trademark Registration in <%= country.name %></span></h1>
+<div class="container">
+    <div class="row justify-content-center box-bg-container">
+
+        <div class="col-md-12">
+
+
+            <div class="row step-block">
+				<div class="col-md-12">
+					<h2><span>Step 1</span> Trademark Comprehensive Study 
+						<button class="btn btn-primary btn-black btn-pull-right" data-toggle="modal" data-target="#studyModal"> Start Study</button>
+					</h2>
+				</div>
+
+				<div class="col-md-6">
+					<p> Trademark search report with Attorney's analysis about registration probabilities. This report is optional but highly recommended.</p>
+
+					<p> There are several reasons why you might want to begin the registration process with a study:</p>
+
+					<ul class="theme-default">
+						<li> 
+							If there is a pre-existing claim to your trademark, it is best to know this before you have invested time and resources into an application
+						</li>
+
+						<li> 
+							Trademark similarities can be ambiguous and are best evaluated by a legal professional
+						</li>
+
+						<li> 
+							It is possible to accidentally infringe on someone else’s trademark if you are not aware of its existence
+						</li>
+
+						<li> 
+							A trademark study provides a snapshot of potential brands in your target market
+						</li>
+					</ul>
+				</div>
+
+				<div class="col-md-6">
+					<p> With representation in almost every major jurisdiction, TradeMarkers has up-to-date information on trademark application activities. Hence, we are able to offer the following services:</p>
+
+					<ul class="theme-default">
+						<li> 
+							Full analysis of existing trademarks, including similarities in appearance, sound, connotation and commercial impression
+						</li>
+
+						<li> 
+							Consultation on what to do if an existing similarity is found
+						</li>
+
+						<li> 
+							Enquiry with local trademark offices, as necessary
+						</li>
+
+						<li> 
+							Detailed reporting on the availability of relevant marks and recommendations for your application
+						</li>
+					</ul>
+
+					<p> Start by or dering a search report with Attorney's analysis about registration probabilities. This report is optional but highly recommended.</p>
+
+				</div>
+
+			</div>
+
+			<div class="row step-block">
+				<div class="col-md-12">
+					<h2><span>Step 2</span> Trademark Registration Request
+					<button class="btn btn-primary btn-black btn-pull-right" data-toggle="modal" data-target="#registrationModal"> Start Registration</button>
+					</h2>
+				</div>
+
+				<div class="col-md-12">
+					<p> With a legally registered trademark, you gain several benefits:</p>
+					<ul class="theme-default">
+						<li> 
+							Potential copycats are deterred from infringing on your brand
+						</li>
+						<li> 
+							The ability of other brands to claim that you are infringing on their trademark is severely diminished
+						</li>
+					</ul>
+					<p> Our licensed Trademark Attorneys in <%= country.name %> will handle your trademark request, check all formalities, and then file with the <b><%= country.agency_name %></b> (<b><%= country.agency_short %></b>). You will receive confirmation of filing and a copy of the filing request. We will contact you immediately if any subsequent office actions require additional information, or if there are any opposition in <%= country.name %> against your application.</p>
+					<p> After the formal examination at the <%= country.agency_short %> the trademark will be published for opposition to allow third parties to oppose if they believe that the mark infringes on their brands. The opposition period in <%= country.name %> is <b><%= country.opposition_period %></b> after publication. You will receive status updates as soon as your mark is published, and any actions the <%= country.agency_short %> will take if oppositions are received.</p>
+					<p> If no oppositions arise and your trademark is formally approved, you can expect registration within <b><%= country.registration_period %></b>.</p>
+				</div>
+
+			</div>
+
+			<!-- price block -->
+
+			<div class="row step-block">
+				<div class="col-md-12">
+					<h2>Pricing Table</h2>
+				
+
+				<p style="padding-top:30px;">
+					<span style="float: right;">Prices are in U.S Dollars</span>
+				</p>
+
+				<div class="tbl-blue-container">
+					<table class="table tbl-blue">
+						<thead>
+							<tr>
+								<td style="width:10%"></td>
+								<td style="width:30%"></td>
+								<td style="width:20%"> Classes</td>
+								<td style="width:20%"> Word Only</td>
+								<td style="width:20%"> Design Only or Combined Word and Design</td>
+							</tr>
+						</thead>
+						<tbody>
+						
+						<% prices.forEach(price => { %>
+
+						<% if( price['service_type'] == 'Study' || 
+							price['service_type'] == 'Registration' ||
+							price['service_type'] == 'Certificate' ) { %>
+						
+							<tr>
+								<td class="gray text-center" rowspan="2"> 
+									<% if ( price['service_type']  == "Study" ) { %>
+										Step 1
+									<% } else if ( price['service_type']  == "Registration" ) { %>
+										Step 2
+									<% } else if ( price['service_type']  == "Certificate" ) { %>
+										Step 3
+									<% } %>
+								</td>
+								<td rowspan="2">
+									<% if ( price['service_type']  == "Study" ) { %>
+										Trademark<br>Comprehensive Study
+									<% } else if ( price['service_type']  == "Registration" ) { %>
+										Trademark<br>Registration Request
+									<% } else if ( price['service_type']  == "Certificate" ) { %>
+										Trademark<br>Certificate Request
+									<% } %>
+								</td>
+								<td class="gray"> 
+									First Class
+								</td>
+								<td> 
+									<%= ( price.initial_cost <= 0 ? 'Free' : price.initial_cost ) %>
+								</td>
+								<td> 
+									<%= ( price.logo_initial_cost <= 0 ? 'Free' : price.logo_initial_cost ) %>
+								</td>
+							</tr>
+							<tr>
+								<td class="gray"> 
+									Each Additional Class
+								</td>
+								<td> 
+									<%= (price.additional_cost <= 0 ? 'Free' : price.additional_cost) %>
+								</td>
+								<td> 
+									<%= (price.logo_additional_cost <= 0 ? 'Free' : price.logo_additional_cost ) %>
+								</td>
+							</tr>
+
+						
+						<% } %>
+
+						<% }); %>
+						</tbody>
+					</table>
+				</div>
+				<p style="font-size:24px;color:#000;font-weight:600;padding-top:30px;"> Note:</p>
+				<p> Prices include all official and professional fees. Prices do not include legal defenses in case of oppositions or objections</p>
+				<p> Timeframe of the trademark registration process is only an estimate and it may vary considerably if any objections and/or oppositions are presented, or other events occur during the trademark registration process.</p>
+
+				
+			</div>
+
+
+               
+        </div>
+    </div>
+</div>
+
+<!-- MODAL STUDY -->
+<div class="modal fade" id="studyModal" tabindex="-1" role="dialog" aria-labelledby="studyModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Study Step 1</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<p> Before filing your trademark in <%= country.name %> it is important that you evaluate possible obstacles that may arise during registration process. </p>
+
+				<p> Our Trademark Comprehensive Study will not only list similar trademarks {graphic/phonetic} that may conflict with yours, but also give you an Attorney's opinion about registration possibilities.</p>
+
+				<p> <b> This report is optional but highly recommeneded.</b> </p>
+
+				<a class="btn-pull-right" href="/trademark-study-in-<%= country.name.replace(/\s/g, '_').toLowerCase() %>-proceed"><button class="btn btn-primary btn-black btn-rounded-primary"> Proceed</button></a>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+<!-- MODAL REGISTRATION -->
+<div class="modal fade" id="registrationModal" tabindex="-1" role="dialog" aria-labelledby="registrationModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Registration Step 1</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<p> Our licensed Trademark Attorneys in <b> <%= country.name %></b> will handle your trademark request, check all formalities, and then file with the <b> <%= country.agency_name %></b>. You will receive confirmation of filing and a copy of the filling request. We will contact you immediately if any subsequent office actions require additional information, or if there are any opposition in <b> <%= country.name %></b> against your application. </p>
+
+				<p> After the formal examination at the <b> <%= country.agency_name %>}</b> the trademark will be published for opposition to allow third parties to oppose if they believe that the mark infringes on their brands. The opposition period in <b> <%= country.agency_name %></b> is <b> <%= country.opposition_period %></b> after publication. You will receive status updates as soon as your mark is published, and any actions the will take if oppositions are received. </p>
+
+				<p> If no oppositions arise and your trademark is formally approved, you can expect registration <b> <%= country.registration_period %></b>.</p>
+
+				<p> As <b> <%= country.name %></b> is a member of the Paris Convention, you can claim the priority of your filing in any other filing in national trademark offices of countries that are part of the Paris Convention.</p>
+
+				<a class="btn-pull-right" href="/trademark-registration-in-<%= country.name.replace(/\s/g, '_').toLowerCase() %>-proceed"><button class="btn btn-primary btn-black btn-rounded-primary"> Proceed</button></a>
+			</div>
+
+		</div>
+	</div>
+</div>

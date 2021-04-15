@@ -19,7 +19,7 @@
 					<td><%= data.type %></td>
 					<td><%= data.word_mark %></td>
 					<td><%= data.class %></td>
-					<td>$<%= amount %></td>
+					<td><%= formatter.format(amount) %></td>
 				</tr>
 			</table>
 
@@ -34,6 +34,20 @@
 						<input class="" type="hidden" name="serviceType" value="<%= data.serviceType %>">
 						<input class="" type="hidden" name="type" value="<%= data.type %>">
 						<input class="" type="hidden" name="word_mark" value="<%= data.word_mark %>">
+
+						<input class="" type="hidden" name="nature" value="<%= data.nature %>">
+						<input class="" type="hidden" name="company" value="<%= data.company %>">
+						<input class="" type="hidden" name="fname" value="<%= data.fname %>">
+						<input class="" type="hidden" name="lname" value="<%= data.lname %>">
+						<input class="" type="hidden" name="phone" value="<%= data.phone %>">
+						<input class="" type="hidden" name="fax" value="<%= data.fax %>">
+						<input class="" type="hidden" name="position" value="<%= data.position %>">
+						<input class="" type="hidden" name="country" value="<%= data.country %>">
+						<input class="" type="hidden" name="street" value="<%= data.street %>">
+						<input class="" type="hidden" name="city" value="<%= data.city %>">
+						<input class="" type="hidden" name="state" value="<%= data.state %>">
+						<input class="" type="hidden" name="zipCode" value="<%= data.zipCode %>">
+
 						<% 
 							
 							for (let i=0; i < data.class.length; i++) {
@@ -58,6 +72,19 @@
 						<input class="" type="hidden" name="serviceType" value="<%= data.serviceType %>">
 						<input class="" type="hidden" name="type" value="<%= data.type %>">
 						<input class="" type="hidden" name="word_mark" value="<%= data.word_mark %>">
+
+						<input class="" type="hidden" name="nature" value="<%= data.nature %>">
+						<input class="" type="hidden" name="company" value="<%= data.company %>">
+						<input class="" type="hidden" name="fname" value="<%= data.fname %>">
+						<input class="" type="hidden" name="lname" value="<%= data.lname %>">
+						<input class="" type="hidden" name="phone" value="<%= data.phone %>">
+						<input class="" type="hidden" name="fax" value="<%= data.fax %>">
+						<input class="" type="hidden" name="position" value="<%= data.position %>">
+						<input class="" type="hidden" name="country" value="<%= data.country %>">
+						<input class="" type="hidden" name="street" value="<%= data.street %>">
+						<input class="" type="hidden" name="city" value="<%= data.city %>">
+						<input class="" type="hidden" name="state" value="<%= data.state %>">
+						<input class="" type="hidden" name="zipCode" value="<%= data.zipCode %>">
 						
 						<% for (let i=0; i < data.class.length; i++) { %>
 							<input class="" type="hidden" name="class" value="<%= data.class[i] %>">
@@ -79,35 +106,15 @@
 									<input type="radio" class="form-check-input" name="customerType" value="new" id="customerTypeNew">
 									<label class="form-check-label" for="customerTypeNew">Create New Account</label>
 								</div>
-									
-								
 
 								<div class="form-field mt-2">
 									<input 
-										type="text" 
-										name="name" id="name" 
-										placeholder="Name" 
-										class="form-control"
-										style="display:none"
-										>
-								</div>
-								<div class="form-field mt-2">
-									<input 
-										type="text" 
-										name="address"
-										id="address" 
-										placeholder="Address" 
-										class="form-control" 
-										style="display:none"
-										>
-								</div>
-								<div class="form-field mt-2">
-									<input 
-										type="email" 
+										type="email"
 										name="email" 
 										id="email" 
 										placeholder="Email" 
-										class="form-control">
+										class="form-control"
+										value="<%= data.email %>">
 								</div>
 								<div class="form-field mt-2">
 									<input 
@@ -117,10 +124,19 @@
 										placeholder="Enter Password" 
 										class="form-control">
 								</div>
+								<div class="form-field mt-2">
+									<input 
+										type="password" 
+										name="customerPasswordConfirm" 
+										id="customerPasswordConfirm" 
+										placeholder="Confirm Password" 
+										class="form-control"
+										style="display:none">
+								</div>
 								
 
 								<div class="form-field mt-2">
-									<input class="btn btn-primary btn-black tn-rounded-primary" type="submit" value="Add to cart">
+									<input id="btn-add-to-cart" class="btn btn-primary btn-black tn-rounded-primary" type="button" value="Proceed">
 								</div>
 							</div>
 						</div>

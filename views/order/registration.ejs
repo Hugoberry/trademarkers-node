@@ -1,4 +1,7 @@
-<h1 class="h1-heading"><span>Trademark Registration in <%= country.name %></span></h1>
+<%
+let serviceTypeCamel = serviceType.charAt(0).toUpperCase() + serviceType.slice(1)
+%>
+<h1 class="h1-heading"><span>Trademark <%= serviceTypeCamel %> in <%= country.name %></span></h1>
 <div class="container">
     <div class="row justify-content-center box-bg-container">
 
@@ -8,18 +11,18 @@
             <div class="row" >
 				<div class="col-md-3">
 					<% if (country.abbr) { %>
-						<div class="flag-container" style="background-image:url('images/<%= country.avatar %>')"></div>
+						<div class="flag-container" style="background-image:url('images/flag/<%= country.abbr.toLowerCase() %>.png')"></div>
 						<p class="text-center" style="font-size:24px;color: #B4B4B4;padding-top:10px;margin-bottom:0px;"><%= country.abbr %></p>
 					<% } %>
 				</div>
 				<div class="col-md-9">
-					<p> In order to proceed with Trademark Registration in <%= country.name %> please fill out the following form. You'll have to provide information about the Trademark, the Administrative contact and the Owner.</p>
+					<p> In order to proceed with Trademark <%= serviceTypeCamel %> in <%= country.name %> please fill out the following form. You'll have to provide information about the Trademark, the Administrative contact and the Owner.</p>
 				</div>
 			</div>
 
 
                     
-			<form id="filing_form" method="POST" action="/validate-order" enctype="multipart/form-data">
+			<form id="filing_form" method="POST" action="/trademark-profile" enctype="multipart/form-data">
 
 				<div class="form-group row">
 					<div class="col-md-12">

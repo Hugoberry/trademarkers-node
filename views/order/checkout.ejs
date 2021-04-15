@@ -34,7 +34,7 @@
 					<td><%= cartItems[i].country.abbr %></td>
 					<td><%= cartItems[i].serviceType %></td>
 					<td><%= cartItems[i].word_mark %></td>
-					<td>$<%= cartItems[i].price %></td>
+					<td><%= formatter.format(cartItems[i].price) %></td>
 				</tr>
 			<% } %>
 
@@ -47,7 +47,7 @@
 			<tr>
 				<td colspan="3"></td>
 				<th class="text-right">Total Amount:</th>
-				<th>$<%= totalAmount %></th>
+				<th><%= formatter.format(totalAmount) %></th>
 			</tr>
 
 		</table>

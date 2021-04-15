@@ -29,7 +29,7 @@
 
                       let name = ""
                       if ( user.firstName && user.lastName) {
-                        name = user.suffix + " " + capitalize(user.firstName) + " " + capitalize(user.lastName)
+                        name = (user.suffix ? user.suffix : '') + " " + capitalize(user.firstName) + " " + capitalize(user.lastName)
                       } else {
                         name = user.name
                       }
@@ -81,17 +81,57 @@
 
                               <div class="form-field mt-2">
                                 <span>Contact Number</span>
-                                <input type="text" name="contactNumber" placeholder="Contact Number" class="form-control" value="<%= user.contactNumber %>" required="required">
+                                <div class="row">
+                                  <div class="col-6">
+                                    <input type="text" name="phone" placeholder="Contact Number" class="form-control" value="<%= user.phone %>" required="required">
+                                  </div>
+                                  <div class="col-6">
+                                    <input type="text" name="fax" placeholder="Fax Number" class="form-control" value="<%= user.fax %>" required="required">
+                                  </div>
+                                </div>
                               </div>
 
-                              <div class="form-field mt-2">
-                                <span>Home Address</span>
-                                <input type="text" name="address" placeholder="Home Address" class="form-control" value="<%= user.address %>" required="required">
-                              </div>
+                              
 
                               <div class="form-field mt-2">
-                                <span>Mailing Address</span>
-                                <input type="text" name="mailingAddress" placeholder="Mailing Address" class="form-control" value="<%= user.mailingAddress %>" required="required">
+                                <span>Address</span>
+                                <div class="row">
+                                  <div class="col-12">
+                                      <div class="form-field-inner" >
+                                        <input type="text" name="street" placeholder="Street" class="form-control" value="<%= user.street %>" >
+                                      </div>
+                                  </div>
+                                </div>
+                                <div class="row mt-2">
+
+                                  <div class="col-3">
+                                      <div class="form-field-inner" >
+                                          <input type="text" name="city" placeholder="City" class="form-control" value="<%= user.city %>">
+                                      </div>
+                                  </div>
+                                  <div class="col-3">
+                                      <div class="form-field-inner">
+                                          <input type="text" name="state" placeholder="State" class="form-control" value="<%= user.state %>">
+                                      </div>
+                                  </div>
+                                  <div class="col-3">
+                                    <div class="form-field-inner">
+                                      <input type="text" name="zipCode" placeholder="Postal Code" class="form-control" value="<%= user.zipCode %>">
+                                    </div>
+                                  </div>
+                                  <div class="col-3">
+                                    <div class="form-field-inner">
+                                      <select id="country" name="country" class="form-control">
+                                        <option value="">-</option>
+                                          <% countries.forEach(country => { %>
+                                            <% if(country.name) { %>
+                                              <option value="<%= country.name %>" <%= (user ? (user.country == country.name ? "selected" : "") : "") %>> <%= country.name %></option>
+                                            <% } %>
+                                          <% }) %>
+                                      </select>
+                                    </div>
+                                  </div>
+                                </div>
                               </div>
 
                               <div class="form-field-inner" >

@@ -22,7 +22,7 @@
 						<th><%= cartItems[i].type %></th>
 						<th><%= cartItems[i].word_mark %></th>
 						<th><%= cartItems[i].class %></th>
-						<th>$<%= cartItems[i].price %></th>
+						<th><%= formatter.format(cartItems[i].price) %></th>
 						<th><span class="removeCartItem" data-id="<%= cartItems[i]._id %>"><i class="fa fa-trash"></i></span></th>
 
 					</tr>
@@ -30,7 +30,7 @@
 
 				<tr>
 					<th colspan="5"><p class="text-right">Total Amount:</p></th>
-					<th>$<%= totalAmount %></th>
+					<th><%= formatter.format(totalAmount) %></th>
 				</tr>
 			</table>
 			<% } else { %>
