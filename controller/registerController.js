@@ -70,7 +70,7 @@ exports.registrationProceed = async function(req, res, next) {
 
     countryName = countryName.replace("_"," ")
     country = await rpoCountries.getByName(countryName)
-    console.log(countryName,country);
+    // console.log(countryName,country);
     if (!country) {
       // redirect to register
     }
@@ -78,13 +78,15 @@ exports.registrationProceed = async function(req, res, next) {
     
   }
 
-  let prices = await rpoPrice.findPriceByCountryId(country[0].id);
+  let price = await rpoPrice.findPriceByCountry(country[0].id,serviceType);
+
+  // console.log(prices);
 
   res.render('order/registration', {
     layout: 'layouts/public-layout-default', 
     title: 'registration',
     country: country[0],
-    prices: prices,
+    price: price[0],
     classes: classes,
     serviceType: serviceType,
     user: await helpers.getLoginUser(req)

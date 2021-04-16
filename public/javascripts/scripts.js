@@ -61,12 +61,16 @@ $( document ).ready(function() {
     let varSelected = "class" + addClassValue;
 
     if (!addClassValue) {
-        alert("Please Enter Class");
+        // alert("Please Enter Class");
+        $("#errorMessage").text("Please Enter Class").show()
+        scrollToDiv("errorMessage")
         return false;
     }
 
     if (addClassValue > 45 || addClassValue <= 0) {
-        alert("Please Enter Class(es) 1 - 45");
+        // alert("Please Enter Class(es) 1 - 45");
+        $("#errorMessage").text("Please Enter Class(es) 1 - 45").show()
+        scrollToDiv("errorMessage")
         return false;
     }
 
@@ -74,9 +78,6 @@ $( document ).ready(function() {
     var selected = $("input:checkbox.class_chk:checked").map(function(){
       return $(this).val();
     }).get(); 
-    console.log(addClassValue,selected);
-
-    console.log($.inArray(addClassValue,selected));
 
     if ( $.inArray(addClassValue,selected) >= 0 ) {
       alert("Class already selected");
@@ -148,22 +149,22 @@ $( document ).ready(function() {
     let classValues = $('input:checkbox.class_chk:checked').serialize()
 
     if (!classValues) {
-      alert('Please Enter Class');
-      
+      $("#errorMessage").text("Please Enter Class").show();
+      scrollToDiv("errorMessage")
       return false;
     }
     
   })
 
   $(document).on('click','#listClasses .btnRemoveClass',function(e) {
+    
     let value = $(this).data('class-number');
-    let classNumber = "class" + value;
 
-    var this_class = $("."+classNumber);
-    // console.log(this_class);
-    $("#"+classNumber).trigger('click');
-
-    $(".reset").removeClass('hide-class');
+    $('input:checkbox.class_chk').each(function () {
+      if ( $.trim($(this).val()) === $.trim(value) ){
+        $(this).prop("checked", false)
+      }
+    })
 
     listPopulate();
   });
@@ -427,7 +428,9 @@ $( document ).ready(function() {
     })
 
     if (!flag) {
-      alert("Please enter class description");
+      $("#errorMessage").text("Please enter class description").show()
+      scrollToDiv("errorMessage")
+      // alert("Please enter class description");
     }
     return flag
   })
@@ -441,14 +444,16 @@ $( document ).ready(function() {
 function listPopulate() {
 
   // var class_description = null;
-    let liHeadDisplay='<thead><tr><td> <b>Class Number</b></td><td> <b>Description</b></td><td class="text-center"> <b>Action</b></td></tr></thead>';
+    let liHeadDisplay='<thead><tr><td> <b>Class Number</b></td><td> <b>Description</b></td><td>Price</td><td class="text-center"> <b>Action</b></td></tr></thead>';
     let liDisplay='';
+    let i = 0, totalAmount = 0;
     $('input:checkbox.class_chk').each(function () {
+      
         var sThisVal = (this.checked ? $(this).val() : "");
         // console.log('val',sThisVal);
 
         if ( sThisVal ) {
-            
+            i++
             let classNumber = sThisVal.replace("class","");
             // let classDescriptionValue = sThisVal.val
             // console.log( 'description',$("#class"+classNumber).val(), sThisVal )
@@ -459,14 +464,32 @@ function listPopulate() {
             if ( $("#class"+classNumber).val() === sThisVal ) {
               class_description = ''
               // console.log('empty');
-            } 
+            }
+
+            // get price
+            let classAmount = 0, classAmountAdd = 0, classAmountItem = 0;
+            if ($('input[name="type"]').val() == 'word') {
+              classAmount = $('#initial_cost').val()
+              classAmountAdd = $('#additional_cost').val()
+            } else {
+              classAmount = $('#logo_initial_cost').val()
+              classAmountAdd = $('#logo_additional_cost').val()
+            }
+
+            if (i == 1) {
+              classAmountItem = classAmount
+            } else {
+              classAmountItem = classAmountAdd
+            }
             
-            
+            totalAmount += parseInt(classAmountItem)
+
             let description_input = '<input id="class'+classNumber+'" value="'+class_description+'" type="text" class="form-control classDescriptions" name="description" placeholder="Enter Goods/Services on this trademark" data-id="'+classNumber+'">';
 
             liDisplay += "<tr>" + 
                             "<td>" + classNumber + "</td>" +
                             "<td>" + description_input + "</td>" +
+                            "<td>$" + classAmountItem + "</td>" +
                             "<td class='text-center'> <i data-class-number='" +classNumber+"' class='fa fa-trash btnRemoveClass'></i>" + "</td>" +
 
                           "</tr>";
@@ -477,6 +500,12 @@ function listPopulate() {
         }
 
     });
+
+    liDisplay += "<tr>" +
+                      "<td colspan='3' class='text-right' style='font-weight:bold'>Total</td>" +
+                      "<td class='text-center' style='font-weight:bold'>$"+totalAmount+"</td>" +
+                      "</tr>";
+
     $("#listClasses").html(liHeadDisplay);
     $("#listClasses").append(liDisplay ? liDisplay : "<tr><td colspan='3' class=''>No selected class. Please select class below.</td></tr>");
 
@@ -496,6 +525,12 @@ function listPopulate() {
         $("#tm").val($("#tm").attr('data-case-value'));
     }
 
+}
+
+function scrollToDiv(id){
+  $('html, body').animate({
+    scrollTop: $("#"+id).offset().top
+  }, 500);
 }
 
 

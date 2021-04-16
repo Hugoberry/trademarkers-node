@@ -7,7 +7,6 @@ let serviceTypeCamel = serviceType.charAt(0).toUpperCase() + serviceType.slice(1
 
         <div class="col-md-12">
 
-
             <div class="row" >
 				<div class="col-md-3">
 					<% if (country.abbr) { %>
@@ -21,8 +20,9 @@ let serviceTypeCamel = serviceType.charAt(0).toUpperCase() + serviceType.slice(1
 			</div>
 
 
-                    
+            
 			<form id="filing_form" method="POST" action="/trademark-profile" enctype="multipart/form-data">
+				<div id="errorMessage" class="alert alert-danger" role="alert" style="display:none"></div>
 
 				<div class="form-group row">
 					<div class="col-md-12">
@@ -185,7 +185,10 @@ We provide a helpful Class Search tool, which allows you to easily determine the
 				</div>
 			</form>
 
-
+			<input id="initial_cost" type="hidden" value="<%= price.initial_cost %>">
+			<input id="additional_cost" type="hidden" value="<%= price.additional_cost %>">
+			<input id="logo_initial_cost" type="hidden" value="<%= price.logo_initial_cost %>">
+			<input id="logo_additional_cost" type="hidden" value="<%= price.logo_additional_cost %>">
                
         </div>
     </div>

@@ -62,7 +62,9 @@ module.exports = {
 
 			let db = conn.getDb();
 			
-			db.collection(_table).find(query).toArray(function(err, result) {
+			db.collection(_table).find(query).collation(
+				{ locale: 'en', strength: 2 }
+			  ).toArray(function(err, result) {
 					
 				if (err) {
 					reject(err);
