@@ -321,33 +321,7 @@ $( document ).ready(function() {
     }
   })
 
-  // if ( $("#addToCart").length ) {
-  //   $.ajax({
-  //     url: "/api/v1/checkEmailExist",
-  //     type:"GET",
-  //     dataType:"json",
-  //     data: {
-  //       email: $("#email").val()
-  //     },
-  //     contentType: "application/json",
-  //     success: function( result ) {
-  //       console.log(result);
-  //       if (result) {
-
-  //         $("#loginMessage").text("Email Already Exist").show()
-  //         return false
-
-  //       }
-  //     }
-  //   }); 
-  // }
-
-  // if ( $("#email").length ) {
-  //   $("#email").blur(function(){
-  //     alert('asd');
-  //   });
-  // }
-
+  
   
 
   $('input[name="customerType"]').change(function(){

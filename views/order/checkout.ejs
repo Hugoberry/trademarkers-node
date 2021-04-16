@@ -31,7 +31,7 @@
 			<% for(let i=0; i < cartItems.length; i++) { %>
 				<tr>
 					<td><%= (i + 1) %></td>
-					<td><%= cartItems[i].country.abbr %></td>
+					<td><%= cartItems[i].country.name %></td>
 					<td><%= cartItems[i].serviceType %></td>
 					<td><%= cartItems[i].word_mark %></td>
 					<td><%= formatter.format(cartItems[i].price) %></td>

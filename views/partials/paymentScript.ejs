@@ -45,6 +45,7 @@ cardExpiry.mount('#cardExpiry');
 cardCvc.mount('#cardCvc');
 postalCode.mount('#postalCode');
 
+
 // cardCvc.op
 
 // Handle real-time validation errors from the card Element.
@@ -77,6 +78,7 @@ cardCvc.on('change', function(event) {
 
 postalCode.on('change', function(event) {
   var displayError = document.getElementById('card-errors');
+  console.log(event.error);
   if (event.error) {
     displayError.textContent = event.error.message;
   } else {
@@ -88,6 +90,14 @@ postalCode.on('change', function(event) {
 var form = document.getElementById('payment-form');
 form.addEventListener('submit', function(event) {
   event.preventDefault();
+
+  const emailRegexp = /[a-zA-Z0-9._-]{3,}@[a-zA-Z0-9.-]{3,}\.[a-zA-Z]{2,4}/;
+
+  if (!emailRegexp.test( emailAddress.value )) {
+    var displayError = document.getElementById('card-errors');
+    displayError.textContent = "Incomplete email address";
+    return false;
+  }
 
   stripe.createToken(acc).then(function(result) {
     if (result.error) {
