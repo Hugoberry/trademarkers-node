@@ -388,22 +388,37 @@ $( document ).ready(function() {
     }
   })
 
+  $('input[name="colorClaim"]').change(function(){
+    
+    // alert( $(this).val() );
+    if( $(this).val() == "yes") {
+      $("#colorClaimText").show()
+      $('input[name="colorClaimText"]').val('').focus()
+    } else {
+      $("#colorClaimText").hide()
+      $('input[name="colorClaimText"]').val('')
+    }
+
+  })
+
   // PROFILE SCRIPT FORM VALIDATE
   $("#nature").change(function(){
     // alert($(this).val());
     if ($(this).val() == "Individual") {
-      // console.log('in');
-      // hide other fields
+
       $("#company_block > div").hide()
       $("#nature-label h4").text('Client Information');
       $("#fax-block").show();
       $("#position-block").hide();
+      $("#wrap-company-address").hide()
+
     } else {
-      // console.log('com');
+
       $("#company_block > div").show()
       $("#nature-label h4").text('Contact Person');
       $("#fax-block").hide();
       $("#position-block").show();
+      $("#wrap-company-address").show()
       
     }
   })

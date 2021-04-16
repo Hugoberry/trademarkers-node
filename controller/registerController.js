@@ -292,10 +292,7 @@ exports.addToCart = async function(req, res, next) {
   data.fax = req.body.phone;
   data.position = req.body.position;
   data.country = req.body.country;
-  data.street = req.body.street;
-  data.city = req.body.city;
-  data.state = req.body.state;
-  data.zipCode = req.body.zipCode;
+
   data.status = 'active';
   data.created_at = toInteger(moment().format('YYMMDD'));
   data.created_at_formatted = moment().format();
@@ -493,6 +490,19 @@ exports.placeOrder = async function(req, res, next) {
           lname: items.lname,
           phone: items.phone,
           fax: items.fax,
+          position: items.position,
+
+          repCountry: items.repCountry,
+          repStreet: items.repStreet,
+          repCity: items.repCity,
+          repState: items.repState,
+          repZipCode: items.repZipCode,
+
+          companyCountry: items.companyCountry,
+          companyStreet: items.companyStreet,
+          companyCity: items.companyCity,
+          companyState: items.companyState,
+          companyZipCode: items.companyZipCode,
 
           commerce: items.commerce,
           filed: items.filed,

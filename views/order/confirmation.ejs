@@ -29,6 +29,7 @@
 			<form id="addToCart" method="POST" action="/add-to-cart">
 				<div class="form-group row">
 					<div class="col-md-12 text-center">
+						<input class="" type="hidden" name="action" value="notLogin">
 						<input class="" type="hidden" name="logoName" value="<%= data.logoName %>">
 						<input class="" type="hidden" name="countryId" value="<%= data.countryId %>">
 						<input class="" type="hidden" name="serviceType" value="<%= data.serviceType %>">
@@ -42,11 +43,18 @@
 						<input class="" type="hidden" name="phone" value="<%= data.phone %>">
 						<input class="" type="hidden" name="fax" value="<%= data.fax %>">
 						<input class="" type="hidden" name="position" value="<%= data.position %>">
-						<input class="" type="hidden" name="country" value="<%= data.country %>">
-						<input class="" type="hidden" name="street" value="<%= data.street %>">
-						<input class="" type="hidden" name="city" value="<%= data.city %>">
-						<input class="" type="hidden" name="state" value="<%= data.state %>">
-						<input class="" type="hidden" name="zipCode" value="<%= data.zipCode %>">
+
+						<input class="" type="hidden" name="repCountry" value="<%= data.repCountry %>">
+						<input class="" type="hidden" name="repStreet" value="<%= data.repStreet %>">
+						<input class="" type="hidden" name="repCity" value="<%= data.repCity %>">
+						<input class="" type="hidden" name="repState" value="<%= data.repState %>">
+						<input class="" type="hidden" name="repZipCode" value="<%= data.repZipCode %>">
+
+						<input class="" type="hidden" name="companyCountry" value="<%= data.companyCountry %>">
+						<input class="" type="hidden" name="companyStreet" value="<%= data.companyStreet %>">
+						<input class="" type="hidden" name="companyCity" value="<%= data.companyCity %>">
+						<input class="" type="hidden" name="companyState" value="<%= data.companyState %>">
+						<input class="" type="hidden" name="companyZipCode" value="<%= data.companyZipCode %>">
 
 						<input class="" type="hidden" name="commerce" value="<%= data.commerce %>">
 						<input class="" type="hidden" name="filed" value="<%= data.filed %>">
@@ -87,11 +95,18 @@
 						<input class="" type="hidden" name="phone" value="<%= data.phone %>">
 						<input class="" type="hidden" name="fax" value="<%= data.fax %>">
 						<input class="" type="hidden" name="position" value="<%= data.position %>">
+
 						<input class="" type="hidden" name="country" value="<%= data.country %>">
 						<input class="" type="hidden" name="street" value="<%= data.street %>">
 						<input class="" type="hidden" name="city" value="<%= data.city %>">
 						<input class="" type="hidden" name="state" value="<%= data.state %>">
 						<input class="" type="hidden" name="zipCode" value="<%= data.zipCode %>">
+
+						<input class="" type="hidden" name="companyCountry" value="<%= data.companyCountry %>">
+						<input class="" type="hidden" name="companyStreet" value="<%= data.companyStreet %>">
+						<input class="" type="hidden" name="companyCity" value="<%= data.companyCity %>">
+						<input class="" type="hidden" name="companyState" value="<%= data.companyState %>">
+						<input class="" type="hidden" name="companyZipCode" value="<%= data.companyZipCode %>">
 
 						<input class="" type="hidden" name="commerce" value="<%= data.commerce %>">
 						<input class="" type="hidden" name="filed" value="<%= data.filed %>">

@@ -13,6 +13,8 @@
 						<input class="" type="hidden" name="serviceType" value="<%= data.serviceType %>">
 						<input class="" type="hidden" name="type" value="<%= data.type %>">
                         <input class="" type="hidden" name="word_mark" value="<%= data.word_mark %>">
+                        <input class="" type="hidden" name="colorClaim" value="<%= data.colorClaim %>">
+                        <input class="" type="hidden" name="colorClaimText" value="<%= data.colorClaimText %>">
                         
 						<input class="" type="hidden" name="commerce" value="<%= data.commerce %>">
 						<input class="" type="hidden" name="filed" value="<%= data.filed %>">
@@ -48,6 +50,74 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Company ADDRESS INFORMATION HERE -->
+                    <div id="wrap-company-address" class="col-md-12" style="display:none"><div class="row">
+
+                    <div class="col-md-12">
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <h4>Company Address Information</h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="country_block" class="col-md-12">
+                        <div class="form-group row">
+                            <span style="padding-left: 15px;"> Country </span>
+                            <div class="col-md-12">
+								<select id="country" name="companyCountry" class="form-control">
+									<option value="">-</option>
+                                    <% countries.forEach(country => { %>
+                                        <% if(country.name) { %>
+                                        <option value="<%= country.name %>" <%= (user ? (user.country == country.name ? "selected" : "") : "") %>> <%= country.name %></option>
+                                        <% } %>
+                                    <% }) %>
+                                </select>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group row">
+                            <span style="padding-left: 15px;"> Address </span>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="companyStreet" value="<%= (user ? user.street : "") %>">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="city-block" class="col-md-2">
+                        <div class="form-group row">
+                            <span style="padding-left: 15px;"> <label id="city-label">City</label> </span>
+                            <div class="col-md-12">
+                                <input id="city" type="text" class="form-control" name="companyCity" value="<%= (user ? user.city : "") %>">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="state-province-block" class="col-md-5">
+                        <div class="form-group row">
+                            <span style="padding-left: 15px;"> <label id="state-label">State/Province</label> </span>
+                            <div class="col-md-12">
+                                <input id="state" type="text" class="form-control" name="companyState" value="<%= (user ? user.state : "") %>">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="postal-block" class="col-md-5">
+                        <div class="form-group row">
+                            <span style="padding-left: 15px;"> <label id="postal-label">Postal Code</label></span>
+                            <div class="col-md-12">
+                                <input id="zip_code" type="text" class="form-control" name="companyZipCode" value="<%= (user ? user.zipCode : "") %>" >
+                            </div>
+                        </div>
+                    </div>
+
+                    </div></div>
+
+                    <!-- Company ADDRESS INFORMATION HERE -->
 
                     <!-- START WRAP NAME INFO -->
                     <div id="wrap-name-info" class="col-md-12"><div class="row">
@@ -139,7 +209,7 @@
                         <div class="form-group row">
                             <span style="padding-left: 15px;"> Country </span>
                             <div class="col-md-12">
-								<select id="country" name="country" class="form-control">
+								<select id="country" name="repCountry" class="form-control">
 									<option value="">-</option>
                                     <% countries.forEach(country => { %>
                                         <% if(country.name) { %>
@@ -156,7 +226,7 @@
                         <div class="form-group row">
                             <span style="padding-left: 15px;"> Address </span>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="street" value="<%= (user ? user.street : "") %>">
+                                <input type="text" class="form-control" name="repStreet" value="<%= (user ? user.street : "") %>">
                             </div>
                         </div>
                     </div>
@@ -165,7 +235,7 @@
                         <div class="form-group row">
                             <span style="padding-left: 15px;"> <label id="city-label">City</label> </span>
                             <div class="col-md-12">
-                                <input id="city" type="text" class="form-control" name="city" value="<%= (user ? user.city : "") %>">
+                                <input id="city" type="text" class="form-control" name="repCity" value="<%= (user ? user.city : "") %>">
                             </div>
                         </div>
                     </div>
@@ -174,7 +244,7 @@
                         <div class="form-group row">
                             <span style="padding-left: 15px;"> <label id="state-label">State/Province</label> </span>
                             <div class="col-md-12">
-                                <input id="state" type="text" class="form-control" name="state" value="<%= (user ? user.state : "") %>">
+                                <input id="state" type="text" class="form-control" name="repState" value="<%= (user ? user.state : "") %>">
                             </div>
                         </div>
                     </div>
@@ -183,7 +253,7 @@
                         <div class="form-group row">
                             <span style="padding-left: 15px;"> <label id="postal-label">Postal Code</label></span>
                             <div class="col-md-12">
-                                <input id="zip_code" type="text" class="form-control" name="zipCode" value="<%= (user ? user.zipCode : "") %>" >
+                                <input id="zip_code" type="text" class="form-control" name="repZipCode" value="<%= (user ? user.zipCode : "") %>" >
                             </div>
                         </div>
                     </div>
