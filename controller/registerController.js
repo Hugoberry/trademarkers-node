@@ -55,6 +55,7 @@ exports.registration = async function(req, res, next) {
     prices: prices,
     classes: classes,
     serviceType: serviceType,
+    
     user: await helpers.getLoginUser(req)
   });
 }
@@ -65,6 +66,8 @@ exports.registrationProceed = async function(req, res, next) {
   let serviceType = req.params.serviceType;
   let country;
   let classes = await rpoTrademarkClasses.getClasses();
+
+  let countries = await rpoCountries.getAll();
 
   if ( countryName ) {
 
@@ -89,6 +92,7 @@ exports.registrationProceed = async function(req, res, next) {
     price: price[0],
     classes: classes,
     serviceType: serviceType,
+    countries: countries,
     user: await helpers.getLoginUser(req)
   });
 }
@@ -283,15 +287,15 @@ exports.addToCart = async function(req, res, next) {
   data.user = currentUser;
   data.price = amount;
   data.country = country[0];
-  nature = req.body.nature;
-  phone = req.body.phone;
-  fax = req.body.phone;
-  position = req.body.position;
-  country = req.body.country;
-  street = req.body.street;
-  city = req.body.city;
-  state = req.body.state;
-  zipCode = req.body.zipCode;
+  data.nature = req.body.nature;
+  data.phone = req.body.phone;
+  data.fax = req.body.phone;
+  data.position = req.body.position;
+  data.country = req.body.country;
+  data.street = req.body.street;
+  data.city = req.body.city;
+  data.state = req.body.state;
+  data.zipCode = req.body.zipCode;
   data.status = 'active';
   data.created_at = toInteger(moment().format('YYMMDD'));
   data.created_at_formatted = moment().format();
@@ -482,6 +486,21 @@ exports.placeOrder = async function(req, res, next) {
           description: items.description,
           country: items.country.name,
           countryId: items.country.id,
+
+          nature: items.nature,
+          company: items.company,
+          fname: items.fname,
+          lname: items.lname,
+          phone: items.phone,
+          fax: items.fax,
+
+          commerce: items.commerce,
+          filed: items.filed,
+          priority: items.priority,
+          origin: items.origin,
+          originDate: items.originDate,
+          originTm: items.originTm,
+
           status: 'pending',
           created_at: toInteger(moment().format('YYMMDD')),
           created_at_formatted: moment().format()

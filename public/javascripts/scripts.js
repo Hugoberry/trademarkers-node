@@ -372,6 +372,22 @@ $( document ).ready(function() {
     // return false
   })
 
+  $("#priority").change(function(){
+    if ( $(this).val() == "yes" ) {
+      $("#yes_priority").show()
+    } else {
+      $("#yes_priority").hide()
+    }
+  })
+
+  $("#filed").change(function(){
+    if ( $(this).val() == "yes" ) {
+      $("#claim_priority").show()
+    } else {
+      $("#claim_priority").hide()
+    }
+  })
+
   // PROFILE SCRIPT FORM VALIDATE
   $("#nature").change(function(){
     // alert($(this).val());

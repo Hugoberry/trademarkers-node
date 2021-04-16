@@ -119,7 +119,7 @@ exports.register = async function(req, res, next) {
 // console.log('register');
   // activityService.logger(req.ip, req.originalUrl, "Visited Service Page");
   let user = await helpers.getLoginUser(req)
-  // console.log("token", user);
+
   if ( user ) {
     res.redirect("/customer")
   }

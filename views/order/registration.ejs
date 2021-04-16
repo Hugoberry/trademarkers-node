@@ -175,6 +175,131 @@ We provide a helpful Class Search tool, which allows you to easily determine the
 					</div></div>
 
 				</div>
+				
+				<% if(country.abbr == 'US') { %>
+				<div class="form-group row">
+					<div class="col-md-12">
+					<div class="form-box">
+						<div class="form-check">
+							<label class="form-box-container" for="commerce">
+								<b>Is your trademark being used in commerce in <%= country.name %>?</b>
+
+								<i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" data-html="true" title="<i>“Used in commerce”</i> means that the mark is used in the ordinary course of trade. For example, for goods it would be used when it is placed in any manner on the goods, their containers or their displays. For services it is used when the trademark is used or displayed in advertising or during the sales process.">
+								</i>
+							</label>
+							
+							<select class="form-control" name="commerce" id="commerce">
+								<option value="no" selected> No</option>
+								<option value="yes"> Yes</option>
+								<option value="registered in another country"> No, but it is registered in another country</option>         
+							</select>
+
+						</div>
+					</div>
+					</div>
+				</div>
+				<% } %>
+
+				<div class="form-group row">
+					<div class="col-md-12">
+					<div class="form-box">
+						<div class="form-check">
+							<label class="form-box-container"  for="filed">
+								<b> Have you filed your trademark application in any other country within the last 6 months?</b>
+							</label>
+							
+							<select class="form-control" name="filed" id="filed">
+								<option value="no" selected> No</option>
+								<option value="yes"> Yes</option>         
+							</select>
+
+							<div id="claim_priority" style="display: none;">
+								<span> Then you may want to <b>Claim Priority</b></span>
+								<div style="text-align: left;" class="alert alert-info" role="alert">
+									<p>     
+										Claiming priority is part of the Paris Convention treaty.
+
+										It means that if you have filed a trademark within the last 6 months in any of the signatory countries (most countries of the world), you can use the filing date of this first registration as the filing date in the other signatory countries.
+
+										This right may be useful to the owner of the trademark, to protect his intellectual property, in cases of legal conflicts with other parties.
+									</p>
+								</div>
+
+								<label class="form-box-container" for="priority">
+									<b> Claim Priority 
+										<i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" data-html="true" title="<p>In order to claim priority, you need to provide</p>
+										<p><b>Country</b> in which you first filed your trademark</p>
+										<p><b>Date</b> in which you first filed your trademark</p>
+										<p><b>Filing number</b> of your first filed trademark</p>
+										To claim priority, both applications must be identical">
+										</i>
+									</b>
+								</label>
+
+								<select class="form-control" name="priority" id="priority">
+									<option value="no"> No</option>
+									<option value="yes"> Yes</option>         
+								</select>
+							</div>
+
+						</div>
+					</div>
+					</div>
+				</div>
+
+				<div id="yes_priority" style="display: none;">
+
+					<div class="form-group row">
+						<div class="col-md-12">
+						<div class="form-box">
+							<div class="form-check">
+								<label class="form-box-container" for="commerce">
+									<b> Country of Origin</b></i>
+								</label>
+								<select class="form-control" name="origin" id="origin">
+									<option value=""> - </option>
+									<% countries.forEach(country => { %>
+										<option value="<%= country.name %>">
+											<%= country.name %>
+										</option>
+									<% }) %>   
+								</select>
+
+							</div>
+						</div>
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<div class="col-md-12">
+						<div class="form-box">
+							<div class="form-check">
+								<label for="commerce">
+									<b> Date</b></i>
+								</label>
+								<input class="form-control" value="" type="date" name="originDate" id="originDate" >
+							</div>
+						</div>
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<div class="col-md-12">
+						<div class="form-box">
+							<div class="form-check">
+								<label for="commerce">
+									<b> Trademark Number</b></i>
+								</label>
+								<input class="form-control" type="text" name="originTm" id="originTm" >
+							</div>
+						</div>
+						</div>
+					</div>
+					
+				</div>
+
+				
+
 
 				<div class="form-group row">
 					<div class="col-md-12 text-center">
