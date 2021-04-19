@@ -57,6 +57,12 @@
 
                   <% } %>
 
+                  <% if( trademark.colorClaim && trademark.colorClaim == 'yes' ) { %>
+
+                    <div class="ar-cname ar-info-line">Color Claim: <strong style="text-transform: capitalize;"><%= trademark.colorClaimText %></strong></div>
+
+                  <% } %>
+
                 </div>
 
                 <% if( trademark.serialNumber ) { %>
@@ -92,6 +98,54 @@
 
                   
                 </div>
+                <% } %>
+
+                <% if( trademark.nature == "Company" ) { %>
+                  <div class="ard-wrap stp-row">
+                    <div class="ar-box-head"><h3>Company Information</h3></div>
+                    <% if( trademark.company ) { %>
+                      <div class="ar-cname ar-info-line">Company: <strong><%= trademark.company %></strong></div>
+                    <% } %>
+
+                    
+                    <div class="ar-cname ar-info-line">Street: <strong><%= trademark.companyStreet %></strong></div>
+                    <div class="ar-cname ar-info-line">City: <strong><%= trademark.companyCity %></strong></div>
+                    <div class="ar-cname ar-info-line">State: <strong><%= trademark.companyState %></strong></div>
+                    <div class="ar-cname ar-info-line">Postal Code: <strong><%= trademark.companyZipCode %></strong></div>
+                    <div class="ar-cname ar-info-line">Country: <strong><%= trademark.companyCountry %></strong></div>
+                   
+                    <div class="ar-box-head"><h3>Representative Information</h3></div>
+                    <div class="ar-cname ar-info-line">Representative Name: <strong><%= trademark.fname %> <%= trademark.lname %></strong></div>
+                    <div class="ar-cname ar-info-line">Representative Phone: <strong><%= trademark.phone %></strong></div>
+                    <div class="ar-cname ar-info-line">Representative Fax: <strong><%= trademark.fax %></strong></div>
+                    <div class="ar-cname ar-info-line">Representative Position: <strong><%= trademark.position %></strong></div>
+                    
+                    <div class="ar-cname ar-info-line">Representative Street: <strong><%= trademark.repStreet %></strong></div>
+                    <div class="ar-cname ar-info-line">Representative City: <strong><%= trademark.repCity %></strong></div>
+                    <div class="ar-cname ar-info-line">Representative State: <strong><%= trademark.repState %></strong></div>
+                    <div class="ar-cname ar-info-line">Representative Postal Code: <strong><%= trademark.repZipCode %></strong></div>
+                    <div class="ar-cname ar-info-line">Representative Country: <strong><%= trademark.repCountry %></strong></div>
+             
+
+                  </div>
+                <% } %>
+
+                <% if( trademark.nature == "Individual" ) { %>
+                  <div class="ard-wrap stp-row">
+
+                    <div class="ar-box-head"><h3>Contact Information</h3></div>
+                    <div class="ar-cname ar-info-line">Name: <strong><%= trademark.fname %> <%= trademark.lname %></strong></div>
+                    <div class="ar-cname ar-info-line">Phone: <strong><%= trademark.phone %></strong></div>
+                    <div class="ar-cname ar-info-line">Fax: <strong><%= trademark.fax %></strong></div>
+                    <div class="ar-cname ar-info-line">Position: <strong><%= trademark.position %></strong></div>
+                    
+                    <div class="ar-cname ar-info-line">Street: <strong><%= trademark.repStreet %></strong></div>
+                    <div class="ar-cname ar-info-line">City: <strong><%= trademark.repCity %></strong></div>
+                    <div class="ar-cname ar-info-line">State: <strong><%= trademark.repState %></strong></div>
+                    <div class="ar-cname ar-info-line">Postal Code: <strong><%= trademark.repZipCode %></strong></div>
+                    <div class="ar-cname ar-info-line">Country: <strong><%= trademark.repCountry %></strong></div>
+
+                  </div>
                 <% } %>
 
               </div>

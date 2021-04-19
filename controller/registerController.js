@@ -289,7 +289,7 @@ exports.addToCart = async function(req, res, next) {
   data.country = country[0];
   data.nature = req.body.nature;
   data.phone = req.body.phone;
-  data.fax = req.body.phone;
+  data.fax = req.body.fax;
   data.position = req.body.position;
   data.country = req.body.country;
 
@@ -429,7 +429,8 @@ exports.placeOrder = async function(req, res, next) {
         'customerName' : req.body.name,
         'customerAddress' : req.body.address,
         'orderNumber' : orderCode,
-      }
+      },
+      receipt_email: req.body.email
     });
   
     if ( charge.paid ) {
@@ -482,6 +483,9 @@ exports.placeOrder = async function(req, res, next) {
           description: items.description,
           country: items.country.name,
           countryId: items.country.id,
+          colorClaim: items.colorClaim,
+          colorClaimText: items.colorClaimText,
+
 
           nature: items.nature,
           company: items.company,
@@ -525,7 +529,7 @@ exports.placeOrder = async function(req, res, next) {
       res.redirect("/checkout"); 
     }
   } catch (err) {
-    res.flash('error', 'Sorry!, Something went wrong, try again later.' + err.message);
+    res.flash('error', 'Sorry!, Something went wrong, try again later. No such token: a similar object exists in test mode');
     res.redirect("/checkout"); 
   }
 
