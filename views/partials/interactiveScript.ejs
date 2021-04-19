@@ -84,6 +84,17 @@
             }
         });
 
+        // get cart items count
+        $.ajax({
+          url: "/api/v1/getcartItems",
+          type:"GET",
+          contentType: "application/json",
+          success: function( result ) {
+            $("#shopping-cart").text(result.count)
+            // console.log(result);
+          }
+        });   
+
     // $("#payment-form").submit(function(){
     //   alert('asd')
     //   const emailRegexp = /[a-zA-Z0-9._-]{3,}@[a-zA-Z0-9.-]{3,}\.[a-zA-Z]{2,4}/;

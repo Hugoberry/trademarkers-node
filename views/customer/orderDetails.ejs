@@ -6,17 +6,64 @@
           <div class="col-12">
               <div class="ar-wrap qa-stp">
                 <div class="ar-box stp-row">
-                  <div class="ar-box-head"><h1 class="ar-title"><%= trademark.mark %></h1></div>
+                  <div class="ar-box-head"><h1 class="ar-title"><%= trademark.orderCode %></h1></div>
                   <div class="ar-cinfo">
-                    <div class="ar-cname ar-info-line">Status: <span class="ar-value"><%= trademark.status %></span></div>
+                    <div class="ar-cname ar-info-line">Status: <span class="ar-value" style="text-transform: capitalize;"><%= trademark.status %></span></div>
                     <div class="ar-cname ar-info-line">Status Date: <span class="ar-value"><%= moment(trademark.statusDateFormatted).format('MMM D, YYYY') %></span></div>
-                    <div class="ar-cname ar-info-line">Status Description: <span class="ar-value"><%= trademark.statusDescription %></span></div>
+                    <div class="ar-cname ar-info-line">Status Description: <span class="ar-value"><%= trademark.statusDescription ? trademark.statusDescription : "Processing" %></span></div>
 
                   </div>
                 </div>
+
                 <div class="ard-wrap stp-row">
+
+                  <% if( trademark.mark ) { %>
+                    <div class="ar-cname ar-info-line">Trademark: <strong style="text-transform: capitalize;"><%= trademark.mark %></strong></div>
+                  <% } %>
+
+                  <% if( trademark.serviceType ) { %>
+                    <div class="ar-cname ar-info-line">Service: <strong style="text-transform: capitalize;"><%= trademark.serviceType %></strong></div>
+                  <% } %>
+
+                  <% if( trademark.type ) { 
+                    let typeFormat;
+                    
+                    if (trademark.type == 'word') {
+                      typeFormat = 'Word Only'
+                    } else if(trademark.type == 'logo') {
+                      typeFormat = 'Design-Only or Stylized Word-Only (Figurative)'
+                    } else if(trademark.type == 'lword') {
+                      typeFormat = 'Combined Word and Design'
+                    } else {
+                      typeFormat = ''
+                    }
+                  %>
+                    <div class="ar-cname ar-info-line">Trademark Type: <strong><%= typeFormat %></strong></div>
+                  <% } %>
+
+                  <% if( trademark.commerce ) { %>
+                    <div class="ar-cname ar-info-line">Used in commerce: <strong style="text-transform: capitalize;"><%= trademark.commerce %></strong></div>
+                  <% } %>
+
+                  <% if( trademark.filed == 'yes' ) { %>
+                    <div class="ar-cname ar-info-line">Have you filed your trademark application in any other country within the last 6 months?: <strong style="text-transform: capitalize;"><%= trademark.commerce %></strong></div>
+                    <div class="ar-cname ar-info-line">Claim Priority: <strong style="text-transform: capitalize;"><%= trademark.priority %></strong></div>
+
+                    <% if( trademark.priority == 'yes' ) { %>
+                      <div class="ar-cname ar-info-line">Country of Origin: <strong><%= trademark.origin %></strong></div>
+                      <div class="ar-cname ar-info-line">Date: <strong><%= trademark.originDate %></strong></div>
+                      <div class="ar-cname ar-info-line">Serial Number: <strong><%= trademark.originTm %></strong></div>
+                    <% } %>
+
+                  <% } %>
+
+                </div>
+
+                <% if( trademark.serialNumber ) { %>
+                <div class="ard-wrap stp-row">
+                  
                   <% if( trademark.serialNumber ) { %>
-                    <div class="ar-cname ar-info-line">Serial Number: <span class="ar-value"><%= trademark.serialNumber %></span></div>
+                    <div class="ar-cname ar-info-line">Serial Number: <span class="ar-value"><%= trademark.type %></span></div>
                   <% } %>
 
                   <% if( trademark.registrationNumber ) { %>
@@ -45,6 +92,8 @@
 
                   
                 </div>
+                <% } %>
+
               </div>
           </div>
         </div>

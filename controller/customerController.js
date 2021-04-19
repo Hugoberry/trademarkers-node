@@ -137,7 +137,7 @@ exports.orderDetail = async function(req, res, next) {
   
 
   res.render('customer/orderDetails', { 
-    layout: 'layouts/public-layout-interactive', 
+    layout: 'layouts/customer-layout-interactive', 
     title: 'Trademarkers LLC Order Status',
     trademark: trademark[0]
   });

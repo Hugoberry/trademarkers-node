@@ -26,6 +26,7 @@
 
    <!-- Favicon  -->
   <link rel="icon" href="/interactive/images/favicon.ico">
+  <link rel="stylesheet" href="/stylesheets/custom.css"> 
   <link href="/interactive/css/cp-style.css" rel="stylesheet">
   
 
@@ -39,9 +40,9 @@
           <div class="col-auto">
             <h1 class="pg-logo"><a href="/" title="Trade Markers"><img src="/interactive/images/logo.png" title="Trade Markers" width="248" height="43" alt="Trademarkers logo" /></a></h1>
           </div>
-          <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+          <div class="col-xl-7 col-lg-7 col-md-9 col-sm-12">
             <div class="logd-info text-right">
-              
+              <%- include('../partials/nav-common2'); %>
             </div>
           </div>
         </div>
@@ -72,6 +73,7 @@
       </div>
     </footer>
   </main>
+  <%- include('../partials/customer_footer'); %>
   <%- include('../partials/interactiveScript'); %>
 </body>
 </html>
