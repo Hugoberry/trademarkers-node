@@ -429,8 +429,7 @@ exports.placeOrder = async function(req, res, next) {
         'customerName' : req.body.name,
         'customerAddress' : req.body.address,
         'orderNumber' : orderCode,
-      },
-      receipt_email: req.body.email
+      }
     });
   
     if ( charge.paid ) {
