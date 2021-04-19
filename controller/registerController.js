@@ -525,7 +525,7 @@ exports.placeOrder = async function(req, res, next) {
       res.redirect("/checkout"); 
     }
   } catch (err) {
-    res.flash('error', 'Sorry!, Something went wrong, try again later. No such token: a similar object exists in test mode');
+    res.flash('error', 'Sorry!, Something went wrong, try again later.' + err.message);
     res.redirect("/checkout"); 
   }
 
