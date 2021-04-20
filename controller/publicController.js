@@ -23,6 +23,8 @@ var rpoCharge = require('../repositories/charges');
 var rpoOrder = require('../repositories/orders');
 var rpoSouNotifications = require('../repositories/souNotifications');
 var rpoUserMongo = require('../repositories/usersMongo');
+var rpoPrices = require('../repositories/prices');
+var rpoTrademarkClasses = require('../repositories/trademarkClasses');
 
 
 var rpoServiceAction = require('../repositories/serviceAction');
@@ -252,7 +254,7 @@ exports.resources = async function(req, res, next) {
 }
 
 exports.prices = async function(req, res, next) {
-
+ 
   // activityService.logger(req.ip, req.originalUrl, "Visited Price Page");
 
   res.render('public/prices', { 

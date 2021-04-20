@@ -33,12 +33,15 @@ exports.edit = async function(req, res, next) {
 
   let trademarks = await rpo.getById(id);
 
-  // console.log(trademarks[0].serialNumber);
 
-  let crawl = await crawlerService.fetchTsdr(trademarks[0].serialNumber);
 
-  trademarks = await rpo.getById(id);
 
+  // CHECK SERIAL NUMBER IF FOUND THEN FETCH UPDATED DATA FROM TSDR
+  if ( trademarks[0].serialNumber ) {
+    let crawl = await crawlerService.fetchTsdr(trademarks[0].serialNumber);
+    trademarks = await rpo.getById(id);
+  }
+  
   res.render('admin/trademark/edit', { 
     layout: 'layouts/admin-layout', 
     title: 'Admin Dashboard',

@@ -1,11 +1,73 @@
 <div class="container">
-	<div class="row justify-content-center box-bg-container">
-		<div class="col-md-12">
-					
-			<h2>Prices</h2>
 
-			<p>On-going</p>
-		</div>
+    <div class="row justify-content-center box-bg-container">
+        <div class="col-md-12 prices-block">
+            <p style="text-align: right;font-size:12px;"> Prices are in U.S Dollars</p>
 
-	</div>
+            <div class="card">
+
+                <div class="card-body"> 
+                    <nav style="color: black;">
+                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                            <a class="nav-item nav-link" id="nav-africa-tab" data-toggle="tab" href="#nav-africa" role="tab" aria-controls="nav-africa" aria-selected="false">Africa</a>
+
+                            <a class="nav-item nav-link" id="nav-asia-tab" data-toggle="tab" href="#nav-asia" role="tab" aria-controls="nav-asia" aria-selected="true">Asia</a>
+
+                            <a class="nav-item nav-link" id="nav-central-tab" data-toggle="tab" href="#nav-central" role="tab" aria-controls="nav-central" aria-selected="false">Central America</a>
+
+                            <a class="nav-item nav-link" id="nav-europe-tab" data-toggle="tab" href="#nav-europe" role="tab" aria-controls="nav-europe" aria-selected="false">Europe</a>
+
+                            <a class="nav-item nav-link" id="nav-middle-tab" data-toggle="tab" href="#nav-middle" role="tab" aria-controls="nav-middle" aria-selected="false">Middle East</a>
+
+                            <a class="nav-item nav-link active" id="nav-north-tab" data-toggle="tab" href="#nav-north" role="tab" aria-controls="nav-north" aria-selected="false">North America</a>
+
+                            <a class="nav-item nav-link" id="nav-ocenia-tab" data-toggle="tab" href="#nav-ocenia" role="tab" aria-controls="nav-ocenia" aria-selected="false">Ocenia</a>
+
+                            <a class="nav-item nav-link" id="nav-south-tab" data-toggle="tab" href="#nav-south" role="tab" aria-controls="nav-south" aria-selected="false">South America</a>
+
+                            <a class="nav-item nav-link" id="nav-all-tab" data-toggle="tab" href="#nav-all" role="tab" aria-controls="nav-all" aria-selected="false">All Region</a>
+                        </div>
+                    </nav>
+                    
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade" id="nav-africa" role="tabpanel" aria-labelledby="nav-africa-tab">
+                            @include('layouts.price_table', $region = [5])
+                        </div>
+                        <div class="tab-pane fade" id="nav-asia" role="tabpanel" aria-labelledby="nav-asia-tab">
+                            @include('layouts.price_table', $region = [2])
+                        </div>
+                        <div class="tab-pane fade" id="nav-central" role="tabpanel" aria-labelledby="nav-central-tab">
+                            @include('layouts.price_table', $region = [8])
+                        </div>
+                        <div class="tab-pane fade" id="nav-europe" role="tabpanel" aria-labelledby="nav-europe-tab">
+                            @include('layouts.price_table', $region = [6])
+                        </div>
+                        <div class="tab-pane fade" id="nav-middle" role="tabpanel" aria-labelledby="nav-middle-tab">
+                             @include('layouts.price_table', $region = [1])
+                        </div>
+                        <div class="tab-pane fade show active" id="nav-north" role="tabpanel" aria-labelledby="nav-north-tab">
+                            @include('layouts.price_table', $region = [3])
+                        </div>
+                        <div class="tab-pane fade" id="nav-ocenia" role="tabpanel" aria-labelledby="nav-ocenia-tab">
+                            @include('layouts.price_table', $region = [4])
+                        </div>
+                        <div class="tab-pane fade" id="nav-south" role="tabpanel" aria-labelledby="nav-south-tab">
+                            @include('layouts.price_table', $region = [7])
+                        </div>
+                        <div class="tab-pane fade" id="nav-all" role="tabpanel" aria-labelledby="nav-all-tab">
+                            @include('layouts.price_table', $region = [999])
+                        </div>
+                    </div>
+                  
+                    <h4 style="padding-top: 50px;color: #000;">Additional fees may be incurred on the following cases:</h4>
+                    <ol style="max-width:648px;line-height:24px">
+                        <li>Upon filing of the Statement of Use indicated in the Notice of Allowance which is issued after the publication stage.  This is only applicable for US trademarks filed under Section 1b.</li>
+                        <li>When oppositions and objections are raised by third parties and USPTO respectively.</li>
+                    </ol>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    
 </div>
