@@ -102,8 +102,6 @@ router.get('/trademark-assignment', publicController.assignment)
 router.get('/register', publicController.register);
 router.post('/register', publicController.registerSubmit);
 
-router.get('/prices', publicController.prices);
-
 // action
 router.get('/:action', publicController.redirect);
 // redirect
@@ -113,7 +111,7 @@ router.get('/services', publicController.service);
 router.get('/blog', publicController.blog);
 
 router.get('/classes', publicController.classes);
-
+router.get('/prices', publicController.prices);
 
 
 
