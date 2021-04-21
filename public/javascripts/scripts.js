@@ -135,26 +135,31 @@ $( document ).ready(function() {
     });
   }
 
-  $('input[name="type"]').change(function(){
-    // alert($(this).val());
-    if ($(this).val() == 'word') {
+  if ($('input[name="type"]').length) {
+    var type = localStorage.getItem('type');
+    type = type ? type : 'word'
+    $("input[name=type][value=" + type + "]").attr('checked', 'checked');
+
+    if (type === 'word') {
       $("#upload").hide()
     } else {
       $("#upload").show()
     }
-  });
+  }
 
-  $("#filing_form").submit(function(){
-    let classvalue = $(".class").val()
-    let classValues = $('input:checkbox.class_chk:checked').serialize()
-
-    if (!classValues) {
-      $("#errorMessage").text("Please Enter Class").show();
-      scrollToDiv("errorMessage")
-      return false;
+  $('input[name="type"]').change(function(){
+    // alert($(this).val());
+    localStorage.setItem('type', $(this).val());
+    if ($(this).val() == 'word') {
+      $("#upload").hide()
+      $("#logo_pic").prop('required',false);
+      
+      
+    } else {
+      $("#upload").show()
+      $("#logo_pic").prop('required',true);
     }
-    
-  })
+  });
 
   $(document).on('click','#listClasses .btnRemoveClass',function(e) {
     
@@ -297,6 +302,8 @@ $( document ).ready(function() {
                 $("#btn-add-to-cart").show();
               } else {
                 // alert('trigger');
+                // localStorage.removeItem('colorClaim');
+                // localStorage.removeItem('type');
                 $("#addToCart").trigger('submit')
               }
             }
@@ -388,15 +395,32 @@ $( document ).ready(function() {
     }
   })
 
+  if ($('input[name="colorClaim"]').length) {
+    var colorClaim = localStorage.getItem('colorClaim');
+    colorClaim = colorClaim ? colorClaim : 'no'
+    $("input[name=colorClaim][value=" + colorClaim + "]").attr('checked', 'checked');
+
+    if (colorClaim === 'no') {
+      $("#colorClaimText").hide()
+    } else {
+      $("#colorClaimText").show()
+    }
+  }
+
+  // localStorage.setItem('type', $(this).val());
+  
+
   $('input[name="colorClaim"]').change(function(){
     
-    // alert( $(this).val() );
+    localStorage.setItem('colorClaim', $(this).val());
     if( $(this).val() == "yes") {
       $("#colorClaimText").show()
       $('input[name="colorClaimText"]').val('').focus()
+      $('input[name="colorClaimText"]').prop('required',true);
     } else {
       $("#colorClaimText").hide()
       $('input[name="colorClaimText"]').val('')
+      $('input[name="colorClaimText"]').prop('required',false);
     }
 
   })
@@ -424,18 +448,38 @@ $( document ).ready(function() {
   })
 
   $("#filing_form").on("submit",function(){
-    let flag = true
+    let flag = true;
+    let message = "";
     $(".classDescriptions").each(function() {
       if ( !$(this).val() ){
-        flag = false
-        $(this).focus()
+        flag = false;
+        message = "Please enter class description"
+        // $(this).focus()
       } 
     })
 
+    // alert($('input[name="type"]').val());
+    // return false
+    // if ($('input[name="type"]').val() != 'word') {
+
+    //   alert($("#logo_pic").val());
+    //   flag = false;
+    // } 
+
+    let classvalue = $(".class").val()
+    let classValues = $('input:checkbox.class_chk:checked').serialize()
+
+    if (!classValues) {
+      message = "Please Enter Class";
+      flag = false;
+    }
+      
+
+
+
     if (!flag) {
-      $("#errorMessage").text("Please enter class description").show()
+      $("#errorMessage").text(message).show()
       scrollToDiv("errorMessage")
-      // alert("Please enter class description");
     }
     return flag
   })

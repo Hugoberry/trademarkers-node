@@ -5,7 +5,10 @@
 	<div class="container" style="max-width:550px;">
 		<div class="row justify-content-center box-bg-container">
 			<div class="col-md-12">
+
 				<div style="max-width:400px;margin:auto;padding-bottom:20px;">
+					<h2>Client Log-in</h2>
+
 					<% if (flash.error) { %>
 						<div class="alert alert-warning" role="alert">
 							<strong><%= flash.error %></strong>
@@ -32,9 +35,10 @@
 									Login
 								</button>
 
-								<!-- <a class="btn btn-link" style="color:#000;font-weight:600;" href="#">
-									Forgot Your Password?
-								</a> -->
+								<p style="display: inline;padding-left:10px">Don't have an account yet? 
+								<a style="color:#000;" href="/register">
+									Sign Up
+								</a></p>
 							</div>
 						</div>
 					</form>
