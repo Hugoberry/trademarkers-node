@@ -63,19 +63,32 @@ exports.home = async function(req, res, next) {
     var getClientIp = req.headers['x-real-ip'] || req.connection.remoteAddress;
 
     let continents = await rpoContinents.getContinents();
+    let continentsFormatted = [];
 
-    // continents.forEach(async continent => {
-    //   let countries = await rpoCountries.getByContinent(continent.id)
+    await continents.forEach(async continent => {
 
-    //   rpoContinents.updateDetails(continent._id, {countries: countries });
-    // });
+      let op = continent.countries.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))
+
+      
+      // ES6 FILTER REMOVE DUPLICATES
+      op = op.filter((o, index, self) =>
+        index === self.findIndex((t) => (
+          t.name === o.name
+        ))
+      )
+
+      continent.countries = op;
+
+      continentsFormatted.push(continent);
+
+    });
 
     let user = await helpers.getLoginUser(req);
 
     res.render('public/index', { 
       layout: 'layouts/public-layout', 
       title: 'Trademarkers LLC',
-      continents: continents,
+      continents: continentsFormatted,
       user: user
     });
      

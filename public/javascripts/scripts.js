@@ -484,7 +484,7 @@ $( document ).ready(function() {
     return flag
   })
 
-  
+
 
 // =====================================================
 //  functions below
