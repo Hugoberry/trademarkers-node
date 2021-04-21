@@ -110,7 +110,7 @@
                         <div class="form-group row">
                             <span style="padding-left: 15px;"> <label id="postal-label">Postal Code</label></span>
                             <div class="col-md-12">
-                                <input id="zip_code" type="text" class="form-control" name="companyZipCode" value="<%= (user ? user.zipCode : "") %>" >
+                                <input id="zip_code" type="text" pattern="[0-9]*" class="form-control" name="companyZipCode" value="<%= (user ? user.zipCode : "") %>" >
                             </div>
                         </div>
                     </div>
@@ -163,7 +163,7 @@
                         <div class="form-group row">
                             <span style="padding-left: 15px;"> Phone Number</span>
                             <div class="col-md-12">
-                                <input id="phone" type="number" class="form-control" name="phone" value="<%= (user ? user.phone : "") %>" >
+                                <input id="phone" type="text" class="form-control" name="phone" pattern="[0-9]*" value="<%= (user ? user.phone : "") %>">
                             </div>
                         </div>
                     </div>
@@ -172,7 +172,7 @@
                         <div class="form-group row">
                             <span style="padding-left: 15px;"> Fax</span>
                             <div class="col-md-12">
-                                <input id="fax" type="text" class="form-control" name="fax" value="<%= (user ? user.fax : "") %>" >
+                                <input id="fax" type="text" class="form-control" name="fax" pattern="[0-9]*" value="<%= (user ? user.fax : "") %>" >
                             </div>
                         </div>
                     </div>
