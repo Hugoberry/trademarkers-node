@@ -37,74 +37,65 @@
 
     var shipmentOptions = $('.crt-fct-opt input[type="checkbox"]');
 
-        var shipmentOptInput = $('.crt-fct-opt-rgemail input[type="checkbox"]');
-        var fedexShipmentOptInput = $('.crt-fct-opt-fedex input[type="checkbox"]');
+    var shipmentOptInput = $('.crt-fct-opt-rgemail input[type="checkbox"]');
+    var fedexShipmentOptInput = $('.crt-fct-opt-fedex input[type="checkbox"]');
 
-        var shipmentEmail = $('.crt-fct-opt-rgemail #ShipmentEmail');
-        var shipmentAddress = $('.crt-fct-opt-fedex #ShipmentAddress');
+    var shipmentEmail = $('.crt-fct-opt-rgemail #ShipmentEmail');
+    var shipmentAddress = $('.crt-fct-opt-fedex #ShipmentAddress');
 
-        $(shipmentOptions).change(function(){
-          if(this.checked != true){
-            $(this).parent('.opt-head').parent('.crt-fct-opt').removeClass('crt-fct-opt-active');
-            return false;
-          }
-          else{
-            $('.crt-fct-opt').removeClass('crt-fct-opt-active');
-            $('.crt-fct-opt input[type="checkbox"]').prop("checked", false);
-            $(this).prop("checked", true);
-            $(this).parent('.opt-head').parent('.crt-fct-opt').addClass('crt-fct-opt-active');
-            return true;
-          }
-        });
+    $(shipmentOptions).change(function(){
+      if(this.checked != true){
+        $(this).parent('.opt-head').parent('.crt-fct-opt').removeClass('crt-fct-opt-active');
+        return false;
+      }
+      else{
+        $('.crt-fct-opt').removeClass('crt-fct-opt-active');
+        $('.crt-fct-opt input[type="checkbox"]').prop("checked", false);
+        $(this).prop("checked", true);
+        $(this).parent('.opt-head').parent('.crt-fct-opt').addClass('crt-fct-opt-active');
+        return true;
+      }
+    });
 
-        $('.crt-fct-opt-rgemail .btn-chng-info').click(function(){
-          $(this).prop('disabled', true);
-          $('.crt-fct-opt-rgemail').addClass('addr-change-active');
-        });
+    $('.crt-fct-opt-rgemail .btn-chng-info').click(function(){
+      $(this).prop('disabled', true);
+      $('.crt-fct-opt-rgemail').addClass('addr-change-active');
+    });
 
-        $('.crt-fct-opt-fedex .btn-chng-info').click(function(){
-          $(this).prop('disabled', true);
-          $('.crt-fct-opt-fedex').addClass('addr-change-active');
-        });
+    $('.crt-fct-opt-fedex .btn-chng-info').click(function(){
+      $(this).prop('disabled', true);
+      $('.crt-fct-opt-fedex').addClass('addr-change-active');
+    });
 
-        $('#CertificateDeliverySelection').click(function(){
-            if(fedexShipmentOptInput.prop("checked") != true){
-              $('.cc-section-on-call').removeClass("cc-section-on-call-active");
-              $('html, body').animate({scrollTop: "0"}, 1000);
-              return false;
-            }  
-            else{
-              $('.cc-section-on-call').addClass("cc-section-on-call-active");
-              $('html, body').animate({scrollTop: "900"}, 1000);
-              setTimeout(function(){
-                  $('.cc-form-self #name').focus();
+    $('#CertificateDeliverySelection').click(function(){
+        if(fedexShipmentOptInput.prop("checked") != true){
+          $('.cc-section-on-call').removeClass("cc-section-on-call-active");
+          $('html, body').animate({scrollTop: "0"}, 1000);
+          return false;
+        }  
+        else{
+          $('.cc-section-on-call').addClass("cc-section-on-call-active");
+          $('html, body').animate({scrollTop: "900"}, 1000);
+          setTimeout(function(){
+              $('.cc-form-self #name').focus();
 
-              }, 100);
-              return true;
-            }
-        });
+          }, 100);
+          return true;
+        }
+    });
 
-        // get cart items count
-        $.ajax({
-          url: "/api/v1/getcartItems",
-          type:"GET",
-          contentType: "application/json",
-          success: function( result ) {
-            $("#shopping-cart").text(result.count)
-            // console.log(result);
-          }
-        });   
+    // get cart items count
+    $.ajax({
+      url: "/api/v1/getcartItems",
+      type:"GET",
+      contentType: "application/json",
+      success: function( result ) {
+        $("#shopping-cart").text(result.count)
+        // console.log(result);
+      }
+    });   
 
-    // $("#payment-form").submit(function(){
-    //   alert('asd')
-    //   const emailRegexp = /[a-zA-Z0-9._-]{3,}@[a-zA-Z0-9.-]{3,}\.[a-zA-Z]{2,4}/;
 
-    //   if ( $("#email").length && !emailRegexp.test($("#email").val())) {
-    //     alert('Please Enter email address')
-    //     $("#email").focus()
-    //     return false;
-    //   }
-    // })
 
   });
 </script>

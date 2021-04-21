@@ -63,3 +63,11 @@
     top: -10px;
     left: -6px;
 }
+
+.profile-text-format{
+    font-weight: 600;
+}
+
+.profile-text-format span{
+    font-weight: 400;
+}

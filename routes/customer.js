@@ -13,7 +13,8 @@ router.get('/orders', controller.orders);
 router.get('/orders/:id', controller.orderDetail);
 
 router.get('/profile', controller.profile);
-router.post('/profile/submit', controller.profileSubmit);
+router.get('/profile/edit', controller.profileEdit);
+router.post('/profile/edit/submit', controller.profileSubmit);
 
 router.get('/dashboard', verify, controller.redirect);
 

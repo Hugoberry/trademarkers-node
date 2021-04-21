@@ -160,14 +160,6 @@ exports.updateCustomerForm = async function(req, res, next) {
     rpoUserMongo.putUser(user[0])
   }
 
-  // console.log(user);
-
-  // res.locals = {
-  //   siteTitle: "Trademarkers Customer Update",
-  //   description: "Trademarkers Customer update details",
-  //   keywords: "Trademarkers customer details",
-  // };
-
   activityService.logger(req.ip, req.originalUrl, "Customer tried to update details userID: " +user[0].id);
 
   res.render('customer/updateDetailForm', { 
@@ -185,7 +177,19 @@ exports.updateCustomerFormSubmit = async function(req, res, next) {
     firstName: req.body.fname,
     lastName: req.body.lname,
     suffix: req.body.suffix,
-    secondaryEmail: req.body.secondaryEmail 
+    secondaryEmail: req.body.secondaryEmail,
+    contactNumber: req.body.contactNumber,
+    mailingAddress: req.body.mailingAddress,
+    nature: req.body.nature,
+    phone: req.body.phone,
+    fax: req.body.fax,
+    position: req.body.position,
+    country: req.body.country,
+    street: req.body.street,
+    city: req.body.city,
+    state: req.body.state,
+    zipCode: req.body.zipCode,
+    nameAddress: req.body.nameAddress
   }
 
   
@@ -238,6 +242,20 @@ exports.profile = async function(req, res, next) {
   let countries = await rpoCountry.getAll();
 
   res.render('customer/profile', { 
+    layout: 'layouts/customer-layout-interactive', 
+    title: 'Customer',
+    user: await helpers.getLoginUser(req),
+    countries: countries
+  });
+
+}
+
+exports.profileEdit = async function(req, res, next) {
+
+  // let user = await helpers.getLoginUser(req)
+  let countries = await rpoCountry.getAll();
+
+  res.render('customer/profileEdit', { 
     layout: 'layouts/customer-layout-interactive', 
     title: 'Customer',
     user: await helpers.getLoginUser(req),

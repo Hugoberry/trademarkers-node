@@ -41,111 +41,65 @@
                 </div>
 
                 <div class="ard-wrap stp-row">
-                  <form class="cc-form-self" id="add-service" action="/customer/profile/submit" method="post">
+                  
 
                       <div class="row">
                         <div class="col-12">
 
-                          <div class="form-group">
+                          <div class="form-group profile-text-format">
 
                               <div class="form-field mt-2">
-                                  <span>Name</span>
-                                  <div class="row">
-                                      <div class="col-2">
-                                          <div class="form-field-inner" >
-                                              <select class="form-control" name="suffix" >
-                                                  <option value="Mr." <%= user.suffix == "Mr." ? "selected":"" %>>Mr</option>
-                                                  <option value="Ms." <%= user.suffix == "Ms." ? "selected":"" %>>Ms</option>
-                                                  <option value="Mrs." <%= user.suffix == "Mrs." ? "selected":"" %>>Mrs</option>
-                                              </select>
-                                          </div>
-                                      </div>
-                                  <div class="col-5">
-                                      <div class="form-field-inner" >
-                                          <input type="text" name="fname" placeholder="First Name" class="form-control" value="<%= user.firstName %>" required="required">
-                                      </div>
-                                  </div>
-                                  <div class="col-5">
-                                      <div class="form-field-inner">
-                                          <input type="text" name="lname" placeholder="Last Name" class="form-control" value="<%= user.lastName %>" required="required">
-                                      </div>
-                                  </div>
-                                  </div>
+                                  
+                                <span>Name: </span>
+                                <%= user.suffix %> <%= user.firstName %> <%= user.lastName %>
 
                               </div>
 
                               <div class="form-field mt-2">
-                                  <span>Email to received notification</span>
-                                  <input type="email" name="secondaryEmail" id="secondaryEmail" placeholder="Secondary Email" class="form-control" value="<%= ( user.secondaryEmail ? user.secondaryEmail : user.email ) %>" required="required">
+                                  <span>Email to received notification: </span>
+                                  <%= ( user.secondaryEmail ? user.secondaryEmail : user.email ) %>
                               </div>
 
                               <div class="form-field mt-2">
                                 <span>Contact Number</span>
                                 <div class="row">
                                   <div class="col-6">
-                                    <input type="text" name="phone" placeholder="Contact Number" class="form-control" value="<%= user.phone %>" required="required">
+                                    <span>Phone: </span><%= user.phone %>
                                   </div>
                                   <div class="col-6">
-                                    <input type="text" name="fax" placeholder="Fax Number" class="form-control" value="<%= user.fax %>" required="required">
+                                    <span>Fax: </span><%= user.fax %>
                                   </div>
                                 </div>
                               </div>
-
-                              
 
                               <div class="form-field mt-2">
                                 <span>Address</span>
                                 <div class="row">
                                   <div class="col-12">
-                                      <div class="form-field-inner" >
-                                        <input type="text" name="street" placeholder="Street" class="form-control" value="<%= user.street %>" >
-                                      </div>
+                                    <span>Street: </span><%= user.street %>
+                                  </div>
+                                  <div class="col-3">
+                                    <span>City: </span><%= user.city %>
+                                  </div>
+                                  <div class="col-3">
+                                    <span>State: </span><%= user.state %>
+                                  </div>
+                                  <div class="col-3">
+                                    <span>Postal Code: </span><%= user.zipCode %>
+                                  </div>
+                                  <div class="col-3">
+                                    <span>Country: </span><%= user.country %>
                                   </div>
                                 </div>
-                                <div class="row mt-2">
-
-                                  <div class="col-3">
-                                      <div class="form-field-inner" >
-                                          <input type="text" name="city" placeholder="City" class="form-control" value="<%= user.city %>">
-                                      </div>
-                                  </div>
-                                  <div class="col-3">
-                                      <div class="form-field-inner">
-                                          <input type="text" name="state" placeholder="State" class="form-control" value="<%= user.state %>">
-                                      </div>
-                                  </div>
-                                  <div class="col-3">
-                                    <div class="form-field-inner">
-                                      <input type="text" name="zipCode" placeholder="Postal Code" class="form-control" value="<%= user.zipCode %>">
-                                    </div>
-                                  </div>
-                                  <div class="col-3">
-                                    <div class="form-field-inner">
-                                      <select id="country" name="country" class="form-control">
-                                        <option value="">-</option>
-                                          <% countries.forEach(country => { %>
-                                            <% if(country.name) { %>
-                                              <option value="<%= country.name %>" <%= (user ? (user.country == country.name ? "selected" : "") : "") %>> <%= country.name %></option>
-                                            <% } %>
-                                          <% }) %>
-                                      </select>
-                                    </div>
-                                  </div>
-                                </div>
+                                
                               </div>
 
-                              <div class="form-field-inner" >
-                                <span>I would like to be addressed with:</span>
-                                <select class="form-control" name="nameAddress" >
-                                    <option value="firstName" <%= user.nameAddress == "firstName" ? "selected":"" %>>First Name</option>
-                                    <option value="lastName" <%= user.nameAddress == "lastName" ? "selected":"" %>>Last Name</option>
-                                </select>
+
+                              <div class="form-group mt-4 text-center">
+                                <a class="btn btn-solid-lg btn-blue" href="/customer/profile/edit">Edit Profile</a>
                               </div>
 
-                              <div class="form-group mt-2 text-center">
-                                  <input type="hidden" name="id" value="<%= user._id %>">
-                                  <input type="submit" class="btn btn-solid-lg btn-blue" value="Update Details">
-                              </div>
+                              
 
                           </div>
 
@@ -154,7 +108,7 @@
                       </div>
 
 
-                  </form>
+
 
                   
                 </div>

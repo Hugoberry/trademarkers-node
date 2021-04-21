@@ -388,6 +388,11 @@ exports.checkout = async function(req, res, next) {
   //   res.redirect("/"); 
   // }
 
+  currentUser.address = currentUser.street
+                        + (currentUser.state ? (" " + currentUser.state) : '')
+                        + (currentUser.zipCode ? (" " + currentUser.zipCode) : '')
+                        + (currentUser.country ? (" " + currentUser.country) : '')
+
   let amount = await helpers.getCartTotalAmount(cartItems);
 
   // console.log(amount);
