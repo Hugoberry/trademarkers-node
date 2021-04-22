@@ -106,7 +106,7 @@ router.post('/register', publicController.registerSubmit);
 // on dev
 router.get('/countries', publicController.countries);
 router.get('/region/:abbr', publicController.countriesAbbr);
-router.get('/services', publicController.service);
+
 router.get('/blog', publicController.blog);
 router.get('/classes', publicController.classes);
 
@@ -118,7 +118,7 @@ router.get('/:actionCode/:type', publicController.codeLanding)
 router.get('/:action', publicController.redirect);
 // redirect
 // router.get('*', publicController.redirect);
-
+router.get('/services', publicController.service);
 
 
 
