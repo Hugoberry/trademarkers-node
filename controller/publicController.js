@@ -288,23 +288,71 @@ exports.prices = async function(req, res, next) {
       ))
     )
 
-    continent.countries = op;
-
-    // for (var key in continent.countries) {
-    //   continent.countries[key].prices = await rpoPrices.findPriceByCountryId(continent.countries[key].id)
-    // }
-
     
 
+    // for (var key in op) {
+      
+    //   let prices = await rpoPrices.findPriceByCountryId(op[key].id)
+      
+    //   op[key]['prices'] = prices;
+    // }
+
+    continent.countries = op;
+
+    // console.log(continent.countries);
+
     continentsFormatted.push(continent);
+    
+
 
   });
-  console.log(continentsFormatted);
+  let prices = await rpoPrices.getAll()
+  let formattedPrices = []
+  await prices.forEach(price => {
+    let data = {
+      initial_cost: price.initial_cost,
+      additional_cost: price.additional_cost,
+      logo_initial_cost: price.logo_initial_cost,
+      logo_additional_cost: price.logo_additional_cost,
+    }
 
+    if ( typeof formattedPrices[price.country_id] == "undefined" ) {
+      formattedPrices[price.country_id] = {
+        study: [],
+        registration: [],
+        certificate: []
+      }
+    }
+
+    if ( price.service_type == "Study" ) {
+      formattedPrices[price.country_id].study = price
+    } else if ( price.service_type == "Registration" ) {
+      formattedPrices[price.country_id].registration = price
+    } else if ( price.service_type == "Certificate" ) {
+      formattedPrices[price.country_id].certificate = price
+    }
+
+    // formattedPrices[price.country_id][price.service_type] = data
+  })
+  // await continentsFormatted.forEach(async (continent, key) => {
+    
+  //   await continent.countries.forEach(async (country, ckey) => {
+
+  //     let prices = await rpoPrices.findPriceByCountryId(country.id)
+
+  //     continentsFormatted[key].countries[ckey].is_treaty = 'test'
+
+  //   })
+    
+  // })
+
+  console.log('key ',formattedPrices);
+  
   res.render('public/prices', { 
     layout: 'layouts/public-layout-default', 
-    title: 'prices',
+    title: 'Trademark Pricing',
     continents: continentsFormatted,
+    prices: formattedPrices,
     user: await helpers.getLoginUser(req)
   });
 }

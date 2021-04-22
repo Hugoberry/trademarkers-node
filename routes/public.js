@@ -110,13 +110,13 @@ router.get('/blog', publicController.blog);
 router.get('/classes', publicController.classes);
 
 
-
+router.get('/prices', publicController.prices);
 // action
 router.get('/:action', publicController.redirect);
 // redirect
 // router.get('*', publicController.redirect);
 
-router.get('/prices', publicController.prices);
+
 
 
 

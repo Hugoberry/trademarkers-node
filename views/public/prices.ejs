@@ -11,7 +11,7 @@
                         <div class="nav nav-tabs" id="nav-tab" role="tablist">
                             <% for (var key in continents) { if (continents[key].countries.length) { %>
                                 <a class="nav-item nav-link <%= key == 0 ? 'active' : '' %>" id="nav-<%= continents[key].name.replace(/\s/g, '_').toLowerCase() %>-tab" data-toggle="tab" href="#nav-<%= continents[key].name.replace(/\s/g, '_').toLowerCase() %>" role="tab" aria-controls="nav-<%= continents[key].name.replace(/\s/g, '_').toLowerCase() %>" aria-selected="<%= key == 0 ? 'true' : '' %>"><%= continents[key].name %></a>
-                            <% } }%>
+                            <% } } %>
 
                         </div>
                     </nav>
@@ -49,12 +49,12 @@
                                                         <% if( continents[key].countries[ckey].avatar && continents[key].countries[ckey].avatar != "Test") { %><img src="images/<%= continents[key].countries[ckey].avatar %>"><% } %><%= continents[key].countries[ckey].name %>
                                                     </a>
                                                 </td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td><%= helpers.getPriceFormatted(prices[continents[key].countries[ckey].id].study.initial_cost) %></td>
+                                                <td><%= helpers.getPriceFormatted(prices[continents[key].countries[ckey].id].study.additional_cost) %></td>
+                                                <td><%= helpers.getPriceFormatted(prices[continents[key].countries[ckey].id].registration.initial_cost) %></td>
+                                                <td><%= helpers.getPriceFormatted(prices[continents[key].countries[ckey].id].registration.additional_cost) %></td>
+                                                <td><%= helpers.getPriceFormatted(prices[continents[key].countries[ckey].id].certificate.initial_cost) %></td>
+                                                <td><%= helpers.getPriceFormatted(prices[continents[key].countries[ckey].id].certificate.additional_cost) %></td>
                                             </tr>
                                         <% } %>
                                     </tbody>

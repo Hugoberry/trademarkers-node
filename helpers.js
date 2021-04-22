@@ -188,3 +188,23 @@ exports.isAuth = function(req) {
     // console.log(accessToken);
     return accessToken
 }
+
+exports.getPriceFormatted = function(price) {
+    let amount;
+
+    var formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+      });
+
+    if (price < 0) {
+        amount = 'TBA'
+    } else if (!price) {
+        amount = 'FREE'
+    } else {
+        amount = formatter.format(price)
+    }
+    return amount
+}
+
+
