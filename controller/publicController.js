@@ -390,22 +390,32 @@ exports.submitContact = async function(req, res, next) {
 
   if ( trap || !req.body.message.trim() || req.body.message.match(urlRE) || !valid || noWords.length < 5 ){
     console.log('found!');
-    res.flash('error', 'Sorry, something went wrong, try again later!');
-    res.redirect("/contact");
+    res.flash('errorContact', 'Sorry, something went wrong, try again later!');
+    
+
     // return;
   } else {
-
-    let info = require('../services/mailerService');
-    let mailInfo = await info.contact(req.body);
+    console.log('to send');
+    // let info = require('../services/mailerService');
+    let mailInfo = await mailService.contact(req.body);
 
     if (mailInfo && mailInfo.accepted) {
-      res.flash('success', 'Your Inquiry has been sent!');
+      res.flash('successContact', 'Your Inquiry has been sent!');
     } else {
-      res.flash('error', 'Sorry, something went wrong, try again later!');
+      res.flash('errorContact', 'Sorry, something went wrong, try again later!');
     }
 
-    res.redirect("/contact");
 
+  }
+
+  console.log("redirect ",req.body.formLocation);
+
+  if ( req.body.formLocation && req.body.formLocation == 'home' ) {
+    console.log('home');
+    res.redirect("/");
+  } else {
+    console.log('contact');
+    res.redirect("/contact");
   }
 
 }

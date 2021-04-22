@@ -240,6 +240,8 @@
 		<div class="row">
 			
 			<div class="col-12 col-md-6" style="margin:auto">
+
+				
 			
 				<div class="contact-div">
 					<h2>We can do it all</h2> 
@@ -248,16 +250,32 @@
 					<span class="title-separator"></span>
 					<!-- <span class="title-separator"></span> -->
 				</div>
-				<form id="contact-form" class="custom-frm" action="/contact" method="POST">
+
+				<% if (flash.successContact) { %>
+				<div id="contactMessage" class="alert alert-success" role="alert">
+					<strong><%= flash.successContact %></strong>
+				</div>
 				
+				<% } %>
+			
+				<% if (flash.errorContact) { %>
+					<div id="contactMessage" class="alert alert-warning" role="alert">
+					<strong><%= flash.errorContact %></strong>
+					</div>
+				<% } %>
+
+				<form id="contact-form" class="custom-frm <%= flash.successContact ? 'collapse' : ''%>" action="/contact" method="POST">
+					
+					<input type="hidden" value="home" name="formLocation">
 					<div class="form-group">
 						<input type="name" class="form-control" id="name" value="" placeholder="Name" required name="name">
 					</div>
 					<div class="form-group">
 						<input type="email" class="form-control" value="" placeholder="Email" id="email" name="email" required>
+						<input type="hidden" class="form-control" value="" name="email_confirm">
 					</div>
 					<div class="form-group">
-						<input type="text"  class="form-control" value="" id="phone" placeholder="Phone No." name="phone" >
+						<input type="text"  class="form-control" pattern="[0-9]*" value="" id="phone" placeholder="Phone No." name="phone" >
 					</div>
 					<div class="form-group">
 						<textarea class="form-control" value="" rows="7" name="message" placeholder="Message" required></textarea>

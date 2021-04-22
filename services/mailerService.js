@@ -24,6 +24,7 @@ exports.contact = async function(data) {
   sender: data.name,
   replyTo: data.email,
   from: data.email, 
+  // to: "felix@bigfoot.com",
   to: process.env.MAIL_TO,
   subject: "New Contact from client | " + data.name, 
   html: `<p>Hi Admin,</p>

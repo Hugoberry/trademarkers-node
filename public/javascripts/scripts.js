@@ -484,6 +484,12 @@ $( document ).ready(function() {
     return flag
   })
 
+  if ( $("#contactMessage").length ) {
+    $('html, body').animate({
+      scrollTop: $('#contactMessage').offset().top
+    }, 'slow');
+  }
+
 
 
 // =====================================================
