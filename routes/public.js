@@ -102,15 +102,20 @@ router.get('/trademark-assignment', publicController.assignment)
 router.get('/register', publicController.register);
 router.post('/register', publicController.registerSubmit);
 
+
+// on dev
+router.get('/countries', publicController.countries);
+router.get('/services', publicController.service);
+router.get('/blog', publicController.blog);
+router.get('/classes', publicController.classes);
+
+
+
 // action
 router.get('/:action', publicController.redirect);
 // redirect
 // router.get('*', publicController.redirect);
 
-router.get('/services', publicController.service);
-router.get('/blog', publicController.blog);
-
-router.get('/classes', publicController.classes);
 router.get('/prices', publicController.prices);
 
 

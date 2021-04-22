@@ -1,11 +1,29 @@
 <div class="container">
-	<div class="row justify-content-center box-bg-container">
-		<div class="col-md-12">
+    <div class="row justify-content-center box-bg-container">
+        <div class="col-md-12 step-block">
+
+		<form method="POST" action="/class_descriptions">
+
+			<div class="form-group row">
+				<div class="col-md-12">
+					<input type="text" class="form-control search-service" name="desc" required autofocus placeholder="Search your services/goods">
+				</div>
+			</div>
+		</form>
+		<table class="table tbl-service">
+			<tbody>
+				<% for (var key in classes) { %>
+				<tr>
+					<td> 
+						Class <%= classes[key].id %>
+					</td>
 					
-			<h2>Classes</h2>
+					<td> <b><%= classes[key].name %></b> </td>
+				</tr>
+				<% } %>
+			</tbody>
+		</table>
 
-			<p> on-going</p>
-		</div>
-
-	</div>
-</div>
+        </div>
+    </div>
+</div> 

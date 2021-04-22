@@ -9,54 +9,61 @@
                 <div class="card-body"> 
                     <nav style="color: black;">
                         <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                            <a class="nav-item nav-link" id="nav-africa-tab" data-toggle="tab" href="#nav-africa" role="tab" aria-controls="nav-africa" aria-selected="false">Africa</a>
+                            <% for (var key in continents) { if (continents[key].countries.length) { %>
+                                <a class="nav-item nav-link <%= key == 0 ? 'active' : '' %>" id="nav-<%= continents[key].name.replace(/\s/g, '_').toLowerCase() %>-tab" data-toggle="tab" href="#nav-<%= continents[key].name.replace(/\s/g, '_').toLowerCase() %>" role="tab" aria-controls="nav-<%= continents[key].name.replace(/\s/g, '_').toLowerCase() %>" aria-selected="<%= key == 0 ? 'true' : '' %>"><%= continents[key].name %></a>
+                            <% } }%>
 
-                            <a class="nav-item nav-link" id="nav-asia-tab" data-toggle="tab" href="#nav-asia" role="tab" aria-controls="nav-asia" aria-selected="true">Asia</a>
-
-                            <a class="nav-item nav-link" id="nav-central-tab" data-toggle="tab" href="#nav-central" role="tab" aria-controls="nav-central" aria-selected="false">Central America</a>
-
-                            <a class="nav-item nav-link" id="nav-europe-tab" data-toggle="tab" href="#nav-europe" role="tab" aria-controls="nav-europe" aria-selected="false">Europe</a>
-
-                            <a class="nav-item nav-link" id="nav-middle-tab" data-toggle="tab" href="#nav-middle" role="tab" aria-controls="nav-middle" aria-selected="false">Middle East</a>
-
-                            <a class="nav-item nav-link active" id="nav-north-tab" data-toggle="tab" href="#nav-north" role="tab" aria-controls="nav-north" aria-selected="false">North America</a>
-
-                            <a class="nav-item nav-link" id="nav-ocenia-tab" data-toggle="tab" href="#nav-ocenia" role="tab" aria-controls="nav-ocenia" aria-selected="false">Ocenia</a>
-
-                            <a class="nav-item nav-link" id="nav-south-tab" data-toggle="tab" href="#nav-south" role="tab" aria-controls="nav-south" aria-selected="false">South America</a>
-
-                            <a class="nav-item nav-link" id="nav-all-tab" data-toggle="tab" href="#nav-all" role="tab" aria-controls="nav-all" aria-selected="false">All Region</a>
                         </div>
                     </nav>
                     
                     <div class="tab-content" id="nav-tabContent">
-                        <div class="tab-pane fade" id="nav-africa" role="tabpanel" aria-labelledby="nav-africa-tab">
-                            @include('layouts.price_table', $region = [5])
-                        </div>
-                        <div class="tab-pane fade" id="nav-asia" role="tabpanel" aria-labelledby="nav-asia-tab">
-                            @include('layouts.price_table', $region = [2])
-                        </div>
-                        <div class="tab-pane fade" id="nav-central" role="tabpanel" aria-labelledby="nav-central-tab">
-                            @include('layouts.price_table', $region = [8])
-                        </div>
-                        <div class="tab-pane fade" id="nav-europe" role="tabpanel" aria-labelledby="nav-europe-tab">
-                            @include('layouts.price_table', $region = [6])
-                        </div>
-                        <div class="tab-pane fade" id="nav-middle" role="tabpanel" aria-labelledby="nav-middle-tab">
-                             @include('layouts.price_table', $region = [1])
-                        </div>
-                        <div class="tab-pane fade show active" id="nav-north" role="tabpanel" aria-labelledby="nav-north-tab">
-                            @include('layouts.price_table', $region = [3])
-                        </div>
-                        <div class="tab-pane fade" id="nav-ocenia" role="tabpanel" aria-labelledby="nav-ocenia-tab">
-                            @include('layouts.price_table', $region = [4])
-                        </div>
-                        <div class="tab-pane fade" id="nav-south" role="tabpanel" aria-labelledby="nav-south-tab">
-                            @include('layouts.price_table', $region = [7])
-                        </div>
-                        <div class="tab-pane fade" id="nav-all" role="tabpanel" aria-labelledby="nav-all-tab">
-                            @include('layouts.price_table', $region = [999])
-                        </div>
+                        <% for (var key in continents) { if (continents[key].countries.length) { %>
+                            <div class="tab-pane fade <%= key == 0 ? 'active show' : '' %>" id="nav-<%= continents[key].name.replace(/\s/g, '_').toLowerCase() %>" role="tabpanel" aria-labelledby="nav-<%= continents[key].name.replace(/\s/g, '_').toLowerCase() %>-tab">
+                                
+                                <!-- PRICE TABLE STARTS -->
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr style="background:#F9F9F9;">
+                                            <td> </td>
+                                            <td colspan="2"> TM Comprehensive Study</td>
+                                            <td colspan="2"> TM Registration Request</td>
+                                            <td colspan="2"> TM Registration Certificate</td>
+                                        </tr>
+                                
+                                        <tr>
+                                            <td> Country</td>
+                                            <td> First Class</td>
+                                            <td> Additional Class</td>
+                                            <td> First Class</td>
+                                            <td> Additional Class</td>
+                                            <td> First Class</td>
+                                            <td> Additional Class</td>
+                                        </tr>
+                                    </thead>
+                                
+                                    <tbody>
+                                        <% for (var ckey in continents[key].countries) { %>
+                                            <tr>
+                                                <td> 
+                                                    <a href="/trademark-registration-in-<%= continents[key].countries[ckey].name.replace(/\s/g, '_').toLowerCase() %>" >
+                                                        <% if( continents[key].countries[ckey].avatar && continents[key].countries[ckey].avatar != "Test") { %><img src="images/<%= continents[key].countries[ckey].avatar %>"><% } %><%= continents[key].countries[ckey].name %>
+                                                    </a>
+                                                </td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        <% } %>
+                                    </tbody>
+                                </table>
+                                <!-- PRICE TABLE ENDS -->
+
+                            </div>
+                        <% } }%>
+                        
                     </div>
                   
                     <h4 style="padding-top: 50px;color: #000;">Additional fees may be incurred on the following cases:</h4>

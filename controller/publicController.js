@@ -246,11 +246,14 @@ exports.contact = function(req, res, next) {
 
 exports.classes = async function(req, res, next) {
 
-  // activityService.logger(req.ip, req.originalUrl, "Visited Classes Page");
+  activityService.logger(req.ip, req.originalUrl, "Visited Classes Page");
+
+  let classes = await rpoClasses.getAll();
 
   res.render('public/classes', { 
     layout: 'layouts/public-layout-default', 
-    title: 'classes',
+    title: 'Trademark Class Descriptions',
+    classes: classes,
     user: await helpers.getLoginUser(req)
   });
 }
@@ -268,11 +271,40 @@ exports.resources = async function(req, res, next) {
 
 exports.prices = async function(req, res, next) {
  
-  // activityService.logger(req.ip, req.originalUrl, "Visited Price Page");
+  activityService.logger(req.ip, req.originalUrl, "Visited Price Page");
+
+  let continents = await rpoContinents.getContinents();
+  let continentsFormatted = [];
+
+  await continents.forEach(async continent => {
+
+    let op = continent.countries.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))
+
+    
+    // ES6 FILTER REMOVE DUPLICATES
+    op = op.filter((o, index, self) =>
+      index === self.findIndex((t) => (
+        t.name === o.name
+      ))
+    )
+
+    continent.countries = op;
+
+    // for (var key in continent.countries) {
+    //   continent.countries[key].prices = await rpoPrices.findPriceByCountryId(continent.countries[key].id)
+    // }
+
+    
+
+    continentsFormatted.push(continent);
+
+  });
+  console.log(continentsFormatted);
 
   res.render('public/prices', { 
     layout: 'layouts/public-layout-default', 
     title: 'prices',
+    continents: continentsFormatted,
     user: await helpers.getLoginUser(req)
   });
 }
@@ -296,6 +328,39 @@ exports.udrp = async function(req, res, next) {
   res.render('public/udrp', { 
     layout: 'layouts/public-layout-default', 
     title: 'Uniform Domain-Name Dispute-Resolution Policy',
+    user: await helpers.getLoginUser(req)
+  });
+}
+
+exports.countries = async function(req, res, next) {
+
+  activityService.logger(req.ip, req.originalUrl, "Visited Countries Page");
+
+  let continents = await rpoContinents.getContinents();
+  let continentsFormatted = [];
+
+  await continents.forEach(async continent => {
+
+    let op = continent.countries.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))
+
+    
+    // ES6 FILTER REMOVE DUPLICATES
+    op = op.filter((o, index, self) =>
+      index === self.findIndex((t) => (
+        t.name === o.name
+      ))
+    )
+
+    continent.countries = op;
+
+    continentsFormatted.push(continent);
+
+  });
+
+  res.render('public/countries', { 
+    layout: 'layouts/public-layout-default', 
+    title: 'Trademark Registration Countries',
+    continents: continentsFormatted,
     user: await helpers.getLoginUser(req)
   });
 }
