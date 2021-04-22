@@ -80,7 +80,7 @@ router.get('/thank-you/:number', publicController.thankYou)
 router.get('/delivery-method/:trdId', publicController.deliveryMethod)
 router.get('/action/response/:action/:response', publicController.souResponse)
 
-router.get('/:actionCode/:type', publicController.codeLanding)
+
 
 router.get('/trademark-assignment', publicController.assignment)
 
@@ -105,12 +105,15 @@ router.post('/register', publicController.registerSubmit);
 
 // on dev
 router.get('/countries', publicController.countries);
+router.get('/region/:abbr', publicController.countriesAbbr);
 router.get('/services', publicController.service);
 router.get('/blog', publicController.blog);
 router.get('/classes', publicController.classes);
 
 
 router.get('/prices', publicController.prices);
+
+router.get('/:actionCode/:type', publicController.codeLanding)
 // action
 router.get('/:action', publicController.redirect);
 // redirect

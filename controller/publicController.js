@@ -413,6 +413,44 @@ exports.countries = async function(req, res, next) {
   });
 }
 
+exports.countriesAbbr = async function(req, res, next) {
+
+  // activityService.logger(req.ip, req.originalUrl, "Visited Countries Page");
+  let abbr = req.params.abbr
+  let continents = await rpoContinents.getContinentAbbr(abbr);
+  // let continentsFormatted = [];
+
+  // await continents.forEach(async continent => {
+
+  //   let op = continent.countries.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))
+
+    
+  //   // ES6 FILTER REMOVE DUPLICATES
+  //   op = op.filter((o, index, self) =>
+  //     index === self.findIndex((t) => (
+  //       t.name === o.name
+  //     ))
+  //   )
+
+  //   continent.countries = op;
+
+  //   continentsFormatted.push(continent);
+
+  // });
+  // console.log(continents[0]);
+
+  // if (!continents) {
+  //   res.redirect('/countries');
+  // }
+
+  res.render('public/countriesAbbr', { 
+    layout: 'layouts/public-layout-default', 
+    title: 'Trademark Registration Countries',
+    continent: continents[0],
+    user: await helpers.getLoginUser(req)
+  });
+}
+
 exports.redirect = async function(req, res, next) {
 
   // console.log(req.params.action);

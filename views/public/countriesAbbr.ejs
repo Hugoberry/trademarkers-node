@@ -1,0 +1,33 @@
+<div class="container">
+    <div class="row justify-content-center box-bg-container">
+        <div class="col-md-12">
+            <div class="card">
+                <% if( continent ) { %>
+
+                <div class="card-body">
+                    <h5> Register your Trademark in <%= continent.name %></h5>
+                    <hr>
+                    <p> Every day, disputes about brand names, domain names and company names are litigated worldwide, and companies worldwide lose the right to use a brand, or even their Internet domain names because they failed to protect it through trademark registration. TRADEMARKERS.COM is a worldwide network of attorneys that can make sure your brand enjoys trademark protection - in the markets you need to own!</p>
+
+                    <p>What many do not know is that there is no such thing as a "worldwide trademark". All trademarks jurisdictions cover only the territory they are valid in. So you might live in false confidence that your brand is protected worldwide.</p>
+                </div>
+
+                <div class="card-body">
+                    <div class="row">
+                        <% for ( var ckey in continent.countries ) { if( continent.countries[ckey].name ) { %>
+                            <div class="col-md-4">
+                                <a href="/trademark-registration-in-<%= continent.countries[ckey].name.replace(/\s/g, '_').toLowerCase() %>" >
+                                    <% if( continent.countries[ckey].avatar && continent.countries[ckey].avatar != "Test") { %><img src="/images/<%= continent.countries[ckey].avatar %>"><% } %><%= continent.countries[ckey].name %>
+                                </a>
+                            </div>
+                        <% } } %>
+                    </div>
+                </div>
+
+                <% } else { %>
+                    <p>Sorry, region not found!</p>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>
