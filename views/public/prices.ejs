@@ -49,12 +49,12 @@
                                                         <% if( continents[key].countries[ckey].avatar && continents[key].countries[ckey].avatar != "Test") { %><img src="images/<%= continents[key].countries[ckey].avatar %>"><% } %><%= continents[key].countries[ckey].name %>
                                                     </a>
                                                 </td>
-                                                <td><%= helpers.getPriceFormatted(prices[continents[key].countries[ckey].id].study.initial_cost) %></td>
-                                                <td><%= helpers.getPriceFormatted(prices[continents[key].countries[ckey].id].study.additional_cost) %></td>
-                                                <td><%= helpers.getPriceFormatted(prices[continents[key].countries[ckey].id].registration.initial_cost) %></td>
-                                                <td><%= helpers.getPriceFormatted(prices[continents[key].countries[ckey].id].registration.additional_cost) %></td>
-                                                <td><%= helpers.getPriceFormatted(prices[continents[key].countries[ckey].id].certificate.initial_cost) %></td>
-                                                <td><%= helpers.getPriceFormatted(prices[continents[key].countries[ckey].id].certificate.additional_cost) %></td>
+                                                <td><%= prices[continents[key].countries[ckey].id].study ? helpers.getPriceFormatted(prices[continents[key].countries[ckey].id].study.initial_cost) : '' %></td>
+                                                <td><%= prices[continents[key].countries[ckey].id].study ? helpers.getPriceFormatted(prices[continents[key].countries[ckey].id].study.additional_cost) : '' %></td>
+                                                <td><%= prices[continents[key].countries[ckey].id].registration ? helpers.getPriceFormatted(prices[continents[key].countries[ckey].id].registration.initial_cost) : '' %></td>
+                                                <td><%= prices[continents[key].countries[ckey].id].registration ? helpers.getPriceFormatted(prices[continents[key].countries[ckey].id].registration.additional_cost) : '' %></td>
+                                                <td><%= prices[continents[key].countries[ckey].id].certificate ? helpers.getPriceFormatted(prices[continents[key].countries[ckey].id].certificate.initial_cost) : '' %></td>
+                                                <td><%= prices[continents[key].countries[ckey].id].certificate ? helpers.getPriceFormatted(prices[continents[key].countries[ckey].id].certificate.additional_cost) : '' %></td>
                                             </tr>
                                         <% } %>
                                     </tbody>
