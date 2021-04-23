@@ -503,24 +503,28 @@ exports.submitContact = async function(req, res, next) {
 
   let noWords = req.body.message.split(" ");
 
-  if ( trap || !req.body.message.trim() || req.body.message.match(urlRE) || !valid || noWords.length < 2 ){
-    // console.log('found!');
-    res.flash('errorContact', 'Sorry, something went wrong, try again later! 1');
+  // if ( trap || !req.body.message.trim() || req.body.message.match(urlRE) || !valid || noWords.length < 2 ){
+  //   // console.log('found!');
+  //   res.flash('errorContact', 'Sorry, something went wrong, try again later! 1');
     
+  // } else {
+  //   let mailInfo = await mailService.contact(req.body);
+  //   console.log('test mailing ',mailInfo);
+  //   if (mailInfo && mailInfo.accepted) {
+  //     res.flash('successContact', 'Your Inquiry has been sent!');
+  //   } else {
+  //     res.flash('errorContact', 'Sorry, something went wrong, try again later! 2');
+  //   }
 
-    // return;
+
+  // }
+
+  let mailInfo = await mailService.contact(req.body);
+  console.log('test mailing ',mailInfo);
+  if (mailInfo && mailInfo.accepted) {
+    res.flash('successContact', 'Your Inquiry has been sent!');
   } else {
-    // console.log('to send');
-    // let info = require('../services/mailerService');
-    let mailInfo = await mailService.contact(req.body);
-console.log('test mailing ',mailInfo);
-    if (mailInfo && mailInfo.accepted) {
-      res.flash('successContact', 'Your Inquiry has been sent!');
-    } else {
-      res.flash('errorContact', 'Sorry, something went wrong, try again later! 2');
-    }
-
-
+    res.flash('errorContact', 'Sorry, something went wrong, try again later! 2');
   }
 
   console.log("redirect ",req.body.formLocation);
