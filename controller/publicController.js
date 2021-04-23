@@ -63,9 +63,25 @@ exports.home = async function(req, res, next) {
     var getClientIp = req.headers['x-real-ip'] || req.connection.remoteAddress;
 
     let continents = await rpoContinents.getContinents();
+
+
+
     let continentsFormatted = [];
 
     await continents.forEach(async continent => {
+
+      if ( continent.countries.length <= 0 ) {
+        console.log("##################################");
+        console.log("continent empty", continent.name);
+
+        let countries = await rpoContinents.getCountryPerContinentMysql(continent.id)
+        let dataContinentUpdate = {
+          countries : countries
+        } 
+        await rpoContinents.updateDetails(continent._id,dataContinentUpdate)
+
+        continent.countries = countries
+      }
 
       let op = continent.countries.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))
 
