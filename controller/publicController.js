@@ -539,14 +539,14 @@ exports.submitContact = async function(req, res, next) {
 
   let noWords = req.body.message.split(" ");
 
-  if ( trap || !req.body.message.trim() || req.body.message.match(urlRE) || !valid || noWords.length < 5 ){
-    console.log('found!');
+  if ( trap || !req.body.message.trim() || req.body.message.match(urlRE) || !valid || noWords.length < 2 ){
+    // console.log('found!');
     res.flash('errorContact', 'Sorry, something went wrong, try again later!');
     
 
     // return;
   } else {
-    console.log('to send');
+    // console.log('to send');
     // let info = require('../services/mailerService');
     let mailInfo = await mailService.contact(req.body);
 

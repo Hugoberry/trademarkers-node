@@ -272,6 +272,30 @@ exports.addToCart = async function(req, res, next) {
 
   }
 
+  // check user detail and possible update
+  if (!currentUser.address) {
+    let addressUser = (req.body.repStreet ? (" " + req.body.repStreet) : '')
+    + (req.body.repCity ? (" " + req.body.repCity) : '')
+    + (req.body.repState ? (" " + req.body.repState) : '')
+    + (req.body.repZipCode ? (" " + req.body.repZipCode) : '')
+    + (req.body.repCountry ? (" " + req.body.repCountry) : '')
+
+    let dataUserUpdate = {
+      nature: req.body.nature,
+      phone: req.body.phone,
+      fax: req.body.phone,
+      position: req.body.position,
+      country: req.body.repCountry,
+      street: req.body.repStreet,
+      city: req.body.repCity,
+      state: req.body.repState,
+      zipCode: req.body.repZipCode,
+      address: addressUser
+    }
+
+    await rpoUserMongo.updateUser(currentUser._id,dataUserUpdate)
+  }
+
   data = req.body;
 
   delete req.body.email
@@ -388,10 +412,10 @@ exports.checkout = async function(req, res, next) {
   //   res.redirect("/"); 
   // }
 
-  currentUser.address = currentUser.street
-                        + (currentUser.state ? (" " + currentUser.state) : '')
-                        + (currentUser.zipCode ? (" " + currentUser.zipCode) : '')
-                        + (currentUser.country ? (" " + currentUser.country) : '')
+  // currentUser.address = currentUser.street
+  //                       + (currentUser.state ? (" " + currentUser.state) : '')
+  //                       + (currentUser.zipCode ? (" " + currentUser.zipCode) : '')
+  //                       + (currentUser.country ? (" " + currentUser.country) : '')
 
   let amount = await helpers.getCartTotalAmount(cartItems);
 

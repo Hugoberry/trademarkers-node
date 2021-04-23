@@ -38,6 +38,11 @@ exports.getLoginUser = async function(req) {
         
             user = currentUserRecord[0]
         }
+
+        if ( user ) {
+            let currentUser = await rpoUserMongo.findUser(user.email)
+            user = currentUser[0]
+        }
     }
     // let user = JSON.parse(decode.payload.user);
 
