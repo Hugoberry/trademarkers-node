@@ -522,7 +522,7 @@ exports.submitContact = async function(req, res, next) {
   let mailInfo = await mailService.contact(req.body);
   console.log('test mailing ',mailInfo);
   if (mailInfo && mailInfo.accepted) {
-    res.flash('successContact', 'Your Inquiry has been sent!');
+    res.flash('successContact', 'Thank You! Your message has been successfully sent. We’ll get back to you very soon.');
   } else {
     res.flash('errorContact', 'Sorry, something went wrong, try again later!');
   }
