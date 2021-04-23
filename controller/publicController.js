@@ -513,7 +513,7 @@ exports.submitContact = async function(req, res, next) {
     // console.log('to send');
     // let info = require('../services/mailerService');
     let mailInfo = await mailService.contact(req.body);
-
+console.log(mailInfo);
     if (mailInfo && mailInfo.accepted) {
       res.flash('successContact', 'Your Inquiry has been sent!');
     } else {

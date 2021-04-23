@@ -112,13 +112,15 @@ router.get('/classes', publicController.classes);
 router.get('/prices', publicController.prices);
 router.get('/videos', publicController.videos);
 
+
+
 router.get('/:actionCode/:type', publicController.codeLanding)
 // action
 router.get('/:action', publicController.redirect);
 // redirect
 // router.get('*', publicController.redirect);
-router.get('/services', publicController.service);
 
+router.get('/services', publicController.service);
 
 
 
