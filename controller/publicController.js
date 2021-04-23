@@ -505,7 +505,7 @@ exports.submitContact = async function(req, res, next) {
 
   if ( trap || !req.body.message.trim() || req.body.message.match(urlRE) || !valid || noWords.length < 2 ){
     // console.log('found!');
-    res.flash('errorContact', 'Sorry, something went wrong, try again later!');
+    res.flash('errorContact', 'Sorry, something went wrong, try again later! 1');
     
 
     // return;
@@ -513,11 +513,11 @@ exports.submitContact = async function(req, res, next) {
     // console.log('to send');
     // let info = require('../services/mailerService');
     let mailInfo = await mailService.contact(req.body);
-console.log(mailInfo);
+console.log('test mailing ',mailInfo);
     if (mailInfo && mailInfo.accepted) {
       res.flash('successContact', 'Your Inquiry has been sent!');
     } else {
-      res.flash('errorContact', 'Sorry, something went wrong, try again later!');
+      res.flash('errorContact', 'Sorry, something went wrong, try again later! 2');
     }
 
 
