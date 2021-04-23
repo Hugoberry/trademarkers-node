@@ -269,6 +269,17 @@ exports.resources = async function(req, res, next) {
   });
 }
 
+exports.videos = async function(req, res, next) {
+
+  activityService.logger(req.ip, req.originalUrl, "Visited Videos Page");
+
+  res.render('public/videos', { 
+    layout: 'layouts/public-layout-default', 
+    title: 'resources',
+    user: await helpers.getLoginUser(req)
+  });
+}
+
 exports.prices = async function(req, res, next) {
  
   activityService.logger(req.ip, req.originalUrl, "Visited Price Page");
@@ -288,19 +299,7 @@ exports.prices = async function(req, res, next) {
       ))
     )
 
-    
-
-    // for (var key in op) {
-      
-    //   let prices = await rpoPrices.findPriceByCountryId(op[key].id)
-      
-    //   op[key]['prices'] = prices;
-    // }
-
     continent.countries = op;
-
-    // console.log(continent.countries);
-
     continentsFormatted.push(continent);
     
 
@@ -332,19 +331,8 @@ exports.prices = async function(req, res, next) {
       formattedPrices[price.country_id].certificate = price
     }
 
-    // formattedPrices[price.country_id][price.service_type] = data
   })
-  // await continentsFormatted.forEach(async (continent, key) => {
-    
-  //   await continent.countries.forEach(async (country, ckey) => {
 
-  //     let prices = await rpoPrices.findPriceByCountryId(country.id)
-
-  //     continentsFormatted[key].countries[ckey].is_treaty = 'test'
-
-  //   })
-    
-  // })
 
   console.log('key ',formattedPrices);
   
@@ -415,33 +403,9 @@ exports.countries = async function(req, res, next) {
 
 exports.countriesAbbr = async function(req, res, next) {
 
-  // activityService.logger(req.ip, req.originalUrl, "Visited Countries Page");
+  activityService.logger(req.ip, req.originalUrl, "Visited Continent "+ req.params.abbr);
   let abbr = req.params.abbr
   let continents = await rpoContinents.getContinentAbbr(abbr);
-  // let continentsFormatted = [];
-
-  // await continents.forEach(async continent => {
-
-  //   let op = continent.countries.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))
-
-    
-  //   // ES6 FILTER REMOVE DUPLICATES
-  //   op = op.filter((o, index, self) =>
-  //     index === self.findIndex((t) => (
-  //       t.name === o.name
-  //     ))
-  //   )
-
-  //   continent.countries = op;
-
-  //   continentsFormatted.push(continent);
-
-  // });
-  // console.log(continents[0]);
-
-  // if (!continents) {
-  //   res.redirect('/countries');
-  // }
 
   res.render('public/countriesAbbr', { 
     layout: 'layouts/public-layout-default', 

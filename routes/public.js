@@ -109,9 +109,8 @@ router.get('/region/:abbr', publicController.countriesAbbr);
 
 router.get('/blog', publicController.blog);
 router.get('/classes', publicController.classes);
-
-
 router.get('/prices', publicController.prices);
+router.get('/videos', publicController.videos);
 
 router.get('/:actionCode/:type', publicController.codeLanding)
 // action
