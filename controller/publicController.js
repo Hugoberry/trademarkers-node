@@ -524,7 +524,7 @@ exports.submitContact = async function(req, res, next) {
   if (mailInfo && mailInfo.accepted) {
     res.flash('successContact', 'Your Inquiry has been sent!');
   } else {
-    res.flash('errorContact', 'Sorry, something went wrong, try again later! 2');
+    res.flash('errorContact', 'Sorry, something went wrong, try again later!');
   }
 
   console.log("redirect ",req.body.formLocation);
