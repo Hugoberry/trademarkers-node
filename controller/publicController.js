@@ -256,7 +256,7 @@ exports.quote = async function(req, res, next) {
     'appeal a final refusal'
   ];
 
-  console.log(req.params.type);
+  // console.log(req.params.type);
 
   if ( !req.params.type ) {
     res.redirect("/services"); 
