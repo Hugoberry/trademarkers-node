@@ -71,8 +71,8 @@ exports.home = async function(req, res, next) {
     await continents.forEach(async continent => {
 
       if ( continent.countries.length <= 0 ) {
-        console.log("##################################");
-        console.log("continent empty", continent.name);
+        // console.log("##################################");
+        // console.log("continent empty", continent.name);
 
         let countries = await rpoContinents.getCountryPerContinentMysql(continent.id)
         let dataContinentUpdate = {
@@ -112,7 +112,7 @@ exports.home = async function(req, res, next) {
 
 exports.about = async function(req, res, next) {
 
-  // activityService.logger(req.ip, req.originalUrl, "Visited About Page");
+  activityService.logger(req.ip, req.originalUrl, "Visited About Page");
 
   let user = await helpers.getLoginUser(req);
 
@@ -125,7 +125,7 @@ exports.about = async function(req, res, next) {
 
 exports.terms = async function(req, res, next) {
 
-  // activityService.logger(req.ip, req.originalUrl, "Visited Terms Page");
+  activityService.logger(req.ip, req.originalUrl, "Visited Terms Page");
   let user = await helpers.getLoginUser(req);
 
   res.render('public/terms', { 
@@ -137,7 +137,7 @@ exports.terms = async function(req, res, next) {
 
 exports.privacy = async function(req, res, next) {
 
-  // activityService.logger(req.ip, req.originalUrl, "Visited Privacy Page");
+  activityService.logger(req.ip, req.originalUrl, "Visited Privacy Page");
 
   res.render('public/privacy', { 
     layout: 'layouts/public-layout-default', 
@@ -148,7 +148,7 @@ exports.privacy = async function(req, res, next) {
 
 exports.register = async function(req, res, next) {
 // console.log('register');
-  // activityService.logger(req.ip, req.originalUrl, "Visited Service Page");
+  activityService.logger(req.ip, req.originalUrl, "Visited registration Page");
   let user = await helpers.getLoginUser(req)
 
   if ( user ) {
@@ -220,13 +220,91 @@ exports.registerSubmit = async function(req, res, next) {
 
 exports.service = async function(req, res, next) {
 
-  // activityService.logger(req.ip, req.originalUrl, "Visited Service Page");
+  activityService.logger(req.ip, req.originalUrl, "Visited Service Page");
+
+  let countries = await rpoCountries.getAll();
 
   res.render('public/service', { 
     layout: 'layouts/public-layout-default', 
     title: 'service',
+    countries: countries,
     user: await helpers.getLoginUser(req)
   });
+}
+
+exports.quote = async function(req, res, next) {
+
+  activityService.logger(req.ip, req.originalUrl, "Visited Quote Page");
+
+  let countries = await rpoCountries.getAll();
+
+  // console.log("req", req.params.type);
+
+  let knownQuoteServices = [
+    'office action response',
+    'trademark statement of use',
+    'revive an abandoned application',
+    'international trademark application',
+    'trademark renewal',
+    'change or update trademark owner',
+    'letter of protest for domain owners',
+    'letter of protest for prior registered tm holders',
+    'trademark opposition',
+    'negotiate a settlement',
+    'cease and desist',
+    'draft a settlement agreement',
+    'appeal a final refusal'
+  ];
+
+  console.log(req.params.type);
+
+  if ( !req.params.type ) {
+    res.redirect("/services"); 
+  } else {
+    req.params.type = req.params.type.replace(/[-]/g," ");
+  }
+
+  if ( !knownQuoteServices.includes(req.params.type) ) {
+    res.redirect("/services"); 
+  }
+
+  res.render('public/quoteForm', { 
+    layout: 'layouts/public-layout-default', 
+    title: 'service',
+    countries: countries,
+    data: req.params,
+    user: await helpers.getLoginUser(req)
+  });
+}
+
+exports.quoteSubmit = async function(req, res, next) {
+
+  activityService.logger(req.ip, req.originalUrl, "Visited Quote Page");
+
+  // let countries = await rpoCountries.getAll();
+
+  // console.log("req", req.body.type);
+
+  // if ( !req.body.type ) {
+  //   res.redirect("/services"); 
+  // } else {
+  //   req.params.type = req.params.type.replace(/[-]/g," ");
+  // }
+
+
+  let type = req.body.quoteType.replace(/\s/g, '-');
+   mailService.sendQuote(req.body);
+  // console.log('test mailing ',mailInfo);
+  // if (mailInfo && mailInfo.accepted) {
+    res.flash('success', 'Thank You! Your message has been successfully sent. We’ll get back to you very soon.');
+  // } else {
+  //   res.flash('error', 'Sorry, something went wrong, try again later!');
+  // }
+
+  // console.log("redirect ",req.body.formLocation);
+
+
+  res.redirect("/quote/" + type); 
 }
 
 exports.cookies = async function(req, res, next) {

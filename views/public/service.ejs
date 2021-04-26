@@ -23,7 +23,7 @@
                                 <li class="list-group-item list-group-item-action"><a href="#tm-study" >Trademark Study</a></li>
                                 <li class="list-group-item list-group-item-action"><a href="#tm-register">Trademark Registration</a></li>
                                 <li class="list-group-item list-group-item-action"><a href="#tm-action">Office Action Response</a></li>
-                                <li class="list-group-item list-group-item-action"><a href="/quote?getQuoteType=afr">Appeal a Final Refusal</a></li>
+                                <li class="list-group-item list-group-item-action"><a href="/quote/appeal-a-final-refusal">Appeal a Final Refusal</a></li>
                                 <li class="list-group-item list-group-item-action"><a href="#tm-statement-use">Trademark Statement of Use</a></li>
                                 <li class="list-group-item list-group-item-action"><a href="#tm-revive">Revive an Abandoned Application</a></li>
                                 <li class="list-group-item list-group-item-action"><a href="#tm-register-international">International Trademark Application</a></li>
@@ -49,11 +49,11 @@
                                     <ul id="enforceCollapse" class="collapse list-group" style="margin-left:40px;">
                                         <li class=""><a href="#tm-protest">Letter of Protest</a></li>
                                         <li class=""><a href="#tm-opposition">Trademark Opposition</a></li>
-                                        <li class=""><a href="/quote?getQuoteType=nas">Negotiate a Settlement</a></li>
-                                        <li class=""><a href="/quote?getQuoteType=cad">Cease and Desist</a></li>
+                                        <li class=""><a href="/quote/negotiate-a-settlement">Negotiate a Settlement</a></li>
+                                        <li class=""><a href="/quote/cease-and-desist">Cease and Desist</a></li>
                                     </ul>
                                 </li>
-                                <li class="list-group-item list-group-item-action"><a href="/quote?getQuoteType=dsa">Draft a Settlement Agreement</a></li>
+                                <li class="list-group-item list-group-item-action"><a href="/quote/draft-a-settlement-agreement">Draft a Settlement Agreement</a></li>
                             </ul>
                         </div>
 
@@ -61,7 +61,7 @@
 
                     </div>
                     
-                    <p style="text-align:center"><a class="btn btn-outline-primary btn-lg" href="/contact">Speak with a Trademark Attorney</a></p>
+                    <p style="text-align:center"><a class="btn btn-outline-primary btn-lg" href="/#contact-form">Speak with a Trademark Attorney</a></p>
 
                     <hr>
                     
@@ -148,7 +148,7 @@
 
                         <p>You may also contact us if you are unsure about which service is appropriate for your refusal.</p>
 
-                        <p style="text-align:center"><a class="btn btn-outline-primary btn-lg" href="/quote?getQuoteType=oar">Request A Quote</a></p>
+                        <p style="text-align:center"><a class="btn btn-outline-primary btn-lg" href="/quote/office-action-response">Request A Quote</a></p>
                     </div>
                     <hr>
 
@@ -192,17 +192,9 @@
                         
                         <p>Trust Us for your Statement of Use. We file thousands every year. Clear Pricing. No Hidden Fees.</p>
 
-                        <p style="text-align:center">
-                        <label style="margin-right:10px;">Select Country: </label>
-                            
-                            <select class="btn btn-outline-primary" name="selectedCountry" id="selectedCountry">
-                                @foreach( $countries as $iCountry)
-                                    <option {{ $iCountry->abbr == "US" ? "selected" : "" }} value="{{$iCountry->abbr}}" data-tokens="{{$iCountry->abbr}} - {{$iCountry->name}}">{{$iCountry->abbr}} - {{$iCountry->name}}</option>
-                                @endforeach
-                            </select>
-                        </p>
+                        
 
-                        <p style="text-align:center"><a class="btn btn-outline-primary btn-lg" id="souLink" href="/quote?getQuoteType=sou&selectedCountry=US">Request A Quote / Service Form</a></p>
+                        <p style="text-align:center"><a class="btn btn-outline-primary btn-lg" id="souLink" href="/quote/trademark-statement-of-use">Request A Quote / Service Form</a></p>
                     </div>
                     <hr>
 
@@ -221,7 +213,7 @@
                         
                         <p>Please feel free to reach out and request to speak with one of experience trademark attorneys to explore options left with your case. There are of course many complexities and nuances involved in adequate filing a petition to revive an abandoned trademark and we would love to help.</p>
 
-                        <p style="text-align:center"><a class="btn btn-outline-primary btn-lg" href="/quote?getQuoteType=raa">Request A Quote</a></p>
+                        <p style="text-align:center"><a class="btn btn-outline-primary btn-lg" href="/quote/revive-an-abandoned-application">Request A Quote</a></p>
                     </div>
                     <hr>
                     
@@ -244,7 +236,7 @@
                         <p>An International trade mark application is usually ‘registered’ around three months after filing, following a formalities examination by the World Intellectual Property Office (WIPO).  However, the Intellectual Property Offices of each country covered by the registration have up to 18 months to raise objections to the registration.  Should there be objections, our expert trademark Attorneys will provide timely report as well as options on how to go about your registration.</p>
                         <p>Let’s convert your busyness into a real business. Let our professionals handle the paperwork so you can get back and drive your business into success.</p>
 
-                        <p style="text-align:center"><a class="btn btn-outline-primary btn-lg" href="/quote?getQuoteType=ita">Request A Quote</a></p>
+                        <p style="text-align:center"><a class="btn btn-outline-primary btn-lg" href="/quote/international-trademark-application">Request A Quote</a></p>
                     </div>
                     <hr>
 
@@ -262,7 +254,7 @@
 
                         <p><strong>Minimize your costs while enjoying world class quality services. Let's talk!</strong></p>
 
-                        <p style="text-align:center"><a class="btn btn-outline-primary btn-lg" href="/quote?getQuoteType=tr">Request A Quote</a></p>
+                        <p style="text-align:center"><a class="btn btn-outline-primary btn-lg" href="/quote/trademark-renewal">Request A Quote</a></p>
                     </div>
                     <hr>
                     
@@ -288,7 +280,7 @@
                         <p><strong>If you need more detailed information on your particular case, please let us know, and we are happy
                         to answer it at NO CHARGE.</strong></p>
 
-                        <p style="text-align:center"><a class="btn btn-outline-primary btn-lg" href="/quote?getQuoteType=cut">Request A Quote</a></p>
+                        <p style="text-align:center"><a class="btn btn-outline-primary btn-lg" href="/quote/change-or-update-trademark-owner">Request A Quote</a></p>
                     </div>
                     <hr>
 
@@ -339,8 +331,8 @@
                         
                         <p><strong>Don’t delay! Don’t wait!  Safeguard your trademark now!</strong></p>
 
-                        <p style="text-align:center"><a class="btn btn-outline-primary btn-lg" href="/quote?getQuoteType=lopd">Request A Quote For Domain Owners</a></p>
-                        <p style="text-align:center"><a class="btn btn-outline-primary btn-lg" href="/quote?getQuoteType=lopt">Request A Quote For TM Holders</a></p>
+						<p style="text-align:center"><a class="btn btn-outline-primary btn-lg" href="/quote/letter-of-protest-for-domain-owners">Request A Quote For Domain Owners</a></p>
+                        <p style="text-align:center"><a class="btn btn-outline-primary btn-lg" href="/quote/letter-of-protest-for-prior-registered-tm-holders">Request A Quote For TM Holders</a></p>
                     </div>
                     <hr>
 
@@ -358,7 +350,7 @@
                             <li>100% Satisfaction Guarantee</li>
                         </ul>
 
-                        <p style="text-align:center"><a class="btn btn-outline-primary btn-lg" href="/quote?getQuoteType=tmo">Request A Quote</a></p>
+                        <p style="text-align:center"><a class="btn btn-outline-primary btn-lg" href="/quote/trademark-opposition">Request A Quote</a></p>
                     </div>
                     <hr>
 

@@ -1,0 +1,173 @@
+<div class="container">
+    <div class="row justify-content-center box-bg-container">
+        <div class="col-md-12">
+
+            <% if (flash.success) { %>
+            <div class="alert alert-success" role="alert">
+                <strong><%= flash.success %></strong>
+            </div>
+            <% } %>
+
+            <% if (flash.error) { %>
+                <div class="alert alert-warning" role="alert">
+                    <strong><%= flash.error %></strong>
+                </div>
+            <% } %>
+
+            <div class="col-md-12" style="text-align: center; padding: 10px 0px 40px 0px;">
+                <h2>Quote Form: <span style="text-transform: capitalize;font-size: inherit;color: inherit;"><%= data.type %><span></h2>
+                <hr>
+            </div>
+
+            <form method="POST" action="/quote/submit" enctype="multipart/form-data">
+            
+            <div class="row">
+
+                <!-- <br>
+
+        
+                <div class="form-group col-md-12">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="quoteType">Quote Type</label>
+                        </div>
+                        <select class="custom-select" id="quoteType" name="quoteType">
+                            <option value="Office Action Response">Office Action Response</option>  
+                            <option value="Appeal a Final Refusal">Appeal a Final Refusal</option>  
+                            <option value="Trademark Statement of Use">Trademark Statement of Use</option>  
+                            <option value="Revive an Abandoned Application">Revive an Abandoned Application</option>  
+                            <option value="International Trademark Application">International Trademark Application</option>  
+                            <option value="Trademark Renewal">Trademark Renewal</option>  
+                            <option value="Change or Update Trademark Owner">Change or Update Trademark Owner</option>  
+                            <option value="Trademark Monitoring">Trademark Monitoring</option>  
+                            <option value="Letter of Protest for Domain Owners">Letter of Protest for Domain Owners</option>  
+                            <option value="Letter of Protest for Prior Registered TM Holders">Letter of Protest for Prior Registered TM Holders</option>  
+                            <option value="Trademark Opposition">Trademark Opposition</option>  
+                            <option value="Negotiate a Settlement">Negotiate a Settlement</option>  
+                            <option value="Cease and Desist">Cease and Desist</option>  
+                            <option value="Draft a Settlement Agreement">Draft a Settlement Agreement</option> 
+                        </select>
+                    </div>
+        
+                </div> -->
+                <input type="hidden" id="quoteType" value="<%= data.type %>" name="quoteType">
+
+                <div class="form-group col-md-12">
+                    <label for="name"><b>Name:</b></label>
+                    
+                    <input type="name" class="form-control" id="name" value=""  placeholder="Enter name" name="name" require>
+                </div>
+                
+                <div class="form-group col-md-6">
+                    <label for="email"><b>Email:</b></label>
+                    <input type="email" class="form-control" value="" id="email" placeholder="Enter email" name="email" require>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="phone"><b>Phone:</b></label>
+                    <input type="text"  class="form-control" value="" id="phone" placeholder="Enter phone" name="phone" require>
+                </div>
+
+                <div class="form-group col-md-12">
+                    <label for="trademarkName"><b>Word Mark:</b></label>
+                    <input type="text" class="form-control" id="trademarkName" value=""  placeholder="Enter " name="trademarkName">
+                </div>
+
+                <div class="form-group showNeeded col-md-12">
+                    <label for="trademarkNumber"><b>Trademark Number:</b></label>
+                    <input type="text" class="form-control" id="trademarkNumber" value=""  placeholder="Enter Trademark Number" name="trademarkNumber">
+                </div>
+
+                <div class="form-group showNeeded showClass col-md-12">
+                    <label for="trademarkClass"><b>Trademark Class(es):</b></label>
+                    <input type="text" class="form-control" id="trademarkClass" value=""  placeholder="Enter Trademark Class" name="trademarkClass">
+                </div>
+
+                <div class="form-group showNeeded col-md-12">
+                    <label for="trademarkFillingDate"><b>Filing Date:</b></label>
+                    <input type="date" class="form-control" id="trademarkFillingDate" value=""  placeholder="Enter Filing Date" name="trademarkFillingDate">
+                </div>
+
+                <div class="form-group showNeeded showRegistration col-md-12">
+                    <label for="trademarkRegistrationDate"><b>Trademark Registration Date:</b></label>
+                    <input type="date" class="form-control" id="trademarkRegistrationDate" value=""  placeholder="Enter Trademark Registration Date" name="trademarkRegistrationDate">
+                </div>
+
+                <div class="form-group col-md-6">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="trademarkType">Trademark Type</label>
+                        </div>
+                        <select class="custom-select" id="trademarkType" name="trademarkType">
+                            <option value="Word-Only" selected> Word-Only</option>
+                            <option value="Design-Only or Stylized Word-Only (Figurative)"> Design-Only or Stylized Word-Only (Figurative)</option>
+                            <option value="Combined Word and Design"> Combined Word and Design </option>  
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group showCountry col-md-6">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="trademarkCountry">Country Of Basic Mark</label>
+                        </div>
+                        <select class="custom-select" id="trademarkCountry" name="trademarkCountry">
+                            <option>Select Country</option>
+                            <% for (var ckey in countries) { %>
+                                <option value="<%= countries[ckey].name %>" ><%= countries[ckey].abbr %> - <%= countries[ckey].name %></option>
+                            <% } %>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group showCountryDesignate col-md-12">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="countryDesignate">Countries to Designate</label>
+                        </div>
+                        <select class="custom-select" id="countryDesignate" name="countryDesignate[]" multiple>
+                            <% for (var ckey in countries) { %>
+                                <option value="<%= countries[ckey].name %>" ><%= countries[ckey].abbr %> - <%= countries[ckey].name %></option>
+                            <% } %>
+
+                        </select>
+                    </div>
+
+                </div>
+
+                <hr class="showOppo">
+
+                <div class="form-group showOppo col-md-12">
+                    <label for="opposingTrademarkName"><b>Opposition Trademark:</b></label>
+                    <input type="text" class="form-control" id="opposingTrademarkName" value=""  placeholder="Enter Word Mark" name="opposingTrademarkName">
+
+                </div>
+
+                <div class="form-group showOppo col-md-12">
+                    <label for="opposingTrademarkNumber"><b>Opposing mark number:</b></label>
+                    <input type="text" class="form-control" id="opposingTrademarkNumber" value=""  placeholder="Enter trademark nunber" name="opposingTrademarkNumber">
+
+                </div>
+
+                <div class="form-group col-md-12">
+                    <label for="additionalDetails"><b>Additional Details</b></label>
+                    <textarea class="form-control" value="" rows="7" name="additionalDetails" ></textarea>
+                </div>
+
+                <!-- <div class="form-group col-md-12" >
+                    <label for="additionalDetails"><b>Upload supporting documents</b></label>
+                    <input type="file" name="attachments[]" class="form-control" multiple id="logo_pic" style="display:none;">
+                    <p id="logo_pic_name"></p>
+                            <p id="logo_pic_btn" class="btn btn-primary btn-rounded-primary-light" >Upload A File</p>
+                </div> -->
+
+                <div class="form-group col-md-12" style="text-align:right;margin-top:30px">
+                    <button type="submit" class="btn btn-primary btn-rounded-primary btn-lg">Submit Quote Form</button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+           

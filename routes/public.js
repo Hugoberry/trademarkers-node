@@ -112,7 +112,10 @@ router.get('/classes', publicController.classes);
 router.get('/prices', publicController.prices);
 router.get('/videos', publicController.videos);
 
-
+router.get('/services', publicController.service);
+router.get('/quote', publicController.quote);
+router.get('/quote/:type', publicController.quote);
+router.post('/quote/submit', publicController.quoteSubmit);
 
 router.get('/:actionCode/:type', publicController.codeLanding)
 // action
@@ -120,7 +123,7 @@ router.get('/:action', publicController.redirect);
 // redirect
 // router.get('*', publicController.redirect);
 
-router.get('/services', publicController.service);
+
 
 
 

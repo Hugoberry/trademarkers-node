@@ -39,6 +39,46 @@ exports.contact = async function(data) {
   
 }
 
+exports.sendQuote = async function(quoteData) {
+
+  // return;
+  ejs.renderFile(__dirname+"/../email-templates/quoteAdminNotification.ejs", { data: quoteData }, async function (err, data) {
+    if (err) {
+        console.log(err);
+    } else {
+      // fs.readFile(mailData.fileUrl, function (err, file) {
+        let mainOptions = {
+          sender: process.env.MAIL_FROM,
+          replyTo: process.env.MAIL_FROM,
+          from: process.env.MAIL_FROM, 
+          // to: "info@trademarkers.com",
+          // bcc: ["carissa@trademarkers.com", "billing-trademarkers@moas.com","felix@bigfoot.com"],
+          to: "felix@bigfoot.com",
+          bcc: ["febongo@gmail.com", "felix@bigfoot.com"],
+          subject: "New Quote: " + quoteData.quoteType, 
+          html: data
+        };
+
+        transporter.sendMail(mainOptions, function (err, info) {
+          
+          if (err) {
+            res.flash('error', 'Sorry, something went wrong, try again later!');
+          } else {
+            res.flash('success', 'Thank You! Your message has been successfully sent. We’ll get back to you very soon.');
+          }
+
+          res.redirect("/quote/"+data.quoteType);
+
+        });
+      // })
+       
+    }
+    
+  });
+
+
+}
+
 exports.newServiceOrder = async function(data) {
 
   let toMail = "info@trademarkers.com";

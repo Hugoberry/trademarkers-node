@@ -490,6 +490,11 @@ $( document ).ready(function() {
     }, 'slow');
   }
 
+  if ( $("#quoteType").length ) {
+    // alert($("#quoteType").val());
+    checkFieldShow( $("#quoteType").val() );
+  }
+
 
 
 // =====================================================
@@ -580,6 +585,47 @@ function listPopulate() {
         $("#tm").val($("#tm").attr('data-case-value'));
     }
 
+}
+
+function checkFieldShow($type) {
+  if ( $type == 'office action response' 
+      || $type == 'appeal a final refusal'
+      || $type == 'trademark statement of use'
+      || $type == 'revive an abandoned application'
+      || $type == 'trademark opposition'
+  ) {
+      // show showNeeded
+      $('.showNeeded').show();
+
+      // return true;
+  } else {
+      $('.showNeeded').hide();
+      // return false;
+  }
+
+  if ($type == 'trademark statement of use') {
+      $(".showRegistration").show();
+  } else {
+      $(".showRegistration").hide();
+  }
+
+  if ($type == 'international trademark application') {
+      $(".showCountryDesignate").show();
+      $(".showClass").show();
+      // $(".showCountry").hide();
+  } else {
+      $(".showCountryDesignate").hide();
+      $(".showClass").hide();
+      // $(".showCountry").show();
+  }
+
+  if ($type == 'Trademark Opposition' || $type == 'Letter of Protest for Prior Registered TM Holders' || $type == 'Letter of Protest for Domain Owners') {
+      $(".showOppo").show();
+  } else {
+      $(".showOppo").hide();
+  }
+
+  
 }
 
 function scrollToDiv(id){
