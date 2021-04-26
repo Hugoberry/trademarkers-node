@@ -232,6 +232,20 @@ exports.service = async function(req, res, next) {
   });
 }
 
+exports.monitoringService = async function(req, res, next) {
+
+  activityService.logger(req.ip, req.originalUrl, "Visited monitoring Service Page");
+
+  let countries = await rpoCountries.getAll();
+
+  res.render('public/monitoring-service', { 
+    layout: 'layouts/public-layout-default', 
+    title: 'monitoring Service',
+    countries: countries,
+    user: await helpers.getLoginUser(req)
+  });
+}
+
 exports.quote = async function(req, res, next) {
 
   activityService.logger(req.ip, req.originalUrl, "Visited Quote Page");

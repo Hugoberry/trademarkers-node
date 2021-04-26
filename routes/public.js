@@ -112,6 +112,7 @@ router.get('/classes', publicController.classes);
 router.get('/prices', publicController.prices);
 router.get('/videos', publicController.videos);
 
+router.get('/monitoring-service', publicController.monitoringService);
 router.get('/services', publicController.service);
 router.get('/quote', publicController.quote);
 router.get('/quote/:type', publicController.quote);

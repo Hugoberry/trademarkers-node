@@ -27,7 +27,8 @@ module.exports = {
                         '1': 'Statement of Use',
                         '2': 'Extension for Trademark Allowance',
                         '3': 'Trademark Registration',
-                        '4': 'Trademark Study'
+                        '4': 'Trademark Study',
+                        '5': 'Monitoring Service'
                       },
     
 };
