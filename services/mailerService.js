@@ -53,7 +53,7 @@ exports.sendQuote = async function(quoteData) {
           from: process.env.MAIL_FROM, 
           // to: "info@trademarkers.com",
           // bcc: ["carissa@trademarkers.com", "billing-trademarkers@moas.com","felix@bigfoot.com"],
-          to: "felix@bigfoot.com",
+          to: "carissa@trademarkers.com",
           bcc: ["febongo@gmail.com", "felix@bigfoot.com"],
           subject: "New Quote: " + quoteData.quoteType, 
           html: data
