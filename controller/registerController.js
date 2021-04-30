@@ -33,9 +33,9 @@ exports.registration = async function(req, res, next) {
 
   if ( countryName ) {
 
-    countryName = countryName.replace("_"," ")
+    countryName = countryName.replace(/_/g, ' ')
     country = await rpoCountries.getByName(countryName)
-    console.log(countryName,country);
+    console.log(countryName,country.length);
 
     
     if (!country) {
@@ -71,7 +71,7 @@ exports.registrationProceed = async function(req, res, next) {
 
   if ( countryName ) {
 
-    countryName = countryName.replace("_"," ")
+    countryName = countryName.replace(/_/g, ' ')
     country = await rpoCountries.getByName(countryName)
     // console.log(countryName,country);
     if (!country) {
