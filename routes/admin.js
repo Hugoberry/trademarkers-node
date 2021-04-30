@@ -21,6 +21,7 @@ router.get('/manage/tasks/edit/:id', verify, adminTask.taskEdit);
 router.post('/manage/tasks/edit/:id', verify, adminTask.taskEditSubmit);
 
 router.get('/manage/trademark', verify, adminTrademark.index);
+router.get('/manage/trademark/view/:id', verify, adminTrademark.show);
 router.get('/manage/trademark/edit/:id', verify, adminTrademark.edit);
 router.post('/manage/trademark/edit/:id', verify, adminTrademark.editSubmit);
  

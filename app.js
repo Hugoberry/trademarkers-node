@@ -105,7 +105,7 @@ conn.connectToServer( function( err, client ) {
 
   app.use('/api/v1', apiRouter);
 
-  app.use('/customer', customerRouter);
+  app.use('/customer', middleware.verify, customerRouter);
   app.use('/researcher', researcherRouter);
   app.use('/njs-admin', adminRouter);
   app.use('/login', loginRouter);

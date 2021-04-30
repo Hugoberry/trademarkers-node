@@ -303,5 +303,17 @@ exports.profileSubmit = async function(req, res, next) {
   
 }
 
+exports.customerVerifyEmail = async function(req, res, next) {
+
+  // let user = await helpers.getLoginUser(req)
+  let countries = await rpoCountry.getAll();
+
+  res.render('customer/verifyEmail', { 
+    title: 'Customer',
+    user: await helpers.getLoginUser(req)
+  });
+
+}
+
 
 

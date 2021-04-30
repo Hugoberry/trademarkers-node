@@ -47,7 +47,7 @@ exports.registration = async function(req, res, next) {
     
   }
 
-
+  // console.log('asd');
   res.render('order/registrationLanding', {
     layout: 'layouts/public-layout-default', 
     title: 'registration',
@@ -81,15 +81,27 @@ exports.registrationProceed = async function(req, res, next) {
     
   }
 
-  let price = await rpoPrice.findPriceByCountry(country[0].id,serviceType);
+  let prices = await rpoPrice.findPriceByCountry(country[0].id,serviceType);
+  let price;
+  // console.log(price);
 
-  // console.log(prices);
+  // console.log(serviceType);
+  if ( serviceType == "monitoring" ) {
+    price = {
+      initial_cost:150,
+      additional_cost:0,
+      logo_initial_cost:0,
+      logo_additional_cost:0
+    }
+  } else {
+    price = prices[0]
+  }
 
   res.render('order/registration', {
     layout: 'layouts/public-layout-default', 
     title: 'registration',
     country: country[0],
-    price: price[0],
+    price: price,
     classes: classes,
     serviceType: serviceType,
     countries: countries,
@@ -129,15 +141,27 @@ exports.validateOrder = async function(req, res, next) {
     type = "Registration"
   } else if(req.body.serviceType == "study") {
     type = "Study"
+  } else if(req.body.serviceType == "monitoring") {
+    type = "Monitoring"
   } else {
     // redirect to registration landing
   }
 
   let prices = await rpoPrices.findPriceByCountry(req.body.countryId * 1, type);
   let country = await rpoCountries.getById(req.body.countryId * 1);
-  // prices.forEach(element => {
-  //   rpoPrices.put(element);
-  // });
+  
+  let price;
+
+  if ( type == "Monitoring" ) {
+    price = {
+      initial_cost:150,
+      additional_cost:0,
+      logo_initial_cost:150,
+      logo_additional_cost:0
+    }
+  } else {
+    price = prices[0]
+  }
 
   let uploadPath;
   let logo_pic;
@@ -163,7 +187,7 @@ exports.validateOrder = async function(req, res, next) {
   let data = {
     type: req.body.type,
     noClass: req.body.class.length,
-    price: prices[0]
+    price: price
   }
   console.log(data);
   let amount = helpers.calculatePrice(data);
@@ -189,23 +213,40 @@ exports.addToCart = async function(req, res, next) {
     type = "Registration"
   } else if(req.body.serviceType == "study") {
     type = "Study"
+  } else if(req.body.serviceType == "monitoring") {
+    type = "Monitoring"
   } else {
     // redirect to registration landing
   }
 
   let prices = await rpoPrices.findPriceByCountry(req.body.countryId * 1, type);
+  let price;
+
+  console.log(type);
+  if ( type == "Monitoring" ) {
+    price = {
+      initial_cost:150,
+      additional_cost:0,
+      logo_initial_cost:150,
+      logo_additional_cost:0
+    }
+  } else {
+    price = prices[0]
+  }
 
   // calculate price ask helpers.js
   let dataPrice = {
     type: req.body.type,
     noClass: req.body.class.length,
-    price: prices[0]
+    price: price
   }
 
   let country = await rpoCountries.getById(req.body.countryId * 1);
   let amount = helpers.calculatePrice(dataPrice);
   let currentUser = await helpers.getLoginUser(req)
   let newInsertedUser;
+
+  // console.log(amount);
 
   // VERSION 2 MODIFICATION
   if ( req.body.customerType == 'new') {

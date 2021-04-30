@@ -3,29 +3,30 @@
     </h2>
 
     <% if(trademark) { %>
+
+    <div class="ar-cname ar-info-line">Order #: <strong style="text-transform: capitalize;"><%= trademark.orderCode %></strong></div>
+    <div class="ar-cname ar-info-line">Trademark: <strong style="text-transform: capitalize;"><%= trademark.mark %></strong></div>
+    <div class="ar-cname ar-info-line">Status: <strong style="text-transform: capitalize;"><%= trademark.status %></strong></div>
+    <div class="ar-cname ar-info-line">Status Date: <strong style="text-transform: capitalize;"><%= moment(trademark.statusDateFormatted).format('MMM D, YYYY') %></strong></div>
+    <div class="ar-cname ar-info-line">Status Description: <strong style="text-transform: capitalize;"><%= trademark.statusDescription %></strong></div>
+    <div class="ar-cname ar-info-line">Service: <strong style="text-transform: capitalize;"><%= trademark.serviceType %></strong></div>
+    
+    <% if( trademark.registrationNumber ) { %>
+    <div class="ar-cname ar-info-line">Registration Number: <strong style="text-transform: capitalize;"><%= trademark.registrationNumber %></strong></div>
+    <% } %>
+
     <form class="row" action="/njs-admin/manage/trademark/edit/<%= trademark._id %>" method="post" encType="multipart/form-data">
 
     
 
         <div class="col-md-12">
-
-            <div class="form-group">
-                <label>Trademark</label>
-                <input type="text" class="form-control" value="<%= trademark.mark %>" placeholder="" name="mark" disabled>
-            </div>
+            <hr>
 
             <div class="form-group">
                 <label>Serial Number</label>
                 <input type="text" class="form-control" value="<%= trademark.serialNumber %>" placeholder="" name="serialNumber">
             </div>
 
-            <div class="form-group">
-                <label>Registration Number</label>
-                <input type="text" class="form-control" value="<%= trademark.registrationNumber %>" placeholder="" name="registrationNumber" disabled>
-            </div>
-
-
-            <hr>
         </div>
 
         <div class="col-md-12">
@@ -35,8 +36,15 @@
                 <input type="file" class="form-control" placeholder="" name="certificate" >
             </div>
 
+        </div>
 
+        <div class="col-md-12">
 
+            <div class="form-group">
+                <label>Add Additional Fee(s) <span class="containerAddFeesBtn"><i class="fa fa-plus"></i></span></label>
+                <div id="containerAddFees" class="containerAddFees">
+                </div>
+            </div>
 
         </div>
  

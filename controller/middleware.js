@@ -24,6 +24,26 @@ exports.verify = function(req, res, next){
     }
 }
 
+exports.verifiedEmail = function(req, res, next){
+    
+    console.log('verified');
+    let decode = jwt.decode(req.cookies.jwt, {complete: true});
+
+    let user;
+    if (decode && decode.payload.user) {
+        user = JSON.parse(decode.payload.user);
+        console.log(user);
+        if ( !user.email_verified_at ) {
+            // res.redirect('/customer/verify'); 
+        }
+    } else {
+        // res.redirect('/customer/verify'); 
+    }
+
+    next()
+
+}
+
 exports.guardResearcher = function(req, res, next){
     let accessToken = req.cookies.jwt
 

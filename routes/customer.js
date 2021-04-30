@@ -1,22 +1,26 @@
 var express = require('express');
 var router = express.Router();
-const {verify} = require('../controller/middleware');
+const {verify, verifiedEmail} = require('../controller/middleware');
 
 const controller = require('../controller/customerController')
 
 router.get('/', verify, controller.index);
 
-router.get('/TC-:id-7C', controller.updateCustomerForm);
-router.post('/TC-:id-7C/submit', controller.updateCustomerFormSubmit);
+router.get('/TC-:id-7C', verifiedEmail,controller.updateCustomerForm);
+router.post('/TC-:id-7C/submit', verifiedEmail,controller.updateCustomerFormSubmit);
 
-router.get('/orders', controller.orders);
-router.get('/orders/:id', controller.orderDetail);
+router.get('/orders', verifiedEmail,controller.orders);
+router.get('/orders/:id', verifiedEmail,controller.orderDetail);
 
-router.get('/profile', controller.profile);
-router.get('/profile/edit', controller.profileEdit);
-router.post('/profile/edit/submit', controller.profileSubmit);
+router.get('/profile', verifiedEmail,controller.profile);
+router.get('/profile/edit', verifiedEmail,controller.profileEdit);
+router.post('/profile/edit/submit', verifiedEmail,controller.profileSubmit);
 
-router.get('/dashboard', verify, controller.redirect);
+router.get('/verify', verify, controller.customerVerifyEmail);
+
+router.get('/dashboard', verifiedEmail, controller.redirect);
+
+
 
 
 

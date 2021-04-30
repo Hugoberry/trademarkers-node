@@ -27,7 +27,7 @@ $( document ).ready(function() {
       $("#add-block").hide();
     }
   });
-// alert();
+
 
 
   if ( $("#myListDataTable").length ) {
@@ -54,5 +54,22 @@ $( document ).ready(function() {
       // return false;
     });
   }
+
+  if ( $("#containerAddFees").length ) {
+
+  }
+
+  $(".containerAddFeesBtn").click(function(){
+    
+    var field = `
+        <div class="row" style="margin-top:10px">
+          <input type="hidden" name="serviceId" value="">
+          <div class="col-md-4"><input type="number" class="form-control" placeholder="Service Amount" name="addAmount" ></div>
+          <div class="col-md-8"><textarea class="form-control" placeholder="Service Description" name="addAmountDescription" ></textarea></div>
+        </div>`;
+
+    $("#containerAddFees").append(field);
+  
+  });
 
 })

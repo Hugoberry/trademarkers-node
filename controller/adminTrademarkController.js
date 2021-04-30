@@ -1,4 +1,5 @@
 var rpo = require('../repositories/mongoTrademarks');
+var rpoAddedServices = require('../repositories/trademarkAddedServices');
 var rpoUser = require('../repositories/users');
 
 var mailService = require('../services/mailerService');
@@ -20,6 +21,32 @@ exports.index = async function(req, res, next) {
     layout: 'layouts/admin-layout', 
     title: 'Admin Dashboard',
     trademarks: trademarks
+  });
+    
+}
+
+exports.show = async function(req, res, next) {
+
+  let id = req.params['id'];
+
+  // call crawl service to update record
+  
+
+  let trademarks = await rpo.getById(id);
+
+
+
+
+  // CHECK SERIAL NUMBER IF FOUND THEN FETCH UPDATED DATA FROM TSDR
+  if ( trademarks[0].serialNumber ) {
+    let crawl = await crawlerService.fetchTsdr(trademarks[0].serialNumber);
+    trademarks = await rpo.getById(id);
+  }
+  
+  res.render('admin/trademark/view', { 
+    layout: 'layouts/admin-layout', 
+    title: 'Admin Dashboard View',
+    trademark: trademarks[0]
   });
     
 }
@@ -53,9 +80,50 @@ exports.edit = async function(req, res, next) {
 exports.editSubmit = async function(req, res, next) {
 
   let id = req.params['id'];
+  let trademark = await rpo.getById(id);
 
-  let certificate = req.files.certificate;
-  // console.log(certificate);
+  let certificate = req.files ? req.files.certificate : null;
+  // console.log("body", req.body.serviceId.length);
+  let serviceLength = req.body.addAmount.length;
+  // console.log(serviceLength, req.body.addAmount);
+  // let additionalServices = []
+  // for (var key in req.body.addAmount) {
+    // return;
+  for (let key=0; key < serviceLength; key++ ) {
+
+    // check service if paid or emailed to customer
+    if ( req.body.serviceId && req.body.serviceId[key] ) {
+      // exist
+      if ( req.body.status[key] != 'unPaid' ) {
+
+        let serviceData = {
+          addAmount: req.body.addAmount[key],
+          addAmountDescription: req.body.addAmountDescription[key],
+        }
+        console.log('update service', key);
+        await rpoAddedServices.updateDetails(req.body.serviceId[key],serviceData);
+      }
+      
+    } else {
+      // add record
+      let serviceData = {
+        trademarkId: id,
+        addAmount: req.body.addAmount[key],
+        addAmountDescription: req.body.addAmountDescription[key],
+        status: 'unPaid',
+        isMailed: 'no',
+        created_at: toInteger(moment().format('YYMMDD')),
+        created_at_formatted: moment().format()
+      }
+      console.log('add service', key);
+      await rpoAddedServices.put(serviceData);
+    }
+
+    res.flash('success', 'Updated successfully!');
+  }
+
+
+
 
   if ( certificate ) {
 
@@ -88,7 +156,7 @@ exports.editSubmit = async function(req, res, next) {
 
     await rpo.updateDetails(id, data)
 
-    let trademark = await rpo.getById(id);
+    
     let user
 
     if (trademark && !trademark[0].mysqlRecord) {
