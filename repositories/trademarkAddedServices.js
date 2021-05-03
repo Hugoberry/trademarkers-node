@@ -68,18 +68,20 @@ module.exports = {
 	
 	updateDetails: function(id,data) {
 
-		
-		let query = { _id: ObjectID(id) };
-		
-		conn.getDb().collection(_table).updateOne(query,{$set: data }, function(err, result) {
-			if (err) {
-				console.log('Error updating user: ' + err);
-				// res.send({'error':'An error has occurred'});
-			} else {
-				console.log('' + result + ' document(s) updated');
-				// res.send(result);
-			}
-		});
+		return new Promise(function(resolve, reject) {
+            console.log("id", id);
+            let query = { _id: ObjectID(id) };
+            console.log("query", query._id);
+            conn.getDb().collection(_table).updateOne(query,{$set: data }, function(err, result) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result)
+                    // res.send(result);
+                }
+            });
+            
+        });
 
 	},
 	
@@ -99,7 +101,26 @@ module.exports = {
 
 		})
 
-	},
+    },
+    
+    remove: async function(id) {
+
+		return new Promise(function(resolve, reject) {
+
+			let query = { _id: ObjectID(id) };
+
+			conn.getDb().collection(_table).deleteOne(query, function(err, result) {
+				if (result) {
+					console.log('ok');
+					resolve(result)
+				} else {
+					console.log('err', err.message);
+					reject(err);
+				}
+			});
+		});
+
+    }
 
 	
 	

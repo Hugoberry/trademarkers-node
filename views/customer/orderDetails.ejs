@@ -15,6 +15,38 @@
                   </div>
                 </div>
 
+                <% if( trademark.otherServices ) { %>
+                  <div class="ard-wrap stp-row">
+
+                    <h3>Services needed to continue your order process</h3>
+
+                    <table class="table">
+                      <tr>
+                        <th>Amount</th>
+                        <th>Description</th>
+                        <th>Action</th>
+                      </tr>
+                    <% trademark.otherServices.forEach(function(otherService,key) { %>
+                      <tr>
+                        <th><%= otherService.addAmount %></th>
+                        <th><%= otherService.addAmountDescription %></th>
+                        <th>
+                          <%
+                            let isAble = otherService.status == "unPaid" ? true : false; 
+                          %>
+
+                          <% if (isAble) { %>
+                            <button class="btn btn-primary serviceAddCart" data-attr-id="<%= trademark._id %>" data-attr-serviceId="<%= otherService._id %>" >Add to Cart</button>
+                          <% } else { %>
+                            <i>No Action needed</i>
+                          <% } %>
+                        </th>
+                      </tr>
+                    <% }) %>
+                    </table>
+                  </div>
+                <% } %>
+
                 <div class="ard-wrap stp-row">
 
                   <% if( trademark.mark ) { %>

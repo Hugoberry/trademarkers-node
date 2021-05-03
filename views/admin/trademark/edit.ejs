@@ -43,6 +43,32 @@
             <div class="form-group">
                 <label>Add Additional Fee(s) <span class="containerAddFeesBtn"><i class="fa fa-plus"></i></span></label>
                 <div id="containerAddFees" class="containerAddFees">
+
+                    <% if( trademark.otherServices ) { %>
+                        <div class="row" style="margin-top:10px">
+                            <div class="col-md-2">Amount</div>
+                            <div class="col-md-5">Description</div>
+                            <div class="col-md-2">Emailed</div>
+                            <div class="col-md-2">Status</div>
+                            <div class="col-md-1">Action</div>
+                        </div>
+                    <% trademark.otherServices.forEach(function(addedService,key) { %>
+                        <div class="row" style="margin-top:10px">
+                            <input type="hidden" name="serviceId" value="<%= addedService._id %>">
+                            <div class="col-md-2"><input type="number" class="form-control" placeholder="Service Amount" name="addAmount" value="<%= addedService.addAmount %>"></div>
+                            <div class="col-md-5"><textarea class="form-control" placeholder="Service Description" name="addAmountDescription" ><%= addedService.addAmountDescription %></textarea></div>
+                            <div class="col-md-2"><input type="hidden" name="isMailed" value="<%= addedService.isMailed %>"><%= addedService.isMailed %></div>
+                            <div class="col-md-2">
+                                <select class="form-control" name="status">
+                                    <option value="paid" <%= addedService.status == 'paid' ? 'selected' : '' %>>Paid</option>
+                                    <option value="unPaid" <%= addedService.status == 'unPaid' ? 'selected' : '' %>>unPaid</option>
+                                </select>
+                            </div>
+                            <div class="col-md-1"><i class="fa fa-trash deleteService" data-attr-id="<%= addedService._id %>"></i></div>
+                        </div>
+                    <% }) %>
+                    <% } %>
+
                 </div>
             </div>
 

@@ -29,12 +29,16 @@ exports.show = async function(req, res, next) {
 
   let id = req.params['id'];
 
-  // call crawl service to update record
-  
+  // fetch trademark added services
+  let otherServices = await rpoAddedServices.getByTrademarkId(id);
+
+  let otherServicesData = {
+    otherServices : otherServices
+  }
+
+  await rpo.updateDetails(id, otherServicesData);
 
   let trademarks = await rpo.getById(id);
-
-
 
 
   // CHECK SERIAL NUMBER IF FOUND THEN FETCH UPDATED DATA FROM TSDR
@@ -43,7 +47,7 @@ exports.show = async function(req, res, next) {
     trademarks = await rpo.getById(id);
   }
   
-  res.render('admin/trademark/view', { 
+  res.render('admin/trademark/view', {
     layout: 'layouts/admin-layout', 
     title: 'Admin Dashboard View',
     trademark: trademarks[0]
@@ -55,7 +59,14 @@ exports.edit = async function(req, res, next) {
 
   let id = req.params['id'];
 
-  // call crawl service to update record
+  // fetch trademark added services
+  let otherServices = await rpoAddedServices.getByTrademarkId(id);
+
+  let otherServicesData = {
+    otherServices : otherServices
+  }
+
+  await rpo.updateDetails(id, otherServicesData);
   
 
   let trademarks = await rpo.getById(id);
@@ -83,26 +94,43 @@ exports.editSubmit = async function(req, res, next) {
   let trademark = await rpo.getById(id);
 
   let certificate = req.files ? req.files.certificate : null;
-  // console.log("body", req.body.serviceId.length);
+
   let serviceLength = req.body.addAmount.length;
-  // console.log(serviceLength, req.body.addAmount);
-  // let additionalServices = []
-  // for (var key in req.body.addAmount) {
-    // return;
+
   for (let key=0; key < serviceLength; key++ ) {
 
     // check service if paid or emailed to customer
-    if ( req.body.serviceId && req.body.serviceId[key] ) {
-      // exist
-      if ( req.body.status[key] != 'unPaid' ) {
+    if ( req.body.serviceId[key] ) {
 
+      if ( serviceLength == 1 ) {
+        let serviceData = {
+          addAmount: req.body.addAmount,
+          addAmountDescription: req.body.addAmountDescription,
+          status: req.body.status
+        }
+
+        await rpoAddedServices.updateDetails(req.body.serviceId,serviceData);
+      } else {
         let serviceData = {
           addAmount: req.body.addAmount[key],
           addAmountDescription: req.body.addAmountDescription[key],
+          status: req.body.status[key],
         }
-        console.log('update service', key);
+
         await rpoAddedServices.updateDetails(req.body.serviceId[key],serviceData);
       }
+      // exist
+      // console.log(serviceLength);
+      // if ( req.body.status && req.body.status[key] != 'unPaid' ) {
+
+      //   let serviceData = {
+      //     addAmount: req.body.addAmount[key],
+      //     addAmountDescription: req.body.addAmountDescription[key],
+      //     status: req.body.status[key],
+      //   }
+      //   console.log('update service', serviceData);
+      //   await rpoAddedServices.updateDetails(req.body.serviceId[key],serviceData);
+      // }
       
     } else {
       // add record
@@ -173,12 +201,32 @@ exports.editSubmit = async function(req, res, next) {
   }
 
 
+  let otherServices = await rpoAddedServices.getByTrademarkId(id);
+
+  let otherServicesData = {
+    otherServices : otherServices
+  }
+
+  await rpo.updateDetails(id, otherServicesData);
+
   
   res.redirect('/njs-admin/manage/trademark/');
   // let event = await rpoEvent.getResearcherEventById(req.params['id']);
   
   // res.render('researcher/events-view', { layout: 'layouts/public-layout-researcher', title: 'Researcher', event: event[0] });
     
+}
+
+exports.deleteService = async function(req, res, next) {
+
+  // console.log(req.body);
+
+  let result = await rpoAddedServices.remove(req.body.id)
+
+  // console.log(result);
+
+  res.json(result);
+
 }
 
 

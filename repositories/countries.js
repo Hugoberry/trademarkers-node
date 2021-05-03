@@ -111,5 +111,24 @@ module.exports = {
 		});
 	},
 
+	getByNameMySQL : async function(name) {
+		return new Promise(function(resolve, reject) {
+
+			
+			// return new Promise(function(resolve, reject) {
+
+				connection.query('SELECT * FROM countries WHERE name="'+name+'"',function(err,res,fields) {
+					if (err) {
+						reject(err);
+				   } else {
+						resolve(res);
+				   }
+				});
+				
+			// });
+
+		});
+	},
+
 
 };

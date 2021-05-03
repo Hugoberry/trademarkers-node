@@ -34,17 +34,29 @@ exports.registration = async function(req, res, next) {
   if ( countryName ) {
 
     countryName = countryName.replace(/_/g, ' ')
+    console.log(countryName);
     country = await rpoCountries.getByName(countryName)
     console.log(countryName,country.length);
 
     
-    if (!country) {
+    if (country.length <= 0) {
       // redirect to register
+      console.log('not found');
+      // search in mysql
+      let countryMySql = await rpoCountries.getByNameMySQL(countryName);
+      console.log("country",countryMySql);
+      country = countryMySql;
+
+      prices = await rpoPrice.findPriceByCountryId(country[0].id);
+
+      rpoCountries.putCountry(countryMySql[0])
+
     } else {
+      country = await rpoCountries.getByName(countryName)
       prices = await rpoPrice.findPriceByCountryId(country[0].id);
     }
 
-    
+    // http://localhost:4200/trademark-registration-in-antigua_and_barbuda
   }
 
   // console.log('asd');

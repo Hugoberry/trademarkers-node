@@ -4,169 +4,195 @@
 
     <% if(trademark) { %>
 
-        <div class="col-12">
-            <div class="ar-wrap qa-stp">
-             
-
-              <div class="ard-wrap stp-row">
-
-                <% if( trademark.orderCode ) { %>
-                  <div class="ar-cname ar-info-line">Order #: <strong style="text-transform: capitalize;"><%= trademark.orderCode %></strong></div>
-                <% } %>
-
-                <% if( trademark.mark ) { %>
-                <div class="ar-cname ar-info-line">Trademark: <strong style="text-transform: capitalize;"><%= trademark.mark %></strong></div>
-                <% } %>
-
-                <% if( trademark.status ) { %>
-                <div class="ar-cname ar-info-line">Status: <strong style="text-transform: capitalize;"><%= trademark.status %></strong></div>
-                <% } %>
-
-                <% if( trademark.statusDateFormatted ) { %>
-                <div class="ar-cname ar-info-line">Status Date: <strong style="text-transform: capitalize;"><%= moment(trademark.statusDateFormatted).format('MMM D, YYYY') %></strong></div>
-                <% } %>
-
-                <% if( trademark.statusDescription ) { %>
-                <div class="ar-cname ar-info-line">Status Description: <strong style="text-transform: capitalize;"><%= trademark.statusDescription %></strong></div>
-                <% } %>
-
-                <% if( trademark.serviceType ) { %>
-                  <div class="ar-cname ar-info-line">Service: <strong style="text-transform: capitalize;"><%= trademark.serviceType %></strong></div>
-                <% } %>
-
-                <% if( trademark.type ) { 
-                  let typeFormat;
-                  
-                  if (trademark.type == 'word') {
-                    typeFormat = 'Word Only'
-                  } else if(trademark.type == 'logo') {
-                    typeFormat = 'Design-Only or Stylized Word-Only (Figurative)'
-                  } else if(trademark.type == 'lword') {
-                    typeFormat = 'Combined Word and Design'
-                  } else {
-                    typeFormat = ''
-                  }
-                %>
-                  <div class="ar-cname ar-info-line">Trademark Type: <strong><%= typeFormat %></strong></div>
-                <% } %>
-
-                <% if( trademark.commerce ) { %>
-                  <div class="ar-cname ar-info-line">Used in commerce: <strong style="text-transform: capitalize;"><%= trademark.commerce %></strong></div>
-                <% } %>
-
-                <% if( trademark.filed == 'yes' ) { %>
-                  <div class="ar-cname ar-info-line">Have you filed your trademark application in any other country within the last 6 months?: <strong style="text-transform: capitalize;"><%= trademark.commerce %></strong></div>
-                  <div class="ar-cname ar-info-line">Claim Priority: <strong style="text-transform: capitalize;"><%= trademark.priority %></strong></div>
-
-                  <% if( trademark.priority == 'yes' ) { %>
-                    <div class="ar-cname ar-info-line">Country of Origin: <strong><%= trademark.origin %></strong></div>
-                    <div class="ar-cname ar-info-line">Date: <strong><%= trademark.originDate %></strong></div>
-                    <div class="ar-cname ar-info-line">Serial Number: <strong><%= trademark.originTm %></strong></div>
-                  <% } %>
-
-                <% } %>
-
-                <% if( trademark.colorClaim && trademark.colorClaim == 'yes' ) { %>
-
-                  <div class="ar-cname ar-info-line">Color Claim: <strong style="text-transform: capitalize;"><%= trademark.colorClaimText %></strong></div>
-
-                <% } %>
-
-              </div>
-
-              <% if( trademark.serialNumber ) { %>
-              <div class="ard-wrap stp-row">
-                
-                <% if( trademark.serialNumber ) { %>
-                  <div class="ar-cname ar-info-line">Serial Number: <span class="ar-value"><%= trademark.type %></span></div>
-                <% } %>
-
-                <% if( trademark.registrationNumber ) { %>
-                  <div class="ar-cname ar-info-line">Registration Number: <span class="ar-value"><%= trademark.registrationNumber %></span></div>
-                <% } %>
-
-                <% if( trademark.registrationDate ) { %>
-                  <div class="ar-cname ar-info-line">Registration Date: <span class="ar-value"><%= trademark.registrationDate %></span></div>
-                <% } %>
-
-                <% if( trademark.publicationDate ) { %>
-                  <div class="ar-cname ar-info-line">Publication Date: <span class="ar-value"><%= moment(trademark.publicationDateFormatted).format('MMM D, YYYY') %></span></div>
-                <% } %>
-
-                <% if( trademark.documents && trademark.documents.length > 0 ) { %>
-                  <div class="ar-cname ar-info-line">Documents: </div>
-                  <ul>
-                  <% trademark.documents.forEach(function(document,key) { %>
-                    <li>
-                      <%= document.date %><a href="<%= document.link %>" target="_blank"><%= document.label %></a>
-                      
-                    </li>
-                  <% }) %>
-                  </ul>
-                <% } %>
-
-                
-              </div>
-              <% } %>
-
-              <% if( trademark.nature == "Company" ) { %>
-                <div class="ard-wrap stp-row">
-                  <div class="ar-box-head"><h3>Company Information</h3></div>
-                  <% if( trademark.company ) { %>
-                    <div class="ar-cname ar-info-line">Company: <strong><%= trademark.company %></strong></div>
-                  <% } %>
-
-                  
-                  <div class="ar-cname ar-info-line">Street: <strong><%= trademark.companyStreet %></strong></div>
-                  <div class="ar-cname ar-info-line">City: <strong><%= trademark.companyCity %></strong></div>
-                  <div class="ar-cname ar-info-line">State: <strong><%= trademark.companyState %></strong></div>
-                  <div class="ar-cname ar-info-line">Postal Code: <strong><%= trademark.companyZipCode %></strong></div>
-                  <div class="ar-cname ar-info-line">Country: <strong><%= trademark.companyCountry %></strong></div>
-                 
-                  <div class="ar-box-head"><h3>Representative Information</h3></div>
-                  <div class="ar-cname ar-info-line">Representative Name: <strong><%= trademark.fname %> <%= trademark.lname %></strong></div>
-                  <div class="ar-cname ar-info-line">Representative Phone: <strong><%= trademark.phone %></strong></div>
-                  <div class="ar-cname ar-info-line">Representative Fax: <strong><%= trademark.fax %></strong></div>
-                  <div class="ar-cname ar-info-line">Representative Position: <strong><%= trademark.position %></strong></div>
-                  
-                  <div class="ar-cname ar-info-line">Representative Street: <strong><%= trademark.repStreet %></strong></div>
-                  <div class="ar-cname ar-info-line">Representative City: <strong><%= trademark.repCity %></strong></div>
-                  <div class="ar-cname ar-info-line">Representative State: <strong><%= trademark.repState %></strong></div>
-                  <div class="ar-cname ar-info-line">Representative Postal Code: <strong><%= trademark.repZipCode %></strong></div>
-                  <div class="ar-cname ar-info-line">Representative Country: <strong><%= trademark.repCountry %></strong></div>
-           
-
-                </div>
-              <% } %>
-
-              <% if( trademark.nature == "Individual" ) { %>
-                <div class="ard-wrap stp-row">
-
-                  <div class="ar-box-head"><h3>Contact Information</h3></div>
-                  <div class="ar-cname ar-info-line">Name: <strong><%= trademark.fname %> <%= trademark.lname %></strong></div>
-                  <div class="ar-cname ar-info-line">Phone: <strong><%= trademark.phone %></strong></div>
-                  <div class="ar-cname ar-info-line">Fax: <strong><%= trademark.fax %></strong></div>
-                  <div class="ar-cname ar-info-line">Position: <strong><%= trademark.position %></strong></div>
-                  
-                  <div class="ar-cname ar-info-line">Street: <strong><%= trademark.repStreet %></strong></div>
-                  <div class="ar-cname ar-info-line">City: <strong><%= trademark.repCity %></strong></div>
-                  <div class="ar-cname ar-info-line">State: <strong><%= trademark.repState %></strong></div>
-                  <div class="ar-cname ar-info-line">Postal Code: <strong><%= trademark.repZipCode %></strong></div>
-                  <div class="ar-cname ar-info-line">Country: <strong><%= trademark.repCountry %></strong></div>
-
-                </div>
-              <% } %>
-
-            </div>
-        </div>
- 
+    <div class="col-12">
+      <div class="ar-wrap qa-stp">
         
+        <div class="ard-wrap stp-row">
 
-        <div class="col-md-12">
-            <p class="text-center">
-                <a class="btn btn-primary btn-rounded-primary" style="padding-left:40px;padding-right:40px;" href="/njs-admin/manage/trademark/edit/<%= trademark._id %>">Edit</a>
-            </p>
+          <% if( trademark.orderCode ) { %>
+            <div class="ar-cname ar-info-line">Order #: <strong style="text-transform: capitalize;"><%= trademark.orderCode %></strong></div>
+          <% } %>
+
+          <% if( trademark.mark ) { %>
+          <div class="ar-cname ar-info-line">Trademark: <strong style="text-transform: capitalize;"><%= trademark.mark %></strong></div>
+          <% } %>
+
+          <% if( trademark.status ) { %>
+          <div class="ar-cname ar-info-line">Status: <strong style="text-transform: capitalize;"><%= trademark.status %></strong></div>
+          <% } %>
+
+          <% if( trademark.statusDateFormatted ) { %>
+          <div class="ar-cname ar-info-line">Status Date: <strong style="text-transform: capitalize;"><%= moment(trademark.statusDateFormatted).format('MMM D, YYYY') %></strong></div>
+          <% } %>
+
+          <% if( trademark.statusDescription ) { %>
+          <div class="ar-cname ar-info-line">Status Description: <strong style="text-transform: capitalize;"><%= trademark.statusDescription %></strong></div>
+          <% } %>
+
+          <% if( trademark.serviceType ) { %>
+            <div class="ar-cname ar-info-line">Service: <strong style="text-transform: capitalize;"><%= trademark.serviceType %></strong></div>
+          <% } %>
+
+          <% if( trademark.type ) { 
+            let typeFormat;
+            
+            if (trademark.type == 'word') {
+              typeFormat = 'Word Only'
+            } else if(trademark.type == 'logo') {
+              typeFormat = 'Design-Only or Stylized Word-Only (Figurative)'
+            } else if(trademark.type == 'lword') {
+              typeFormat = 'Combined Word and Design'
+            } else {
+              typeFormat = ''
+            }
+          %>
+            <div class="ar-cname ar-info-line">Trademark Type: <strong><%= typeFormat %></strong></div>
+          <% } %>
+
+          <% if( trademark.commerce ) { %>
+            <div class="ar-cname ar-info-line">Used in commerce: <strong style="text-transform: capitalize;"><%= trademark.commerce %></strong></div>
+          <% } %>
+
+          <% if( trademark.filed == 'yes' ) { %>
+            <div class="ar-cname ar-info-line">Have you filed your trademark application in any other country within the last 6 months?: <strong style="text-transform: capitalize;"><%= trademark.commerce %></strong></div>
+            <div class="ar-cname ar-info-line">Claim Priority: <strong style="text-transform: capitalize;"><%= trademark.priority %></strong></div>
+
+            <% if( trademark.priority == 'yes' ) { %>
+              <div class="ar-cname ar-info-line">Country of Origin: <strong><%= trademark.origin %></strong></div>
+              <div class="ar-cname ar-info-line">Date: <strong><%= trademark.originDate %></strong></div>
+              <div class="ar-cname ar-info-line">Serial Number: <strong><%= trademark.originTm %></strong></div>
+            <% } %>
+
+          <% } %>
+
+          <% if( trademark.colorClaim && trademark.colorClaim == 'yes' ) { %>
+
+            <div class="ar-cname ar-info-line">Color Claim: <strong style="text-transform: capitalize;"><%= trademark.colorClaimText %></strong></div>
+
+          <% } %>
+
         </div>
+
+        <% if( trademark.serialNumber ) { %>
+        <div class="ard-wrap stp-row">
+          
+          <% if( trademark.serialNumber ) { %>
+            <div class="ar-cname ar-info-line">Serial Number: <span class="ar-value"><%= trademark.type %></span></div>
+          <% } %>
+
+          <% if( trademark.registrationNumber ) { %>
+            <div class="ar-cname ar-info-line">Registration Number: <span class="ar-value"><%= trademark.registrationNumber %></span></div>
+          <% } %>
+
+          <% if( trademark.registrationDate ) { %>
+            <div class="ar-cname ar-info-line">Registration Date: <span class="ar-value"><%= trademark.registrationDate %></span></div>
+          <% } %>
+
+          <% if( trademark.publicationDate ) { %>
+            <div class="ar-cname ar-info-line">Publication Date: <span class="ar-value"><%= moment(trademark.publicationDateFormatted).format('MMM D, YYYY') %></span></div>
+          <% } %>
+
+          <% if( trademark.documents && trademark.documents.length > 0 ) { %>
+            <div class="ar-cname ar-info-line">Documents: </div>
+            <ul>
+            <% trademark.documents.forEach(function(document,key) { %>
+              <li>
+                <%= document.date %><a href="<%= document.link %>" target="_blank"><%= document.label %></a>
+                
+              </li>
+            <% }) %>
+            </ul>
+          <% } %>
+
+          
+        </div>
+        <% } %>
+
+        <% if( trademark.nature == "Company" ) { %>
+          <div class="ard-wrap stp-row">
+            <div class="ar-box-head"><h3>Company Information</h3></div>
+            <% if( trademark.company ) { %>
+              <div class="ar-cname ar-info-line">Company: <strong><%= trademark.company %></strong></div>
+            <% } %>
+
+            
+            <div class="ar-cname ar-info-line">Street: <strong><%= trademark.companyStreet %></strong></div>
+            <div class="ar-cname ar-info-line">City: <strong><%= trademark.companyCity %></strong></div>
+            <div class="ar-cname ar-info-line">State: <strong><%= trademark.companyState %></strong></div>
+            <div class="ar-cname ar-info-line">Postal Code: <strong><%= trademark.companyZipCode %></strong></div>
+            <div class="ar-cname ar-info-line">Country: <strong><%= trademark.companyCountry %></strong></div>
+            
+            <div class="ar-box-head"><h3>Representative Information</h3></div>
+            <div class="ar-cname ar-info-line">Representative Name: <strong><%= trademark.fname %> <%= trademark.lname %></strong></div>
+            <div class="ar-cname ar-info-line">Representative Phone: <strong><%= trademark.phone %></strong></div>
+            <div class="ar-cname ar-info-line">Representative Fax: <strong><%= trademark.fax %></strong></div>
+            <div class="ar-cname ar-info-line">Representative Position: <strong><%= trademark.position %></strong></div>
+            
+            <div class="ar-cname ar-info-line">Representative Street: <strong><%= trademark.repStreet %></strong></div>
+            <div class="ar-cname ar-info-line">Representative City: <strong><%= trademark.repCity %></strong></div>
+            <div class="ar-cname ar-info-line">Representative State: <strong><%= trademark.repState %></strong></div>
+            <div class="ar-cname ar-info-line">Representative Postal Code: <strong><%= trademark.repZipCode %></strong></div>
+            <div class="ar-cname ar-info-line">Representative Country: <strong><%= trademark.repCountry %></strong></div>
+      
+
+          </div>
+        <% } %>
+
+        <% if( trademark.nature == "Individual" ) { %>
+          <div class="ard-wrap stp-row">
+
+            <div class="ar-box-head"><h3>Contact Information</h3></div>
+            <div class="ar-cname ar-info-line">Name: <strong><%= trademark.fname %> <%= trademark.lname %></strong></div>
+            <div class="ar-cname ar-info-line">Phone: <strong><%= trademark.phone %></strong></div>
+            <div class="ar-cname ar-info-line">Fax: <strong><%= trademark.fax %></strong></div>
+            <div class="ar-cname ar-info-line">Position: <strong><%= trademark.position %></strong></div>
+            
+            <div class="ar-cname ar-info-line">Street: <strong><%= trademark.repStreet %></strong></div>
+            <div class="ar-cname ar-info-line">City: <strong><%= trademark.repCity %></strong></div>
+            <div class="ar-cname ar-info-line">State: <strong><%= trademark.repState %></strong></div>
+            <div class="ar-cname ar-info-line">Postal Code: <strong><%= trademark.repZipCode %></strong></div>
+            <div class="ar-cname ar-info-line">Country: <strong><%= trademark.repCountry %></strong></div>
+
+          </div>
+        <% } %>
+
+      </div>
+    </div>
+
+    <% if( trademark.otherServices ) { %>
+    <div class="col-md-12">
+      <hr>
+      <div class="ar-box-head"><h3>Added Services</h3></div>
+
+      <div class="ard-wrap stp-row">
+        <table class="table">
+          <tr>
+            <th>Name</th>
+            <th>Amount</th>
+            <th>Notify</th>
+            <th>Status</th>
+          </tr>
+        <% trademark.otherServices.forEach(function(addedService,key) { %>
+          <tr>
+            <th><%= addedService.addAmountDescription %></th>
+            <th><%= addedService.addAmount %></th>
+            <th><%= addedService.isMailed %></th>
+            <th><%= addedService.status %></th>
+          </tr>
+        <% }) %>
+        </table>
+      </div>
+
+    </div>
+    <% } %>
+
+    
+
+    <div class="col-md-12">
+      <p class="text-center">
+        <a class="btn btn-primary btn-rounded-primary" style="padding-left:40px;padding-right:40px;" href="/njs-admin/manage/trademark/edit/<%= trademark._id %>">Edit</a>
+      </p>
+    </div>
 
     <% } %>
 </div>
