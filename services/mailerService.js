@@ -358,7 +358,7 @@ exports.sendOrderNotification = async function(order) {
           // to: "info@trademarkers.com",
           // bcc: ["carissa@trademarkers.com", "billing-trademarkers@moas.com","felix@bigfoot.com"],
           to: "felix@trademarkers.com",
-          bcc: ["febongo@gmail.com", "felix@bigfoot.com"],
+          bcc: ["carissa@trademarkers.com", "felix@bigfoot.com"],
           subject: "New order | " + order.charge.description, 
           html: data
         };
@@ -375,7 +375,7 @@ exports.sendOrderNotification = async function(order) {
 
 
 exports.sendSouSummary = async function(mailData) {
-  console.log(mailData);
+  // console.log(mailData);
   // return;
   ejs.renderFile(__dirname+"/../email-templates/souSummaryNotification.ejs", { mailData: mailData }, async function (err, data) {
     if (err) {
