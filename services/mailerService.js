@@ -365,7 +365,7 @@ exports.sendOrderNotification = async function(order) {
 
         transporter.sendMail(mainOptions);
       // })
-       
+      //  
     }
     
   });
