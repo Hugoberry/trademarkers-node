@@ -69,9 +69,9 @@ module.exports = {
 	updateDetails: function(id,data) {
 
 		return new Promise(function(resolve, reject) {
-            console.log("id", id);
+            // console.log("id", id);
             let query = { _id: ObjectID(id) };
-            console.log("query", query._id);
+            // console.log("query", query._id);
             conn.getDb().collection(_table).updateOne(query,{$set: data }, function(err, result) {
                 if (err) {
                     reject(err);

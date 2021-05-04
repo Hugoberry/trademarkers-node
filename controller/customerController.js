@@ -6,6 +6,8 @@ const mysql = require('mysql');
 var rpo = require('../repositories/orders');
 var rpoTm = require('../repositories/trademarks');
 var rpoTmMongo = require('../repositories/mongoTrademarks');
+var rpoTrademarkAddedService = require('../repositories/trademarkAddedServices');
+
 var rpoCountry = require('../repositories/countries');
 var rpoUser = require('../repositories/users');
 var rpoUserMongo = require('../repositories/usersMongo');
@@ -117,6 +119,14 @@ exports.orders = async function(req, res, next) {
 }
 
 exports.orderDetail = async function(req, res, next) {
+
+  let otherServices = await rpoTrademarkAddedService.getByTrademarkId(req.params.id);
+
+  let otherServicesData = {
+    otherServices : otherServices
+  }
+
+  await rpoTmMongo.updateDetails(req.params.id, otherServicesData);
 
   let trademark = await rpoTmMongo.getById(req.params.id);
   console.log(trademark);

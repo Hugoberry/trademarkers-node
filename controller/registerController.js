@@ -12,6 +12,7 @@ var rpoOrder = require('../repositories/orders');
 var rpoUser = require('../repositories/users');
 var rpoUserMongo = require('../repositories/usersMongo');
 var rpoTrademark = require('../repositories/mongoTrademarks');
+var rpoTrademarkAddedService = require('../repositories/trademarkAddedServices');
 var rpoPrice = require('../repositories/prices');
 
 var helpers = require('../helpers');
@@ -41,10 +42,10 @@ exports.registration = async function(req, res, next) {
     
     if (country.length <= 0) {
       // redirect to register
-      console.log('not found');
+      // console.log('not found');
       // search in mysql
       let countryMySql = await rpoCountries.getByNameMySQL(countryName);
-      console.log("country",countryMySql);
+      // console.log("country",countryMySql);
       country = countryMySql;
 
       prices = await rpoPrice.findPriceByCountryId(country[0].id);
@@ -552,56 +553,77 @@ exports.placeOrder = async function(req, res, next) {
         // update cart status
         rpoCartItems.update(items._id, data);
 
+        if (items.serviceType == "Added Trademark Service") {
+
+          // update added service
+          let serviceData = {
+            status : 'paid'
+          }
+          await rpoTrademarkAddedService.updateDetails(items.serviceId, serviceData)
+
+          // let otherServices = await rpoTrademarkAddedService.getByTrademarkId(items.trademarkId);
+          // console.log("id", items.trademarkId)
+          // if (items.trademarkId) {
+          //   let otherServicesData = {
+          //     otherServices : otherServices
+          //   }
+  
+          //   await rpoTrademark.updateDetails(items.trademarkId, otherServicesData);
+          // }
+          
+
+        } else {
         // create trademark from cart item
-        let trademark = {
-          userId: items.userId,
-          orderCode: orderCode,
-          userEmail: items.user.email,
-          serialNumber: null,
-          mark: items.word_mark,
-          serviceType: items.serviceType,
-          type: items.type,
-          class: items.class,
-          description: items.description,
-          country: items.country.name,
-          countryId: items.country.id,
-          colorClaim: items.colorClaim,
-          colorClaimText: items.colorClaimText,
+          let trademark = {
+            userId: items.userId,
+            orderCode: orderCode,
+            userEmail: items.user.email,
+            serialNumber: null,
+            mark: items.word_mark,
+            serviceType: items.serviceType,
+            type: items.type,
+            class: items.class,
+            description: items.description,
+            country: items.country.name,
+            countryId: items.country.id,
+            colorClaim: items.colorClaim,
+            colorClaimText: items.colorClaimText,
 
 
-          nature: items.nature,
-          company: items.company,
-          fname: items.fname,
-          lname: items.lname,
-          phone: items.phone,
-          fax: items.fax,
-          position: items.position,
+            nature: items.nature,
+            company: items.company,
+            fname: items.fname,
+            lname: items.lname,
+            phone: items.phone,
+            fax: items.fax,
+            position: items.position,
 
-          repCountry: items.repCountry,
-          repStreet: items.repStreet,
-          repCity: items.repCity,
-          repState: items.repState,
-          repZipCode: items.repZipCode,
+            repCountry: items.repCountry,
+            repStreet: items.repStreet,
+            repCity: items.repCity,
+            repState: items.repState,
+            repZipCode: items.repZipCode,
 
-          companyCountry: items.companyCountry,
-          companyStreet: items.companyStreet,
-          companyCity: items.companyCity,
-          companyState: items.companyState,
-          companyZipCode: items.companyZipCode,
+            companyCountry: items.companyCountry,
+            companyStreet: items.companyStreet,
+            companyCity: items.companyCity,
+            companyState: items.companyState,
+            companyZipCode: items.companyZipCode,
 
-          commerce: items.commerce,
-          filed: items.filed,
-          priority: items.priority,
-          origin: items.origin,
-          originDate: items.originDate,
-          originTm: items.originTm,
+            commerce: items.commerce,
+            filed: items.filed,
+            priority: items.priority,
+            origin: items.origin,
+            originDate: items.originDate,
+            originTm: items.originTm,
 
-          status: 'pending',
-          created_at: toInteger(moment().format('YYMMDD')),
-          created_at_formatted: moment().format()
+            status: 'pending',
+            created_at: toInteger(moment().format('YYMMDD')),
+            created_at_formatted: moment().format()
+          }
+
+          await rpoTrademark.put(trademark);
         }
-
-        await rpoTrademark.put(trademark);
 
       });
   

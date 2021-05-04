@@ -344,6 +344,7 @@ exports.sendNOA = async function(mailData) {
 
 exports.sendOrderNotification = async function(order) {
 
+  console.log(order);
   // return;
   ejs.renderFile(__dirname+"/../email-templates/orderAdminNotification.ejs", { order: order }, async function (err, data) {
     if (err) {
@@ -362,20 +363,7 @@ exports.sendOrderNotification = async function(order) {
           html: data
         };
 
-        transporter.sendMail(mainOptions, function (err, info) {
-          
-          let res;
-          
-          if (err) {
-            console.log(err);
-            res = err;
-          } else {
-            console.log(info);
-            res = info;
-
-          }
-
-        });
+        transporter.sendMail(mainOptions);
       // })
        
     }

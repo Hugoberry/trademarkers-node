@@ -44,10 +44,11 @@ exports.addService = async function(req, res, next) {
   let trademark = await rpoTrademark.getById(req.body.trademarkId);
   let country = await rpoCountries.getById(trademark[0].countryId);
 
-  console.log(trademark);
+  // console.log(trademark);
   let cartData = {
     serviceType : "Added Trademark Service",
     serviceId : trademarkService[0]._id,
+    trademarkId : trademark[0]._id,
     type: trademark[0].type,
     country: country[0],
     countryId: trademark[0].countryId,
