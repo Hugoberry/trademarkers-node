@@ -29,13 +29,15 @@
                           
                           <% if( mark.pen > 0 ) { %>
                           <div class="ard-row table-ard-wrap table-responsive">
-                            <table class="table table-striped table-bordered caption-top table-hover">
-                                <caption class="ard-row-head"><h2 class="ard-row-title"><span class="flag-icon flag-icon-us"><em class="sr-only"><%= mark.countryName %></em></span><%= mark.countryName %></h2></caption>
+                            <caption class="ard-row-head"><h4 class="ard-row-title"><span class="flag-icon flag-icon-us"><em class="sr-only"><%= mark.countryName %></em></span><%= mark.countryName %></h4></caption>
+                            <table class="table table-striped table-bordered caption-top table-hover" style="font-size:14px">
+                                
                                 <thead>
                                   <tr>
+                                    <th>Order #</th>
                                     <th>App. Date</th>
                                     <th>App. Number</th>
-                                    <th>Reg. Number</th>
+                                    <th>Service</th>
                                     <th>Trademark</th>
                                     <th>Status</th>
                                     <th>Remarks</th>
@@ -46,9 +48,10 @@
                                     
                                     <% if( trademark.status != "Registered" ) { %>
                                     <tr>
-                                      <td><%= moment(trademark.filingDate).format('MMM D, YYYY') %></td>
+                                      <td><%= trademark.orderCode %></td>
+                                      <td><%= trademark.filingDate ? moment(trademark.filingDate).format('MMM D, YYYY') : '-' %></td>
                                       <td><%= trademark.serialNumber %></td>
-                                      <td><%= trademark.registrationNumber %></td>
+                                      <td><%= trademark.serviceType %></td>
                                       <td><a href="/customer/orders/<%= trademark._id %>"><%= trademark.mark %></a></td>
                                       <td><%= trademark.status %></td>
                                       <td><a href="#" class="text-danger"></a></td>
@@ -69,8 +72,8 @@
                         <% trademarks.forEach(function(mark,key) { %>
                           <% if( mark.reg > 0 ) { %>
                           <div class="ard-row table-ard-wrap table-responsive">
-                            <table class="table table-striped table-bordered caption-top table-hover">
-                                <caption class="ard-row-head"><h2 class="ard-row-title"><span class="flag-icon flag-icon-us"><em class="sr-only"><%= mark.countryName %></em></span><%= mark.countryName %></h2></caption>
+                            <caption class="ard-row-head"><h4 class="ard-row-title"><span class="flag-icon flag-icon-us"><em class="sr-only"><%= mark.countryName %></em></span><%= mark.countryName %></h4></caption>
+                            <table class="table table-striped table-bordered caption-top table-hover" style="font-size:14px">
                                 <thead>
                                   <tr>
                                     <th>App. Date</th>
@@ -106,8 +109,8 @@
                         <% trademarks.forEach(function(mark,key) { %>
                           
                           <div class="ard-row table-ard-wrap table-responsive">
-                            <table class="table table-striped table-bordered caption-top table-hover">
-                                <caption class="ard-row-head"><h2 class="ard-row-title"><span class="flag-icon flag-icon-us"><em class="sr-only"><%= mark.countryName %></em></span><%= mark.countryName %></h2></caption>
+                            <caption class="ard-row-head"><h4 class="ard-row-title"><span class="flag-icon flag-icon-us"><em class="sr-only"><%= mark.countryName %></em></span><%= mark.countryName %></h4></caption>
+                            <table class="table table-striped table-bordered caption-top table-hover" style="font-size:14px">
                                 <thead>
                                   <tr>
                                     <th>App. Date</th>
