@@ -3,14 +3,8 @@ let conn = require('../config/DbConnect');
 
 var ObjectID = require('mongodb').ObjectID;
 
-// dirty connection MYSQL
-const mysql = require('mysql');
-const connection = mysql.createConnection({
-    host     : process.env.DBHOST,
-	user     : process.env.DBUSER,
-	password : process.env.DBPASS,
-	database : process.env.DBNAME
-});
+let moment = require('moment');
+const { toInteger } = require('lodash');
 
 module.exports = {
 
@@ -30,6 +24,111 @@ module.exports = {
 			let query = { 
 				userId: ObjectID(userId),
 				status: 'active'
+			};
+
+			let db = conn.getDb();
+			
+			db.collection(_table).find(query).toArray(function(err, result) {
+					
+				if (err) {
+					reject(err);
+				} else {
+					resolve(result);
+				}
+
+			});
+
+		});
+	},
+
+	fetchCustomerActiveCart4hr : async function() {
+		return new Promise(function(resolve, reject) {
+			console.log(moment().subtract("4", "hours").format() );
+			console.log(moment().subtract("3", "hours").format() );
+			let query = { 
+				status: 'active',
+				created_at_formatted: { 
+					$lt : moment().subtract("3", "hours").format(),
+					$gte : moment().subtract("4", "hours").format(),
+				},
+			};
+
+			let db = conn.getDb();
+			
+			db.collection(_table).find(query).toArray(function(err, result) {
+					
+				if (err) {
+					reject(err);
+				} else {
+					resolve(result);
+				}
+
+			});
+
+		});
+	},
+
+	fetchCustomerActiveCart1Day : async function() {
+		return new Promise(function(resolve, reject) {
+
+			let query = { 
+				status: 'active',
+				created_at_formatted: { 
+					$lt : moment().subtract("23", "hours").format(),
+					$gte : moment().subtract("24", "hours").format(),
+				},
+			};
+
+			let db = conn.getDb();
+			
+			db.collection(_table).find(query).toArray(function(err, result) {
+					
+				if (err) {
+					reject(err);
+				} else {
+					resolve(result);
+				}
+
+			});
+
+		});
+	},
+
+	fetchCustomerActiveCart3Day : async function() {
+		return new Promise(function(resolve, reject) {
+
+			let query = { 
+				status: 'active',
+				created_at_formatted: { 
+					$lt : moment().subtract("2", "days").format(),
+					$gte : moment().subtract("3", "days").format(),
+				},
+			};
+
+			let db = conn.getDb();
+			
+			db.collection(_table).find(query).toArray(function(err, result) {
+					
+				if (err) {
+					reject(err);
+				} else {
+					resolve(result);
+				}
+
+			});
+
+		});
+	},
+
+	fetchCustomerActiveCartMonth : async function() {
+		return new Promise(function(resolve, reject) {
+
+			let query = { 
+				status: 'active',
+				created_at_formatted: { 
+					$lt : moment().subtract("29", "days").format(),
+					$gte : moment().subtract("30", "days").format(),
+				},
 			};
 
 			let db = conn.getDb();

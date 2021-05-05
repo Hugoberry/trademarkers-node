@@ -9,6 +9,8 @@ var rpoUserMongo = require('./repositories/usersMongo');
 
 let ObjectID = require('mongodb').ObjectID;
 
+var _ = require('lodash');
+
 exports.convertIntToDate = function(idate) {
 
     let s = idate+"";
@@ -211,5 +213,26 @@ exports.getPriceFormatted = function(price) {
     }
     return amount
 }
+
+exports.fetchUsersFromCartList = async function(items) {
+
+    let users = []
+    await items.forEach(item => { 
+        // let data = {
+        //     userId : item.userId,
+        //     user : 
+        // }
+        users.push(item.userId);
+    })
+
+    return _.uniq(users);
+
+    // let uSet = new Set(users);
+    // console.log([...uSet]);
+    // console.log( "this",_.initial(users) );
+    // return users.filter(function(elem, pos) {
+    //     return users.indexOf(elem) == pos;
+    // })
+} 
 
 

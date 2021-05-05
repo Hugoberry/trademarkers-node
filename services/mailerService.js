@@ -501,3 +501,31 @@ exports.sendCertificateNotification = async function(trademark) {
 
 
 }
+
+// ===========================
+// USED IN CRON ABANDONED CART
+// ===========================
+exports.sendAbandonedCart4hr = async function(user) {
+
+  ejs.renderFile(__dirname+"/../email-templates/abandonedCart4hr.ejs", { user: user }, async function (err, data) {
+    if (err) {
+        console.log(err);
+    } else {
+
+        let mainOptions = {
+          sender: process.env.MAIL_FROM,
+          replyTo: process.env.MAIL_FROM,
+          from: process.env.MAIL_FROM, 
+          to: "felix@trademarkers.com",
+          subject: "Looks like you forgot something, complete your order now!", 
+          html: data
+        };
+
+        transporter.sendMail(mainOptions);
+
+    }
+    
+  });
+
+
+}

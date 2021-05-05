@@ -26,6 +26,7 @@ var cron = require('node-cron');
 var oppositionCronService = require('./services/oppositionCronService')
 var oaCronService = require('./services/oaCronService')
 var orderService = require('./services/orderService')
+var cartService = require('./services/cartService')
 
 
 var app = express();
@@ -113,10 +114,12 @@ conn.connectToServer( function( err, client ) {
   app.use('/us', tsdr);
   app.use('/', publicRouter);
 
-// console.log('asd');
   // ROUTE HANDLER ============ <<
+
   // oppositionCronService.generateDomainEmail();
   // oppositionCronService.sendEvent();
+
+  
   // CRON JOB SCHEDULER =========== >>
   cron.schedule("0 0 */1 * * *", () => {
     // oppositionCronService.generateDomainEmail();
@@ -129,13 +132,12 @@ conn.connectToServer( function( err, client ) {
   });
 
   // oaCronService.sendSOUSummaryNotification();
+  cartService.sendAbandonedCart4hr();
 
-  // cron.schedule('*/59 30-50 */16 * * mon-fri', () => { 
-  //   oaCronService.sendNOACron();
-  // }, {
-  //   scheduled: true,
-  //   timezone: "America/New_York"
-  // });
+  // RUN EVERY 1 HR TO CHECK ABANDONED CART
+  cron.schedule('0 0 */1 * * *', () => {
+    cartService.sendAbandonedCart4hr();
+  });
 
   if ( process.env.ENVIRONMENT != "dev" ) {
 
