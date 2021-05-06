@@ -35,9 +35,9 @@ exports.registration = async function(req, res, next) {
   if ( countryName ) {
 
     countryName = countryName.replace(/_/g, ' ')
-    console.log(countryName);
+    // console.log(countryName);
     country = await rpoCountries.getByName(countryName)
-    console.log(countryName,country.length);
+    // console.log(countryName,country.length);
 
     
     if (country.length <= 0) {
@@ -60,7 +60,7 @@ exports.registration = async function(req, res, next) {
     // http://localhost:4200/trademark-registration-in-antigua_and_barbuda
   }
 
-  // console.log('asd');
+  // console.log('asd',country);
   res.render('order/registrationLanding', {
     layout: 'layouts/public-layout-default', 
     title: 'registration',
