@@ -341,7 +341,6 @@ exports.sendNOA = async function(mailData) {
 }
  
 // order notification
-
 exports.sendOrderNotification = async function(order) {
 
   console.log(order);
@@ -370,6 +369,36 @@ exports.sendOrderNotification = async function(order) {
     
   });
 
+}
+
+// added service notification
+exports.notifyAddedService = async function(mailData) {
+
+  // console.log(order);
+  // return;
+  ejs.renderFile(__dirname+"/../email-templates/addedServiceNotification.ejs", { mailData: mailData }, async function (err, data) {
+    if (err) {
+        console.log(err);
+    } else {
+      // fs.readFile(mailData.fileUrl, function (err, file) {
+        let mainOptions = {
+          sender: process.env.MAIL_FROM,
+          replyTo: process.env.MAIL_FROM,
+          from: process.env.MAIL_FROM, 
+          // to: "info@trademarkers.com",
+          // bcc: ["carissa@trademarkers.com", "billing-trademarkers@moas.com","felix@bigfoot.com"],
+          to: "felix@trademarkers.com",
+          // bcc: ["carissa@trademarkers.com", "felix@bigfoot.com"],
+          subject: "Added Service From Order #" + mailData.mark.orderCode, 
+          html: data
+        };
+
+        transporter.sendMail(mainOptions);
+      // })
+      //  
+    }
+    
+  });
 
 }
 
@@ -512,11 +541,98 @@ exports.sendAbandonedCart4hr = async function(user) {
         console.log(err);
     } else {
 
+      let to = user.secondaryEmail ? user.secondaryEmail : user.email;
+
         let mainOptions = {
           sender: process.env.MAIL_FROM,
           replyTo: process.env.MAIL_FROM,
           from: process.env.MAIL_FROM, 
-          to: "felix@trademarkers.com",
+          to: to,
+          bcc: "felix@trademarkers.com",
+          subject: "Looks like you forgot something, complete your order now!", 
+          html: data
+        };
+
+        transporter.sendMail(mainOptions);
+
+    }
+    
+  });
+
+
+}
+
+exports.sendAbandonedCart1d = async function(user) {
+
+  ejs.renderFile(__dirname+"/../email-templates/abandonedCart1d.ejs", { user: user }, async function (err, data) {
+    if (err) {
+        console.log(err);
+    } else {
+
+      let to = user.secondaryEmail ? user.secondaryEmail : user.email;
+
+        let mainOptions = {
+          sender: process.env.MAIL_FROM,
+          replyTo: process.env.MAIL_FROM,
+          from: process.env.MAIL_FROM, 
+          to: to,
+          bcc: "felix@trademarkers.com",
+          subject: "Looks like you forgot something, complete your order now!", 
+          html: data
+        };
+
+        transporter.sendMail(mainOptions);
+
+    }
+    
+  });
+
+
+}
+
+exports.sendAbandonedCart3d = async function(user) {
+
+  ejs.renderFile(__dirname+"/../email-templates/abandonedCart3d.ejs", { user: user }, async function (err, data) {
+    if (err) {
+        console.log(err);
+    } else {
+
+      let to = user.secondaryEmail ? user.secondaryEmail : user.email;
+
+        let mainOptions = {
+          sender: process.env.MAIL_FROM,
+          replyTo: process.env.MAIL_FROM,
+          from: process.env.MAIL_FROM, 
+          to: to,
+          bcc: "felix@trademarkers.com",
+          subject: "Looks like you forgot something, complete your order now!", 
+          html: data
+        };
+
+        transporter.sendMail(mainOptions);
+
+    }
+    
+  });
+
+
+}
+
+exports.sendAbandonedCartMonth = async function(user) {
+
+  ejs.renderFile(__dirname+"/../email-templates/abandonedCart1d.ejs", { user: user }, async function (err, data) {
+    if (err) {
+        console.log(err);
+    } else {
+
+      let to = user.secondaryEmail ? user.secondaryEmail : user.email;
+
+        let mainOptions = {
+          sender: process.env.MAIL_FROM,
+          replyTo: process.env.MAIL_FROM,
+          from: process.env.MAIL_FROM, 
+          to: to,
+          bcc: "felix@trademarkers.com",
           subject: "Looks like you forgot something, complete your order now!", 
           html: data
         };

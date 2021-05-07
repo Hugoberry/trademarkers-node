@@ -120,7 +120,34 @@ module.exports = {
 			});
 		});
 
-    }
+	},
+	
+	// USED IN CRON
+	fetchAddedServices : async function() {
+		return new Promise(function(resolve, reject) {
+
+			let query = { 
+				isMailed: 'no',
+				created_at_formatted: { 
+					$lt : moment().subtract("23", "hours").format(),
+					$gte : moment().subtract("1", "days").format(),
+				},
+			};
+
+			let db = conn.getDb();
+			
+			db.collection(_table).find(query).toArray(function(err, result) {
+					
+				if (err) {
+					reject(err);
+				} else {
+					resolve(result);
+				}
+
+			});
+
+		});
+	},
 
 	
 	
