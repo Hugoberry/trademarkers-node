@@ -1,0 +1,39 @@
+<div class="col-md-12" style="margin-bottom:20px;">  
+    <h2>Users List </h2>
+
+    <% if (flash.success) { %>
+    <div class="alert alert-success" role="alert">
+        <strong><%= flash.success %></strong>
+    </div>
+    <% } %>
+
+    <% if (flash.error) { %>
+    <div class="alert alert-danger" role="alert">
+        <strong><%= flash.error %></strong>
+    </div>
+    <% } %>
+</div>
+                    
+<div clss="col-md-12">
+    <table id="myListDataTable" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        <% users.forEach(function(user,key) {  %>
+   
+            <tr>
+                <td><%= user.name %></td>
+                <td><%= user.email %></td>
+                <td><%= user.role %></td>
+                <td><a href="/njs-admin/manage/user/view/<%= user._id %>"><i class="fa fa-pen"></i></a></td>
+            </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>

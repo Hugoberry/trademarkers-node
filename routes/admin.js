@@ -7,6 +7,8 @@ const adminEvent = require('../controller/adminEventController')
 const adminLead = require('../controller/adminLeadController')
 const adminOppositionLead = require('../controller/adminOppositionLeadsController')
 const adminTrademark = require('../controller/adminTrademarkController')
+const countryTrademark = require('../controller/adminCountryController')
+const adminUser = require('../controller/adminUserController')
 
 
 /* GET users listing. */
@@ -39,5 +41,15 @@ router.get('/manage/opposition-leads', verify, adminOppositionLead.leads);
 router.get('/manage/opposition-leads/view/:id', verify, adminOppositionLead.show);
 router.get('/manage/opposition-leads/edit/:id', verify, adminOppositionLead.edit);
 router.post('/manage/opposition-leads/edit/:id', verify, adminOppositionLead.editSubmit);
+
+router.get('/manage/country', verify, countryTrademark.index);
+router.get('/manage/country/view/:id', verify, countryTrademark.show);
+router.get('/manage/country/edit/:id', verify, countryTrademark.edit);
+router.post('/manage/country/edit/:id', verify, countryTrademark.editSubmit);
+
+router.get('/manage/user', verify, adminUser.index);
+router.get('/manage/user/view/:id', verify, adminUser.show);
+router.get('/manage/user/edit/:id', verify, adminUser.edit);
+router.post('/manage/user/edit/:id', verify, adminUser.editSubmit);
 
 module.exports = router;

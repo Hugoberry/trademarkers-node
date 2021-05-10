@@ -1,0 +1,43 @@
+<div class="col-md-12" style="margin-bottom:20px;">  
+    <h2>Country List </h2>
+
+    <% if (flash.success) { %>
+    <div class="alert alert-success" role="alert">
+        <strong><%= flash.success %></strong>
+    </div>
+    <% } %>
+
+    <% if (flash.error) { %>
+    <div class="alert alert-danger" role="alert">
+        <strong><%= flash.error %></strong>
+    </div>
+    <% } %>
+</div>
+                    
+<div clss="col-md-12">
+    <table id="myListDataTable" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Abbr</th>
+                <th>Agency Name</th>
+                <th>Opposition Period</th>
+                <th>Registration Period</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        <% countries.forEach(function(country,key) { if(country.name) { %>
+   
+            <tr>
+                <td><%= country.name %></td>
+                <td><%= country.abbr %></td>
+                <td><%= country.agency_short %></td>
+                <td><%= country.opposition_period %></td>
+                <td><%= country.registration_period %></td>
+                <td><a href="/njs-admin/manage/country/view/<%= country._id %>"><i class="fa fa-pen"></i></a></td>
+            </tr>
+            <% } }) %>
+        </tbody>
+    </table>
+</div>

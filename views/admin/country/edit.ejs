@@ -1,0 +1,64 @@
+<div class="col-md-12" style="margin-bottom:20px;">    
+    <h2>Edit Country
+    </h2>
+
+    <% if(country) { %>
+
+
+    <form class="row" action="/njs-admin/manage/country/edit/<%= country._id %>" method="post" encType="multipart/form-data">
+
+    
+
+        <div class="col-md-12">
+            <hr>
+
+            <div class="form-group">
+                <label>Country name</label>
+                <input type="text" class="form-control" value="<%= country.name %>" placeholder="" name="name">
+            </div>
+
+            <div class="form-group">
+                <label>Abbreviation</label>
+                <input type="text" class="form-control" value="<%= country.abbr %>" placeholder="" name="abbr">
+            </div>
+
+            <div class="form-group">
+                <label>Agency Name</label>
+                <input type="text" class="form-control" value="<%= country.agency_name %>" placeholder="" name="agency_name">
+            </div>
+
+            <div class="form-group">
+                <label>Opposition Period</label>
+                <input type="text" class="form-control" value="<%= country.opposition_period %>" placeholder="" name="opposition_period">
+            </div>
+
+            <div class="form-group">
+                <label>Registration Period</label>
+                <input type="text" class="form-control" value="<%= country.registration_period %>" placeholder="" name="registration_period">
+            </div>
+
+            <div class="form-group">
+                <label>Status</label>
+                <select class="form-control" name="status">
+                    <option value="enabled" <%= country.status == "enabled" ? "selected" : "" %>>Enabled</option>
+                    <option value="disabled" <%= country.status == "disabled" ? "selected" : "" %>>Disabled</option>
+                </select>
+                
+            </div>
+
+
+        </div>
+
+       
+
+        <div class="col-md-12">
+            <p class="text-center">
+                <button type="submit" class="btn btn-primary btn-rounded-primary" style="padding-left:40px;padding-right:40px;">Update</button>
+            </p>
+        </div>
+
+    </form>
+    <% } %>
+</div>
+        
+

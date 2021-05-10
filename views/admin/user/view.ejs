@@ -1,0 +1,48 @@
+<div class="col-md-12" style="margin-bottom:20px;">    
+    <h2>User View
+    </h2>
+
+    <% if(user) { %>
+
+    <div class="col-12">
+      <div class="ar-wrap qa-stp">
+        
+        <div class="ard-wrap stp-row">
+
+          <% if( user.name ) { %>
+            <div class="ar-cname ar-info-line">Name: <strong style="text-transform: capitalize;"><%= user.name %></strong></div>
+          <% } %>
+
+          <% if( user.email ) { %>
+            <div class="ar-cname ar-info-line">Email: <strong style="text-transform: capitalize;"><%= user.email %></strong></div>
+          <% } %>
+
+          <% if( user.role ) { %>
+            <div class="ar-cname ar-info-line">Role: <strong style="text-transform: capitalize;"><%= user.role %></strong></div>
+          <% } %>
+
+ 
+
+
+        </div>
+
+      
+
+
+      </div>
+    </div>
+
+   
+
+    
+
+    <div class="col-md-12">
+      <p class="text-center">
+        <a class="btn btn-primary btn-rounded-primary" style="padding-left:40px;padding-right:40px;" href="/njs-admin/manage/user/edit/<%= user._id %>">Edit</a>
+      </p>
+    </div>
+
+    <% } %>
+</div>
+        
+

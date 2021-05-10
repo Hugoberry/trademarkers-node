@@ -63,9 +63,9 @@
 
 			<div class="country-contents">
 				
-				<% for (var key in continents) { %>
+				<% for (var key in continents) {  %>
 				<div class="row continent continent-<%= continents[key]['id'] %> <%= (continents[key].name == 'Europe' ? 'show':'') %>" >
-					<% for ( var ckey in continents[key].countries ) { if( continents[key].countries[ckey].name ) { %>
+					<% for ( var ckey in continents[key].countries ) { if( continents[key].countries[ckey].name && continents[key].countries[ckey].status != "disabled" ) { %>
 
 					<div class="col-md-3">
 						<a href="/trademark-registration-in-<%= continents[key].countries[ckey].name.replace(/\s/g, '_').toLowerCase() %>" >
@@ -75,7 +75,7 @@
 	
 					<% } } %>
 				</div>
-				<% } %>
+				<% }  %>
 				
 			</div>
 

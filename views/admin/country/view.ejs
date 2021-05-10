@@ -1,0 +1,58 @@
+<div class="col-md-12" style="margin-bottom:20px;">    
+    <h2>Country View
+    </h2>
+
+    <% if(country) { %>
+
+    <div class="col-12">
+      <div class="ar-wrap qa-stp">
+        
+        <div class="ard-wrap stp-row">
+
+          <% if( country.name ) { %>
+            <div class="ar-cname ar-info-line">Country Name: <strong style="text-transform: capitalize;"><%= country.name %></strong></div>
+          <% } %>
+
+          <% if( country.abbr ) { %>
+            <div class="ar-cname ar-info-line">Country Abbr: <strong style="text-transform: capitalize;"><%= country.abbr %></strong></div>
+          <% } %>
+
+          <% if( country.agency_name ) { %>
+            <div class="ar-cname ar-info-line">Agency Name: <strong style="text-transform: capitalize;"><%= country.agency_name %></strong></div>
+          <% } %>
+
+          <% if( country.opposition_period ) { %>
+            <div class="ar-cname ar-info-line">Opposition Period: <strong style="text-transform: capitalize;"><%= country.opposition_period %></strong></div>
+          <% } %>
+
+          <% if( country.registration_period ) { %>
+            <div class="ar-cname ar-info-line">Registration Period: <strong style="text-transform: capitalize;"><%= country.registration_period %></strong></div>
+          <% } %>
+
+          <% if( country.avatar ) { %>
+            <div class="ar-cname ar-info-line">Country Avatar: <img src="/images/flag/<%= country.abbr.toLowerCase() %>.png"></div>
+          <% } %>
+
+
+        </div>
+
+      
+
+
+      </div>
+    </div>
+
+   
+
+    
+
+    <div class="col-md-12">
+      <p class="text-center">
+        <a class="btn btn-primary btn-rounded-primary" style="padding-left:40px;padding-right:40px;" href="/njs-admin/manage/country/edit/<%= country._id %>">Edit</a>
+      </p>
+    </div>
+
+    <% } %>
+</div>
+        
+
