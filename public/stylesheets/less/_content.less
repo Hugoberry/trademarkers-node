@@ -224,3 +224,197 @@
     color: #e3342f;
     cursor: pointer;
 }
+
+.bg-welcome.australia {
+    background: url(/images/countries/bg-australia.jpg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: unset;
+    min-height: 560px;
+}
+
+.h1-heading-v2{
+
+    span{
+        font-family: inherit;
+        color: inherit;
+        // max-width: 800px;
+        margin: auto;
+        font-size : 52px;
+        display: block;
+        color: #fff;
+
+        @media (max-width: 768px){
+            font-size : 22px;
+        }
+    }
+
+    // border-bottom: 1px solid #D8D8D8;
+    font-size : 32px;
+    text-align: left;
+    // padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.reg-text-head{
+    font-size: 21px;
+    color: #fff;
+    line-height: 28px;
+    text-shadow: 0 0 5px #000000;
+    margin-bottom: 30px;
+
+    @media (min-width: 768px) {
+        max-width: 83%;
+    }
+}
+
+.text-reg-title-v2 {
+    font-size: 32px;
+    color: #000;
+
+    strong, span{
+        color: inherit;
+        font-size: inherit;
+    }
+}
+
+.step-blockv2{
+
+    border-radius: 9px;
+    overflow: hidden;
+    box-shadow: 1px 1px 10px;
+    margin-bottom: 20px;
+
+    .nav-tabs{
+
+        width: 100%;
+        border-bottom: 4px solid #999;
+
+        li{
+            width: 50%;
+            display: inline-block;
+            
+            
+            
+            
+            a{
+                padding:20px;
+                font-size: 22px;
+                color: #000;
+                position: relative;
+                display: block;
+                background: #cccccc;
+
+                &:hover{
+                    text-decoration: none;
+                }
+
+                &.active{
+                    color: #fff;
+                    background: #3080ec;
+
+                    i{
+                        color: #000;
+                        background: #fff;
+                    }
+                }
+
+                span{
+                    text-transform: uppercase;
+                    font-size: 20px;
+                    padding-right: 27px;
+                    color: inherit;
+                }
+
+                i{
+                    font-style: initial;
+                    display: inline-block;
+                    color: #fff;
+                    background: #000;
+                    padding: 2px 8px;
+                    border-radius: 20px;
+                    position: absolute;
+                    left: 70px;
+                    top: 25px;
+                }
+            }
+        }
+    }
+
+    .tab-content{
+        .cont-wrap{
+            padding : 20px;
+            
+            p {
+                color: #000;
+                font-size: 18px;
+
+                b{
+                    font-weight: bold;
+                    color: inherit;
+                    font-size: inherit;
+                }
+            }
+            ul{
+                li {
+                    color: #000;
+                    font-size: 18px;
+                    &::before {
+                        content: " ";
+                        width: 20px;
+                        height: 27px;
+                        background: url(/images/check_ico.png) ;
+                        background-size: contain;
+                        background-position: center;
+                        background-repeat: no-repeat;
+                    }
+                    // list-style: none;
+                }
+            }
+
+            .btn-primary{
+                border-radius: 40px;
+                padding: 10px 50px;
+                font-size: 18px;
+            }
+        }
+    }
+}
+
+.no-guttersv2{
+    margin-right: -10px;
+    margin-left: -10px;
+
+    .tbl-blue-container .tbl-blue {
+        thead {
+            background: #ccc;
+            border-bottom:4px solid #999;
+    
+            td{
+                font-size: 18px;
+                color: #000;
+                font-weight: bold;
+            }
+        }
+
+        tbody tr td {
+            font-size: 18px;
+            color: #000;
+            border: 2px solid #ccc;
+            padding: 15px;
+            vertical-align: middle;
+
+            &.no-right{
+                border-right: 0;
+            }
+            &.no-left{
+                border-left: 0;
+            }
+        }
+    }
+
+    p{
+        color: #000;
+        font-size: 18px;
+    }
+}

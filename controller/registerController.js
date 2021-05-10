@@ -60,9 +60,17 @@ exports.registration = async function(req, res, next) {
     // http://localhost:4200/trademark-registration-in-antigua_and_barbuda
   }
 
+  let layout = 'layouts/public-layout-default';
+
+  if ( country[0].name == "Australia") {
+    layout = 'layouts/public-layout';
+  }
+
+  
+
   // console.log('asd',country);
   res.render('order/registrationLanding', {
-    layout: 'layouts/public-layout-default', 
+    layout: layout, 
     title: 'registration',
     country: country[0],
     prices: prices,

@@ -1,5 +1,10 @@
-
-<div class="bg-welcome"></div>
+<% 
+let countryName = ''
+if ( typeof country != "undefined" ) { 
+    countryName = country.name.replace(/\s/g, '_').toLowerCase();
+}
+%>
+<div class="bg-welcome <%= countryName %>"></div>
 
 <div id="top-header" class="is-page">
     <div class="container">
