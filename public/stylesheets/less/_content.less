@@ -238,6 +238,19 @@
     }
 }
 
+.bg-welcome.canada {
+    background: url(/images/countries/bg-canada.jpg);
+    background-size: auto 100%;
+    background-repeat: no-repeat;
+    height: unset;
+    min-height: 544px;
+    background-position: 10% top;
+
+    @media (max-width: 768px) {
+        background-position: 0% top;
+    }
+}
+
 .h1-heading-v2{
 
     span{
@@ -321,13 +334,13 @@
     margin-bottom: 20px;
 
     .nav-tabs{
-
+        display: flex;
         width: 100%;
         border-bottom: 4px solid #999;
-
+        flex-direction: row;
         li{
-            width: 50%;
-            display: inline-block;
+            display: flex;
+            flex-grow: 1;
             
             
             
@@ -339,6 +352,7 @@
                 position: relative;
                 display: block;
                 background: #cccccc;
+                width: 100%;
 
                 &:hover{
                     text-decoration: none;

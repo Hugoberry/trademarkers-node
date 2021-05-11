@@ -61,9 +61,16 @@ exports.registration = async function(req, res, next) {
   }
 
   let layout = 'layouts/public-layout-default';
+  let hasStudy = true;
+  let hasRegistration = true;
 
-  if ( country[0].name == "Australia") {
+  if ( country[0].name == "Australia" ) {
     layout = 'layouts/public-layout';
+  }
+
+  if ( country[0].name == "Canada" ) {
+    layout = 'layouts/public-layout';
+    hasStudy = false;
   }
 
   
@@ -76,7 +83,8 @@ exports.registration = async function(req, res, next) {
     prices: prices,
     classes: classes,
     serviceType: serviceType,
-    
+    hasStudy: hasStudy,
+    hasRegistration: hasRegistration,
     user: await helpers.getLoginUser(req)
   });
 }

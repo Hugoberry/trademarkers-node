@@ -1,4 +1,4 @@
-<% if ( country.name == "Australia" ) { %>
+<% if ( country.name == "Australia" || country.name == "Canada" ) { %>
 	<div class="container">
 		<h1 class="h1-heading-v2"><span>Trademark <br>Registration in <%= country.name %></span></h1>
 		<p class="reg-text-head">The ownership of a trademark is not automatically granted merely by using it. Generally speaking, only by going through the legal process of registration can you ensure rights to your trademark.</p>
@@ -17,11 +17,12 @@
 		<div class="row step-blockv2">
 			
 			<ul class="nav nav-tabs">
-				<li><a data-toggle="tab" class="active" href="#studyBlock"><span>Step</span><i>1</i> Trademark Comprehensive Study</a></li>
-				<li><a data-toggle="tab" href="#registerBlock"><span>Step</span><i>2</i> Trademark Registration Request</a></li>
+				<% if(hasStudy) { %><li><a data-toggle="tab" class="active" href="#studyBlock"><span>Step</span><i>1</i> Trademark Comprehensive Study</a></li><% } %>
+				<li><a data-toggle="tab" class="<%= !hasStudy ? 'active' : '' %>" href="#registerBlock"><% if(hasStudy) { %><span>Step</span><i>2</i> <% } %>Trademark Registration Request</a></li>
 			</ul>
 
 			<div class="tab-content">
+				<% if(hasStudy) { %>
 				<div id="studyBlock" class="tab-pane fade in active show">
 					<div class="row cont-wrap">
 						<div class="col-md-6">
@@ -78,7 +79,8 @@
 
 				</div>
 				</div>
-				<div id="registerBlock" class="tab-pane fade">
+				<% } %>
+				<div id="registerBlock" class="tab-pane fade <%= !hasStudy ? 'in active show' : '' %>">
 					<div class="row cont-wrap">
 						<div class="col-md-12">
 							<p> With a legally registered trademark, you gain several benefits:</p>
