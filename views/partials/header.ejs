@@ -1,10 +1,14 @@
 <% 
-let countryName = ''
+let countryName = '';
+let countryNameLower = ''
 if ( typeof country != "undefined" ) { 
-    countryName = country.name.replace(/\s/g, '_').toLowerCase();
+    countryNameLower = country.name.replace(/\s/g, '_').toLowerCase();
+    countryName =  countryNameLower + " " + "showBannerBg";
+
+    countryNameLower = "background: url(/images/countries/bg-" + countryNameLower + ".jpg)"
 }
 %>
-<div class="bg-welcome <%= countryName %>"></div>
+<div class="bg-welcome <%= countryName %>" style="<%= countryNameLower %>"></div>
 
 <div id="top-header" class="is-page">
     <div class="container">
