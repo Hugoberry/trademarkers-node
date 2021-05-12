@@ -54,6 +54,27 @@ module.exports = {
 			});
 
 		});
+	},
+	
+	getContinentID : async function(id) {
+		return new Promise(function(resolve, reject) {
+
+            var query = { id: id };
+
+            
+            conn.getDb().collection(_table).find(query).collation(
+				{ locale: 'en', strength: 2 }
+			  ).toArray(
+			function(err, result) {
+				if (err) {
+					reject(err);
+				} else {
+
+					resolve(result);
+				}
+			});
+
+		});
     },
     
     getContinentsMysql: async function(){

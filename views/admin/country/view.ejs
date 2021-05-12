@@ -29,6 +29,10 @@
             <div class="ar-cname ar-info-line">Registration Period: <strong style="text-transform: capitalize;"><%= country.registration_period %></strong></div>
           <% } %>
 
+          <!-- <% if( country.flag ) { %>
+            <div class="ar-cname ar-info-line">Country Flag: <img src="/images/flag/<%= country.flag %>"></div>
+          <% } %> -->
+
           <% if( country.avatar ) { %>
             <div class="ar-cname ar-info-line">Country Avatar: <img src="/images/flag/<%= country.abbr.toLowerCase() %>.png"></div>
           <% } %>

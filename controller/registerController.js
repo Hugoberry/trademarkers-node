@@ -87,6 +87,11 @@ exports.registration = async function(req, res, next) {
     newLayout = true;
   }
 
+  // check country status
+  if(country[0].name == 'disabled') {
+    res.redirect("/countries"); 
+  }
+
   
 
   // console.log('asd',country);

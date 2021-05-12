@@ -14,7 +14,7 @@
                     <div class="row">
 
                         <% for ( var ckey in continents[key].countries ) { if( continents[key].countries[ckey].name ) { %>
-                            <% if( continents[key].countries[ckey].avatar && continents[key].countries[ckey].avatar != "Test") { %>
+                            <% if( continents[key].countries[ckey].avatar && continents[key].countries[ckey].avatar != "Test" && continents[key].countries[ckey].status != "disabled") { %>
                             <div class="col-md-4">
                                 <a href="/trademark-registration-in-<%= continents[key].countries[ckey].name.replace(/\s/g, '_').toLowerCase() %>" >
                                     

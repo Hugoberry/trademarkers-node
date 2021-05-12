@@ -1,4 +1,5 @@
 var rpo = require('../repositories/countries');
+var rpoContinents = require('../repositories/continents');
 
 const multer = require('multer');
 const path = require('path');
@@ -70,9 +71,78 @@ exports.editSubmit = async function(req, res, next) {
   // let country = await rpo.getByIdM(id);
 
   let updateData = req.body;
+  let uploadPath;
 
+  // console.log(req.files);
 
+  // CHECK FLAG
+  if ( req.files && req.files.flag ) {
+
+    let extFlag = req.files.flag.name.match(/\.[0-9a-z]+$/i)[0]
+    updateData.flag = req.files.flag.md5 + extFlag;
+
+    uploadPath = __dirname + '/../public/uploads/flag_banner/' + req.files.flag.md5 + extFlag;
+
+    await req.files.flag.mv(uploadPath, function(err) {
+      // if (err) {
+      // } else {
+        
+      // }
+        
+    });
+
+  }
+
+  // CHECK BANNER
+  if ( req.files && req.files.banner ) {
+
+    let extBanner = req.files.banner.name.match(/\.[0-9a-z]+$/i)[0]
+    updateData.banner = req.files.flag.md5 + extBanner;
+    uploadPath = __dirname + '/../public/uploads/flag_banner/' + req.files.banner.md5 + extBanner;
+
+    await req.files.banner.mv(uploadPath, function(err) {
+      // if (err) {
+      // } else {
+      //   updateData.banner = req.files.banner.md5 + extBanner;
+      // }
+        
+    });
+
+  }
+
+  // CHECK LOGO
+  if ( req.files && req.files.logo ) {
+
+    let extLogo = req.files.logo.name.match(/\.[0-9a-z]+$/i)[0]
+    updateData.logo = req.files.flag.md5 + extLogo;
+    uploadPath = __dirname + '/../public/uploads/flag_banner/' + req.files.logo.md5 + extLogo;
+
+    await req.files.logo.mv(uploadPath, function(err) {
+      // if (err) {
+      // } else {
+      //   updateData.logo = req.files.logo.md5 + ext;
+      // }
+        
+    });
+
+  }
+
+  
+  // updateData.flag = req.files.flag.name
+  
   await rpo.updateDetails(id, updateData);
+  
+  
+  // UPDATE CONTINENTS
+  let country = await rpo.getByIdM(id);
+  let countries = await rpo.getByContinent(country[0].continent_id)
+  let continent = await rpoContinents.getContinentID(country[0].continent_id)
+  let dataContinentUpdate = {
+    countries : countries
+  } 
+  await rpoContinents.updateDetails(continent[0]._id,dataContinentUpdate)
+
+
 
   res.flash('success', 'Updated successfully!');
   res.redirect('/njs-admin/manage/country/');
