@@ -153,7 +153,7 @@ exports.login = async function(req,res){
                     console.log("error", results);
                     res.json({
                         status:false,
-                        message:"Email does not exits"
+                        message:"Email does not exist"
                     });
 
                 }
@@ -218,7 +218,7 @@ exports.login_ajax = async function(req,res){
                     console.log("error", results);
                     res.json({
                         status:false,
-                        message:"Email does not exits"
+                        message:"Email does not exist"
                     });
 
                 }
