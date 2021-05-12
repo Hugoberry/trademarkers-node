@@ -89,6 +89,22 @@
 
                   <% } %>
 
+                  <% if( trademark.class ) { %>
+
+                    <div class="ar-cname ar-info-line">Class:
+                      <ul>
+                      <% 
+                      if (Array.isArray(trademark.class)) {
+                      trademark.class.forEach(function(classes,key) { %>
+                        <li><%= classes %> - <%= trademark.description[key] %></li>
+                      <% }) } else { %>
+                        <li><%= trademark.class %> - <%= trademark.description %></li>
+                      <% } %>
+                      </ul>
+                    </div>
+
+                  <% } %>
+
                   <% if( trademark.colorClaim && trademark.colorClaim == 'yes' ) { %>
 
                     <div class="ar-cname ar-info-line">Color Claim: <strong style="text-transform: capitalize;"><%= trademark.colorClaimText %></strong></div>
