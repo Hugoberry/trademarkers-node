@@ -97,7 +97,7 @@ exports.editSubmit = async function(req, res, next) {
   if ( req.files && req.files.banner ) {
 
     let extBanner = req.files.banner.name.match(/\.[0-9a-z]+$/i)[0]
-    updateData.banner = req.files.flag.md5 + extBanner;
+    updateData.banner = req.files.banner.md5 + extBanner;
     uploadPath = __dirname + '/../public/uploads/flag_banner/' + req.files.banner.md5 + extBanner;
 
     await req.files.banner.mv(uploadPath, function(err) {
@@ -114,7 +114,7 @@ exports.editSubmit = async function(req, res, next) {
   if ( req.files && req.files.logo ) {
 
     let extLogo = req.files.logo.name.match(/\.[0-9a-z]+$/i)[0]
-    updateData.logo = req.files.flag.md5 + extLogo;
+    updateData.logo = req.files.logo.md5 + extLogo;
     uploadPath = __dirname + '/../public/uploads/flag_banner/' + req.files.logo.md5 + extLogo;
 
     await req.files.logo.mv(uploadPath, function(err) {

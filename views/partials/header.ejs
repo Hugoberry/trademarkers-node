@@ -1,15 +1,16 @@
 <% 
-let countryName = '';
+let countryBanner = '';
 let countryNameLower = ''
 if ( typeof country != "undefined" ) { 
     countryNameLower = country.name.replace(/\s/g, '_').toLowerCase();
-    countryName =  countryNameLower + " " + "showBannerBg";
-
-    countryNameLower = "background: url(/images/countries/bg-" + countryNameLower + ".jpg)"
+    countryBanner =  country.banner;
 }
 %>
-<div class="bg-welcome <%= countryName %>" style="<%= countryNameLower %>"></div>
-
+<% if(countryBanner) { %>
+<div class="bg-welcome showBannerBg" style="background: url('/uploads/flag_banner/<%= countryBanner %>')"></div>
+<% } else { %>
+<div class="bg-welcome"></div>
+<% } %>
 <div id="top-header" class="is-page">
     <div class="container">
         <div class="row align-items-center">

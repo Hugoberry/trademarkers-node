@@ -65,26 +65,14 @@ exports.registration = async function(req, res, next) {
   let hasRegistration = true;
   let newLayout = false;
 
-  if ( country[0].name == "Australia" 
-      || country[0].name == "Austria"
-      || country[0].name == "Belarus"
-      || country[0].name == "Benelux"
-      || country[0].name == "Brazil"
-      || country[0].name == "Bulgaria"
-      || country[0].name == "Chile"
-      || country[0].name == "China"
-      || country[0].name == "France"
-      || country[0].name == "Japan"
-  
-  ){
+  if ( country[0].banner ){
+    // if ( country[0].banner && country[0].logo ){
     layout = 'layouts/public-layout';
     newLayout = true;
   }
 
   if ( country[0].name == "Canada" ) {
-    layout = 'layouts/public-layout';
     hasStudy = false;
-    newLayout = true;
   }
 
   // check country status
