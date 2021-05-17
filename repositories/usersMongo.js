@@ -2,6 +2,8 @@ let _table = process.env.TBLEXT + "users";
 let ObjectID = require('mongodb').ObjectID;
 let conn = require('../config/DbConnect');
 
+let mailService = require('../services/mailerService')
+
 module.exports = {
 
 	getAll : async function() {
@@ -150,6 +152,7 @@ module.exports = {
 			function(err, result) {
 				if (err) throw err;
 
+				mailService.notifyNewAccount(data)
 				resolve(result);
 			}
 		);

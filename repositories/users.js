@@ -8,6 +8,8 @@ var bcrypt = require('bcrypt');
 // MONGO : DATABASE CONNECTION
 let conn = require('../config/DbConnect');
 
+let mailService = require('../services/mailerService')
+
 // DB Connect
 // const mongoConnection = mongoose.createConnection(mongoDb, mongoDbOptions);
 
@@ -227,6 +229,7 @@ module.exports = {
 							if (err) throw err;
 
 							if (res2) {
+								mailService.notifyNewAccount(data)
 						        resolve(res2);
 							}
 						});

@@ -645,3 +645,63 @@ exports.sendAbandonedCartMonth = async function(user) {
 
 
 }
+
+exports.notifyNewAccount = async function(user) {
+
+  // console.log(order);
+  // return;
+  ejs.renderFile(__dirname+"/../email-templates/newAccountNotification.ejs", { user: user }, async function (err, data) {
+    if (err) {
+        console.log(err);
+    } else {
+      // fs.readFile(mailData.fileUrl, function (err, file) {
+        let mainOptions = {
+          sender: process.env.MAIL_FROM,
+          replyTo: process.env.MAIL_FROM,
+          from: process.env.MAIL_FROM, 
+          // to: "info@trademarkers.com",
+          // bcc: ["carissa@trademarkers.com", "billing-trademarkers@moas.com","felix@bigfoot.com"],
+          to: "felix@trademarkers.com",
+          // bcc: ["carissa@trademarkers.com", "felix@bigfoot.com"],
+          subject: "Welcome", 
+          html: data
+        };
+
+        transporter.sendMail(mainOptions);
+      // })
+      //  
+    }
+    
+  });
+
+}
+
+exports.verifyEmailAccount = async function(user) {
+
+  // console.log(order);
+  // return;
+  ejs.renderFile(__dirname+"/../email-templates/verifyEmailNotification.ejs", { user: user }, async function (err, data) {
+    if (err) {
+        console.log(err);
+    } else {
+      // fs.readFile(mailData.fileUrl, function (err, file) {
+        let mainOptions = {
+          sender: process.env.MAIL_FROM,
+          replyTo: process.env.MAIL_FROM,
+          from: process.env.MAIL_FROM, 
+          // to: "info@trademarkers.com",
+          // bcc: ["carissa@trademarkers.com", "billing-trademarkers@moas.com","felix@bigfoot.com"],
+          to: "felix@trademarkers.com",
+          // bcc: ["carissa@trademarkers.com", "felix@bigfoot.com"],
+          subject: "Welcome", 
+          html: data
+        };
+
+        transporter.sendMail(mainOptions);
+      // })
+      //  
+    }
+    
+  });
+
+}
