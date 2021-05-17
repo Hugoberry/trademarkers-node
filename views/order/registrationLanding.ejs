@@ -164,22 +164,22 @@
 								<td class="gray"> 
 									First Class
 								</td>
-								<td> 
-									<%= ( price.initial_cost <= 0 ? 'Free' : price.initial_cost ) %>
+								<td class="text-right"> 
+									<%= ( price.initial_cost <= 0 ? 'Free' : helpers.getPriceFormatted(price.initial_cost) ) %>
 								</td>
-								<td> 
-									<%= ( price.logo_initial_cost <= 0 ? 'Free' : price.logo_initial_cost ) %>
+								<td class="text-right"> 
+									<%= ( price.logo_initial_cost <= 0 ? 'Free' : helpers.getPriceFormatted(price.logo_initial_cost) ) %>
 								</td>
 							</tr>
 							<tr>
 								<td class="gray"> 
 									Each Additional Class
 								</td>
-								<td> 
-									<%= (price.additional_cost <= 0 ? 'Free' : price.additional_cost) %>
+								<td class="text-right"> 
+									<%= (price.additional_cost <= 0 ? 'Free' : helpers.getPriceFormatted(price.additional_cost)) %>
 								</td>
-								<td> 
-									<%= (price.logo_additional_cost <= 0 ? 'Free' : price.logo_additional_cost ) %>
+								<td class="text-right"> 
+									<%= (price.logo_additional_cost <= 0 ? 'Free' : helpers.getPriceFormatted(price.logo_additional_cost) ) %>
 								</td>
 							</tr>
 
@@ -342,22 +342,22 @@
 								<td class="gray"> 
 									First Class
 								</td>
-								<td> 
-									<%= ( price.initial_cost <= 0 ? 'Free' : price.initial_cost ) %>
+								<td class="text-right"> 
+									<%= ( price.initial_cost <= 0 ? 'Free' : helpers.getPriceFormatted(price.initial_cost) ) %>
 								</td>
-								<td> 
-									<%= ( price.logo_initial_cost <= 0 ? 'Free' : price.logo_initial_cost ) %>
+								<td class="text-right"> 
+									<%= ( price.logo_initial_cost <= 0 ? 'Free' : helpers.getPriceFormatted(price.logo_initial_cost) ) %>
 								</td>
 							</tr>
 							<tr>
 								<td class="gray"> 
 									Each Additional Class
 								</td>
-								<td> 
-									<%= (price.additional_cost <= 0 ? 'Free' : price.additional_cost) %>
+								<td class="text-right"> 
+									<%= (price.additional_cost <= 0 ? 'Free' : helpers.getPriceFormatted(price.additional_cost)) %>
 								</td>
-								<td> 
-									<%= (price.logo_additional_cost <= 0 ? 'Free' : price.logo_additional_cost ) %>
+								<td class="text-right"> 
+									<%= (price.logo_additional_cost <= 0 ? 'Free' : helpers.getPriceFormatted(price.logo_additional_cost) ) %>
 								</td>
 							</tr>
 
