@@ -1,9 +1,19 @@
 <% if ( newLayout ){ %>
 	<div class="container">
 		<h1 class="h1-heading-v2"><span>Trademark <br>Registration in <%= country.name %></span></h1>
-		<p class="reg-text-head">The ownership of a trademark is not automatically granted merely by using it. Generally speaking, only by going through the legal process of registration can you ensure rights to your trademark.</p>
-		<p class="reg-text-head">Registering a trademark is not always a simple matter of submitting an application. Many jurisdictions do not make information readily available to the public and some do not provide reliable data online. Researching similarities to your trademark can be a complex task.</p>
-
+		<% if( country.logo ) { %>
+			<img class="flag-top" src="/uploads/flag_banner/<%= country.logo %>">
+		<% } %>
+		<p class="reg-text-head">
+		
+		The ownership of a trademark is not automatically granted merely by using it. Generally speaking, only by going through the legal process of registration can you ensure rights to your trademark.<br ><br >
+		Registering a trademark is not always a simple matter of submitting an application. Many jurisdictions do not make information readily available to the public and some do not provide reliable data online. Researching similarities to your trademark can be a complex task.
+	
+		<% if( country.logo ) { %>
+			<img class="bottom" src="/uploads/flag_banner/<%= country.logo %>">
+		<% } %>
+		</p>
+		
 		<div class="row align-items-center flag-text-block" >
 			<div class="col-md-2">
 				<div class="flag-containerv2" style="background-image:url('images/flag/<%= country.abbr.toLowerCase() %>.png')"></div>

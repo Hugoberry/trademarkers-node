@@ -239,11 +239,11 @@
 // }
 
 .bg-welcome.showBannerBg{
-    background-size: auto 100%;
+    background-size: cover;
     background-repeat: no-repeat;
     height: unset;
     min-height: 544px;
-    background-position: 10% top;
+    background-position: top center;
 
     @media (max-width: 768px) {
         background-position: 0% top;
@@ -298,9 +298,24 @@
     // padding-top: 20px;
     padding-bottom: 20px;
 
+    // @media (max-width: 768px) {
+    //     padding-bottom: 264px;
+    // }
+}
+
+.flag-top{
+    display: none;
+
+    @media (max-width: 990px) {
+        display: block;
+        width: 100%;
+        max-width: 300px;
+        // margin: auto;
+    }
+
     @media (max-width: 768px) {
-        padding-bottom: 264px;
-        // font-size : 33px;
+
+        margin: auto;
     }
 }
 
@@ -310,25 +325,47 @@
     line-height: 28px;
     text-shadow: 0 0 5px #000000;
     margin-bottom: 30px;
+    position: relative;
 
-    padding-left: 30%;
+    img.bottom{
+        float: left;
+        margin-left: -22%;
+    }
+
+    // padding-left: 30%;
     
-    @media (min-width: 1150px) {
-        padding-left: 20%;
+    
+    @media (max-width: 1560px) {
+        img.bottom{
+            margin-left: -12%;
+        }
     }
-    @media (min-width: 1400px) {
-        padding-left: 15%;
+    @media (max-width: 1350px) {
+        img.bottom{
+            margin-left: -7%;
+        }
     }
-    @media (min-width: 1650px) {
-        padding-left: 0%;
+    @media (max-width: 1350px) {
+        img.bottom{
+            margin-left: 0;
+        }
+    }
+
+    @media (max-width: 990px) {
+        img.bottom{
+            display: none;
+        }
     }
     @media (max-width: 768px) {
-        // max-width: 83%;
+
         padding: 10px;
         margin-bottom: 10px;
         box-shadow: 0 0 5px black;
         background: rgba(0,0,0,0.7);
         border-radius: 7px;
+
+       
+
     }
 }
 
