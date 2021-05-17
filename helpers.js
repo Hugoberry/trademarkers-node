@@ -108,7 +108,7 @@ exports.calculatePrice = function(data) {
     }
 
     amount = init + ( add * ( data.noClass - 1 ) )
-    console.log('length ',data.noClass);
+    // console.log('length ',data.noClass);
     return amount;
 }
 

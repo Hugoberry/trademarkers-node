@@ -104,6 +104,8 @@ exports.registrationProceed = async function(req, res, next) {
   let country;
   let classes = await rpoTrademarkClasses.getClasses();
 
+  // console.log("here");
+
   let countries = await rpoCountries.getAll();
 
   if ( countryName ) {
@@ -148,7 +150,9 @@ exports.registrationProceed = async function(req, res, next) {
 
 exports.trademarkProfile = async function(req, res, next) {
 
-  console.log('asd')
+  console.log('========================')
+  console.log(req.body);
+  console.log('========================')
 
   let countries = await rpoCountries.getAll();
 
@@ -165,10 +169,14 @@ exports.trademarkProfile = async function(req, res, next) {
 
 exports.validateOrder = async function(req, res, next) {
 
+  console.log('========================')
+  console.log(req.body);
+  console.log('========================')
+
   let type;
 
   // check if login and verify
-  console.log(req.body);
+  // console.log("body",req.body);
   
   if ( !helpers.isAuth(req) ) {
     
@@ -210,7 +218,7 @@ exports.validateOrder = async function(req, res, next) {
     logoName = toInteger(moment().format('YYMMDDHHMMSS')) + '-' + logo_pic.name;
     logo_pic = req.files.logo_pic;
     uploadPath = __dirname + '/../public/uploads/' + logoName;
-    console.log(logo_pic);
+    // console.log(logo_pic);
     req.body.logoName = logoName;
     // Use the mv() method to place the file somewhere on your server
     logo_pic.mv(uploadPath, function(err) {
@@ -223,10 +231,10 @@ exports.validateOrder = async function(req, res, next) {
   // calculate price ask helpers.js
   let data = {
     type: req.body.type,
-    noClass: req.body.class.length,
+    noClass: Array.isArray(req.body.class) ? req.body.class.length : 1,
     price: price
   }
-  console.log(data);
+  // console.log("after",data);
   let amount = helpers.calculatePrice(data);
 
 
@@ -259,7 +267,7 @@ exports.addToCart = async function(req, res, next) {
   let prices = await rpoPrices.findPriceByCountry(req.body.countryId * 1, type);
   let price;
 
-  console.log(type);
+  // console.log(type);
   if ( type == "Monitoring" ) {
     price = {
       initial_cost:150,
@@ -274,7 +282,7 @@ exports.addToCart = async function(req, res, next) {
   // calculate price ask helpers.js
   let dataPrice = {
     type: req.body.type,
-    noClass: req.body.class.length,
+    noClass: Array.isArray(req.body.class) ? req.body.class.length : 1,
     price: price
   }
 

@@ -23,10 +23,15 @@
 						<input class="" type="hidden" name="originDate" value="<%= data.originDate %>">
 						<input class="" type="hidden" name="originTm" value="<%= data.originTm %>">
 						
-						<% for (let i=0; i < data.class.length; i++) { %>
+						<% if( Array.isArray(data.class) ) { 
+                            for (let i=0; i < data.class.length; i++) { %>
 							<input class="" type="hidden" name="class" value="<%= data.class[i] %>">
 							<input class="" type="hidden" name="description" value="<%= data.description[i] %>">
-						<% } %>
+                            <% } %> 
+                        <% } else { %> 
+                                <input class="" type="hidden" name="class" value="<%= data.class %>">
+							    <input class="" type="hidden" name="description" value="<%= data.description %>">
+                        <% } %>
 
 						<div id="nature_block" class="col-md-6">
                         <div class="form-group row">
