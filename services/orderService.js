@@ -50,6 +50,7 @@ exports.syncOrders = async function() {
       let house = userProfile[0] && userProfile[0].house ? userProfile[0].house : '';
       let company = userProfile[0] && userProfile[0].house ? userProfile[0].company : '';
       let first_name = userProfile[0] && userProfile[0].first_name ? userProfile[0].first_name : '';
+      let last_name = userProfile[0] && userProfile[0].last_name ? userProfile[0].last_name : '';
 
       let address = street + " " + city +", "+ state + " " + country +" "+ zip_code;
 
