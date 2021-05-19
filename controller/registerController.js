@@ -559,6 +559,7 @@ exports.placeOrder = async function(req, res, next) {
         custom: true,
         paid: true,
         userId: currentUser._id,
+        user: currentUser,
         cartItems: cartItems,
         created_at: toInteger(moment().format('YYMMDD')),
         created_at_formatted: moment().format()

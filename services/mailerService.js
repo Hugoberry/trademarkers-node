@@ -343,7 +343,7 @@ exports.sendNOA = async function(mailData) {
 // order notification
 exports.sendOrderNotification = async function(order) {
 
-  console.log(order);
+  order.datePurchased = moment(order.created_at_formatted).format('MMM D, YYYY');
   // return;
   ejs.renderFile(__dirname+"/../email-templates/orderAdminNotification.ejs", { order: order }, async function (err, data) {
     if (err) {
@@ -354,10 +354,10 @@ exports.sendOrderNotification = async function(order) {
           sender: process.env.MAIL_FROM,
           replyTo: process.env.MAIL_FROM,
           from: process.env.MAIL_FROM, 
-          // to: "info@trademarkers.com",
-          // bcc: ["carissa@trademarkers.com", "billing-trademarkers@moas.com","felix@bigfoot.com"],
-          to: "felix@trademarkers.com",
+          to: "info@trademarkers.com",
           bcc: ["carissa@trademarkers.com", "felix@bigfoot.com"],
+          // to: "felix@trademarkers.com",
+          // bcc: ["carissa@trademarkers.com", "felix@bigfoot.com"],
           subject: "New order | " + order.charge.description, 
           html: data
         };
@@ -365,6 +365,35 @@ exports.sendOrderNotification = async function(order) {
         transporter.sendMail(mainOptions);
       // })
       //  
+    }
+    
+  });
+
+  ejs.renderFile(__dirname+"/../email-templates/orderCustomerNotification.ejs", { order: order }, async function (err, data) {
+    if (err) {
+        console.log(err);
+    } else {
+      
+      let to = order.user.email;
+
+      if (order.user.secondaryEmail) {
+        to = order.user.secondaryEmail;
+      }
+      
+      let mainOptions = {
+        sender: process.env.MAIL_FROM,
+        replyTo: process.env.MAIL_FROM,
+        from: process.env.MAIL_FROM, 
+        to: to,
+        // bcc: ["felix@bigfoot.com"],
+        // to: "felix@trademarkers.com",
+        bcc: ["carissa@trademarkers.com", "felix@bigfoot.com"],
+        subject: "TradeMarkers LLC " + order.orderNumber, 
+        html: data
+      };
+
+      transporter.sendMail(mainOptions);
+
     }
     
   });
@@ -381,13 +410,20 @@ exports.notifyAddedService = async function(mailData) {
         console.log(err);
     } else {
       // fs.readFile(mailData.fileUrl, function (err, file) {
+        
+        let to = mailData.user.email;
+
+        if (mailData.user.secondaryEmail) {
+          to = mailData.user.secondaryEmail;
+        }
+
         let mainOptions = {
           sender: process.env.MAIL_FROM,
           replyTo: process.env.MAIL_FROM,
           from: process.env.MAIL_FROM, 
-          // to: "info@trademarkers.com",
-          // bcc: ["carissa@trademarkers.com", "billing-trademarkers@moas.com","felix@bigfoot.com"],
-          to: "felix@trademarkers.com",
+          to: to,
+          bcc: ["carissa@trademarkers.com","felix@bigfoot.com"],
+          // to: "felix@trademarkers.com",
           // bcc: ["carissa@trademarkers.com", "felix@bigfoot.com"],
           subject: "Added Service From Order #" + mailData.mark.orderCode, 
           html: data
