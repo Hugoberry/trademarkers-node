@@ -15,6 +15,7 @@ var rpoUserMongo = require('../repositories/usersMongo');
 var helpers = require('../helpers');
 
 var activityService = require('../services/activityLogService');
+var orderService = require('../services/orderService');
 var mailService = require('../services/mailerService');
 
 const { toInteger, unset } = require('lodash');
@@ -31,51 +32,12 @@ exports.orders = async function(req, res, next) {
 
   let trademarks;
 
-  if ( currentData && currentData.isNew ) {
-    console.log('new')
-  } else {
-
-    if ( currentData && !currentData.isMigrate ) {
-      // console.log('migrate ordersss');
-      // fetch trademarks from mysql and update customer ismigrate to true
-      let data = {
-        isMigrate : true
-      }
-      rpoUserMongo.updateUser(currentData._id, data);
-
-      let mysqlTrademarks = await rpoTm.fetchTmByUser(currentData._id);
-
-      for (let i=0; mysqlTrademarks.length > i; i++) {
-
-        // FETCH COUNTRY
-        let country = await rpoCountry.getById(mysqlTrademarks[i].country_id);
-
-        // console.log(mysqlTrademarks[i].order_id);
-        let trademark = {
-          userId: currentData._id,
-          orderCode: mysqlTrademarks[i].order_id,
-          userEmail: '',
-          serialNumber: mysqlTrademarks[i].filing_number,
-          mark: mysqlTrademarks[i].name,
-          serviceType: mysqlTrademarks[i].service,
-          type: mysqlTrademarks[i].type,
-          class: mysqlTrademarks[i].classes,
-          description: mysqlTrademarks[i].classes_description,
-          country: country[0].name,
-          countryId: mysqlTrademarks[i].country_id,
-          status: mysqlTrademarks[i].status,
-          created_at: toInteger(moment(mysqlTrademarks[i].created_at).format('YYMMDD')),
-          created_at_formatted: moment(mysqlTrademarks[i].created_at).format()
-        }
-
-        await rpoTmMongo.put(trademark);
-
-      }
-
-    } else {
-      console.log('ignore')
-    }
+  // STORE OLD ORDERS
+  if (currentData.id && !currentData.isMigrate) {
+    await orderService.getOldOrders(currentData);
   }
+
+  
   
   trademarks = await rpoTmMongo.getByCustomerId(currentData._id);
 

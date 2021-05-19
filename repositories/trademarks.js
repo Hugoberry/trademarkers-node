@@ -44,6 +44,16 @@ module.exports = {
 		);
 
 	},
+
+	// put: function(data) {
+
+    //     conn.getDb().collection(_table).insertOne(data, 
+	// 		function(err, res2) {
+	// 			if (err) throw err;
+	// 		}
+	// 	);
+
+	// },
 	
 	fetchTmByOrder: async function ( order_id ) {
 

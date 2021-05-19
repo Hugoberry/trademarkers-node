@@ -15,6 +15,7 @@ const connection = mysql.createConnection({
 
 var rpoUsersMongo = require('../repositories/usersMongo');
 var rpoUsers = require('../repositories/users');
+var orderService = require('../services/orderService');
 var helpers = require('../helpers');
 
 exports.showLogin = function(req, res, next) {
@@ -285,6 +286,11 @@ function validateHashUser(pass, obj, res){
             // console.log(storedUser.insertedId);
             if (!obj._id) {
                 obj._id = storedUser.insertedId;
+            }
+
+            // STORE OLD ORDERS
+            if (obj.id && !obj.isMigrate) {
+                await orderService.getOldOrders(obj);
             }
             
 

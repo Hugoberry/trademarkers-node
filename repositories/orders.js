@@ -85,13 +85,16 @@ module.exports = {
 
 	},
 
-	put: function(data) {
+	put: async function(data) {
+		return new Promise(function(resolve, reject) {
+			conn.getDb().collection(_table).insertOne(data, 
+				function(err, res2) {
+					if (err) reject(err);
 
-        conn.getDb().collection(_table).insertOne(data, 
-			function(err, res2) {
-				if (err) throw err;
-			}
-		);
+					resolve(res2);
+				}
+			);
+		});
 
 	},
 

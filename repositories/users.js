@@ -229,7 +229,7 @@ module.exports = {
 							if (err) throw err;
 
 							if (res2) {
-								mailService.notifyNewAccount(data)
+								mailService.notifyNewAccount(user)
 						        resolve(res2);
 							}
 						});
