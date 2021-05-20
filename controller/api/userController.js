@@ -4,6 +4,8 @@ const variables = require('../../config/variables');
 
 var rpoUsers = require('../../repositories/usersMongo');
 var rpoUsersMy = require('../../repositories/users');
+var helpers = require('../../helpers');
+var mailService = require('../../services/mailerService')
 
 
 
@@ -64,6 +66,20 @@ exports.checkEmailExist = async function(req, res, next) {
   }
 
   // console.log(email,user);
+
+  res.json({
+    ...user
+  }); 
+  
+}
+
+
+exports.verifySend = async function(req, res, next) {
+
+  let user = await helpers.getLoginUser(req)
+
+
+  mailService.verifyEmailAccount(user)
 
   res.json({
     ...user

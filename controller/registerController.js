@@ -32,6 +32,8 @@ exports.registration = async function(req, res, next) {
   let prices;
   let classes = await rpoTrademarkClasses.getClasses();
 
+  activityService.logger(req.ip, req.originalUrl, "Registration page " + countryName);
+
   if ( countryName ) {
 
     countryName = countryName.replace(/_/g, ' ')
@@ -59,6 +61,7 @@ exports.registration = async function(req, res, next) {
 
     // http://localhost:4200/trademark-registration-in-antigua_and_barbuda
   }
+  
 
   let layout = 'layouts/public-layout-default';
   let hasStudy = true;
@@ -108,6 +111,8 @@ exports.registrationProceed = async function(req, res, next) {
 
   let countries = await rpoCountries.getAll();
 
+  activityService.logger(req.ip, req.originalUrl, "Proceed to Registration in " + countryName);
+
   if ( countryName ) {
 
     countryName = countryName.replace(/_/g, ' ')
@@ -156,6 +161,8 @@ exports.trademarkProfile = async function(req, res, next) {
 
   let countries = await rpoCountries.getAll();
 
+  activityService.logger(req.ip, req.originalUrl, "Registration Profile ");
+
   res.render('order/validateProfile', { 
     layout: 'layouts/public-layout-default', 
     title: 'confirmation',
@@ -175,8 +182,7 @@ exports.validateOrder = async function(req, res, next) {
 
   let type;
 
-  // check if login and verify
-  // console.log("body",req.body);
+  
   
   if ( !helpers.isAuth(req) ) {
     
@@ -191,6 +197,8 @@ exports.validateOrder = async function(req, res, next) {
   } else {
     // redirect to registration landing
   }
+
+  activityService.logger(req.ip, req.originalUrl, "Validate " + type + " Order");
 
   let prices = await rpoPrices.findPriceByCountry(req.body.countryId * 1, type);
   let country = await rpoCountries.getById(req.body.countryId * 1);
@@ -263,6 +271,8 @@ exports.addToCart = async function(req, res, next) {
   } else {
     // redirect to registration landing
   }
+
+  activityService.logger(req.ip, req.originalUrl, "Add to Cart");
 
   let prices = await rpoPrices.findPriceByCountry(req.body.countryId * 1, type);
   let price;
@@ -420,6 +430,8 @@ exports.cart = async function(req, res, next) {
   let currentUser = await helpers.getLoginUser(req);
   let isloggedIn = false;
 
+  activityService.logger(req.ip, req.originalUrl, "Visited cart");
+
   if (!currentUser) {
     let fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
     let url = new URL(fullUrl);
@@ -470,6 +482,8 @@ exports.checkout = async function(req, res, next) {
   let currentUser = await helpers.getLoginUser(req) 
   let cartItems;
   let userId;
+
+  activityService.logger(req.ip, req.originalUrl, "Proceed to checkout");
 
   if (!currentUser) {
     let fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
@@ -526,6 +540,8 @@ exports.placeOrder = async function(req, res, next) {
     res.redirect("/cart"); 
   }
 
+  activityService.logger(req.ip, req.originalUrl, "Placed Order");
+
   let cartItems = await rpoCartItems.fetchCustomerCart(currentUser._id)
   let orderCode = await orderService.createOrderCode();
   let description = "Trademark Order #" + orderCode;
@@ -574,7 +590,7 @@ exports.placeOrder = async function(req, res, next) {
       res.flash('success', 'Payment Successful!');
       rpoCharge.put(charge);
   
-      activityService.logger(req.ip, req.originalUrl, "checkout L3P-6T");
+      activityService.logger(req.ip, req.originalUrl, "checkout " + orderCode);
 
       // update cart items to complete
       await cartItems.forEach(async items => {

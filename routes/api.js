@@ -30,5 +30,8 @@ router.get('/checkEmailExist', userController.checkEmailExist);
 // admin trademark functions
 router.post('/trademark-service/delete', adminTrademarkController.deleteService);
 
+// re send email verification link
+router.post('/verify/resend', userController.verifySend);
+
 
 module.exports = router;

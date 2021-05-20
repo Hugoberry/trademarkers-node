@@ -6,10 +6,11 @@ let _variables = require('../config/variables');
 
 let geoip = require('geoip-lite');
 
+const { toInteger } = require('lodash');
 let moment = require('moment');
 
 exports.logger = function(ip, page, msg) {
-    // console.log('this', req.ip);
+    // console.log('this', ip);
 
     
 
@@ -29,10 +30,12 @@ exports.logger = function(ip, page, msg) {
             country : geo.country,
             city    : geo.city,
             region  : geo.region,
-            activity: msg
+            activity: msg,
+            created_at: toInteger(moment().format('YYMMDD')),
+            created_at_formatted: moment().format()
         };
 
-        console.log(_data);
+        // console.log(_data);
 
         rpoActivity.activity(_data);
     }

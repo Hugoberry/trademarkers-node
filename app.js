@@ -135,6 +135,8 @@ conn.connectToServer( function( err, client ) {
     cartService.sendAbandonedCart4hr();
   });
 
+  // notificationCronService.fetchOtherServices();
+
   // RUN EVERYDAY AT 4PM US TIME TO CHECK ABANDONED CART AND ADDED SERVICES
   cron.schedule('0 0 16 * * *', () => { 
     cartService.sendAbandonedCart1d();

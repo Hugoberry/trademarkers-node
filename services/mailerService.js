@@ -697,9 +697,9 @@ exports.notifyNewAccount = async function(user) {
           from: process.env.MAIL_FROM, 
           // to: "info@trademarkers.com",
           // bcc: ["carissa@trademarkers.com", "billing-trademarkers@moas.com","felix@bigfoot.com"],
-          to: "felix@trademarkers.com",
+          to: user.email,
           // bcc: ["carissa@trademarkers.com", "felix@bigfoot.com"],
-          subject: "Welcome", 
+          subject: "Thank You for Creating an Account!", 
           html: data
         };
 
@@ -727,7 +727,7 @@ exports.verifyEmailAccount = async function(user) {
           from: process.env.MAIL_FROM, 
           // to: "info@trademarkers.com",
           // bcc: ["carissa@trademarkers.com", "billing-trademarkers@moas.com","felix@bigfoot.com"],
-          to: "felix@trademarkers.com",
+          to: user.to,
           // bcc: ["carissa@trademarkers.com", "felix@bigfoot.com"],
           subject: "Welcome", 
           html: data

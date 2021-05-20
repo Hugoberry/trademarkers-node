@@ -34,7 +34,7 @@ exports.verifiedEmail = function(req, res, next){
         user = JSON.parse(decode.payload.user);
         console.log(user);
         if ( !user.email_verified_at ) {
-            // res.redirect('/customer/verify'); 
+            res.redirect('/customer/verify'); 
         }
     } else {
         // res.redirect('/customer/verify'); 

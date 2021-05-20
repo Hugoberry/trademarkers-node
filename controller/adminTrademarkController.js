@@ -97,59 +97,81 @@ exports.editSubmit = async function(req, res, next) {
 
   let serviceLength = req.body.addAmount.length;
 
-  for (let key=0; key < serviceLength; key++ ) {
+  if (Array.isArray(req.body.addAmount)) {
 
-    // check service if paid or emailed to customer
-    if ( req.body.serviceId[key] ) {
+    for (let key=0; key < serviceLength; key++ ) {
 
-      if ( serviceLength == 1 ) {
-        let serviceData = {
-          addAmount: req.body.addAmount,
-          addAmountDescription: req.body.addAmountDescription,
-          status: req.body.status
+      // check service if paid or emailed to customer
+      if ( req.body.serviceId[key] ) {
+  
+        if ( serviceLength == 1 ) {
+          let serviceData = {
+            addAmount: req.body.addAmount,
+            addAmountDescription: req.body.addAmountDescription,
+            status: req.body.status
+          }
+  
+          await rpoAddedServices.updateDetails(req.body.serviceId,serviceData);
+        } else {
+          let serviceData = {
+            addAmount: req.body.addAmount[key],
+            addAmountDescription: req.body.addAmountDescription[key],
+            status: req.body.status[key],
+          }
+  
+          await rpoAddedServices.updateDetails(req.body.serviceId[key],serviceData);
         }
-
-        await rpoAddedServices.updateDetails(req.body.serviceId,serviceData);
+  
+        
       } else {
+        // add record
         let serviceData = {
+          trademarkId: id,
           addAmount: req.body.addAmount[key],
           addAmountDescription: req.body.addAmountDescription[key],
-          status: req.body.status[key],
+          status: 'unPaid',
+          isMailed: 'no',
+          created_at: toInteger(moment().format('YYMMDD')),
+          created_at_formatted: moment().format()
         }
-
-        await rpoAddedServices.updateDetails(req.body.serviceId[key],serviceData);
+        console.log('add service', key);
+        await rpoAddedServices.put(serviceData);
       }
-      // exist
-      // console.log(serviceLength);
-      // if ( req.body.status && req.body.status[key] != 'unPaid' ) {
-
-      //   let serviceData = {
-      //     addAmount: req.body.addAmount[key],
-      //     addAmountDescription: req.body.addAmountDescription[key],
-      //     status: req.body.status[key],
-      //   }
-      //   console.log('update service', serviceData);
-      //   await rpoAddedServices.updateDetails(req.body.serviceId[key],serviceData);
-      // }
+  
       
+    }
+
+  } else {
+
+    if ( req.body.serviceId ) {
+
+      let serviceData = {
+        addAmount: req.body.addAmount,
+        addAmountDescription: req.body.addAmountDescription,
+        status: req.body.status
+      }
+  
+      await rpoAddedServices.updateDetails(req.body.serviceId,serviceData);
+
     } else {
-      // add record
       let serviceData = {
         trademarkId: id,
-        addAmount: req.body.addAmount[key],
-        addAmountDescription: req.body.addAmountDescription[key],
+        addAmount: req.body.addAmount,
+        addAmountDescription: req.body.addAmountDescription,
         status: 'unPaid',
         isMailed: 'no',
         created_at: toInteger(moment().format('YYMMDD')),
         created_at_formatted: moment().format()
       }
-      console.log('add service', key);
+      // console.log('add service', key);
       await rpoAddedServices.put(serviceData);
     }
 
-    res.flash('success', 'Updated successfully!');
-  }
+    
 
+  }
+  
+  res.flash('success', 'Updated successfully!');
 
 
 

@@ -379,6 +379,30 @@ $( document ).ready(function() {
     // return false
   })
 
+  // VERIFY EMAIL
+  if ( $("#verify-resend").length ) {
+    var verifyFlag = true;
+    $("#verify-resend").click(function(){
+
+      if (!verifyFlag) {
+        return false;
+      }
+
+      $.ajax({
+        url: "/api/v1/verify/resend",
+        type:"POST",
+        dataType:"json",
+        async: false,
+        contentType: "application/json",
+        success: function( result ) {
+          console.log(result);
+          verifyFlag = false;
+          $("#verifyMessage").show()
+        }
+      });
+    });
+  }
+
   $("#priority").change(function(){
     if ( $(this).val() == "yes" ) {
       $("#yes_priority").show()

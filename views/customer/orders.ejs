@@ -47,11 +47,12 @@
                                   <% mark.data.forEach(function(trademark,key) { %>
                                     
                                     <% if( trademark.status != "Registered" ) { %>
+
                                     <tr>
                                       <td><%= trademark.orderCode %></td>
                                       <td><%= trademark.filingDate ? moment(trademark.filingDate).format('MMM D, YYYY') : '-' %></td>
                                       <td><%= trademark.serialNumber %></td>
-                                      <td><%= trademark.serviceType %></td>
+                                      <td style="text-transform: capitalize;"><%= trademark.serviceType ? 'Trademark '+ trademark.serviceType : '' %></td>
                                       <td><a href="/customer/orders/<%= trademark._id %>"><%= trademark.mark %></a></td>
                                       <td><%= trademark.status %></td>
                                       <td><a href="#" class="text-danger"></a></td>
@@ -78,7 +79,7 @@
                                   <tr>
                                     <th>App. Date</th>
                                     <th>App. Number</th>
-                                    <th>Reg. Number</th>
+                                    <th>Service</th>
                                     <th>Trademark</th>
                                     <th>Status</th>
                                     <th>Remarks</th>
@@ -90,7 +91,7 @@
                                       <tr>
                                         <td><%= moment(trademark.filingDate).format('MMM D, YYYY') %></td>
                                         <td><%= trademark.serialNumber %></td>
-                                        <td><%= trademark.registrationNumber %></td>
+                                        <td style="text-transform: capitalize;"><%= trademark.serviceType ? 'Trademark '+ trademark.serviceType : '' %></td>
                                         <td><a href="/customer/orders/<%= trademark._id %>"><%= trademark.mark %></a></td>
                                         <td><%= trademark.status %></td>
                                         <td><a href="#" class="text-danger"></a></td>
@@ -115,7 +116,7 @@
                                   <tr>
                                     <th>App. Date</th>
                                     <th>App. Number</th>
-                                    <th>Reg. Number</th>
+                                    <th>Service</th>
                                     <th>Trademark</th>
                                     <th>Status</th>
                                     <th>Remarks</th>
@@ -127,7 +128,7 @@
                                       <tr>
                                         <td><%= moment(trademark.filingDate).format('MMM D, YYYY') %></td>
                                         <td><%= trademark.serialNumber %></td>
-                                        <td><%= trademark.registrationNumber %></td>
+                                        <td style="text-transform: capitalize;"><%= trademark.serviceType ? 'Trademark '+ trademark.serviceType : '' %></td>
                                         <td><a href="/customer/orders/<%= trademark._id %>"><%= trademark.mark %></a></td>
                                         <td><%= trademark.status %></td>
                                         <td><a href="#" class="text-danger"></a></td>

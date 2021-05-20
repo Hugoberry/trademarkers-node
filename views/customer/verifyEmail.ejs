@@ -12,20 +12,18 @@
 
                 <div class="card-body">
 
-                    <% if (flash.success) { %>
-                    <div class="alert alert-success" role="alert">
-                        <strong><%= flash.success %></strong>
-                    </div>
-                    <% } %>
-                
                     <% if (flash.error) { %>
                         <div class="alert alert-warning" role="alert">
                         <strong><%= flash.error %></strong>
                         </div>
                     <% } %>
 
+                    <div id="verifyMessage" class="alert alert-success" role="alert" style="display:none">
+                        <strong>Email verification has been sent.</strong>
+                    </div>
+
                     Before proceeding, please check your email for a verification link.
-                    If you did not receive the email, <a href="/customer/verify-send-email">click here to request another</a>.
+                    If you did not receive the email, <a id="verify-resend" href="#">click here to request another</a>.
                 </div>
             </div>
             </div>

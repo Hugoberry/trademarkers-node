@@ -130,7 +130,7 @@ module.exports = {
 				isMailed: 'no',
 				created_at_formatted: { 
 					$lt : moment().subtract("23", "hours").format(),
-					$gte : moment().subtract("1", "days").format(),
+					// $gte : moment().subtract("1", "days").format(),
 				},
 			};
 

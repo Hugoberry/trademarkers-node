@@ -17,6 +17,7 @@ router.get('/profile/edit', verifiedEmail,controller.profileEdit);
 router.post('/profile/edit/submit', verifiedEmail,controller.profileSubmit);
 
 router.get('/verify', verify, controller.customerVerifyEmail);
+router.get('/verify-account/:id', controller.verifyAccount);
 
 router.get('/dashboard', verifiedEmail, controller.redirect);
 

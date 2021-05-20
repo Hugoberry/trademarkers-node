@@ -59,16 +59,18 @@ exports.orders = async function(req, res, next) {
     trademarkSortedData[trademarks[i].countryId].countryName = trademarks[i].country
     trademarkSortedData[trademarks[i].countryId].data.push(trademarks[i])
 
-    if ( trademarks[i] == "Registered" ) {
+    // console.log(trademarks[i].status);
+    if ( trademarks[i].status == "Registered" ) {
+      // console.log(trademarks[i].status);
       trademarkSortedData[trademarks[i].countryId].reg++
     } else {
       trademarkSortedData[trademarks[i].countryId].pen++
     }
   }
 
-  trademarkSortedData.forEach(element => {
-    console.log(element);
-  });
+  // trademarkSortedData.forEach(element => {
+  //   console.log(element);
+  // });
   // console.log('formatted',trademarkSortedData);
   res.render('customer/orders', { 
     layout: 'layouts/customer-layout-interactive', 
@@ -277,8 +279,12 @@ exports.profileSubmit = async function(req, res, next) {
 
 exports.customerVerifyEmail = async function(req, res, next) {
 
-  // let user = await helpers.getLoginUser(req)
-  let countries = await rpoCountry.getAll();
+  let user = await helpers.getLoginUser(req)
+  // let countries = await rpoCountry.getAll();
+
+  if ( user.email_verified_at ) {
+    res.redirect("/customer"); 
+  }
 
   res.render('customer/verifyEmail', { 
     title: 'Customer',
@@ -287,5 +293,34 @@ exports.customerVerifyEmail = async function(req, res, next) {
 
 }
 
+exports.verifyAccount = async function(req, res, next) {
 
+  let user = await helpers.getLoginUser(req)
+  console.log(user._id,req.params.id);
+
+  if (user._id.equals(req.params.id)) {
+    // update user and redirect to account
+    let userData = {
+      email_verified_at : moment().format()
+    }
+
+    rpoUserMongo.updateUser(user._id,userData)
+
+    user.email_verified_at = userData.email_verified_at;
+
+    helpers.setLoginUser(res,user);
+    res.redirect("/customer"); 
+  } else {
+    res.flash('error', 'Please verify email address to continue');
+    res.redirect("/customer/verify"); 
+  }
+
+  // res.render('customer/verifyEmail', { 
+  //   title: 'Customer',
+  //   user: await helpers.getLoginUser(req)
+  // });
+
+}
+
+// http://localhost:4200/customer/verify-account/60a4d9865f3f7052445c551f
 
