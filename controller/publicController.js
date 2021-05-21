@@ -833,6 +833,14 @@ exports.codeLanding = async function(req, res, next) {
       layout = 'layouts/public-layout-interactive'
       render = 'trademark-order/payment'
 
+      console.log('check auth');
+      let getCurrentUser = await helpers.getLoginUser(req);
+
+      // console.log(getCurrentUser);
+      // if ( !getCurrentUser ) {
+      //   res.redirect("/login"); 
+      // }
+
     break;
 
     case 'delivery' :

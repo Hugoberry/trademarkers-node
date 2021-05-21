@@ -731,7 +731,7 @@ exports.verifyEmailAccount = async function(user) {
           // bcc: ["carissa@trademarkers.com", "billing-trademarkers@moas.com","felix@bigfoot.com"],
           to: user.email,
           // bcc: ["felix@bigfoot.com"],
-          subject: "Welcome", 
+          subject: "Verify Email Address", 
           html: data
         };
 
