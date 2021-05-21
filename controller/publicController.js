@@ -1076,6 +1076,16 @@ exports.checkout = async function(req, res, next) {
     if ( action[0].response ) {
       description += ": " + action[0].response;
     }
+
+    action[0].ordered = 'yes'
+
+    // update action
+    let actionUpdates = {
+      ordered: 'yes'
+    }
+
+    await rpoAction.updateDetails(action[0]._id, actionUpdates)
+
   } else {
     price = req.body.price ? (req.body.price * 1) : 0;
     description = req.body.description ? req.body.description : "";
@@ -1105,37 +1115,20 @@ exports.checkout = async function(req, res, next) {
 
   if ( charge.paid ) {
 
-    
-    action[0].ordered = 'yes'
-
-    // update action
-    let actionUpdates = {
-      ordered: 'yes'
-    }
-
-    await rpoAction.updateDetails(action[0]._id, actionUpdates)
-
-    // save
-    
-
-    // let order = {
-    //   orderNumber: orderCode,
-    //   action: action[0],
-    //   charge: charge
-    // }
-
     let order = {
       orderNumber: orderCode,
       charge: charge,
       custom: false,
       paid: true,
       action: action[0],
-      customerId: action[0].userId,
+      userId: action[0] ? action[0].userId : '',
       created_at: toInteger(moment().format('YYMMDD')),
       created_at_formatted: moment().format()
     }
 
-    
+    order.custEmail = customer;
+    order.paymentFor = payment;
+    order.paymentDescription = description;
 
     // send email notification
     mailService.sendOrderNotification(order);
@@ -1146,14 +1139,15 @@ exports.checkout = async function(req, res, next) {
     
 
     // update notifications collection
-    let notification = await rpoSouNotifications.findBySerial(action[0].serialNumber);
-    let dataNotification = {
-      actionType: "Ordered: " + action[0].response
+    if ( action[0] ) { 
+      let notification = await rpoSouNotifications.findBySerial(action[0].serialNumber);
+      let dataNotification = {
+        actionType: "Ordered: " + action[0].response
+      }
+      rpoSouNotifications.updateDetails(notification[0]._id, dataNotification);
+      // Ordered: Statement of Use
+      // Ordered: Extension for trademark allowance
     }
-    rpoSouNotifications.updateDetails(notification[0]._id, dataNotification);
-    // Ordered: Statement of Use
-    // Ordered: Extension for trademark allowance
-
 
     res.redirect("/thank-you/"+orderCode); 
   } else {
@@ -1238,14 +1232,14 @@ exports.checkoutCustom = async function(req, res, next) {
       custom: true,
       paid: true,
       action: 'L3P-5T',
-      customerId: '',
+      userId: '',
       created_at: toInteger(moment().format('YYMMDD')),
       created_at_formatted: moment().format()
     }
 
     console.log('put', order);
 
-    
+    order.custEmail = customer;
 
     mailService.sendOrderNotification(order);
     rpoOrder.put(order);
@@ -1331,14 +1325,14 @@ exports.checkoutCustom2 = async function(req, res, next) {
       custom: true,
       paid: true,
       action: 'L3P-6T',
-      customerId: '',
+      userId: '',
       created_at: toInteger(moment().format('YYMMDD')),
       created_at_formatted: moment().format()
     }
 
     console.log('put', order);
 
-    
+    order.custEmail = customer;
 
     mailService.sendOrderNotification(order);
     rpoOrder.put(order);
@@ -1433,14 +1427,14 @@ exports.serviceOrderSubmit = async function(req, res, next) {
       custom: true,
       paid: true,
       action: req.body.code,
-      customerId: '',
+      userId: '',
       created_at: toInteger(moment().format('YYMMDD')),
       created_at_formatted: moment().format()
     }
 
     console.log('put', order);
 
-    
+    order.custEmail = customer;
 
     mailService.sendOrderNotification(order);
     rpoOrder.put(order);
@@ -1515,14 +1509,14 @@ exports.serviceOrderCustom3 = async function(req, res, next) {
       custom: true,
       paid: true,
       action: req.body.code,
-      customerId: req.body.customerId,
+      userId: req.body.customerId,
       created_at: toInteger(moment().format('YYMMDD')),
       created_at_formatted: moment().format()
     }
 
     // console.log('put', order);
 
-    
+    order.custEmail = customer;
 
     mailService.sendOrderNotification(order);
     rpoOrder.put(order);

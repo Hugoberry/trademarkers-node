@@ -153,6 +153,7 @@ module.exports = {
 				if (err) throw err;
 
 				mailService.notifyNewAccount(data)
+				mailService.verifyEmailAccount(data)
 				resolve(result);
 			}
 		);

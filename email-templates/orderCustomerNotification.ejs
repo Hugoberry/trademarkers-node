@@ -555,7 +555,7 @@
                           <%
                             let name="";
 
-                            if (order.user.nameAddress && order.user.suffix) {
+                            if (order.user && order.user.nameAddress && order.user.suffix) {
                               if (order.user.nameAddress == 'firstName') {
                                 name = order.user.suffix + " " + order.user.firstName
                               } else if(order.user.nameAddress == 'lastName') {
@@ -564,7 +564,7 @@
                                 name = order.user.name
                               }
                             } else {
-                              name = order.user.name
+                              name = order.user ? order.user.name : 'Trademarkers Client'
                             }
                           %>
                           Hello <span style="text-transform: capitalize;"><%= name %></span>,
@@ -718,7 +718,7 @@
         text-align: right;
     }
 </style>
-
+<% if (order.cartItems ) { %>
 <!-- ORDER ITEMS TABLE START  -->
 <table border="0" cellpadding="0" cellspacing="0" height="100%" class="tbl-content-orders" >
 	<thead>
@@ -737,7 +737,7 @@
     <%
       let totalAmount = 0;
     %>
-    <% if (order.cartItems ) { %>
+    
       <% order.cartItems.forEach(item => { totalAmount += item.price %>
         <tr>
           <td><%= item.serviceType %></td>
@@ -748,7 +748,7 @@
           <td>$<%= item.price %></td>
         </tr>
       <% }) %>
-    <% } %>
+    
     <tbody>    
 
 	<tfoot>
@@ -771,7 +771,10 @@
 	
     
 </table>
-
+<% } else { %>
+  Payment For: <%= order.paymentFor %><br>
+  Payment Description: <%= order.paymentDescription %>
+<% } %>
 
 <!-- ORDER ITEMS TABLE START  -->
 

@@ -354,10 +354,10 @@ exports.sendOrderNotification = async function(order) {
           sender: process.env.MAIL_FROM,
           replyTo: process.env.MAIL_FROM,
           from: process.env.MAIL_FROM, 
-          to: "info@trademarkers.com",
-          bcc: ["carissa@trademarkers.com", "felix@bigfoot.com"],
-          // to: "felix@trademarkers.com",
+          // to: "info@trademarkers.com",
           // bcc: ["carissa@trademarkers.com", "felix@bigfoot.com"],
+          to: "felix@trademarkers.com",
+          bcc: ["carissa@trademarkers.com", "felix@bigfoot.com"],
           subject: "New order | " + order.charge.description, 
           html: data
         };
@@ -374,9 +374,11 @@ exports.sendOrderNotification = async function(order) {
         console.log(err);
     } else {
       
-      let to = order.user.email;
+      let to = order.user ? order.user.email : order.custEmail;
 
-      if (order.user.secondaryEmail) {
+
+
+      if (order.user && order.user.secondaryEmail) {
         to = order.user.secondaryEmail;
       }
       
@@ -727,8 +729,8 @@ exports.verifyEmailAccount = async function(user) {
           from: process.env.MAIL_FROM, 
           // to: "info@trademarkers.com",
           // bcc: ["carissa@trademarkers.com", "billing-trademarkers@moas.com","felix@bigfoot.com"],
-          to: user.to,
-          // bcc: ["carissa@trademarkers.com", "felix@bigfoot.com"],
+          to: user.email,
+          // bcc: ["felix@bigfoot.com"],
           subject: "Welcome", 
           html: data
         };

@@ -361,10 +361,17 @@
                          
                           
 
-                          Customer placed a new order.<br>
-                          Name: <%= order.user.name %><br>
-                          Email: <%= order.user.email %>
-
+                          
+                          <% if(order.user) { %>
+                            Customer placed a new order.<br>
+                            Name: <%= order.user.name %><br>
+                            Email: <%= order.user.email %>
+                          <% } else { %>
+                            Customer paid for a Service<br>
+                            Email: <%= order.custEmail %><br>
+                            Payment For: <%= order.paymentFor %><br>
+                            Payment Description: <%= order.paymentDescription %>
+                          <% } %>
                           <% if ( order.cartItems ) { %>
                             <table border="0" cellpadding="0" cellspacing="0" height="100%" class="tbl-content-orders" >
                               <tr>
@@ -386,7 +393,7 @@
   
                           <% } %>
   
-                          <% if(!order.custom) { %>
+                          <% if(!order.custom && order.action) { %>
                             <p>Serial Number: <%= order.action.serialNumber %></p>
                             <p>Mark: <%= order.action.trademark.name %></p>
                           <% } %>
