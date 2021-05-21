@@ -133,6 +133,7 @@ conn.connectToServer( function( err, client ) {
   // RUN EVERY 1 HR TO CHECK ABANDONED CART 
   cron.schedule('0 0 */1 * * *', () => {
     cartService.sendAbandonedCart4hr();
+    notificationCronService.fetchOtherServices();
   });
 
   // notificationCronService.fetchOtherServices();
@@ -142,7 +143,7 @@ conn.connectToServer( function( err, client ) {
     cartService.sendAbandonedCart1d();
     cartService.sendAbandonedCart3d();
     cartService.sendAbandonedCart1Month();
-    notificationCronService.fetchOtherServices();
+    
   }, {
     scheduled: true,
     timezone: "America/New_York"
