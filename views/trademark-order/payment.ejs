@@ -162,7 +162,12 @@
                         </div>
                       </div>
                       <div class="form-group mb-0">
-                            <input type="submit" name="ncLgnFormSubmit" id="NcLgnFormSubmit" class="btn btn-solid-lg btn-blue" value="Pay">
+                        <% if (user) { %>
+                          <input type="submit" name="ncLgnFormSubmit" id="NcLgnFormSubmit" class="btn btn-solid-lg btn-blue" value="Pay">
+                        <% } else { %>
+                          <p>Please login to proceed</p>
+                        <% } %>
+                            
                         </div>
                   </form>
 
