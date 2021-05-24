@@ -833,8 +833,8 @@ exports.codeLanding = async function(req, res, next) {
       layout = 'layouts/public-layout-interactive'
       render = 'trademark-order/payment'
 
-      console.log('check auth');
-      let getCurrentUser = await helpers.getLoginUser(req);
+      // console.log('check auth');
+      // let getCurrentUser = await helpers.getLoginUser(req);
 
       // console.log(getCurrentUser);
       // if ( !getCurrentUser ) {
@@ -1067,7 +1067,7 @@ exports.checkout = async function(req, res, next) {
 
   // console.log(req.params);
   // console.log(process.env.PAYTEST);
-  console.log('body',req.body);
+  // console.log('body',req.body);
 
   req.body.stripeEmail = req.body.email;
   let action = await rpoAction.getAction(req.body.action);
