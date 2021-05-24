@@ -71,3 +71,8 @@
 .profile-text-format span{
     font-weight: 400;
 }
+
+.img-right{
+    float:right;
+    max-width : 300px;
+}

@@ -15,7 +15,7 @@
                   </div>
                 </div>
 
-                <% if( trademark.otherServices ) { %>
+                <% if( trademark.otherServices.length > 0 ) { %>
                   <div class="ard-wrap stp-row">
 
                     <h3>Services needed to continue your order process</h3>
@@ -51,6 +51,10 @@
 
                   <% if( trademark.mark ) { %>
                     <div class="ar-cname ar-info-line">Trademark: <strong style="text-transform: capitalize;"><%= trademark.mark %></strong></div>
+                  <% } %>
+
+                  <% if( trademark.logoPic ) { %>
+                    <div class="ar-cname ar-info-line"><img class="img-right" src="/uploads/<%= trademark.logoPic %>" /></div>
                   <% } %>
 
                   <% if( trademark.serviceType ) { %>
