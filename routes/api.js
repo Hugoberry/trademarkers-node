@@ -33,5 +33,8 @@ router.post('/trademark-service/delete', adminTrademarkController.deleteService)
 // re send email verification link
 router.post('/verify/resend', userController.verifySend);
 
+// select delivery method
+router.post('/delivery-method', userController.selectDeliveryMethod)
+
 
 module.exports = router;

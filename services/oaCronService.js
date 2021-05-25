@@ -18,7 +18,7 @@ exports.sendNOACron = async function() {
 
 
 let rec = await rpoTrademarkMongo.getlimitDataByStatus();
-console.log(rec.length);
+// console.log(rec.length);
 
 let count = 0;
 for (let i = 0; count < 1 ; i++) {

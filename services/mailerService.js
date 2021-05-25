@@ -354,10 +354,10 @@ exports.sendOrderNotification = async function(order) {
           sender: process.env.MAIL_FROM,
           replyTo: process.env.MAIL_FROM,
           from: process.env.MAIL_FROM, 
-          // to: "info@trademarkers.com",
-          // bcc: ["carissa@trademarkers.com", "felix@bigfoot.com"],
-          to: "felix@trademarkers.com",
+          to: "info@trademarkers.com",
           bcc: ["carissa@trademarkers.com", "felix@bigfoot.com"],
+          // to: "felix@bigfoot.com",
+          // bcc: ["carissa@trademarkers.com", "felix@bigfoot.com"],
           subject: "New order | " + order.charge.description, 
           html: data
         };
@@ -387,9 +387,9 @@ exports.sendOrderNotification = async function(order) {
         replyTo: process.env.MAIL_FROM,
         from: process.env.MAIL_FROM, 
         to: to,
-        // bcc: ["felix@bigfoot.com"],
-        // to: "felix@trademarkers.com",
-        bcc: ["carissa@trademarkers.com", "felix@bigfoot.com"],
+        bcc: ["felix@bigfoot.com"],
+        // to: "felix@bigfoot.com",
+        // bcc: ["carissa@trademarkers.com", "felix@bigfoot.com"],
         subject: "TradeMarkers LLC " + order.orderNumber, 
         html: data
       };
@@ -529,7 +529,7 @@ exports.sendAdminNotificationCustomerEmailUpdate = async function(user) {
 exports.sendCertificateNotification = async function(trademark) {
 
   // return;
-  ejs.renderFile(__dirname+"/../email-templates/orderAdminNotification.ejs", { order: order }, async function (err, data) {
+  ejs.renderFile(__dirname+"/../email-templates/trademarkCertificateNotification.ejs", { trademark: trademark }, async function (err, data) {
     if (err) {
         console.log(err);
     } else {
@@ -538,29 +538,18 @@ exports.sendCertificateNotification = async function(trademark) {
           sender: process.env.MAIL_FROM,
           replyTo: process.env.MAIL_FROM,
           from: process.env.MAIL_FROM, 
-          to: "info@trademarkers.com",
-          bcc: ["carissa@trademarkers.com", "billing-trademarkers@moas.com"],
-          // to: "felix@trademarkers.com",
+          // to: "info@trademarkers.com",
+          // bcc: ["carissa@trademarkers.com", "billing-trademarkers@moas.com"],
+          to: "felix@trademarkers.com",
           // bcc: ["febongo@gmail.com", "felix@bigfoot.com"],
-          subject: "New order | " + order.charge.description, 
+          subject: "Your Trademark Certificate is now Available", 
           html: data
         };
 
         transporter.sendMail(mainOptions, function (err, info) {
-          
-          let res;
-          
-          if (err) {
-            console.log(err);
-            res = err;
-          } else {
-            console.log(info);
-            res = info;
-
-          }
-
+        
         });
-      // })
+
        
     }
     

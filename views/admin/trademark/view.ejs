@@ -186,6 +186,28 @@
     </div>
     <% } %>
 
+    <% if(trademark.certificate) { %>
+    <div class="col-md-12">
+      <label>Trademark Certificate</label>
+      <div style="padding:10px;">
+          <embed src="/uploads/certificate/<%= trademark.certificate.customName %>" width="200px" height="200px" />
+      </div>
+    </div>
+    <% } %>
+
+  <% if(trademark.delivery) { %>
+      <div class="col-md-12">
+        <hr>
+        <div class="ar-box-head"><h3>Delivery Method</h3></div>
+        <div class="ar-cname ar-info-line">Shipping Name: <strong><%= trademark.delivery.name %> </strong></div>
+        <div class="ar-cname ar-info-line">Shipping Address: <strong><%= trademark.delivery.address %></strong></div>
+        <div class="ar-cname ar-info-line">Shipping contact: <strong><%= trademark.delivery.contact %></strong></div>
+        <div class="ar-cname ar-info-line">Shipping Method: <strong><%= trademark.delivery.type %></strong></div>
+        <div class="ar-cname ar-info-line">Shipping Tracking: <strong><%= trademark.delivery.trackingNumber %></strong></div>
+        <div class="ar-cname ar-info-line">Shipping Status: <strong><%= trademark.delivery.status %></strong></div>
+      </div>
+  <% } %>  
+
     
 
     <div class="col-md-12">

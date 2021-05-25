@@ -955,18 +955,20 @@ exports.deliveryMethod = async function(req, res, next) {
   let trademark = null;
   let trademarkCertificate = null;
   let pdfUrl = '', pngName = '', pdfName='';
+  let user;
 
   if ( trdId ) {
+
+    activityService.logger(req.ip, req.originalUrl, "Customer visited certificate delivery " +trdId);
+
     trademark = await rpoTrademarksMongo.getBySerial(trdId)
     
-    if (trademark && trademark[0].certificate) {
-      // console.log(trademark[0]);
+    if (trademark[0] && trademark[0].certificate) {
 
-      // trademarkCertificate = await rpoTrademarks.fetchTmCertById(trdId)
-      // console.log('Cert',trademarkCertificate);
+      user = await rpoUserMongo.getByIdM(trademark[0].userId)
+      
 
-      // if (trademarkCertificate[0]) {
-        // trademarkCertificate = trademarkCertificate[0]
+      // CHECK IF ALREADY PURCHASED
 
         pdfUrl = "/uploads/certificate/"+ trademark[0].certificate.customName;
         // console.log(pdfUrl);
@@ -989,27 +991,35 @@ exports.deliveryMethod = async function(req, res, next) {
         // console.log(input);
         
         let gen = await pdf2img.convert(input, function(err, info) {
-          console.log("gen ong");
+          // console.log("gen ong");
           if (err) return err;
           else return info;
         });
         
-        console.log(gen);
+        // console.log(gen);
       
 
-    } // end if trademark
+    } else { // end if trademark
+      activityService.logger(req.ip, req.originalUrl, "Customer tried to visited certificate delivery page but no serial number found");
+      res.redirect('/');
+    } // end else trademark
+  } else {
+    activityService.logger(req.ip, req.originalUrl, "Customer tried to visited certificate delivery page but empty trademark serial");
+    res.redirect('/');
   }
+  // console.log(user[0]);
 
+  
   // wait for the generated png files
   await new Promise(resolve => setTimeout(resolve, 5000));
 
-  res.render('trademark-order/delivery', { 
+  res.render('trademark-order/delivery', {
     layout  : 'layouts/public-layout-interactive', 
     title   : 'Your Trademark Certificate is now available!',
     trademark: trademark[0],
     pngName: pngName,
     pdfName: pdfName,
-    user: await helpers.getLoginUser(req)
+    user: user[0]
   });
 
 
@@ -1173,6 +1183,109 @@ exports.checkout = async function(req, res, next) {
   res.redirect("/"+req.body.action+'/pay'); 
 
 }
+
+// DELIVERY CHECKOUT ===============================
+// =================================================
+exports.checkoutDelivery = async function(req, res, next) {
+
+  let trademark = await rpoTrademarksMongo.getById(req.body.trdId);
+
+  if (!trademark) {
+    // log and redirect to current page
+    res.flash('error', 'Sorry!, Something went wrong, try again later.');
+    activityService.logger(req.ip, req.originalUrl, "Failed, Customer tried to checkout certificate delivery with serial number " + req.body.serialNumber);
+    res.redirect("/delivery-method/"+req.body.serialNumber); 
+  }
+
+  let user = await rpoUserMongo.getByIdM(trademark[0].userId);
+
+  let price = 80;
+  let description = "FedEx Delivery";
+  let payment = "FedEx Delivery";
+  let customer = req.body.email ? req.body.email : "";
+
+  
+  // 
+  try{
+    const charge = await stripe.charges.create({
+      amount: (price * 100),
+      currency: 'usd',
+      source: req.body.stripeToken,
+      description: description,
+      // customer: customer,
+      metadata : {
+        'customer': "" + customer,
+        'description': "" + description,
+        'paymentFor' : payment,
+        'customerName' : req.body.name,
+        'customerAddress' : req.body.address
+      },
+      receipt_email: customer
+    });
+
+    if ( charge.paid ) {
+
+      // 
+
+      // save
+      let orderCode = await orderService.createOrderCode();
+
+      let order = {
+        orderNumber: orderCode,
+        charge: charge,
+        custom: true,
+        paid: true,
+        userId: trademark[0].userId,
+        user: user[0],
+        content: trademark[0],
+        trademarkId: trademark[0]._id,
+        created_at: toInteger(moment().format('YYMMDD')),
+        created_at_formatted: moment().format()
+      }
+
+
+      mailService.sendOrderNotification(order);
+      
+      rpoOrder.put(order);
+      rpoCharge.put(charge);
+
+      let trademarkDelivery = {
+        delivery : trademark[0].delivery
+      }
+
+      trademarkDelivery.delivery.status = 'processing'; 
+      trademarkDelivery.delivery.orderCode = orderCode; 
+
+      rpoTrademarksMongo.updateDetails(trademark[0]._id, trademarkDelivery);
+
+      console.log(trademark[0]);
+
+      activityService.logger(req.ip, req.originalUrl, "Payment successfull "+ orderCode);
+
+      res.redirect("/thank-you/"+orderCode); 
+    } else {
+      res.flash('error', 'Sorry!, Something went wrong, try again later.');
+      
+      activityService.logger(req.ip, req.originalUrl, "Failed, Customer tried to checkout certificate delivery with serial number " + req.body.serialNumber + " Stripe API call failed");
+      res.redirect("/delivery-method/"+req.body.serialNumber); 
+
+      // return with error
+    }
+
+  } catch (err) {
+    // res.flash('error', err.error);
+    // console.log("errors",err);
+    // console.log("errors message",err.message);
+
+    res.flash('error', 'Sorry!, Something went wrong, try again later.');
+      
+    activityService.logger(req.ip, req.originalUrl, "Failed, Customer tried to checkout certificate delivery with serial number " + req.body.serialNumber + " " + err.message);
+    res.redirect("/delivery-method/"+req.body.serialNumber); 
+  }
+
+}
+
+
 
 
 // CUSTOM PAGE SERVICE -------------------------------- START

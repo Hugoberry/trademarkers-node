@@ -27,6 +27,7 @@
    <!-- Favicon  -->
   <link rel="icon" href="/interactive/images/favicon.ico">
   <link href="/interactive/css/cp-style.css" rel="stylesheet">
+  <link href="/stylesheets/custom.css" rel="stylesheet">
   
 
 </head>
@@ -133,20 +134,66 @@ $( document ).ready(function() {
       });
 
       $('#CertificateDeliverySelection').click(function(){
-           if(fedexShipmentOptInput.prop("checked") != true){
+
+        var name = $("#shipping_name").val();
+        var address = $("#shipping_address").val();
+        var contact = $("#shipping_contact").val();
+        var amount = $("#shipping_amount").val();
+        var trdId = $("#trdId").val();
+
+        if(fedexShipmentOptInput.prop("checked") != true){
             $('.cc-section-on-call').removeClass("cc-section-on-call-active");
+
+            $.ajax({
+              url: "/api/v1/delivery-method",
+              type:"post",
+              data: {
+                name: name,
+                address: address,
+                contact: contact,
+                amount: 0,
+                trdId: trdId,
+                type: 'Regular Mail'
+              },
+              success: function( result ) {
+
+               console.log(result);
+                
+              }
+            }); 
+
             $('html, body').animate({scrollTop: "0"}, 1000);
             return false;
-           }  
-           else{
+        } else {
             $('.cc-section-on-call').addClass("cc-section-on-call-active");
+
+            $.ajax({
+              url: "/api/v1/delivery-method",
+              type:"post",
+              data: {
+                name: name,
+                address: address,
+                contact: contact,
+                amount: 80,
+                trdId: trdId,
+                type: 'Fedex'
+              },
+              success: function( result ) {
+
+               console.log(result);
+                
+              }
+            }); 
+
             $('html, body').animate({scrollTop: "900"}, 1000);
             setTimeout(function(){
                 $('.cc-form-self #name').focus();
 
             }, 100);
             return true;
-           }
+        }
+
+        
       });
 
   

@@ -75,6 +75,8 @@ router.post('/search/serial-number', publicController.searchSerialNumber);
 
 router.post('/checkout/:action', publicController.checkout);
 
+router.post('/placeDeliveryOrder', publicController.checkoutDelivery);
+
 router.get('/thank-you/:number', publicController.thankYou)
 
 router.get('/delivery-method/:trdId', publicController.deliveryMethod)

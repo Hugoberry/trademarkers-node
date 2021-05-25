@@ -29,14 +29,41 @@
 
         </div>
 
-        <div class="col-md-12">
+        <div class="col-md-12 form-group">
 
-            <div class="form-group">
-                <label>Trademark Certificate</label>
-                <input type="file" class="form-control" placeholder="" name="certificate" >
+            <div class="row">
+                <div class="col-md-8">
+                    <label>Trademark Certificate</label>
+                    <input type="file" class="form-control" placeholder="" name="certificate" >
+                </div>
+                <div class="col-md-4">
+                    <% if(trademark.certificate) { %>
+                        <div style="padding:10px;">
+                            <embed src="/uploads/certificate/<%= trademark.certificate.customName %>" width="200px" height="200px" />
+                        </div>
+                    <% } %>
+                </div>
             </div>
 
         </div>
+
+        <% if(trademark.delivery) { %>
+        <div class="col-md-12 form-group">
+            <label>Delivery Status</label>
+            <select class="form-control" name="delivery_status">
+                <option value="pending" <%= trademark.delivery.status == 'pending' ? 'selected':'' %>>Pending</option>
+                <option value="processing" <%= trademark.delivery.status == 'processing' ? 'selected':'' %>>Processing</option>
+                <option value="shipped" <%= trademark.delivery.status == 'shipped' ? 'selected':'' %>>Shipped</option>
+                <option value="delivered" <%= trademark.delivery.status == 'delivered' ? 'selected':'' %>>Delivered</option>
+            </select>
+        </div>
+
+        <div class="col-md-12 form-group">
+            <label>Delivery Tracking #</label>
+            <input type="text" class="form-control" name="delivery_tracking" value="<%= trademark.delivery.trackingNumber %>">
+            
+        </div>
+        <% } %>  
 
         <div class="col-md-12">
 

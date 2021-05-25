@@ -121,7 +121,7 @@
                 <div class="ard-wrap stp-row">
                   
                   <% if( trademark.serialNumber ) { %>
-                    <div class="ar-cname ar-info-line">Serial Number: <span class="ar-value"><%= trademark.type %></span></div>
+                    <div class="ar-cname ar-info-line">Serial Number: <span class="ar-value"><%= trademark.serialNumber %></span></div>
                   <% } %>
 
                   <% if( trademark.registrationNumber ) { %>
@@ -196,6 +196,29 @@
                     <div class="ar-cname ar-info-line">State: <strong><%= trademark.repState %></strong></div>
                     <div class="ar-cname ar-info-line">Postal Code: <strong><%= trademark.repZipCode %></strong></div>
                     <div class="ar-cname ar-info-line">Country: <strong><%= trademark.repCountry %></strong></div>
+
+                  </div>
+                <% } %>
+
+                <% if( trademark.certificate ) { %>
+                  <div class="ard-wrap stp-row">
+
+                    <div class="ar-box-head"><h3>Certificate <span class="pull-right-icon"><a target="_blank" href="/uploads/certificate/<%= trademark.certificate.customName %>"><i class="fa fa-file-pdf"></i></a></span></h3></div>
+
+                    <% if( trademark.delivery ) { %>
+                      <div class="ar-cname ar-info-line">Delivery Method: <strong><%= trademark.delivery.type %> </strong></div>
+                      <div class="ar-cname ar-info-line">Delivery Status: <strong><%= trademark.delivery.status %> </strong></div>
+                      <div class="ar-cname ar-info-line">Delivery Name: <strong><%= trademark.delivery.name %> </strong></div>
+                      <div class="ar-cname ar-info-line">Delivery Address: <strong><%= trademark.delivery.address %> </strong></div>
+                      <div class="ar-cname ar-info-line">Delivery Contact #: <strong><%= trademark.delivery.contact %> </strong></div>
+                      
+                      <% if( trademark.delivery.trackingNumber ) { %>
+                        <div class="ar-cname ar-info-line">Tracking Number: <strong><%= trademark.delivery.trackingNumber %> </strong></div>
+                      <% } %>
+
+                    <% } else { %>
+                      <div class="ar-cname ar-info-line">Delivery Method: <a href="/delivery-method/<%= trademark.serialNumber %>">Select shipping method </a></div>
+                    <% } %>
 
                   </div>
                 <% } %>

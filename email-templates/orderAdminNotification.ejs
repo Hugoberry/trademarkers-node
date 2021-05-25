@@ -385,12 +385,31 @@
                                 <tr>
                                   <td><%= item.country.name %></td>
                                   <td><%= item.serviceType %></td>
-                                  <td><%= item.word_mark %></td>
+                                  <td><%= item.word_mark ? item.word_mark : item.mark %></td>
                                   <td>$<%= item.price %></td>
                                 </tr>
                               <% }) %>
                             </table>
   
+                          <% } else if (order.content) { %>
+                            <table border="0" cellpadding="0" cellspacing="0" height="100%" class="tbl-content-orders" >
+                              <tr>
+                                <th>Service</th>
+                                <th>Type</th>
+                                <th>Mark</th>
+                                <th>Serial</th>
+                                <th>Price</th>
+                              </tr>
+                             
+                                <tr>
+                                  <td><%= order.content.delivery.type %></td>
+                                  <td><%= order.content.serviceType %></td>
+                                  <td><%= order.content.word_mark ? order.content.word_mark : order.content.mark %></td>
+                                  <td><%= order.content.serialNumber %></td>
+                                  <td>$<%= order.content.delivery.amount %></td>
+                                </tr>
+                              
+                            </table>
                           <% } %>
   
                           <% if(!order.custom && order.action) { %>

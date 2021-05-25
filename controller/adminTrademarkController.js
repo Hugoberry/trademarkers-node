@@ -1,6 +1,7 @@
 var rpo = require('../repositories/mongoTrademarks');
 var rpoAddedServices = require('../repositories/trademarkAddedServices');
 var rpoUser = require('../repositories/users');
+var rpoUserMongo = require('../repositories/usersMongo');
 
 var mailService = require('../services/mailerService');
 var crawlerService = require('../services/crawlerService');
@@ -42,10 +43,10 @@ exports.show = async function(req, res, next) {
 
 
   // CHECK SERIAL NUMBER IF FOUND THEN FETCH UPDATED DATA FROM TSDR
-  if ( trademarks[0].serialNumber ) {
-    let crawl = await crawlerService.fetchTsdr(trademarks[0].serialNumber);
-    trademarks = await rpo.getById(id);
-  }
+  // if ( trademarks[0].serialNumber ) {
+  //   let crawl = await crawlerService.fetchTsdr(trademarks[0].serialNumber);
+  //   trademarks = await rpo.getById(id);
+  // }
   
   res.render('admin/trademark/view', {
     layout: 'layouts/admin-layout', 
@@ -62,11 +63,20 @@ exports.edit = async function(req, res, next) {
   // fetch trademark added services
   let otherServices = await rpoAddedServices.getByTrademarkId(id);
 
-  let otherServicesData = {
+  let udpateData = {
     otherServices : otherServices
   }
 
-  await rpo.updateDetails(id, otherServicesData);
+  let trademark = await rpo.getById(id);
+
+  if (!trademark[0].user) { console.log('asd');
+    let currUser = await rpoUserMongo.getByIdM(trademark[0].userId);
+    udpateData.user = currUser[0]
+  }
+
+  // await rpo.updateDetails(id, data)
+
+  await rpo.updateDetails(id, udpateData);
   
 
   let trademarks = await rpo.getById(id);
@@ -75,10 +85,10 @@ exports.edit = async function(req, res, next) {
 
 
   // CHECK SERIAL NUMBER IF FOUND THEN FETCH UPDATED DATA FROM TSDR
-  if ( trademarks[0].serialNumber ) {
-    let crawl = await crawlerService.fetchTsdr(trademarks[0].serialNumber);
-    trademarks = await rpo.getById(id);
-  }
+  // if ( trademarks[0].serialNumber ) {
+  //   let crawl = await crawlerService.fetchTsdr(trademarks[0].serialNumber);
+  //   trademarks = await rpo.getById(id);
+  // }
   
   res.render('admin/trademark/edit', { 
     layout: 'layouts/admin-layout', 
@@ -197,36 +207,51 @@ exports.editSubmit = async function(req, res, next) {
     certificate.customName = certificate.md5 + ext
 
     // check if user
-
+    
 
     let data = {
       certificate: certificate,
       certificatePath: uploadPath
     }
 
-    await rpo.updateDetails(id, data)
-
     
-    let user
+    // let user
 
-    if (trademark && !trademark[0].mysqlRecord) {
-      user = await rpoUser.getUserByIdMysql(trademark[0].mysqlRecord.user_id)
+    // if (trademark && trademark[0].mysqlRecord) {
+    //   user = await rpoUser.getUserByIdMysql(trademark[0].mysqlRecord.user_id)
 
-      await rpoUser.putUser(user[0])
-      trademark[0].user = user[0]
-    }
+    //   await rpoUser.putUser(user[0])
+    //   trademark[0].user = user[0]
+    // }
 
-    
+    let trademarkUpdated = await rpo.getById(id);
+
+    // wait for the updates
+    // await new Promise(resolve => setTimeout(resolve, 5000));
+
     mailService.sendCertificateNotification(trademark[0])
 
-    res.flash('success', 'Updated successfully!');
+    // res.flash('success', 'Updated successfully!');
   }
+
+  // check delivery updates
+ 
 
 
   let otherServices = await rpoAddedServices.getByTrademarkId(id);
 
+  let delivery = trademark[0].delivery;
+
+  if (delivery) {
+    delivery.status = req.body.delivery_status
+    delivery.trackingNumber = req.body.delivery_tracking
+  }
+  
+
   let otherServicesData = {
-    otherServices : otherServices
+    otherServices : otherServices,
+    serialNumber: req.body.serialNumber,
+    delivery: delivery
   }
 
   await rpo.updateDetails(id, otherServicesData);

@@ -76,3 +76,14 @@
     float:right;
     max-width : 300px;
 }
+
+.fieldsetCustom .form-control{
+    border-radius: 0;
+    border: none !important;
+    border-bottom: 1px solid #6c757d !important;
+    margin-bottom: 10px;
+}
+
+.pull-right-icon{
+    float: right;
+}

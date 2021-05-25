@@ -4,10 +4,15 @@ const variables = require('../../config/variables');
 
 var rpoUsers = require('../../repositories/usersMongo');
 var rpoUsersMy = require('../../repositories/users');
+var rpotrademark = require('../../repositories/mongoTrademarks');
+
 var helpers = require('../../helpers');
+
+var activityService = require('../../services/activityLogService');
 var mailService = require('../../services/mailerService')
 
-
+const { toInteger } = require('lodash');
+let moment = require('moment');
 
 exports.add = async function(req, res, next) {
 
@@ -84,6 +89,40 @@ exports.verifySend = async function(req, res, next) {
   res.json({
     ...user
   }); 
+  
+}
+
+exports.selectDeliveryMethod = async function(req, res, next) {
+
+  // let user = await helpers.getLoginUser(req)
+
+  // let trademark = await rpotrademark.updateDetails
+
+  activityService.logger(req.ip, req.originalUrl, req.body.name + " Selected " + req.body.type + " for delivery method ");
+
+  let dataDelivery = {
+    delivery : {
+      name : req.body.name,
+      address : req.body.address,
+      contact : req.body.contact,
+      amount : req.body.amount,
+      type: req.body.type,
+      status: 'pending',
+      trackingNumber: '',
+      created_at: toInteger(moment().format('YYMMDD')),
+      created_at_formatted: moment().format()
+    }
+    
+  }
+
+  // console.log(req.body);
+
+  await rpotrademark.updateDetails(req.body.trdId, dataDelivery)
+
+
+  // NOTIFY ADMIN CUSTOMER SELECTION add logs
+
+  res.json(dataDelivery); 
   
 }
 
