@@ -194,10 +194,6 @@ exports.trademarkProfile = async function(req, res, next) {
 
 exports.validateOrder = async function(req, res, next) {
 
-  // console.log('========================')
-  // console.log(req.body);
-  // console.log('========================')
-
   let type;
 
   
@@ -234,34 +230,6 @@ exports.validateOrder = async function(req, res, next) {
     price = prices[0]
   }
 
-  // let uploadPath;
-  // let logo_pic;
-  // let logoName;
-
-  // req.body.logoName = "";
-  // if ( req.files && req.files.logo_pic ) {  
-  //   console.log('========================');
-  //   console.log('uploading.....');
-  //   console.log('========================');
-  //   // updload file
-  //   logoName = toInteger(moment().format('YYMMDDHHMMSS')) + '-' + req.files.logo_pic.name;
-  //   req.body.logoName = logoName;
-  //   logo_pic = req.files.logo_pic;
-  //   uploadPath = __dirname + '/../public/uploads/' + logoName;
-  //   // console.log(logo_pic);
-  //   req.body.logoName = logoName;
-  //   // Use the mv() method to place the file somewhere on your server
-  //   logo_pic.mv(uploadPath, function(err) {
-     
-        
-  //   });
-
-  // }
-
-  console.log('========================');
-  console.log('uploading.....');
-  console.log(req.body);
-  console.log('========================');
 
   // calculate price ask helpers.js
   let data = {

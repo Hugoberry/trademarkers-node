@@ -14,7 +14,7 @@
     <% } %>
 </div>
                     
-<div clss="col-md-12">
+<div class="col-md-12">
     <table id="myListDataTable" class="display" style="width:100%">
         <thead>
             <tr>
@@ -35,7 +35,10 @@
                 <td><%= country.agency_short %></td>
                 <td><%= country.opposition_period %></td>
                 <td><%= country.registration_period %></td>
-                <td><a href="/njs-admin/manage/country/view/<%= country._id %>"><i class="fa fa-pen"></i></a></td>
+                <td>
+                    <a href="/njs-admin/manage/country/edit/<%= country._id %>"><i class="fa fa-pen"></i></a>
+                    <a href="/njs-admin/manage/country/view/<%= country._id %>"><i class="fa fa-eye"></i></a>
+                </td>
             </tr>
             <% } }) %>
         </tbody>
