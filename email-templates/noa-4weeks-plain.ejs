@@ -39,8 +39,8 @@
 <p style="margin:0">&nbsp;</p>
 <p>
   Please click on the following link, which is self-explanatory:<br>
-<a href="https://www.trademarkers.com/<%= mailData.number %>/statement-of-use" target="_blank" >
-  https://www.trademarkers.com/<%= mailData.number %>/statement-of-use
+<a href="<%= process.env.APP_URL %>/<%= mailData.number %>/statement-of-use" target="_blank" >
+  <%= process.env.APP_URL %>/<%= mailData.number %>/statement-of-use
 </a>
 </p>
 
