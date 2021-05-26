@@ -331,29 +331,40 @@
                         <tr style="border-collapse:collapse;"> 
                          <td align="left" style="padding:0;Margin:0;padding-top:10px;" mc:edit="block_5">
                           <p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:16px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;">
-                            <% 
-                            let name = trademark.user.name.split(',')
-                            %>
-                            Dear <%= name[1] ? name[1].trim() : 'Trademarkers Client' %>,
-
-                          </p></td> 
+                          
+                          
+                          Dear 
+                            <%= process.env.APP_URL %>
+                          </p>
+                        
+                        </td> 
                         
                         </tr> 
                         <tr style="border-collapse:collapse;"> 
                          <td align="left" style="padding:0;Margin:0;padding-top:20px;" mc:edit="block_6">
-                          <p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:16px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;">
-                         
                           
-
-                          <p>Your Trademark(<%= trademark.mark %>) certificate is now available, Please let us know how you want us to deliver your Trademark Certificate</p>
-
-                          <p>Available Delivery Options: Regular Mail (Free Shipping) or FedEx (Shipping Fee: $80) </p>
+                    
                           
-                          <span class="es-button-border es-button-border-4" style="border-style:solid;border-color:#659C35;background:#1475A9;border-width:0px;display:block;border-radius:25px;width:300px;margin:auto"><a href="<%= process.env.APP_URL %>/delivery-method/<%= trademark.serialNumber %>" class="es-button es-button-3" target="_blank" style="mso-style-priority:100 !important;text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:roboto, 'helvetica neue', helvetica, arial, sans-serif;font-size:18px;color:#FFFFFF;border-style:solid;border-color:#1475A9;border-width:10px 20px 10px 20px;display:block;background:#1475A9;border-radius:25px;font-weight:normal;font-style:normal;line-height:22px;width:auto;text-align:center;border-left-width:0px;border-right-width:0px;">Select Delivery Method</a></span>
-                          
-                         </p></td> 
+                         </td> 
                         
                         </tr> 
+
+                        <tr style="border-collapse:collapse;"> 
+                          <td align="center" mc:edit="block_5" style="padding:10px;Margin:0;"><span class="es-button-border es-button-border-4" style="border-style:solid;border-color:#2CB543;background:#0B5394;border-width:0px;display:block;border-radius:25px;width:auto;">
+                            <a href="<%= process.env.APP_URL %>/login" class="es-button es-button-3" target="_blank" style="mso-style-priority:100 !important;text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:roboto, 'helvetica neue', helvetica, arial, sans-serif;font-size:18px;color:#FFFFFF;border-style:solid;border-color:#0B5394;border-width:10px 20px 10px 20px;display:block;background:#0B5394;border-radius:25px;font-weight:normal;font-style:normal;line-height:22px;width:auto;text-align:center;border-left-width:0px;border-right-width:0px;">
+                              Log In to Your Account</a></span></td> 
+                         </tr> 
+                         <tr style="border-collapse:collapse;"> 
+                          <td align="center" mc:edit="block_6" style="padding:10px;Margin:0;"><span class="es-button-border es-button-border-4" style="border-style:solid;border-color:#2CB543;background:#0B5394;border-width:0px;display:block;border-radius:25px;width:auto;">
+                            <a href="<%= process.env.APP_URL %>/checkout" class="es-button es-button-3" target="_blank" style="mso-style-priority:100 !important;text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:roboto, 'helvetica neue', helvetica, arial, sans-serif;font-size:18px;color:#FFFFFF;border-style:solid;border-color:#0B5394;border-width:10px 20px 10px 20px;display:block;background:#0B5394;border-radius:25px;font-weight:normal;font-style:normal;line-height:22px;width:auto;text-align:center;border-left-width:0px;border-right-width:0px;">
+                              Check Out Your Oder</a></span></td> 
+                         </tr> 
+                         <tr style="border-collapse:collapse;"> 
+                          <td align="center" mc:edit="block_7" style="padding:10px;Margin:0;"><span class="es-button-border es-button-border-4" style="border-style:solid;border-color:#2CB543;background:#0B5394;border-width:0px;display:block;border-radius:25px;width:auto;">
+                            <a href="<%= process.env.APP_URL %>/services" class="es-button es-button-3" target="_blank" style="mso-style-priority:100 !important;text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:roboto, 'helvetica neue', helvetica, arial, sans-serif;font-size:18px;color:#FFFFFF;border-style:solid;border-color:#0B5394;border-width:10px 20px 10px 20px;display:block;background:#0B5394;border-radius:25px;font-weight:normal;font-style:normal;line-height:22px;width:auto;text-align:center;border-left-width:0px;border-right-width:0px;">
+                              Explore Our Services</a></span></td> 
+                         </tr> 
+
                        
                       </table></td> 
                     </tr> 

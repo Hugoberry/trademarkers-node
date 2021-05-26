@@ -81,4 +81,11 @@ exports.sendAbandonedCart1Month = async function() {
 
 }
 
+// TEST MAIL
+exports.testMail = async function() {
+
+  mailService.testMail()
+
+}
+
 

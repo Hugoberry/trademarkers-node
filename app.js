@@ -129,7 +129,7 @@ conn.connectToServer( function( err, client ) {
   
   // CRON JOB SCHEDULER =========== >>
   
-
+  // cartService.testMail();
   // RUN EVERY 1 HR TO CHECK ABANDONED CART 
   cron.schedule('0 0 */1 * * *', () => {
     cartService.sendAbandonedCart4hr();

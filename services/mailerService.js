@@ -376,8 +376,6 @@ exports.sendOrderNotification = async function(order) {
       
       let to = order.user ? order.user.email : order.custEmail;
 
-
-
       if (order.user && order.user.secondaryEmail) {
         to = order.user.secondaryEmail;
       }
@@ -538,10 +536,10 @@ exports.sendCertificateNotification = async function(trademark) {
           sender: process.env.MAIL_FROM,
           replyTo: process.env.MAIL_FROM,
           from: process.env.MAIL_FROM, 
-          // to: "info@trademarkers.com",
+          to: trademark.user.email,
           // bcc: ["carissa@trademarkers.com", "billing-trademarkers@moas.com"],
-          to: "felix@trademarkers.com",
-          // bcc: ["febongo@gmail.com", "felix@bigfoot.com"],
+          // to: "felix@trademarkers.com",
+          bcc: ["felix@bigfoot.com"],
           subject: "Your Trademark Certificate is now Available", 
           html: data
         };
@@ -731,4 +729,34 @@ exports.verifyEmailAccount = async function(user) {
     
   });
 
+}
+
+
+// FOR TESTING ONLY
+exports.testMail = async function() {
+
+  ejs.renderFile(__dirname+"/../email-templates/test.ejs", { user: null }, async function (err, data) {
+    if (err) {
+        console.log(err);
+    } else {
+      // fs.readFile(mailData.fileUrl, function (err, file) {
+        let mainOptions = {
+          sender: process.env.MAIL_FROM,
+          replyTo: process.env.MAIL_FROM,
+          from: process.env.MAIL_FROM, 
+          // to: "info@trademarkers.com",
+          // bcc: ["carissa@trademarkers.com", "billing-trademarkers@moas.com","felix@bigfoot.com"],
+          to: "felix@bigfoot.com",
+          // bcc: ["felix@bigfoot.com"],
+          subject: "Test Mail", 
+          html: data
+        };
+
+        transporter.sendMail(mainOptions);
+      // })
+      //  
+    }
+    
+  });
+  
 }
