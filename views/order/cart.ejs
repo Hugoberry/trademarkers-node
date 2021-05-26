@@ -37,7 +37,7 @@
 				<p>Sorry, Cart Empty</p>
 			<% } %>
 
-			
+			<% if (cartItems && cartItems.length) { %>
 			<div class="col-12">
 				<div class="form-group mt-2 text-center">
 					<% if( !guest ) {%>
@@ -48,6 +48,13 @@
 					<!-- <input type="button" name="ncLgnFormSubmit" id="NcLgnFormSubmit" class="btn btn-solid-lg btn-blue" value="Proceed to checkout"> -->
 				</div>
 			</div>
+			<% } else { %>
+			<div class="col-12">
+				<div class="form-group mt-2 text-center">
+					<a href="/countries" class="btn btn-primary btn-black tn-rounded-primary">Select a Country</a>
+				</div>
+			</div>
+			<% } %>
 			
 
 		</div>

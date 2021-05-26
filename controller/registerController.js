@@ -503,9 +503,10 @@ exports.checkout = async function(req, res, next) {
   
   cartItems = await rpoCartItems.fetchCustomerCart(userId)
 
-  // if( !cartItems ) {
-  //   res.redirect("/"); 
-  // }
+  // console.log(cartItems.length);
+  if( cartItems.length == 0) {
+    res.redirect("/countries"); 
+  }
 
   // currentUser.address = currentUser.street
   //                       + (currentUser.state ? (" " + currentUser.state) : '')

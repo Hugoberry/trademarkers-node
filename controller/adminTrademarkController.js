@@ -43,10 +43,16 @@ exports.show = async function(req, res, next) {
 
 
   // CHECK SERIAL NUMBER IF FOUND THEN FETCH UPDATED DATA FROM TSDR
-  // if ( trademarks[0].serialNumber ) {
-  //   let crawl = await crawlerService.fetchTsdr(trademarks[0].serialNumber);
-  //   trademarks = await rpo.getById(id);
-  // }
+  if ( trademarks[0].serialNumber ) {
+ 
+    if (trademarks[0].lastCrawled && moment(moment()).diff(trademarks[0].lastCrawled, "day") > 0  ) {
+      console.log('yes');
+      let crawl = await crawlerService.fetchTsdr(trademarks[0].serialNumber);
+      trademarks = await rpo.getById(id);
+    } else {
+      console.log('no');
+    }
+  }
   
   res.render('admin/trademark/view', {
     layout: 'layouts/admin-layout', 
@@ -69,7 +75,7 @@ exports.edit = async function(req, res, next) {
 
   let trademark = await rpo.getById(id);
 
-  if (!trademark[0].user) { console.log('asd');
+  if (!trademark[0].user) { 
     let currUser = await rpoUserMongo.getByIdM(trademark[0].userId);
     udpateData.user = currUser[0]
   }
@@ -85,10 +91,16 @@ exports.edit = async function(req, res, next) {
 
 
   // CHECK SERIAL NUMBER IF FOUND THEN FETCH UPDATED DATA FROM TSDR
-  // if ( trademarks[0].serialNumber ) {
-  //   let crawl = await crawlerService.fetchTsdr(trademarks[0].serialNumber);
-  //   trademarks = await rpo.getById(id);
-  // }
+  if ( trademarks[0].serialNumber ) {
+ 
+    if (trademarks[0].lastCrawled && moment(moment()).diff(trademarks[0].lastCrawled, "day") > 0  ) {
+      console.log('yes');
+      let crawl = await crawlerService.fetchTsdr(trademarks[0].serialNumber);
+      trademarks = await rpo.getById(id);
+    } else {
+      console.log('no');
+    }
+  }
   
   res.render('admin/trademark/edit', { 
     layout: 'layouts/admin-layout', 
@@ -105,7 +117,7 @@ exports.editSubmit = async function(req, res, next) {
 
   let certificate = req.files ? req.files.certificate : null;
 
-  let serviceLength = req.body.addAmount.length;
+  let serviceLength = req.body.addAmount ? req.body.addAmount.length : 0;
 
   if (Array.isArray(req.body.addAmount)) {
 

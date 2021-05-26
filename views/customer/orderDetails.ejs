@@ -141,7 +141,7 @@
                     <ul>
                     <% trademark.documents.forEach(function(document,key) { %>
                       <li>
-                        <%= document.date %><a href="<%= document.link %>" target="_blank"><%= document.label %></a>
+                        <%= document.dateFormatted ? document.dateFormatted : '' %> <a href="<%= document.link %>" target="_blank"><%= document.label %></a>
                         
                       </li>
                     <% }) %>

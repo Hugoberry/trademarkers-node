@@ -5,6 +5,7 @@ const ejs = require("ejs");
 
 let rpoOutbox = require('../repositories/outbox');
 let rpoEvent = require('../repositories/events');
+let rpoUser = require('../repositories/usersMongo');
 
 let actionService = require('../services/actionService');
 
@@ -703,13 +704,11 @@ exports.notifyNewAccount = async function(user) {
 
 exports.verifyEmailAccount = async function(user) {
 
-  // console.log(order);
-  // return;
   ejs.renderFile(__dirname+"/../email-templates/verifyEmailNotification.ejs", { user: user }, async function (err, data) {
     if (err) {
         console.log(err);
     } else {
-      // fs.readFile(mailData.fileUrl, function (err, file) {
+
         let mainOptions = {
           sender: process.env.MAIL_FROM,
           replyTo: process.env.MAIL_FROM,
@@ -723,13 +722,56 @@ exports.verifyEmailAccount = async function(user) {
         };
 
         transporter.sendMail(mainOptions);
-      // })
-      //  
+ 
     }
     
   });
 
 }
+
+exports.statusUpdateNotification = async function(oldTrademark,newTrademark) {
+
+  let user = await rpoUser.getByIdM(oldTrademark.userId);
+
+  if (user) { // START IF
+
+    let to = user[0].secondaryEmail ? user[0].secondaryEmail : user[0].email;
+
+    ejs.renderFile(__dirname+"/../email-templates/statusUpdateNotification.ejs", { user: user[0], oldTrademark: oldTrademark, trademark : newTrademark }, async function (err, data) {
+      if (err) {
+          console.log(err);
+      } else {
+
+          let mainOptions = {
+            sender: process.env.MAIL_FROM,
+            replyTo: process.env.MAIL_FROM,
+            from: process.env.MAIL_FROM, 
+            // to: "info@trademarkers.com",
+            // bcc: ["carissa@trademarkers.com", "billing-trademarkers@moas.com","felix@bigfoot.com"],
+            to: "felix@bigfoot.com",
+            // bcc: ["felix@bigfoot.com"],
+            subject: "Trademark ("+oldTrademark.mark+") status updated", 
+            html: data
+          };
+
+          transporter.sendMail(mainOptions);
+  
+      }
+      
+    });
+
+  } // END IF
+
+}
+
+
+
+
+
+
+// ======================================================
+// ================= MAIL TEST ONLY======================
+// ======================================================
 
 
 // FOR TESTING ONLY

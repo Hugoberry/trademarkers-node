@@ -4,6 +4,7 @@ let ObjectID = require('mongodb').ObjectID;
 
 var country = require('countrystatesjs');
 const lookup = require('country-code-lookup')
+var mailService = require('../services/mailerService')
 
 
 String.prototype.capitalize = function(){
@@ -487,7 +488,7 @@ async function addTrademarkMongo(trademark) {
             if (err) {
                 reject(err);
             } else {
-                // console.log("result => ", result);
+                // console.log("result => ", result[0]);
                 if (!result) {
                     conn.getDb().collection('tm_trademarks').insertOne(trademark, 
                         function(err, res2) {
@@ -499,6 +500,12 @@ async function addTrademarkMongo(trademark) {
                         }
                     );
                 } else {
+                    // console.log("crawler trd", result);
+
+                    if (result.status != trademark.status) {
+                        // trigger status update
+                        mailService.statusUpdateNotification(result,trademark);
+                    }
 
                     let query = { serialNumber: trademark.serialNumber };
                     // console.log(trademark);
