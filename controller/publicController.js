@@ -210,6 +210,32 @@ exports.udrp = function(req, res, next) {
   });
 }
 
+exports.fourthCircuit = async function(req, res, next) {
+
+  activityService.logger(req.ip, req.originalUrl, "Visited 	The Fourth Circuit dismisses Nike’s appeal over injunction by District Court Page");
+
+  res.render('public/fourthCircuit', { 
+    layout: 'layouts/public-layout-default', 
+    title: 'Trademarkers | The Fourth Circuit dismisses Nike’s appeal over injunction by District Court',
+    description: 'Fleet Feet Inc, through franchises, company-owned retail stores, and online stores, sells running and fitness merchandise, and has 182 stores, including franchises, nationwide in the US. Fleet Feet is the owner of trademark “Change Everything” and “Running Changes Everything” used widely for its sports and apparel related goods and services. Nike, Inc., and Nike Retail Services, Inc. (collectively, “Nike”)',
+    keywords: 'Trademarkers, The Fourth Circuit dismisses, Fleet Feet Inc, Nike’s appeal over injunction by District Court',
+    user: await helpers.getLoginUser(req)
+  });
+}
+
+exports.circuitAffirms = async function(req, res, next) {
+
+  activityService.logger(req.ip, req.originalUrl, "Visited 	Federal Circuit affirms TTAB decision on refusal of design registration due to functionality Page");
+
+  res.render('public/circuitAffirms', { 
+    layout: 'layouts/public-layout-default', 
+    title: 'Trademarkers | Federal Circuit affirms TTAB decision on refusal of design registration due to functionality',
+    description: 'For the purpose of packaging of finished coils of cable and wire, Reelex Packaging Solutions, Inc. (“Reelex”) filed for the registration of its box designs under International Class 9 at the United States Patent and Trademark Office (“USPTO”). The examining attorney refused to register the two box designs for electric cables and wire on grounds',
+    keywords: 'Trademarkers, Federal Circuit affirms TTAB decision, TTAB decision on refusal of design, Proprietary winding machines wind cable, Reelex Packaging Solutions',
+    user: await helpers.getLoginUser(req)
+  });
+}
+
 exports.redirect = async function(req, res, next) {
 
   // console.log(req.params.action);
