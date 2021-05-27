@@ -1,115 +1,160 @@
-<div class="col-md-12" style="margin-bottom:20px;">    
-    <h2>Edit Trademark
-    </h2>
+<div class="row" style="margin-bottom:20px;">    
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item" aria-current="page"><a href="/njs-admin/manage/trademark">Manage Trademarks</a></li>
+          <li class="breadcrumb-item"><a href="/njs-admin/manage/trademark/view/<%= trademark._id %>">view</a></li>
+          <li class="breadcrumb-item active" aria-current="page"><%= trademark.mark %></li>
+        </ol>
+    </nav>
 
     <% if(trademark) { %>
 
-    <div class="ar-cname ar-info-line">Order #: <strong style="text-transform: capitalize;"><%= trademark.orderCode %></strong></div>
-    <div class="ar-cname ar-info-line">Trademark: <strong style="text-transform: capitalize;"><%= trademark.mark %></strong></div>
-    <div class="ar-cname ar-info-line">Status: <strong style="text-transform: capitalize;"><%= trademark.status %></strong></div>
-    <div class="ar-cname ar-info-line">Status Date: <strong style="text-transform: capitalize;"><%= moment(trademark.statusDateFormatted).format('MMM D, YYYY') %></strong></div>
-    <div class="ar-cname ar-info-line">Status Description: <strong style="text-transform: capitalize;"><%= trademark.statusDescription %></strong></div>
-    <div class="ar-cname ar-info-line">Service: <strong style="text-transform: capitalize;"><%= trademark.serviceType %></strong></div>
-    
-    <% if( trademark.registrationNumber ) { %>
-    <div class="ar-cname ar-info-line">Registration Number: <strong style="text-transform: capitalize;"><%= trademark.registrationNumber %></strong></div>
-    <% } %>
-
-    <form class="row" action="/njs-admin/manage/trademark/edit/<%= trademark._id %>" method="post" encType="multipart/form-data">
-
-    
-
-        <div class="col-md-12">
-            <hr>
-
-            <div class="form-group">
-                <label>Serial Number</label>
-                <input type="text" class="form-control" value="<%= trademark.serialNumber %>" placeholder="" name="serialNumber">
-            </div>
-
+        <div class="col-12">
+            <table class="table">
+              <tr>
+                <th>Order #</th>
+                <th>Mark</th>
+                <th>Service</th>
+                <th>Type</th>
+                <th>Color Claim</th>
+                <th>Commerce</th>
+                <th>Priority</th>
+              </tr>
+      
+              
+      
+              <tr>
+                <td><%= trademark.orderCode %></td>
+                <td><%= trademark.mark %></td>
+                <td><%= trademark.serviceType %></td>
+                <td>
+                  <% let typeFormat; 
+                    if( trademark.type ) { 
+                    
+                    
+                    if (trademark.type == 'word') {
+                      typeFormat = 'Word Only'
+                    } else if(trademark.type == 'logo') {
+                      typeFormat = 'Design-Only or Stylized Word-Only (Figurative)'
+                    } else if(trademark.type == 'lword') {
+                      typeFormat = 'Combined Word and Design'
+                    } else {
+                      typeFormat = ''
+                    }
+                  } %>
+                  <%= typeFormat %></td>
+                <td><%= trademark.colorClaim == 'yes' ?  (trademark.colorClaimText ? trademark.colorClaimText : 'yes') : 'no' %></td>
+                <td><%= trademark.commerce %></td>
+                <td>
+                  <%= trademark.priority %>
+                  <% if( trademark.priority == 'yes' ) { %>
+                    <div class="ar-cname ar-info-line">Country of Origin: <strong><%= trademark.origin %></strong></div>
+                    <div class="ar-cname ar-info-line">Date: <strong><%= trademark.originDate %></strong></div>
+                    <div class="ar-cname ar-info-line">Serial Number: <strong><%= trademark.originTm %></strong></div>
+                  <% } %>
+                </td>
+              </tr>
+            </table>
+      
         </div>
 
-        <div class="col-md-12 form-group">
+        <div class="col-12">
 
-            <div class="row">
-                <div class="col-md-8">
-                    <label>Trademark Certificate</label>
-                    <input type="file" class="form-control" placeholder="" name="certificate" >
-                </div>
-                <div class="col-md-4">
-                    <% if(trademark.certificate) { %>
-                        <div style="padding:10px;">
-                            <embed src="/uploads/certificate/<%= trademark.certificate.customName %>" width="200px" height="200px" />
-                        </div>
-                    <% } %>
-                </div>
-            </div>
+        <form class="row" action="/njs-admin/manage/trademark/edit/<%= trademark._id %>" method="post" encType="multipart/form-data">
 
-        </div>
-
-        <% if(trademark.delivery) { %>
-        <div class="col-md-12 form-group">
-            <label>Delivery Status</label>
-            <select class="form-control" name="delivery_status">
-                <option value="pending" <%= trademark.delivery.status == 'pending' ? 'selected':'' %>>Pending</option>
-                <option value="processing" <%= trademark.delivery.status == 'processing' ? 'selected':'' %>>Processing</option>
-                <option value="shipped" <%= trademark.delivery.status == 'shipped' ? 'selected':'' %>>Shipped</option>
-                <option value="delivered" <%= trademark.delivery.status == 'delivered' ? 'selected':'' %>>Delivered</option>
-            </select>
-        </div>
-
-        <div class="col-md-12 form-group">
-            <label>Delivery Tracking #</label>
-            <input type="text" class="form-control" name="delivery_tracking" value="<%= trademark.delivery.trackingNumber %>">
             
-        </div>
-        <% } %>  
 
-        <div class="col-md-12">
+            <div class="col-md-12">
 
-            <div class="form-group">
-                <label>Add Additional Fee(s) <span class="containerAddFeesBtn"><i class="fa fa-plus"></i></span></label>
-                <div id="containerAddFees" class="containerAddFees">
-
-                    <% if( trademark.otherServices ) { %>
-                        <div class="row" style="margin-top:10px">
-                            <div class="col-md-2">Amount</div>
-                            <div class="col-md-5">Description</div>
-                            <div class="col-md-2">Emailed</div>
-                            <div class="col-md-2">Status</div>
-                            <div class="col-md-1">Action</div>
-                        </div>
-                    <% trademark.otherServices.forEach(function(addedService,key) { %>
-                        <div class="row" style="margin-top:10px">
-                            <input type="hidden" name="serviceId" value="<%= addedService._id %>">
-                            <div class="col-md-2"><input type="number" class="form-control" placeholder="Service Amount" name="addAmount" value="<%= addedService.addAmount %>"></div>
-                            <div class="col-md-5"><textarea class="form-control" placeholder="Service Description" name="addAmountDescription" ><%= addedService.addAmountDescription %></textarea></div>
-                            <div class="col-md-2"><input type="hidden" name="isMailed" value="<%= addedService.isMailed %>"><%= addedService.isMailed %></div>
-                            <div class="col-md-2">
-                                <select class="form-control" name="status">
-                                    <option value="paid" <%= addedService.status == 'paid' ? 'selected' : '' %>>Paid</option>
-                                    <option value="unPaid" <%= addedService.status == 'unPaid' ? 'selected' : '' %>>unPaid</option>
-                                </select>
-                            </div>
-                            <div class="col-md-1"><i class="fa fa-trash deleteService" data-attr-id="<%= addedService._id %>"></i></div>
-                        </div>
-                    <% }) %>
-                    <% } %>
-
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="serialNUmberLabel">Serial Number</span>
+                    <input type="text" class="form-control" value="<%= trademark.serialNumber %>" placeholder="" name="serialNumber" aria-describedby="serialNUmberLabel">
                 </div>
+
             </div>
 
-        </div>
- 
-        
+            <div class="col-md-12 form-group">
 
-        <div class="col-md-12">
-            <p class="text-center">
-                <button type="submit" class="btn btn-primary btn-rounded-primary" style="padding-left:40px;padding-right:40px;">Update</button>
-            </p>
-        </div>
+                <div class="row">
+                    <div class="col-md-8">
+                        <label>Trademark Certificate</label>
+                        <input type="file" class="form-control" placeholder="" name="certificate" >
+                    </div>
+                    <div class="col-md-4">
+                        <% if(trademark.certificate) { %>
+                            <div style="padding:10px;">
+                                <embed src="/uploads/certificate/<%= trademark.certificate.customName %>" width="200px" height="200px" />
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
 
-    </form>
+            </div>
+
+            <% if(trademark.delivery) { %>
+            <div class="col-md-12 form-group">
+                <label>Delivery Status</label>
+                <select class="form-control" name="delivery_status">
+                    <option value="pending" <%= trademark.delivery.status == 'pending' ? 'selected':'' %>>Pending</option>
+                    <option value="processing" <%= trademark.delivery.status == 'processing' ? 'selected':'' %>>Processing</option>
+                    <option value="shipped" <%= trademark.delivery.status == 'shipped' ? 'selected':'' %>>Shipped</option>
+                    <option value="delivered" <%= trademark.delivery.status == 'delivered' ? 'selected':'' %>>Delivered</option>
+                </select>
+            </div>
+
+            <div class="col-md-12 form-group">
+                <label>Delivery Tracking #</label>
+                <input type="text" class="form-control" name="delivery_tracking" value="<%= trademark.delivery.trackingNumber %>">
+                
+            </div>
+            <% } %>  
+
+            <div class="col-md-12">
+
+                <div class="form-group">
+                    <label>Add Additional Fee(s) <span class="containerAddFeesBtn"><i class="fa fa-plus"></i></span></label>
+                    <div id="containerAddFees" class="containerAddFees">
+
+                        <% if( trademark.otherServices ) { %>
+                            <div class="row" style="margin-top:10px">
+                                <div class="col-md-2">Amount</div>
+                                <div class="col-md-5">Description</div>
+                                <div class="col-md-2">Emailed</div>
+                                <div class="col-md-2">Status</div>
+                                <div class="col-md-1">Action</div>
+                            </div>
+                        <% trademark.otherServices.forEach(function(addedService,key) { %>
+                            <div class="row" style="margin-top:10px">
+                                <input type="hidden" name="serviceId" value="<%= addedService._id %>">
+                                <div class="col-md-2"><input type="number" class="form-control" placeholder="Service Amount" name="addAmount" value="<%= addedService.addAmount %>"></div>
+                                <div class="col-md-5"><textarea class="form-control" placeholder="Service Description" name="addAmountDescription" ><%= addedService.addAmountDescription %></textarea></div>
+                                <div class="col-md-2"><input type="hidden" name="isMailed" value="<%= addedService.isMailed %>"><%= addedService.isMailed %></div>
+                                <div class="col-md-2">
+                                    <select class="form-control" name="status">
+                                        <option value="paid" <%= addedService.status == 'paid' ? 'selected' : '' %>>Paid</option>
+                                        <option value="unPaid" <%= addedService.status == 'unPaid' ? 'selected' : '' %>>unPaid</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-1"><i class="fa fa-trash deleteService" data-attr-id="<%= addedService._id %>"></i></div>
+                            </div>
+                        <% }) %>
+                        <% } %>
+
+                    </div>
+                </div>
+
+            </div>
+    
+            
+
+            <div class="col-md-12">
+                <p class="text-center">
+                    <button type="submit" class="btn btn-primary btn-rounded-primary" style="padding-left:40px;padding-right:40px;">Update</button>
+                </p>
+            </div>
+
+        </form>
+    </div>
     <% } %>
 </div>
         

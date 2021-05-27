@@ -11,6 +11,7 @@ router.post('/TC-:id-7C/submit', verifiedEmail,controller.updateCustomerFormSubm
 
 router.get('/orders', verifiedEmail,controller.orders);
 router.get('/orders/:id', verifiedEmail,controller.orderDetail);
+router.post('/orders/:id', verifiedEmail,controller.addSupportingDocs);
 
 router.get('/profile', verifiedEmail,controller.profile);
 router.get('/profile/edit', verifiedEmail,controller.profileEdit);

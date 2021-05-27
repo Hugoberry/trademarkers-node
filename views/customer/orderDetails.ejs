@@ -1,4 +1,14 @@
+<% if (flash.success) { %>
+  <div class="alert alert-success" role="alert">
+    <strong><%= flash.success %></strong>
+  </div>
+  <% } %>
 
+  <% if (flash.error) { %>
+    <div class="alert alert-warning" role="alert">
+      <strong><%= flash.error %></strong>
+    </div>
+  <% } %>
 
     <section class="tm-section qa-panel-section">
       <div class="container h-100">
@@ -115,11 +125,6 @@
 
                   <% } %>
 
-                </div>
-
-                <% if( trademark.serialNumber ) { %>
-                <div class="ard-wrap stp-row">
-                  
                   <% if( trademark.serialNumber ) { %>
                     <div class="ar-cname ar-info-line">Serial Number: <span class="ar-value"><%= trademark.serialNumber %></span></div>
                   <% } %>
@@ -148,9 +153,8 @@
                     </ul>
                   <% } %>
 
-                  
                 </div>
-                <% } %>
+
 
                 <% if( trademark.nature == "Company" ) { %>
                   <div class="ard-wrap stp-row">
@@ -222,6 +226,56 @@
 
                   </div>
                 <% } %>
+
+
+                <div class="ard-wrap stp-row">
+
+                  <div class="ar-box-head"><h3>Supporting Documents</h3></div>
+
+                  <div id="supportDocumentList" class="">
+                    <table class="table">
+                      <tr>
+                        <th>Date Added</th>
+                        <th>Notes</th>
+                        <th>File</th>
+                        
+                      </tr>
+                      <% if( trademark.supportingDocs && trademark.supportingDocs.length > 0 ) { %>
+                        <% trademark.supportingDocs.forEach(function(documents,key) { %>
+                      <tr>
+                        <td><%= moment(documents.created_at_formatted).format('MMM D, YYYY') %></td>
+                        <td><%= documents.notes %></td>
+                        <td><a target="_blank" href="/uploads/<%= documents.file %>"><i class="fa fa-file"></i></a></td>
+                      </tr>
+                        <% }) %>
+                      <% } else { %>
+                      <tr>
+                        <td><p>No Supporting Document(s) found!</p></td>
+                      </tr>
+                      <% } %>
+                    </table>
+                  </div>
+
+                  <form action="" method="post" encType="multipart/form-data">
+
+                    <div class="input-group mb-3 has-validation">
+                      <label class="input-group-text" for="supportingDoc">Upload</label>
+                      <input type="file" class="form-control" name="supportingDoc" id="supportingDoc" aria-describedby="inputGroupPrepend"  required>
+                    </div>
+
+                    <div class="input-group">
+                      <span class="input-group-text">Notes</span>
+                      <textarea class="form-control" aria-label="With textarea" name="supportingNotes" required></textarea>
+                    </div>
+
+                    <div class="col-auto text-center">
+                      <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                    </div>
+
+                  </form>
+
+                </div>
+
 
               </div>
           </div>

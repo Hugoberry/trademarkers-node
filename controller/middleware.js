@@ -32,7 +32,7 @@ exports.verifiedEmail = function(req, res, next){
     let user;
     if (decode && decode.payload.user) {
         user = JSON.parse(decode.payload.user);
-        console.log(user);
+        // console.log(user);
         if ( !user.email_verified_at ) {
             res.redirect('/customer/verify'); 
         }

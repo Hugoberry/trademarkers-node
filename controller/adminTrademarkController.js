@@ -208,6 +208,7 @@ exports.editSubmit = async function(req, res, next) {
         console.log("error", err);
         res.flash('error', 'Something went wrong!');
       } else {
+        console.log("uploaded pdf");
         res.flash('success', 'File uploaded!');
       }
         
@@ -236,10 +237,12 @@ exports.editSubmit = async function(req, res, next) {
     //   trademark[0].user = user[0]
     // }
 
-    let trademarkUpdated = await rpo.getById(id);
+    await rpo.updateDetails(id, data);
+
+    // let trademarkUpdated = await rpo.getById(id);
 
     // wait for the updates
-    // await new Promise(resolve => setTimeout(resolve, 5000));
+    await new Promise(resolve => setTimeout(resolve, 5000));
 
     mailService.sendCertificateNotification(trademark[0])
 

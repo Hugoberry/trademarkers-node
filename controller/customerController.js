@@ -116,6 +116,59 @@ exports.orderDetail = async function(req, res, next) {
     trademark: trademark[0]
   });
   
+} 
+
+exports.addSupportingDocs = async function(req, res, next) {
+
+  console.log("body",req.body);
+  console.log("file",req.files);
+  console.log("params",req.params);
+
+  activityService.logger(req.ip, req.originalUrl, "Customer Added Supporting document" );
+
+  let trdId = req.params.id;
+
+  let trademark = await rpoTmMongo.getById(trdId)
+
+  let supporting = trademark[0].supportingDocs
+
+  if (!Array.isArray(supporting)) {
+    supporting = [];
+  }
+
+  let ext = req.files.supportingDoc.name.match(/\.[0-9a-z]+$/i)[0]
+  let fileName = req.files.supportingDoc.md5 + ext;
+
+  let data = {
+    notes: req.body.supportingNotes,
+    file: fileName,
+    fileExt: ext,
+    created_at: toInteger(moment().format('YYMMDD')),
+    created_at_formatted: moment().format()
+  }
+
+  supporting.push(data);
+
+  rpoTmMongo.updateDetails(trdId,{supportingDocs:supporting});
+
+  let uploadPath = __dirname + '/../public/uploads/' + fileName;
+
+  await req.files.supportingDoc.mv(uploadPath, function(err) {
+    if (err) {
+      activityService.logger(req.ip, req.originalUrl, "Failed to upload supporting docs," + err );
+    } else {
+      activityService.logger(req.ip, req.originalUrl, "Customer Uploaded supporting document," );
+    }
+      
+  });
+
+  res.flash('success', 'Update Successful!');
+  
+  res.redirect('/customer/orders/'+trdId);
+
+
+  // res.redirect()
+  
 }
 
 
