@@ -46,8 +46,8 @@ router.post('/add-sender-pdf', publicController.addSenderPdf);
 router.get('/', publicController.home);
 
 router.get('/what-is-the-uniform-domain-name-dispute-resolution-policy', publicController.udrp);
-router.get('/the-fourth-circuit-dismisses-nikes-appeal-over-injunction-by-district-court-as-moot', publicController.fourthCircuit);
-router.get('/federal-circuit-affirms-ttab-decision-on-refusal-of-design-registration-due-to-functionality', publicController.circuitAffirms);
+router.get('/the-fourth-circuit-dismisses-nikes-appeal-over-injunction', publicController.fourthCircuit);
+router.get('/federal-circuit-affirms-ttab-decision', publicController.circuitAffirms);
 
 // CUSTOM PAGE CHECKOUT --- START
 
