@@ -26,27 +26,38 @@ exports.convertIntToDate = function(idate) {
 
 exports.getLoginUser = async function(req) {
     let decode = jwt.decode(req.cookies.jwt, {complete: true});
-
+    let accessToken = req.cookies.jwt
     let user;
-    if (decode && decode.payload.user) {
-        user = JSON.parse(decode.payload.user);
+    
 
-        if ( user && user._id ) {
-            user._id = ObjectID(user._id)
-        }
+    let payload
+    try{
 
-        if ( user && !user._id ) {
-            let currentUserRecord = await rpoUserMongo.findUser(user.email)
+        payload = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET)
         
-            user = currentUserRecord[0]
-        }
-
-        if ( user ) {
-            let currentUser = await rpoUserMongo.findUser(user.email)
-            user = currentUser[0]
+        if (decode && decode.payload.user) {
+            user = JSON.parse(decode.payload.user);
+    
+            if ( user && user._id ) {
+                user._id = ObjectID(user._id)
+            }
+    
+            if ( user && !user._id ) {
+                let currentUserRecord = await rpoUserMongo.findUser(user.email)
+            
+                user = currentUserRecord[0]
+            }
+    
+            if ( user ) {
+                let currentUser = await rpoUserMongo.findUser(user.email)
+                user = currentUser[0]
+            }
         }
     }
-    // let user = JSON.parse(decode.payload.user);
+    catch(e){
+        console.log(e);
+    }
+ 
 
     return user
 }
@@ -115,27 +126,42 @@ exports.calculatePrice = function(data) {
 exports.getCartCount = async function(req) {
     
     let decode = jwt.decode(req.cookies.jwt, {complete: true});
-
+    let payload;
+    let accessToken = req.cookies.jwt
     let user;
-    if (decode) {
-        user = JSON.parse(decode.payload.user);
 
-        if ( user && !user._id ) {
-            let currentUserRecord = await rpoUserMongo.findUser(user.email)
-        
-            user = currentUserRecord[0]
+    try{
+
+        payload = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
+
+        if (decode) {
+            user = JSON.parse(decode.payload.user);
+    
+            if ( user && !user._id ) {
+                let currentUserRecord = await rpoUserMongo.findUser(user.email)
+            
+                user = currentUserRecord[0]
+            }
+    
+            if( !user ) {
+                return 0
+            }
+    
+            let cartItems = await rpoCartItems.fetchCustomerCart(user._id)
+    
+            return cartItems.length;
+
+        } else {
+            return 0;
         }
 
-        if( !user ) {
-            return 0
-        }
-
-        let cartItems = await rpoCartItems.fetchCustomerCart(user._id)
-
-        return cartItems.length;
-    } else {
+    }
+    catch(e){
+        console.log(e);
         return 0;
     }
+
+    
     
     
 }
