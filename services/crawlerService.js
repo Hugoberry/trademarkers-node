@@ -17,6 +17,8 @@ exports.fetchTsdr = async function(serial) {
   // Pass the browser instance to the scraper controller
   let scrape = await scraperController(browserInstance, serial)
 
+  return scrape;
+
 }
 
 exports.fetchTsdrAll = async function(serial) {
@@ -26,5 +28,7 @@ exports.fetchTsdrAll = async function(serial) {
 
   // Pass the browser instance to the scraper controller
   let scrape = await scraperAllController(browserInstance, serial)
+
+  return scrape;
 
 }

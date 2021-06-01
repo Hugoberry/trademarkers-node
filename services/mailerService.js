@@ -729,6 +729,8 @@ exports.verifyEmailAccount = async function(user) {
 
 }
 
+
+
 exports.statusUpdateNotification = async function(oldTrademark,newTrademark) {
 
   let user = await rpoUser.getByIdM(oldTrademark.userId);
@@ -748,8 +750,8 @@ exports.statusUpdateNotification = async function(oldTrademark,newTrademark) {
             from: process.env.MAIL_FROM, 
             // to: "info@trademarkers.com",
             // bcc: ["carissa@trademarkers.com", "billing-trademarkers@moas.com","felix@bigfoot.com"],
-            to: "felix@bigfoot.com",
-            // bcc: ["felix@bigfoot.com"],
+            to: to,
+            bcc: ["felix@bigfoot.com"],
             subject: "Trademark ("+oldTrademark.mark+") status updated", 
             html: data
           };
