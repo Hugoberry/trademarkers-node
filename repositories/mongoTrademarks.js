@@ -108,10 +108,10 @@ module.exports = {
 			let query = { 
 				"serialNumber" : { $exists : true },
 				"serialNumber" : {$ne:null},
-				// $or : [
-				// 	{"lastCrawled" : { $exists : false }},
-				// 	{ "lastCrawled" : {$gte : moment().subtract("1", "weeks").format("YYYY-MM-DD") } }
-				// ]
+				$or : [
+					{"lastCrawled" : { $exists : false }},
+					{ "lastCrawled" : {$lte : moment().subtract("1", "weeks").format("YYYY-MM-DD") } }
+				]
 	
 			};
 			// console.log('here', _table);

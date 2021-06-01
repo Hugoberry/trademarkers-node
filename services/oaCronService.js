@@ -219,10 +219,15 @@ exports.sendStatusUpdates = async function() {
 
 
   let rec = await rpoTrademarkMongo.fetch1WeekOld();
-  console.log(rec[0]);
+  // console.log(rec[0]);
 
-  await crawlerService.fetchTsdr(rec[0].serialNumber)
+  if ( rec && rec.length > 0) {
 
-  await new Promise(resolve => setTimeout(resolve, 2000));
+    await crawlerService.fetchTsdr(rec[0].serialNumber)
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
+  }
+
+  
   
   }
