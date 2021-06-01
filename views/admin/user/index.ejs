@@ -30,7 +30,7 @@
             <tr>
                 <td><%= user.name %></td>
                 <td><%= user.email %></td>
-                <td><%= user.role %></td>
+                <td><%= user.role ? user.role : 'Customer' %></td>
                 <td><a href="/njs-admin/manage/user/view/<%= user._id %>"><i class="fa fa-pen"></i></a></td>
             </tr>
             <% }) %>
