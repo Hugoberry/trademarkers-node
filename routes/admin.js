@@ -51,5 +51,7 @@ router.get('/manage/user', verify, adminUser.index);
 router.get('/manage/user/view/:id', verify, adminUser.show);
 router.get('/manage/user/edit/:id', verify, adminUser.edit);
 router.post('/manage/user/edit/:id', verify, adminUser.editSubmit);
+router.get('/manage/user/add', verify, adminUser.add);
+router.post('/manage/user/add', verify, adminUser.addSubmit);
 
 module.exports = router;
