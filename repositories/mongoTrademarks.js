@@ -99,6 +99,40 @@ module.exports = {
 		});
 	},
 
+	fetch1WeekOld : async function() {
+		
+		return new Promise(function(resolve, reject) {
+
+		
+
+			let query = { 
+				"serialNumber" : { $exists : true },
+				"serialNumber" : {$ne:null},
+				// $or : [
+				// 	{"lastCrawled" : { $exists : false }},
+				// 	{ "lastCrawled" : {$gte : moment().subtract("1", "weeks").format("YYYY-MM-DD") } }
+				// ]
+	
+			};
+			// console.log('here', _table);
+			conn.getDb()
+				.collection(_table)
+				.find(query)
+				.sort( { "lastCrawled": 1 } )
+				.limit(1)
+				.toArray(function(err, result) {
+					
+					if (err) {
+						reject(err);
+					} else {
+						resolve(result);
+					}
+
+				});
+
+		});
+	},
+
 
 	getById : async function(id) {
 		return new Promise(function(resolve, reject) {

@@ -130,6 +130,8 @@ conn.connectToServer( function( err, client ) {
   //   timezone: "America/New_York"
   // });
 
+  oaCronService.sendStatusUpdates();
+
   if ( process.env.ENVIRONMENT != "dev" ) {
 
     cron.schedule('0 */20 9-16 * * mon-fri', () => { 

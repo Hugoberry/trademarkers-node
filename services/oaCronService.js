@@ -9,6 +9,7 @@ var helpers = require('../helpers');
 
 var mailService = require('../services/mailerService');
 var actionService = require('../services/actionService')
+var crawlerService = require('../services/crawlerService');
 
 let moment = require('moment');
 const { toInteger, extendWith } = require('lodash');
@@ -213,3 +214,15 @@ exports.sendSOUSummaryNotification = async function() {
   mailService.sendSouSummary(mailData);
   // console.log("data collected",mailData);
 }
+
+exports.sendStatusUpdates = async function() {
+
+
+  let rec = await rpoTrademarkMongo.fetch1WeekOld();
+  console.log(rec[0]);
+
+  await crawlerService.fetchTsdr(rec[0].serialNumber)
+
+  await new Promise(resolve => setTimeout(resolve, 2000));
+  
+  }
