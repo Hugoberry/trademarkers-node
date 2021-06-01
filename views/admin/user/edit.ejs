@@ -13,13 +13,18 @@
             <hr>
 
             <div class="form-group">
-                <label>Name</label>
-                <input type="text" class="form-control" value="<%= user.name %>" placeholder="" name="name">
+                <label>First Name</label>
+                <input type="text" class="form-control" value="<%= user.firstName %>" placeholder="" name="firstName">
+            </div>
+
+            <div class="form-group">
+                <label>Last Name</label>
+                <input type="text" class="form-control" value="<%= user.lastName %>" placeholder="" name="lastName">
             </div>
 
             <div class="form-group">
                 <label>Email</label>
-                <input type="text" class="form-control" value="<%= user.email %>" placeholder="" name="email">
+                <input type="text" class="form-control" value="<%= user.email %>" placeholder="" name="email" disabled>
             </div>
 
             <div class="form-group">

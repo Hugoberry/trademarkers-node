@@ -19,6 +19,8 @@
 
           <% if( user.role ) { %>
             <div class="ar-cname ar-info-line">Role: <strong style="text-transform: capitalize;"><%= user.role %></strong></div>
+          <% } else { %>
+            <div class="ar-cname ar-info-line">Role: <strong style="text-transform: capitalize;">Customer</strong></div>
           <% } %>
 
  
