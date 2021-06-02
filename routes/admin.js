@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const {verify} = require('../controller/middleware');
+const {verify, guardAdmin} = require('../controller/middleware');
 
 const adminTask = require('../controller/adminTaskController')
 const adminEvent = require('../controller/adminEventController')
@@ -13,53 +13,53 @@ const adminPromo = require('../controller/adminPromoCodeController')
 
 
 /* GET users listing. */
-router.get('/', verify, adminTask.index);
+router.get('/', verify,guardAdmin, adminTask.index);
 
-router.get('/manage/tasks', verify, adminTask.tasks);
-router.get('/manage/tasks/add', verify, adminTask.tasksAdd);
-router.post('/manage/tasks/add', verify, adminTask.tasksAddSubmit);
+router.get('/manage/tasks', verify, guardAdmin, adminTask.tasks);
+router.get('/manage/tasks/add', verify, guardAdmin, adminTask.tasksAdd);
+router.post('/manage/tasks/add', verify, guardAdmin, adminTask.tasksAddSubmit);
 
-router.get('/manage/tasks/view/:id', verify, adminTask.taskShow);
-router.get('/manage/tasks/edit/:id', verify, adminTask.taskEdit);
-router.post('/manage/tasks/edit/:id', verify, adminTask.taskEditSubmit);
+router.get('/manage/tasks/view/:id', verify, guardAdmin, adminTask.taskShow);
+router.get('/manage/tasks/edit/:id', verify, guardAdmin, adminTask.taskEdit);
+router.post('/manage/tasks/edit/:id', verify, guardAdmin, adminTask.taskEditSubmit);
 
-router.get('/manage/trademark', verify, adminTrademark.index);
-router.get('/manage/trademark/view/:id', verify, adminTrademark.show);
-router.get('/manage/trademark/edit/:id', verify, adminTrademark.edit);
-router.post('/manage/trademark/edit/:id', verify, adminTrademark.editSubmit);
+router.get('/manage/trademark', verify, guardAdmin, adminTrademark.index);
+router.get('/manage/trademark/view/:id', verify, guardAdmin, adminTrademark.show);
+router.get('/manage/trademark/edit/:id', verify, guardAdmin, adminTrademark.edit);
+router.post('/manage/trademark/edit/:id', verify, guardAdmin, adminTrademark.editSubmit);
  
-router.get('/manage/events', verify, adminEvent.events);
-router.get('/manage/events/view/:id', verify, adminEvent.show);
-router.get('/manage/events/edit/:id', verify, adminEvent.edit);
-router.post('/manage/events/edit/:id', verify, adminEvent.editSubmit);
+router.get('/manage/events', verify, guardAdmin, adminEvent.events);
+router.get('/manage/events/view/:id', verify, guardAdmin, adminEvent.show);
+router.get('/manage/events/edit/:id', verify, guardAdmin, adminEvent.edit);
+router.post('/manage/events/edit/:id', verify, guardAdmin, adminEvent.editSubmit);
 
-router.get('/manage/leads', verify, adminLead.leads);
-router.get('/manage/leads/view/:id', verify, adminLead.show);
-router.get('/manage/leads/edit/:id', verify, adminLead.edit);
-router.post('/manage/leads/edit/:id', verify, adminLead.editSubmit);
+router.get('/manage/leads', verify, guardAdmin, adminLead.leads);
+router.get('/manage/leads/view/:id', verify, guardAdmin, adminLead.show);
+router.get('/manage/leads/edit/:id', verify, guardAdmin, adminLead.edit);
+router.post('/manage/leads/edit/:id', verify, guardAdmin, adminLead.editSubmit);
 
-router.get('/manage/opposition-leads', verify, adminOppositionLead.leads);
-router.get('/manage/opposition-leads/view/:id', verify, adminOppositionLead.show);
-router.get('/manage/opposition-leads/edit/:id', verify, adminOppositionLead.edit);
-router.post('/manage/opposition-leads/edit/:id', verify, adminOppositionLead.editSubmit);
+router.get('/manage/opposition-leads', verify, guardAdmin, adminOppositionLead.leads);
+router.get('/manage/opposition-leads/view/:id', verify, guardAdmin, adminOppositionLead.show);
+router.get('/manage/opposition-leads/edit/:id', verify, guardAdmin, adminOppositionLead.edit);
+router.post('/manage/opposition-leads/edit/:id', verify, guardAdmin, adminOppositionLead.editSubmit);
 
-router.get('/manage/country', verify, countryTrademark.index);
-router.get('/manage/country/view/:id', verify, countryTrademark.show);
-router.get('/manage/country/edit/:id', verify, countryTrademark.edit);
-router.post('/manage/country/edit/:id', verify, countryTrademark.editSubmit);
+router.get('/manage/country', verify, guardAdmin, countryTrademark.index);
+router.get('/manage/country/view/:id', verify, guardAdmin, countryTrademark.show);
+router.get('/manage/country/edit/:id', verify, guardAdmin, countryTrademark.edit);
+router.post('/manage/country/edit/:id', verify, guardAdmin, countryTrademark.editSubmit);
 
-router.get('/manage/user', verify, adminUser.index);
-router.get('/manage/user/view/:id', verify, adminUser.show);
-router.get('/manage/user/edit/:id', verify, adminUser.edit);
-router.post('/manage/user/edit/:id', verify, adminUser.editSubmit);
-router.get('/manage/user/add', verify, adminUser.add);
-router.post('/manage/user/add', verify, adminUser.addSubmit);
+router.get('/manage/user', verify, guardAdmin, adminUser.index);
+router.get('/manage/user/view/:id', verify, guardAdmin, adminUser.show);
+router.get('/manage/user/edit/:id', verify, guardAdmin, adminUser.edit);
+router.post('/manage/user/edit/:id', verify, guardAdmin, adminUser.editSubmit);
+router.get('/manage/user/add', verify, guardAdmin, adminUser.add);
+router.post('/manage/user/add', verify, guardAdmin, adminUser.addSubmit);
 
-router.get('/manage/promo', verify, adminPromo.index);
-router.get('/manage/promo/view/:id', verify, adminPromo.show);
-router.get('/manage/promo/edit/:id', verify, adminPromo.edit);
-router.post('/manage/promo/edit/:id', verify, adminPromo.editSubmit);
-router.get('/manage/promo/add', verify, adminPromo.add);
-router.post('/manage/promo/add', verify, adminPromo.addSubmit);
+router.get('/manage/promo', verify, guardAdmin, adminPromo.index);
+router.get('/manage/promo/view/:id', verify, guardAdmin, adminPromo.show);
+router.get('/manage/promo/edit/:id', verify, guardAdmin, adminPromo.edit);
+router.post('/manage/promo/edit/:id', verify, guardAdmin, adminPromo.editSubmit);
+router.get('/manage/promo/add', verify, guardAdmin, adminPromo.add);
+router.post('/manage/promo/add', verify, guardAdmin, adminPromo.addSubmit);
 
 module.exports = router;

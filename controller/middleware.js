@@ -44,6 +44,37 @@ exports.verifiedEmail = function(req, res, next){
 
 }
 
+exports.guardAdmin = function(req, res, next){
+    let accessToken = req.cookies.jwt
+
+    //if there is no token stored in cookies, the request is unauthorized
+    if (!accessToken){
+        // return res.status(403).send()
+        res.redirect('/login'); 
+    }
+
+    let payload
+    try{
+        payload = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET)
+
+        let user = JSON.parse(payload.user);
+        
+        console.log('role',user.role);
+
+        if ( user.role != "Admin" ) {
+            res.redirect('/customer'); 
+        }
+
+        next()
+    }
+    catch(e){
+        console.log(e);
+
+        res.redirect('/home'); 
+        return res.status(401).send()
+    }
+}
+
 exports.guardResearcher = function(req, res, next){
     let accessToken = req.cookies.jwt
 
@@ -61,8 +92,8 @@ exports.guardResearcher = function(req, res, next){
         
         console.log(user.role_id);
 
-        if ( user.role_id != 4 ) {
-            return res.status(403).send()
+        if ( !user.role || user.role == "Customer" ) {
+            res.redirect('/customer'); 
         }
 
         next()

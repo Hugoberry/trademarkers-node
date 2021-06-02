@@ -120,11 +120,11 @@ exports.login = async function(req,res){
     let userExistMongo = await rpoUsersMongo.findUser(username);
 
     // if (userExistMongo)
-    console.log("param",req.params);
-    console.log("body",req.body);
-    console.log("query",req.query);
+    // console.log("param",req.params);
+    // console.log("body",req.body);
+    // console.log("query",req.query);
     // console.log("all",req);
-    console.log(userExistMongo);
+    // console.log(userExistMongo);
 
     // check in mongo db
     if ( userExistMongo && userExistMongo[0]) {
@@ -176,11 +176,11 @@ exports.login_ajax = async function(req,res){
     let userExistMongo = await rpoUsersMongo.findUser(username);
 
     // if (userExistMongo)
-    console.log("param",req.params);
-    console.log("body",req.body);
-    console.log("query",req.query);
+    // console.log("param",req.params);
+    // console.log("body",req.body);
+    // console.log("query",req.query);
     // console.log("all",req);
-    console.log(userExistMongo);
+    // console.log(userExistMongo);
 
     // check in mongo db
     if ( userExistMongo && userExistMongo[0]) {
