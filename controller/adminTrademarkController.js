@@ -201,7 +201,7 @@ exports.editSubmit = async function(req, res, next) {
 
     let ext = certificate.name.match(/\.[0-9a-z]+$/i)[0]
 
-    uploadPath = __dirname + '/../public/uploads/certificate/' + certificate.md5 + ext;
+    uploadPath = __dirname + '/../public/uploads/certificate/' + certificate.md5 + ext.toLowerCase();
 
     await certificate.mv(uploadPath, function(err) {
       if (err) {
@@ -217,7 +217,7 @@ exports.editSubmit = async function(req, res, next) {
     // UPDATE COLLECTION
     certificate.addedDate = toInteger(moment().format('YYMMDD'))
     certificate.ext = ext
-    certificate.customName = certificate.md5 + ext
+    certificate.customName = certificate.md5 + ext.toLowerCase()
 
     // check if user
     

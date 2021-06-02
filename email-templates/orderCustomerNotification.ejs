@@ -740,7 +740,7 @@
 		%>
     
       	<% order.cartItems.forEach(item => { 
-		  totalAmount += (item.price - item.discountAmount)
+		  totalAmount += (item.price - (item.discountAmount ? item.discountAmount : 0))
 		  if(item.promoCode) {
 			promoCode = item.promoCode
 		  }

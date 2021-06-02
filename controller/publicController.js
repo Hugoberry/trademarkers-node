@@ -997,13 +997,13 @@ exports.deliveryMethod = async function(req, res, next) {
       // CHECK IF ALREADY PURCHASED
 
         pdfUrl = "/uploads/certificate/"+ trademark[0].certificate.customName;
-        // console.log(pdfUrl);
+        console.log(pdfUrl.toLowerCase());
         pdfName = trademark[0].certificate.customName
-        pngName = trademark[0].certificate.customName.replace('.pdf','')
+        pngName = pdfName
 
 
         var input   = __dirname + "/../public/uploads/certificate/" + pdfName;
- 
+        console.log("creating png");
         pdf2img.setOptions({
           type: 'png',                                // png or jpg, default jpg
           size: 1024,                                 // default 1024
@@ -1017,12 +1017,12 @@ exports.deliveryMethod = async function(req, res, next) {
         // console.log(input);
         
         let gen = await pdf2img.convert(input, function(err, info) {
-          // console.log("gen ong");
+          console.log("gen png");
           if (err) return err;
           else return info;
         });
         
-        // console.log(gen);
+        console.log(gen);
       
 
     } else { // end if trademark
