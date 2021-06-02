@@ -734,20 +734,26 @@
 	</thead>
 
     <tbody>
-    <%
-      let totalAmount = 0;
-    %>
+		<%
+		let totalAmount = 0;
+		let promoCode = '';
+		%>
     
-      <% order.cartItems.forEach(item => { totalAmount += item.price %>
+      	<% order.cartItems.forEach(item => { 
+		  totalAmount += (item.price - item.discountAmount)
+		  if(item.promoCode) {
+			promoCode = item.promoCode
+		  }
+		%>
         <tr>
           <td><%= item.serviceType %></td>
           <td><%= item.word_mark %></td>
           <td><%= item.type %></td>
           <td><%= item.class %></td>
           <td><%= item.country.name %></td>
-          <td>$<%= item.price %></td>
+          <td>$<%= item.price %> <i><%= item.promoCode ? '(-$'+item.discountAmount+')' : '' %></i></td>
         </tr>
-      <% }) %>
+      	<% }) %>
     
     <tbody>    
 

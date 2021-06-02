@@ -23,7 +23,30 @@ module.exports = {
 
 			let query = { 
 				userId: ObjectID(userId),
-				status: 'active'
+				status: { $ne : 'complete'}
+			};
+
+			let db = conn.getDb();
+			
+			db.collection(_table).find(query).toArray(function(err, result) {
+					
+				if (err) {
+					reject(err);
+				} else {
+					resolve(result);
+				}
+
+			});
+
+		});
+	},
+
+	fetchCustomerCartActive : async function(userId) {
+		return new Promise(function(resolve, reject) {
+
+			let query = { 
+				userId: ObjectID(userId),
+				status: "active"
 			};
 
 			let db = conn.getDb();
@@ -43,8 +66,7 @@ module.exports = {
 
 	fetchCustomerActiveCart4hr : async function() {
 		return new Promise(function(resolve, reject) {
-			console.log(moment().subtract("4", "hours").format() );
-			console.log(moment().subtract("3", "hours").format() );
+
 			let query = { 
 				status: 'active',
 				created_at_formatted: { 
@@ -146,11 +168,21 @@ module.exports = {
 		});
 	},
 
-	update: function(id,data) {
+	update: async function(id,data) {
 
-        let query = { _id: ObjectID(id) };
+		return new Promise(function(resolve, reject) {
 
-		conn.getDb().collection(_table).updateOne(query,{$set: data }, function(err, result) {
+			let query = { _id: ObjectID(id) };
+
+			conn.getDb().collection(_table).updateOne(query,{$set: data }, function(err, result) {
+				if (result) {
+			
+					resolve(result)
+				} else {
+		
+					reject(err);
+				}
+			});
 
 		});
 

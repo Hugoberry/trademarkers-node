@@ -15,7 +15,7 @@ exports.createActionCode = async function(related_data,url) {
     if (action.length <= 0) flag = false;
 
   }
-console.log(code);
+
   let data = null
 
   

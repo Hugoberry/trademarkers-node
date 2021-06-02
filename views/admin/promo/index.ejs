@@ -1,0 +1,53 @@
+<div class="col-md-12" style="margin-bottom:20px;">  
+    <h2>Promo List <a class="ml-3 btn btn-primary" href="/njs-admin/manage/promo/add"><i class="fa fa-plus" style="color:#fff"></i></a></h2>
+
+    <% if (flash.success) { %>
+    <div class="alert alert-success" role="alert">
+        <strong><%= flash.success %></strong>
+    </div>
+    <% } %>
+
+    <% if (flash.error) { %>
+    <div class="alert alert-danger" role="alert">
+        <strong><%= flash.error %></strong>
+    </div>
+    <% } %>
+</div>
+                    
+<div clss="col-md-12">
+    <table id="myListDataTable" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Code</th>
+                <th>Amount</th>
+                <th>Notes</th>
+                <th>Promo Date</th>
+                <th>Date Created</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        <% users.forEach(function(code,key) {  %>
+   
+            <tr>
+                <td><%= code.name %></td>
+                <td><%= code.code %></td>
+                <td><%= code.discountType == "Percentage" ? code.discountAmount+'%': '$'+code.discountAmount %></td>
+                <td><%= code.notes %></td>
+                <% if ( code.startDate && code.endDate) { %>
+                    <td><%= moment(code.startDate).format('MMM D, YYYY') %> - <%= moment(code.endDate).format('MMM D, YYYY') %></td>
+                <% } else if(code.startDate) { %>
+                    <td><%= moment(code.startDate).format('MMM D, YYYY') %></td>
+                <% } else { %>
+                    <td></td>
+                <% } %>
+                <td><%= moment(code.created_at_formatted).format('MMM D, YYYY') %></td>
+                <td><%= code.status %></td>
+                <td><a href="/njs-admin/manage/promo/view/<%= code._id %>"><i class="fa fa-pen"></i></a></td>
+            </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>

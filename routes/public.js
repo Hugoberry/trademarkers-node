@@ -99,6 +99,8 @@ router.get('/trademark-assignment', publicController.assignment)
   router.post('/trademark-profile', registerController.trademarkProfile);    
   router.post('/add-to-cart', registerController.addToCart);    
   router.get('/cart', registerController.cart);    
+  router.post('/cart/add-promo', registerController.addCartPromo);    
+  router.post('/cart/remove-promo', registerController.removeCartPromo);    
   router.get('/checkout', registerController.checkout);    
   router.post('/placeorder', registerController.placeOrder);    
 // }

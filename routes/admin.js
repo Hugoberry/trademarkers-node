@@ -9,6 +9,7 @@ const adminOppositionLead = require('../controller/adminOppositionLeadsControlle
 const adminTrademark = require('../controller/adminTrademarkController')
 const countryTrademark = require('../controller/adminCountryController')
 const adminUser = require('../controller/adminUserController')
+const adminPromo = require('../controller/adminPromoCodeController')
 
 
 /* GET users listing. */
@@ -53,5 +54,12 @@ router.get('/manage/user/edit/:id', verify, adminUser.edit);
 router.post('/manage/user/edit/:id', verify, adminUser.editSubmit);
 router.get('/manage/user/add', verify, adminUser.add);
 router.post('/manage/user/add', verify, adminUser.addSubmit);
+
+router.get('/manage/promo', verify, adminPromo.index);
+router.get('/manage/promo/view/:id', verify, adminPromo.show);
+router.get('/manage/promo/edit/:id', verify, adminPromo.edit);
+router.post('/manage/promo/edit/:id', verify, adminPromo.editSubmit);
+router.get('/manage/promo/add', verify, adminPromo.add);
+router.post('/manage/promo/add', verify, adminPromo.addSubmit);
 
 module.exports = router;

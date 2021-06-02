@@ -174,12 +174,39 @@ exports.getCartTotalAmount = async function(cartItems) {
         if (cartItems) {
             cartItems.forEach(element => {
                 // console.log(element.price);
-                total += element.price
+                if (element.status == "active") 
+                total += (element.price - (element.discountAmount ? element.discountAmount : 0))
             });
     
             resolve(total);
         } else {
             resolve(0);
+        }
+
+        
+
+    });
+    
+    
+}
+
+exports.getCartCode = async function(cartItems) {
+    
+    let promoCode = '';
+    return new Promise(function(resolve, reject) {
+
+        if (cartItems.length > 0) {
+            console.log('if');
+            cartItems.forEach(element => {
+                if( element.promoCode ){
+                    promoCode = element.promoCode;
+                }
+            });
+    
+            resolve(promoCode);
+        } else {
+            console.log('else');
+            resolve(promoCode);
         }
 
         

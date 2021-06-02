@@ -88,6 +88,17 @@ exports.removeCartItem = async function(req, res, next) {
   });
 }
 
+exports.updateCartStatus = async function(req, res, next) {
+
+  let data = {
+    status : req.body.status == "active" ? "inactive" : "active"
+  }
+  let response = await rpoCartItems.update(req.body.id, data)
+  res.json({
+    result:response
+  });
+}
+
 
 
 

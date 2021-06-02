@@ -766,7 +766,19 @@ exports.statusUpdateNotification = async function(oldTrademark,newTrademark) {
 
 }
 
+exports.notifyAdmin = async function(mailData) {
 
+  return await transporter.sendMail({
+    sender: process.env.MAIL_FROM,
+    replyTo: process.env.MAIL_FROM,
+    from: process.env.MAIL_FROM, 
+    to: "info@trademarkers.com",
+    bcc: ["carissa@trademarkers.com", "felix@bigfoot.com"],
+    subject: mailData.subject, 
+    html: "<p>Hi Admin,<br></p>"+mailData.message, 
+  });
+  
+}
 
 
 

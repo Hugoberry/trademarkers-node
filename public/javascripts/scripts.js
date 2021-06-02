@@ -1,3 +1,5 @@
+
+
 $( document ).ready(function() {
 
   $('#login-from').submit(function(){
@@ -190,6 +192,25 @@ $( document ).ready(function() {
     });   
 
   });
+
+  $(".updateCartStatus").click(function(){
+    // alert( $(this).attr('data-id') );
+
+    $.ajax({
+      url: "/api/v1/updateCartStatus",
+      type:"post",
+      data: {
+        id: $(this).attr('data-cart-id'),
+        status: $(this).attr('data-cart-status'),
+      },
+      success: function( result ) {
+        location.reload();
+        
+      }
+    });   
+
+  });
+
 
   // get cart items count
   $.ajax({
@@ -660,3 +681,4 @@ function scrollToDiv(id){
 
 
 })
+

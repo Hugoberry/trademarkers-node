@@ -28,20 +28,21 @@
 				<th>Mark</th>
 				<th>Price</th>
 			</tr>
-			<% for(let i=0; i < cartItems.length; i++) { %>
+			<% let cartCount = 0; %>
+			<% for(let i=0; i < cartItems.length; i++) { if(cartItems[i].status == "active") { cartCount++; %>
 				<tr>
 					<td><%= (i + 1) %></td>
 					<td><%= cartItems[i].country ? cartItems[i].country.name : '' %></td>
 					<td><%= cartItems[i].serviceType ? cartItems[i].serviceType : '' %></td>
 					<td><%= cartItems[i].word_mark ? cartItems[i].word_mark : '' %></td>
-					<td><%= formatter.format(cartItems[i].price) %></td>
+					<td><%= formatter.format(cartItems[i].price) %> <i><%= cartItems[i].discountAmount ? '(-$'+cartItems[i].discountAmount+')' : '' %></i></td>
 				</tr>
-			<% } %>
+			<% }} %>
 
 			<tr>
 				<td colspan="3"></td>
 				<th class="text-right">Total Quantity:</th>
-				<th><%= cartItems.length %></th>
+				<th><%= cartCount %></th>
 			</tr>
 
 			<tr>

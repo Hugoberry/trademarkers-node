@@ -14,12 +14,14 @@ var rpoUserMongo = require('../repositories/usersMongo');
 var rpoTrademark = require('../repositories/mongoTrademarks');
 var rpoTrademarkAddedService = require('../repositories/trademarkAddedServices');
 var rpoPrice = require('../repositories/prices');
+var rpoPromoCode = require('../repositories/promoCode');
 
 var helpers = require('../helpers');
 
 var mailService = require('../services/mailerService');
 var orderService = require('../services/orderService');
 var activityService = require('../services/activityLogService');
+var cartService = require('../services/cartService');
 
 const { toInteger, unset } = require('lodash');
 let moment = require('moment');
@@ -325,7 +327,7 @@ exports.addToCart = async function(req, res, next) {
       cname = req.body.lname + ", " + req.body.fname
     }
 
-    console.log('req',req.body);
+    // console.log('req',req.body);
 
     let userData = {
       name: cname,
@@ -425,6 +427,8 @@ exports.cart = async function(req, res, next) {
   let currentUser = await helpers.getLoginUser(req);
   let isloggedIn = false;
 
+  await cartService.validateCartItems(currentUser)
+
   activityService.logger(req.ip, req.originalUrl, "Visited cart");
 
   if (!currentUser) {
@@ -438,17 +442,9 @@ exports.cart = async function(req, res, next) {
   } else {
     
     isloggedIn = true;
-
-    // if ( currentUser && !currentUser._id ) {
-    //   let currentUserRecord = await rpoUserMongo.findUser(currentUser.email)
-  
-    //   currentUser = currentUserRecord[0]
-    // }
-
     userId = currentUser._id
   }
 
-  // console.log(currentUser);
   if (userId) {
     cartItems = await rpoCartItems.fetchCustomerCart(userId)
   }
@@ -471,6 +467,99 @@ exports.cart = async function(req, res, next) {
   });
 
 }
+
+exports.addCartPromo = async function(req, res, next) {
+
+  // HAS DUPLICATE FUNCTION IN CART SERVICE :: validateCartItems
+
+  let currentUser = await helpers.getLoginUser(req) 
+  let cartItems = await rpoCartItems.fetchCustomerCartActive(currentUser._id)
+
+  let promoCodes = await rpoPromoCode.getByCode(req.body.promoCode)
+
+  if ( promoCodes.length > 0 ) {
+
+    let isValid = false;
+    // validity
+    if (promoCodes[0].startDate && promoCodes[0].endDate) {
+      if( moment(promoCodes[0].startDate) <= moment() && moment(promoCodes[0].endDate) >= moment()) {
+        isValid = true;
+      }
+    } else if(promoCodes[0].startDate && moment(promoCodes[0].startDate) <= moment()) {
+      isValid = true;
+    } else {
+      if (!promoCodes[0].startDate && !promoCodes[0].endDate) {
+        isValid = true;
+      }
+    }
+
+    if(promoCodes[0].status == "Inactive") {
+      isValid = false;
+    }
+
+    if (isValid ) {
+
+      await cartItems.forEach(async items => {
+
+        let promoData = {
+          promoCode : req.body.promoCode
+        }
+
+        if (promoCodes[0].discountType == "Percentage") {
+          promoData.discountAmount = items.price * (promoCodes[0].discountAmount / 100)
+        } else {
+          promoData.discountAmount = promoCodes[0].discountAmount
+        }
+
+        await rpoCartItems.update(items._id, promoData)
+
+      })
+
+      res.flash('success', 'Promo Code Applied');
+    } else {
+      let mailData = {
+        subject: "Customer tried to enter promo code",
+        message: `<p>Customer tried to enter promo code.</p>
+                  <p>Invalid Code: ${req.body.promoCode}</p>`
+      }
+      mailService.notifyAdmin(mailData);
+      res.flash('error', 'Sorry!, Promo Code not valid');
+    }
+    
+
+  } else {
+    let mailData = {
+      subject: "Customer tried to enter promo code",
+      message: `<p>Customer tried to enter promo code.</p>
+                <p>Code not found: ${req.body.promoCode}</p>`
+    }
+    mailService.notifyAdmin(mailData);
+
+    res.flash('error', 'Sorry!, Promo Code does not exist');
+  }
+  
+
+  res.redirect('/cart');
+
+}
+
+exports.removeCartPromo = async function(req, res, next) {
+  let currentUser = await helpers.getLoginUser(req) 
+  let cartItems = await rpoCartItems.fetchCustomerCartActive(currentUser._id)
+
+  await cartItems.forEach(async items => {
+
+    let promoData = {
+      promoCode : '',
+      discountAmount : 0,
+    }
+    await rpoCartItems.update(items._id, promoData)
+
+  })
+
+  res.redirect('/cart');
+}
+
 
 exports.checkout = async function(req, res, next) {
 
@@ -501,7 +590,7 @@ exports.checkout = async function(req, res, next) {
   }
 // console.log(userId);
   
-  cartItems = await rpoCartItems.fetchCustomerCart(userId)
+  cartItems = await rpoCartItems.fetchCustomerCartActive(userId)
 
   // console.log(cartItems.length);
   if( cartItems.length == 0) {
@@ -538,7 +627,7 @@ exports.placeOrder = async function(req, res, next) {
 
   activityService.logger(req.ip, req.originalUrl, "Placed Order");
 
-  let cartItems = await rpoCartItems.fetchCustomerCart(currentUser._id)
+  let cartItems = await rpoCartItems.fetchCustomerCartActive(currentUser._id)
   let orderCode = await orderService.createOrderCode();
   let description = "Trademark Order #" + orderCode;
   let amount = await helpers.getCartTotalAmount(cartItems);

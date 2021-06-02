@@ -1,0 +1,72 @@
+<div class="col-md-12" style="margin-bottom:20px;">    
+    <h2>Edit Promo Code (<%= code.code %>)
+    </h2>
+
+
+
+
+    <form class="row" action="/njs-admin/manage/promo/edit/<%= code._id %>" method="post" encType="multipart/form-data">
+
+    
+
+        <div class="col-md-12">
+            <hr>
+
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" class="form-control" value="<%= code.name %>" placeholder="" name="name">
+            </div>
+
+            <div class="form-group">
+                <label>Notes</label>
+                <input type="text" class="form-control" value="<%= code.notes %>" placeholder="" name="notes">
+            </div>
+
+            <div class="form-group">
+                <label>Discount Amount Type</label>
+                <select class="form-control" name="discountType">
+                    <option value="Percentage" <%= code.discountType == "Percentage" ? "selected":"" %> >Percentage</option>
+                    <option value="Fixed Amount" <%= code.discountType == "Fixed Amount" ? "selected":"" %> >Fixed Amount</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Discount Amount</label>
+                <input type="number" class="form-control" value="<%= code.discountAmount %>" placeholder="" name="discountAmount">
+            </div>
+
+            <div class="form-group">
+                <label>Start Date</label>
+                <input type="date" class="form-control" value="<%= code.startDate %>" name="startDate">
+            </div>
+
+            <div class="form-group">
+                <label>End Date</label>
+                <input type="date" class="form-control" value="<%= code.endDate %>" name="endDate">
+            </div>
+
+            <div class="form-group">
+                <label>Status</label>
+                <select class="form-control" name="status">
+                    <option value="Active" <%= code.status == "Active" ? "selected" : "" %> >Active</option>
+                    <option value="Inactive" <%= code.status == "Inactive" ? "selected" : "" %> >Inactive</option>
+                </select>
+            </div>
+
+
+
+        </div>
+
+       
+
+        <div class="col-md-12">
+            <p class="text-center">
+                <button type="submit" class="btn btn-primary btn-rounded-primary" style="padding-left:40px;padding-right:40px;">Update</button>
+            </p>
+        </div>
+
+    </form>
+
+</div>
+        
+

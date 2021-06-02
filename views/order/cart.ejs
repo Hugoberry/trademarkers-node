@@ -4,9 +4,22 @@
 		
 			<h2>Cart</h2>
 
-			<% if (cartItems && cartItems.length) { %>
+			<% if (flash.success) { %>
+			<div class="alert alert-success" role="alert">
+				<strong><%= flash.success %></strong>
+			</div>
+			<% } %>
+	
+			<% if (flash.error) { %>
+			<div class="alert alert-warning" role="alert">
+				<strong><%= flash.error %></strong>
+			</div>
+			<% } %>
+
+			<% if (cartItems && cartItems.length) { let hasCode = false, promoCode=""; %>
 			<table class="table">
 				<tr>
+					<th style="width:50px;"></th>
 					<th>Country</th>
 					<th>Service</th>
 					<th>Type</th>
@@ -15,22 +28,56 @@
 					<th>Price</th>
 					<th></th>
 				</tr>
-				<% for(let i=0; i < cartItems.length; i++) { %>
+				<% for(let i=0; i < cartItems.length; i++) { 
+					if ( cartItems[i].promoCode ) {
+						hasCode = true
+						promoCode = cartItems[i].promoCode
+					}
+				%>
 					<tr>
+						<th><input type="checkbox" class="updateCartStatus" name="status" data-cart-id="<%= cartItems[i]._id %>" data-cart-status="<%= cartItems[i].status %>" <%= cartItems[i].status == "active" ? "checked" : "" %> ></th>
 						<th><%= cartItems[i].country.name ? cartItems[i].country.name : cartItems[i].country %></th>
 						<th><%= cartItems[i].serviceType ? cartItems[i].serviceType : '' %></th>
 						<th><%= cartItems[i].type ? cartItems[i].type : '' %></th>
 						<th><%= cartItems[i].word_mark ? cartItems[i].word_mark : '' %></th>
 						<th><%= cartItems[i].class ? cartItems[i].class : '' %></th>
-						<th><%= formatter.format(cartItems[i].price) %></th>
+						<th><%= formatter.format(cartItems[i].price) %> <i><%= hasCode ? '(-$'+cartItems[i].discountAmount+')' : '' %></i></th>
 						<th><span class="removeCartItem" data-id="<%= cartItems[i]._id %>"><i class="fa fa-trash"></i></span></th>
 
 					</tr>
 				<% } %>
 
 				<tr>
-					<th colspan="5"><p class="text-right">Total Amount:</p></th>
-					<th><%= formatter.format(totalAmount) %></th>
+					<th colspan="3">
+						
+							
+						<% if(!hasCode) { %>
+						<form method="post" action="/cart/add-promo" class="row g5 align-items-center">
+							<div class="col-auto">
+								<label for="" class="visually-hidden">Promo Code</label>
+							</div>
+							<div class="col-auto">
+							  <input type="text" class="form-control" placeholder="Promo Code" name="promoCode">
+							</div>
+							<div class="col-auto">
+							  <button type="submit" class="btn btn-primary">Apply Code</button>
+							</div>
+						</form>
+						<% } else { %>
+						<form method="post" action="/cart/remove-promo" class="row g5 align-items-center">
+							<div class="col-auto">
+								<label class="visually-hidden">Promo Code: <%= promoCode %></label>
+							</div>
+							<div class="col-auto">
+								<button type="submit" class="btn btn-danger">Remove Code</button>
+							</div>
+						</form>
+						<% } %>
+						
+					</th>
+
+					<th colspan="3"><p class="text-right">Total Amount:</p></th>
+					<th colspan="2"><%= formatter.format(totalAmount) %></th>
 				</tr>
 			</table>
 			<% } else { %>
