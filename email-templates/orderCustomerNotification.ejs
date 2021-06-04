@@ -847,17 +847,17 @@
 
 		<tfoot>
 			<tr>
-				<td colspan="5"><strong>Total Amount in US $ </strong></td>
+				<td colspan="2"><strong>Total Amount in US $ </strong></td>
 					
 				<td class="amount"><strong>$<%= (order.charge.amount / 100 * 1.00) %></strong></td>
 	
 			</tr>
 			<tr>
-				<td colspan="5"><strong>Less Payment (Stripe)</strong></td>
+				<td colspan="2"><strong>Less Payment (Stripe)</strong></td>
 				<td class="amount"><strong>$<%= (order.charge.amount / 100 * 1.00) %></strong></td>
 			</tr>
 			<tr>
-				<td colspan="5"><strong>Balance</strong></td>
+				<td colspan="2"><strong>Balance</strong></td>
 				<td class="amount"><strong>$0.00</strong></td>
 			</tr>
 		</tfoot>
