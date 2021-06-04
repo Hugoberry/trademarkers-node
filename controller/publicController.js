@@ -293,7 +293,7 @@ exports.quote = async function(req, res, next) {
 
 exports.quoteSubmit = async function(req, res, next) {
 
-  activityService.logger(req.ip, req.originalUrl, "Visited Quote Page");
+  activityService.logger(req.ip, req.originalUrl, "Submitted Quote Page");
 
   // let countries = await rpoCountries.getAll();
 

@@ -220,7 +220,7 @@ exports.editSubmit = async function(req, res, next) {
     certificate.customName = certificate.md5 + ext.toLowerCase()
 
     // check if user
-    
+     
 
     let data = {
       certificate: certificate,
