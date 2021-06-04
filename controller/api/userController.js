@@ -125,7 +125,10 @@ exports.selectDeliveryMethod = async function(req, res, next) {
   mailService.notifyAdmin(mailData)
 
   mailData.subject = `Trademark Certificate Delivery Method | ${req.body.trdName}`
-  mailData.message = `<p>Thank you for your response</p><p>Your Trademark Certificate (${req.body.trdName}) will be delivered via ${req.body.type}</p>`
+  mailData.message = `<p>Thank you for selecting ${req.body.type} as the delivery method in sending your Registration Certificate of (${req.body.trdName}) in Class (${req.body.strClass}) with Serial No. ${req.body.trdSer}</p>
+                      <p>Name: ${req.body.name}<br>Address: ${req.body.address}</p>
+                      <p></p>
+                      <p>Please expect delivery within 2-3 weeks time. <br><br><br>Thank you.<br><br>NiFAEM Entertainment Inc.<br>2006 East Azalea Avenue<br>Baker LA 70714</p>`
   mailService.notifyCustomer(mailData)
 
   // console.log(req.body);

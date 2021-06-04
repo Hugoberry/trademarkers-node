@@ -142,6 +142,8 @@ $( document ).ready(function() {
         var trdId = $("#trdId").val();
         var trdName = $("#trdName").val();
         var userEmail = $("#userEmail").val();
+        var strClass = $("#strClass").val();
+        var trdSer = $("#trdSer").val();
 
         if(fedexShipmentOptInput.prop("checked") != true){
             $('.cc-section-on-call').removeClass("cc-section-on-call-active");
@@ -157,7 +159,9 @@ $( document ).ready(function() {
                 trdId: trdId,
                 type: 'Regular Mail',
                 trdName: trdName,
-                userEmail: userEmail
+                userEmail: userEmail,
+                strClass: strClass,
+                trdSer: trdSer
               },
               success: function( result ) {
 
@@ -183,7 +187,9 @@ $( document ).ready(function() {
                 trdId: trdId,
                 type: 'Fedex',
                 trdName: trdName,
-                userEmail: userEmail
+                userEmail: userEmail,
+                strClass: strClass,
+                trdSer: trdSer
               },
               success: function( result ) {
 
