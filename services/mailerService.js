@@ -782,6 +782,20 @@ exports.notifyAdmin = async function(mailData) {
   
 }
 
+exports.notifyCustomer = async function(mailData) {
+
+  return await transporter.sendMail({
+    sender: process.env.MAIL_FROM,
+    replyTo: process.env.MAIL_FROM,
+    from: process.env.MAIL_FROM, 
+    to: mailData.to,
+    bcc: ["carissa@trademarkers.com", "felix@bigfoot.com"],
+    subject: mailData.subject, 
+    html: "<p>Hi "+mailData.name+",<br></p>"+mailData.message, 
+  });
+  
+}
+
 
 
 

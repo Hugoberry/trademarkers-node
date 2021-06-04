@@ -115,6 +115,19 @@ exports.selectDeliveryMethod = async function(req, res, next) {
     
   }
 
+  let mailData = {
+    to: req.body.userEmail,
+    name: req.body.name,
+    subject: "Certificate Delivery Method | " + req.body.trdName,
+    message: `<p>Customer (${req.body.name}) selected ${req.body.type} for his trademark certificate</p>`
+  }
+
+  mailService.notifyAdmin(mailData)
+
+  mailData.subject = `Trademark Certificate Delivery Method | ${req.body.trdName}`
+  mailData.message = `<p>Thank you for your response</p><p>Your Trademark Certificate (${req.body.trdName}) will be delivered via ${req.body.type}</p>`
+  mailService.notifyCustomer(mailData)
+
   // console.log(req.body);
 
   await rpotrademark.updateDetails(req.body.trdId, dataDelivery)

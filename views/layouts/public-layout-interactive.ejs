@@ -140,6 +140,8 @@ $( document ).ready(function() {
         var contact = $("#shipping_contact").val();
         var amount = $("#shipping_amount").val();
         var trdId = $("#trdId").val();
+        var trdName = $("#trdName").val();
+        var userEmail = $("#userEmail").val();
 
         if(fedexShipmentOptInput.prop("checked") != true){
             $('.cc-section-on-call').removeClass("cc-section-on-call-active");
@@ -153,12 +155,15 @@ $( document ).ready(function() {
                 contact: contact,
                 amount: 0,
                 trdId: trdId,
-                type: 'Regular Mail'
+                type: 'Regular Mail',
+                trdName: trdName,
+                userEmail: userEmail
               },
               success: function( result ) {
 
                console.log(result);
-                
+               $("#selectedDeliveryMethod").text("Thanks for choosing a Delivery Method");
+                $("#selectedDeliveryMethod").show();
               }
             }); 
 
@@ -176,7 +181,9 @@ $( document ).ready(function() {
                 contact: contact,
                 amount: 80,
                 trdId: trdId,
-                type: 'Fedex'
+                type: 'Fedex',
+                trdName: trdName,
+                userEmail: userEmail
               },
               success: function( result ) {
 
