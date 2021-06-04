@@ -209,7 +209,7 @@
 
         <div class="col-md-12">
 
-
+			<% if(hasStudy) { %>
             <div class="row step-block">
 				<div class="col-md-12">
 					<h2><span>Step 1</span> Trademark Comprehensive Study 
@@ -268,9 +268,11 @@
 
 			</div>
 
+			<% } %>
+
 			<div class="row step-block">
 				<div class="col-md-12">
-					<h2><span>Step 2</span> Trademark Registration Request
+					<h2><span>Step <%= hasStudy ? '2' : '1' %></span> Trademark Registration Request
 					<button class="btn btn-primary btn-black btn-pull-right" data-toggle="modal" data-target="#registrationModal"> Start Registration</button>
 					</h2>
 				</div>
