@@ -148,31 +148,37 @@ module.exports = {
 
 		return new Promise(function(resolve, reject) {
 
-        conn.getDb().collection(_table).insertOne(data, 
-			function(err, result) {
-				if (err) throw err;
+			conn.getDb().collection(_table).insertOne(data, 
+				function(err, result) {
+					if (err) throw err;
 
-				mailService.notifyNewAccount(data)
-				mailService.verifyEmailAccount(data)
-				resolve(result);
-			}
-		);
-	});
+					mailService.notifyNewAccount(data)
+					mailService.verifyEmailAccount(data)
+					resolve(result);
+				}
+			);
+		});
 
 	},
 	
-	updateUser: function(id,data) {
+	updateUser: async function(id,data) {
 
         let query = { _id: ObjectID(id) };
 
-		conn.getDb().collection(_table).updateOne(query,{$set: data }, function(err, result) {
-			if (err) {
-				console.log('Error updating user: ' + err);
-				// res.send({'error':'An error has occurred'});
-			} else {
-				console.log('' + result + ' document(s) updated');
-				// res.send(result);
-			}
+		return new Promise(function(resolve, reject) { 
+
+			conn.getDb().collection(_table).updateOne(query,{$set: data }, function(err, result) {
+				if (err) {
+					console.log('Error updating user: ' + err);
+					// res.send({'error':'An error has occurred'});
+					reject(err)
+				} else {
+					console.log('' + result + ' document(s) updated');
+					// res.send(result);
+					resolve(result)
+				}
+			});
+
 		});
 
     }

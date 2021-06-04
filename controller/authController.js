@@ -243,7 +243,7 @@ function validateHashUser(pass, obj, res){
 
         res.json({
             status:false,                  
-            message:"Email and password does not match"
+            message:"Email and password does not match!"
             });
     }
 
@@ -257,15 +257,15 @@ function validateHashUser(pass, obj, res){
 
             res.json({
             status:false,                  
-            message:"Email and password does not match"
+            message:"Email and password does not match!"
             });
 
         }else{     
 
+            let custNo = ""
             // GENERATE CUSTOMER NO
             if (!obj.custNo) {
                 let flag = true
-                let custNo = ""
 
                 for ( ; flag; ) {
                     custNo = "CU-" + helpers.makeid(4)
@@ -277,22 +277,34 @@ function validateHashUser(pass, obj, res){
                     }
                 }
                 obj.custNo = custNo
-
+                console.log("generated no", custNo);
             }
 
             
-            let storedUser = await rpoUsers.putUser(obj);
-
+            
+            console.log("customer #", custNo);
             // console.log(storedUser.insertedId);
             if (!obj._id) {
+                let storedUser = await rpoUsers.putUser(obj);
                 obj._id = storedUser.insertedId;
+                console.log('stored');
+            } else {
+
+                if ( custNo ) {
+                    let tempObj = {
+                        custNo : custNo
+                    }
+                    let updatedObj = await rpoUsersMongo.updateUser(obj._id, tempObj)
+                    console.log('updating');
+                }
+                
             }
 
             // STORE OLD ORDERS
             if (obj.id && !obj.isMigrate) {
                 await orderService.getOldOrders(obj);
             }
-            
+            // console.log("store session", obj);
 
             //use the payload to store information about the user such as username, user role, etc.
             let payload = {user: JSON.stringify(obj)}

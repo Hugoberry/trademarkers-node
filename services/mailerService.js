@@ -40,7 +40,7 @@ exports.contact = async function(data) {
   
 }
 
-exports.sendQuote = async function(res,quoteData) {
+exports.sendQuote = async function(quoteData) {
 
   // return;
   ejs.renderFile(__dirname+"/../email-templates/quoteAdminNotification.ejs", { data: quoteData }, async function (err, data) {
@@ -52,10 +52,10 @@ exports.sendQuote = async function(res,quoteData) {
           sender: process.env.MAIL_FROM,
           replyTo: process.env.MAIL_FROM,
           from: process.env.MAIL_FROM, 
-          // to: "info@trademarkers.com",
+          to: "info@trademarkers.com",
           // bcc: ["carissa@trademarkers.com", "billing-trademarkers@moas.com","felix@bigfoot.com"],
-          to: "carissa@trademarkers.com",
-          bcc: ["febongo@gmail.com", "felix@bigfoot.com"],
+          // to: "carissa@trademarkers.com",
+          bcc: ["carissa@trademarkers.com", "felix@bigfoot.com"],
           subject: "New Quote: " + quoteData.quoteType, 
           html: data
         };

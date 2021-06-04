@@ -293,7 +293,7 @@ exports.quote = async function(req, res, next) {
 
 exports.quoteSubmit = async function(req, res, next) {
 
-  activityService.logger(req.ip, req.originalUrl, "Visited Quote Page");
+  activityService.logger(req.ip, req.originalUrl, "Submitted Quote Page");
 
   // let countries = await rpoCountries.getAll();
 
@@ -307,7 +307,7 @@ exports.quoteSubmit = async function(req, res, next) {
 
 
   let type = req.body.quoteType.replace(/\s/g, '-');
-   mailService.sendQuote(res,req.body);
+   mailService.sendQuote(req.body);
   // console.log('test mailing ',mailInfo);
   // if (mailInfo && mailInfo.accepted) {
     res.flash('success', 'Thank You! Your message has been successfully sent. We’ll get back to you very soon.');
