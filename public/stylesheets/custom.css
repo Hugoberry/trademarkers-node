@@ -22,13 +22,16 @@
     padding: 0;
 }
 
-.header-nav li{ 
+.header-nav li, .navbar-nav .cart-icon{ 
     display: inline;
     list-style: none;
 }
 
-.header-nav li a{ 
+.navbar-nav .cart-icon a.nav-link{ 
     color: #fff;
+    position: relative;
+    padding: 0;
+    /* height:20px; */
 }
 
 .logd-info{
@@ -53,13 +56,13 @@
     overflow: unset !important;
 }
 
-.header-nav li a #shopping-cart{
+.navbar-nav .cart-icon a.nav-link #shopping-cart{
     color: #fff;
     background: red;
     padding: 3px 6px;
     border-radius: 16px;
     font-size: 10px;
-    position: relative;
+    position: absolute;
     top: -10px;
     left: -6px;
 }
