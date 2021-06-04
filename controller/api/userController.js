@@ -131,7 +131,7 @@ exports.selectDeliveryMethod = async function(req, res, next) {
   // console.log(req.body);
 
   await rpotrademark.updateDetails(req.body.trdId, dataDelivery)
-
+ 
 
   // NOTIFY ADMIN CUSTOMER SELECTION add logs
 
