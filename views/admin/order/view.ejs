@@ -1,0 +1,52 @@
+<div class="col-md-12" style="margin-bottom:20px;">    
+  <h2>View Order #<%= order.orderNumber %>
+  </h2>
+
+      <div class="col-md-12">
+          <hr>
+
+
+          <div class="form-group">
+              <label>Customer Name</label>
+              <input type="text" class="form-control" value="<%= order.user.name %>" placeholder="" name="notes" disabled>
+          </div>
+
+          <div class="form-group">
+              <label>Customer Email</label>
+              <input type="text" class="form-control" value="<%= order.user.email %>" placeholder="" name="discountType" disabled>
+          </div>
+
+          
+          <table class="table">
+            <thead>
+                <tr>
+                    <th>Mark</th>
+                    <th>Service</th>
+                    <th>Type</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+            <% order.cartItems.forEach(function(item,key) {  %>
+       
+                <tr>
+                    <td><%= item.name ? item.name : item.word_mark %></td>
+                    <td><%= item.service ? item.service : 'Trademark '+item.serviceType %></td>
+                    <td><%= item.type %></td>
+                    <td>$<%= item.amount ? item.amount : item.price %></td>
+
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+
+
+      </div>
+
+    
+
+
+
+</div>
+      
+

@@ -1,0 +1,57 @@
+<div class="col-md-12" style="margin-bottom:20px;">  
+    <h2>Orders List <a class="ml-3 btn btn-primary" href="/njs-admin/manage/promo/add"><i class="fa fa-plus" style="color:#fff"></i></a></h2>
+
+    <% if (flash.success) { %>
+    <div class="alert alert-success" role="alert">
+        <strong><%= flash.success %></strong>
+    </div>
+    <% } %>
+
+    <% if (flash.error) { %>
+    <div class="alert alert-danger" role="alert">
+        <strong><%= flash.error %></strong>
+    </div>
+    <% } %>
+</div>
+                    
+<div clss="col-md-12">
+    <table id="myListDataTable" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Total Amount</th>
+                <th># Items</th>
+                <th>Customer</th>
+                <th>Status</th>
+                <th>Date Created</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        <% orders.forEach(function(order,key) {  %>
+   
+            <tr>
+                <td><%= order.orderNumber %></td>
+                <td>
+                    <%
+                    let totalAmount = 0;
+                    if (order.charge && order.charge.amount) {
+                        totalAmount = order.charge.amount / 100
+                    } else if(order.charge && order.charge.order_id) {
+
+                    }
+                    %>
+                    $<%= order.charge && order.charge.amount ? (order.charge.amount / 100) : '' %>
+                </td>
+                <td><%= order.cartItems ? order.cartItems.length : '-' %></td>
+                <td><%= order.user ? order.user.name : '' %></td>
+                <td><%= order.paid ? 'Paid' : 'Unpaid' %></td>
+               
+                <td><%= moment(order.created_at_formatted).format('MMM D, YYYY') %></td>
+
+                <td><a href="/njs-admin/manage/orders/view/<%= order._id %>"><i class="fa fa-pen"></i></a></td>
+            </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>

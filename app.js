@@ -29,6 +29,8 @@ var orderService = require('./services/orderService')
 var cartService = require('./services/cartService')
 var notificationCronService = require('./services/notificationCronService')
 
+var pdfService = require('./services/pdfService')
+
 
 var app = express();
 
@@ -126,7 +128,7 @@ conn.connectToServer( function( err, client ) {
   // oppositionCronService.generateDomainEmail();
   // oppositionCronService.sendEvent();
 
-  
+  pdfService.generateInvoice("8Q2T-4C")
   // CRON JOB SCHEDULER =========== >>
   
   // cartService.testMail();

@@ -6,6 +6,8 @@ let conn = require('../config/DbConnect');
 const mysql = require('mysql');
 const util = require('util');
 
+var ObjectID = require('mongodb').ObjectID;
+
 const connection = mysql.createConnection({
     host     : process.env.DBHOST,
 	user     : process.env.DBUSER,
@@ -14,6 +16,44 @@ const connection = mysql.createConnection({
 });
 
 module.exports = {
+
+	getAll : async function() {
+		return new Promise(function(resolve, reject) {
+
+			
+			
+			conn.getDb().collection(_table).find().toArray(function(err, result) {
+					
+				if (err) {
+					reject(err);
+				} else {
+					resolve(result);
+				}
+
+			});
+
+		});
+	},
+
+	getById : async function(id) {
+		return new Promise(function(resolve, reject) {
+
+			let query = { _id: ObjectID(id) };
+
+			let db = conn.getDb();
+			
+			db.collection(_table).find(query).toArray(function(err, result) {
+					
+				if (err) {
+					reject(err);
+				} else {
+					resolve(result);
+				}
+
+			});
+
+		});
+	},
 
 	findById : async function(id) {
 		return new Promise(function(resolve, reject) {

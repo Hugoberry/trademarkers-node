@@ -1,0 +1,72 @@
+<div class="col-md-12" style="margin-bottom:20px;">    
+    <h2>Add Promo Code
+    </h2>
+
+
+
+
+    <form class="row" action="/njs-admin/manage/promo/add" method="post" encType="multipart/form-data">
+
+    
+
+        <div class="col-md-12">
+            <hr>
+
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" class="form-control" value="" placeholder="" name="name" required>
+            </div>
+
+            <div class="form-group">
+                <label>Notes</label>
+                <input type="text" class="form-control" value="" placeholder="" name="notes" required>
+            </div>
+
+            <div class="form-group">
+                <label>Discount Amount Type</label>
+                <select class="form-control" name="discountType" required>
+                    <option value="Percentage">Percentage</option>
+                    <option value="Fixed Amount">Fixed Amount</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Discount Amount</label>
+                <input type="number" class="form-control" value="" placeholder="" name="discountAmount" required>
+            </div>
+
+            <div class="form-group">
+                <label>Start Date</label>
+                <input type="date" class="form-control" name="startDate">
+            </div>
+
+            <div class="form-group">
+                <label>End Date</label>
+                <input type="date" class="form-control" name="endDate">
+            </div>
+
+            <div class="form-group">
+                <label>Status</label>
+                <select class="form-control" name="status" required>
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                </select>
+            </div>
+
+
+
+        </div>
+
+       
+
+        <div class="col-md-12">
+            <p class="text-center">
+                <button type="submit" class="btn btn-primary btn-rounded-primary" style="padding-left:40px;padding-right:40px;">Create</button>
+            </p>
+        </div>
+
+    </form>
+
+</div>
+        
+

@@ -27,6 +27,26 @@ exports.createOrderCode = async function() {
   
 }
 
+exports.createInvoiceCode = async function() {
+
+  // let code = makeid(2) + '-' + makeid(4) + '-' + makeid(1);
+  let code = '';
+  // console.log(code);
+
+  let flag = true;
+  for(;flag;){
+
+    code = makeid(4) + '-' + makeid(2); 
+    let order = await rpoInvoice.findInvoiceNumber(code);
+
+    if (order.length <= 0) flag = false;
+
+  }
+
+  return code;
+  
+}
+
 exports.getOldOrders = async function(obj) {
 
   let orders = await rpoOrder.fetchOrderByUser(obj.id);
@@ -40,19 +60,22 @@ exports.getOldOrders = async function(obj) {
       let trademarks = await rpoTrademarksMysql.fetchTmByOrder(orders[i].id);
       let invoice = await rpoInvoice.fetchByOrderIdMysql(orders[i].id);
 
-      console.log("order", orders[i]);
-      console.log("invoice", invoice);
-      console.log("trademarks", trademarks);
+      // console.log("order", orders[i]);
+      // console.log("invoice", invoice);
+      // console.log("trademarks", trademarks);
 
       let orderData = {
         orderNumber: orders[i].order_number,
         charge: invoice[0],
         paid: invoice[0].status == 'pending' ? false : true,
         userId: obj._id,
-        cartItems: null,
+        user: obj,
+        cartItems: trademarks,
         created_at: orders[i].created_at,
         created_at_formatted: orders[i].created_at
       }
+
+      orderData.charge.amount = orders[i].total_amount * 100
 
       // add order data
       let storedOrder = await rpoOrder.put(orderData);

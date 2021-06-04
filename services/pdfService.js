@@ -3,8 +3,10 @@ const blobStream  = require('blob-stream');
 const fs  = require('fs');
 const moment = require('moment');
 
+
 const rpoGeneratedPdf = require('../repositories/generatedPdf');
 const rpoSenders = require('../repositories/senders');
+const rpoOrders = require('../repositories/orders');
 
 exports.generate = async function(data) {
 
@@ -96,6 +98,198 @@ exports.generate = async function(data) {
     return pdfName;
 }
 
+
+
+exports.generateInvoice = async function(orderNumber) {
+
+    
+
+    // console.log(orders);
+
+    
+
+    try {
+
+        
+
+        let orders = await rpoOrders.findOrderNumber(orderNumber);
+
+        if (orders.length > 0) {
+
+            let path = './public/pdf/'+orders[0].orderNumber.toLowerCase()+'.pdf'
+
+            if (!fs.existsSync(path)) {
+
+                console.log('exec');
+
+                let now = Date.now();
+                let pdfName = orders[0].orderNumber.toLowerCase()+'.pdf';
+
+
+                const PDFDocument = require('pdfkit');
+
+                // Create a document
+                const doc = new PDFDocument;
+                var stream = doc.pipe(blobStream());
+
+                let leftSpace = 50;
+                let verticalSpace = 90;
+
+                // Pipe its output somewhere, like to a file or HTTP response
+                // See below for browser usage
+                doc.pipe(fs.createWriteStream('public/pdf/'+ pdfName));
+
+                doc.image ('public/images/pdf-icon.png', 400, -10, { "width": 180 });
+
+
+                doc.image ('public/images/trademarkers.png', leftSpace, verticalSpace, { "width": 180 });
+
+                verticalSpace += 50
+
+                doc.font('Helvetica-Bold')
+                .fontSize(13)
+                .text(`| Bill To. ${orders[0].user.name}`, leftSpace, verticalSpace);
+
+                doc.fontSize (8.5);
+
+                verticalSpace += 20
+                // doc.fillColor('#666').text (`P, ${orders[0].user.name}`, leftSpace + 50, verticalSpace );
+                // verticalSpace += 15
+                doc.text (`E, ${orders[0].user.email}`, leftSpace + 50, verticalSpace );
+                verticalSpace += 15
+                doc.text (`A, ${orders[0].user.name}`, leftSpace + 50, verticalSpace );
+
+                doc.fontSize (32);
+                doc.fillColor('#000').text ('INVOICE', leftSpace + 350, verticalSpace - 60 );
+
+                doc.fontSize (8.5);
+                verticalSpace += 30
+                doc.fillColor('#000')
+                doc.moveDown ();
+
+
+                // ITEM HEAD
+
+                verticalSpace += 20 
+
+                generateTableRow(
+                    doc,
+                    verticalSpace,
+                    "Item",
+                    "Description",
+                    "Unit Cost",
+                    "Quantity",
+                    "Line Total"
+                );
+
+                // ITEM HEAD END
+
+                // ITEM BODY
+                verticalSpace += 20
+                generateHr(doc, verticalSpace);
+                doc.font("Helvetica");
+
+                verticalSpace += 20
+
+                generateTableRow(
+                    doc,
+                    verticalSpace,
+                    'asd',
+                    'asd',
+                    1,
+                    1,
+                    1
+                );
+
+                verticalSpace += 20
+                generateHr(doc, verticalSpace);
+
+                // ITEM BODY END
+
+
+
+                verticalSpace += 30
+
+                doc.font("Helvetica-Bold");
+                doc.fontSize(13).text ('PAYMENT METHOD', leftSpace , verticalSpace);
+
+                doc.fontSize(13).underline( leftSpace + 300, 15 ,200 , verticalSpace, { color: '#000' }).text ('SUBTOTAL:                $00.00', leftSpace + 300, verticalSpace);
+                doc.fontSize(13).underline( leftSpace + 300, 35 ,200 , verticalSpace, { color: '#000' }).text ('DISCOUNT:                $00.00', leftSpace + 300, verticalSpace + 20);
+                doc.fontSize(13).underline( leftSpace + 300, 55 ,200 , verticalSpace, { color: '#000' }).text ('TOTAL:                       $00.00', leftSpace + 300 , verticalSpace + 40);
+
+
+                doc.font("Helvetica");
+                doc.fillColor('#666').fontSize(8.5).text ('BANK: JP Morgan Chase', leftSpace , verticalSpace+=20);
+                doc.fillColor('#666').fontSize(8.5).text ('SWIFT: CHASUS33', leftSpace , verticalSpace+=15);
+                doc.fillColor('#666').fontSize(8.5).text ('Account No: 55964-0730', leftSpace , verticalSpace+=15);
+                doc.fillColor('#666').fontSize(8.5).text ('Routing No: 267084131', leftSpace , verticalSpace+=15);
+
+
+                verticalSpace += 30
+                doc.fillColor('#000')
+                doc.font("Helvetica-Bold");
+                doc.fontSize(13).text ('NOTES', leftSpace , verticalSpace);
+
+                doc.fillColor('#666')
+                doc.font("Helvetica");
+                doc.fontSize(8.5)
+                doc.moveDown ();
+                
+                doc.text ('Please specify your invoice number in your payment and correspondence');
+
+
+
+                doc
+                .fontSize(10)
+                .text('Trademarkers LLC', 100, 710, {width:"33%",align: "center" })
+                .text('Bank Address', 250, 710, {width:"33%",align: "center" })
+                .text('JP Morgan Chase', 380, 710, {width:"33%",align: "center" })
+
+                doc
+                .fontSize(10)
+                .text('45 Essex Street, Suite 202', 100, 725, {width:"33%",align: "center" })
+                .text('401 Madison Ave.', 250, 725, {width:"33%",align: "center" })
+                .text('SWIFT CHASUS33', 380, 725, {width:"33%",align: "center" })
+
+                doc
+                .fontSize(10)
+                .text('Millburn NJ 07041', 100, 740, {width:"33%",align: "center" })
+                .text('New York, NY 10017', 250, 740, {width:"33%",align: "center" })
+                .text('ACCOUNT NO: 55964-0730', 380, 740, {width:"33%",align: "center" })
+
+                doc
+                .fontSize(10)
+                .text('', 100, 755, {width:"33%",align: "center" })
+                .text('', 250, 755, {width:"33%",align: "center" })
+                .text('ROUTING NO: 267084131', 380, 755, {width:"33%",align: "center" })
+
+
+                doc.end ();
+
+                
+
+
+                // STORE RECORD FOR FUTURE RETRIEVAL
+                rpoGeneratedPdf.putGeneratedPdf({
+                    office: 'EUIPO',
+                    type: 'opposition',
+                    url: pdfName,
+                    created: now,
+                    name: 'asdasd'
+                });
+    
+            }
+        }
+
+        
+
+    } catch(err) {
+        console.error(err)
+    }
+
+    
+}
+
 exports.createPng = async function(pdfName,pngName) {
     return new Promise(function(resolve, reject) {
 
@@ -121,3 +315,43 @@ exports.createPng = async function(pdfName,pngName) {
 
     });
 }
+
+
+
+
+
+function generateTableRow(
+    doc,
+    y,
+    item,
+    description,
+    unitCost,
+    quantity,
+    lineTotal
+  ) {
+    doc
+      .fontSize(10)
+      .text(item, 50, y)
+      .text(description, 150, y)
+      .text(unitCost, 280, y, { width: 90, align: "right" })
+      .text(quantity, 370, y, { width: 90, align: "right" })
+      .text(lineTotal, 0, y, { align: "right" });
+  }
+  
+  function generateHr(doc, y) {
+    doc
+      .strokeColor("#aaaaaa")
+      .lineWidth(1)
+      .moveTo(50, y)
+      .lineTo(550, y)
+      .stroke();
+  }
+
+  function generateHrTotal(doc, y) {
+    doc
+      .strokeColor("#aaaaaa")
+      .lineWidth(1)
+      .moveTo(600, y)
+      .lineTo(80, y)
+      .stroke();
+  }
