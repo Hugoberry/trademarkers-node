@@ -40,7 +40,7 @@ exports.contact = async function(data) {
   
 }
 
-exports.sendQuote = async function(quoteData) {
+exports.sendQuote = async function(res,quoteData) {
 
   // return;
   ejs.renderFile(__dirname+"/../email-templates/quoteAdminNotification.ejs", { data: quoteData }, async function (err, data) {
@@ -68,7 +68,7 @@ exports.sendQuote = async function(quoteData) {
             res.flash('success', 'Thank You! Your message has been successfully sent. We’ll get back to you very soon.');
           }
 
-          res.redirect("/quote/"+data.quoteType);
+          // res.redirect("/quote/"+data.quoteType);
 
         });
       // })

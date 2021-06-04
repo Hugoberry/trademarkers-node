@@ -307,7 +307,7 @@ exports.quoteSubmit = async function(req, res, next) {
 
 
   let type = req.body.quoteType.replace(/\s/g, '-');
-   mailService.sendQuote(req.body);
+   mailService.sendQuote(res,req.body);
   // console.log('test mailing ',mailInfo);
   // if (mailInfo && mailInfo.accepted) {
     res.flash('success', 'Thank You! Your message has been successfully sent. We’ll get back to you very soon.');
