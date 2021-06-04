@@ -18,6 +18,10 @@
             </div>
           <% } %>
 
+          <div id="selectedDeliveryMethod" class="alert alert-success" style="display:none" role="alert">
+            
+          </div>
+
             <div class="tm-sl-head">
              
               <div class="row">
@@ -69,7 +73,7 @@
                       <h2 class="h6"><strong>Your Original Trademark Certificate was recieved and is ready to be sent to you!</strong></h2>
                     </div> <!-- end of certificate delivery header -->
 
-                    <% if ( !trademark.delivery || trademark.delivery.status == "pending" ) { %>
+                    <% if ( !trademark.delivery ) { %>
                     <!-- Certificate Delivery Form -->
                     <div class="crt-fct-body">
                       <div class="crt-fct-form">
@@ -111,6 +115,8 @@
                               </div>
                             </div>
                                 <input type="hidden" name="trdId" id="trdId" value="<%= trademark._id %>">
+                                <input type="hidden" name="trdName" id="trdName" value="<%= trademark.mark %>">
+                                <input type="hidden" name="userEmail" id="userEmail" value="<%= trademark.user.email %>">
                           </fieldset>
 
                           <div class="form-group">
@@ -124,7 +130,7 @@
                       <div class="crt-fct-body">
                         <div class="crt-fct-form">
                       <div class="crt-fct-form-head text-center">
-                        <h2 class="h6 crt-fct-form-title"><strong>Processed</strong></h2>
+                        <h2 class="h6 crt-fct-form-title"><strong>Processed: <%= trademark.delivery.type %></strong></h2>
                       </div>
                       </div>
                     </div>
