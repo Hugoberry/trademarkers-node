@@ -63,9 +63,11 @@ exports.sendQuote = async function(res,quoteData) {
         transporter.sendMail(mainOptions, function (err, info) {
           
           if (err) {
-            res.flash('error', 'Sorry, something went wrong, try again later!');
+            console.log(err.message);
+            // res.flash('error', 'Sorry, something went wrong, try again later!');
           } else {
-            res.flash('success', 'Thank You! Your message has been successfully sent. We’ll get back to you very soon.');
+            console.log('quote sent!');
+            // res.flash('success', 'Thank You! Your message has been successfully sent. We’ll get back to you very soon.');
           }
 
           // res.redirect("/quote/"+data.quoteType);
