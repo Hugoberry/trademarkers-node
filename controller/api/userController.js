@@ -119,7 +119,7 @@ exports.selectDeliveryMethod = async function(req, res, next) {
     to: req.body.userEmail,
     name: req.body.name,
     subject: "Certificate Delivery Method | " + req.body.trdName,
-    message: `<p>Customer (${req.body.name}) selected ${req.body.type} for his trademark certificate</p>`
+    message: `<p>Customer (${req.body.name}) selected ${req.body.type} for his trademark certificate</p><p>Name: ${req.body.name}<br>Address: ${req.body.address}</p>`
   }
 
   mailService.notifyAdmin(mailData)
