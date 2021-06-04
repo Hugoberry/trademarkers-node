@@ -1000,7 +1000,7 @@ exports.deliveryMethod = async function(req, res, next) {
         console.log(pdfUrl.toLowerCase());
         pdfName = trademark[0].certificate.customName
         pngName = pdfName
-
+ 
 
         var input   = __dirname + "/../public/uploads/certificate/" + pdfName;
         console.log("creating png");
