@@ -668,19 +668,19 @@ exports.placeOrder = async function(req, res, next) {
         created_at_formatted: moment().format()
       }
 
-      // let invoice = {
-      //   orderNumber: orderCode,
-      //   invoiceCode: invoiceCode,
-      //   amount: amount,
-      //   charge: charge,
-      //   custom: true,
-      //   paid: true,
-      //   userId: currentUser._id,
-      //   user: currentUser,
-      //   cartItems: cartItems,
-      //   created_at: toInteger(moment().format('YYMMDD')),
-      //   created_at_formatted: moment().format()
-      // }
+      let invoice = {
+        orderNumber: orderCode,
+        invoiceCode: invoiceCode,
+        amount: amount,
+        charge: charge,
+        custom: true,
+        paid: true,
+        userId: currentUser._id,
+        user: currentUser,
+        cartItems: cartItems,
+        created_at: toInteger(moment().format('YYMMDD')),
+        created_at_formatted: moment().format()
+      }
   
       // console.log('put', order);
   
@@ -688,7 +688,7 @@ exports.placeOrder = async function(req, res, next) {
   
       mailService.sendOrderNotification(order);
       rpoOrder.put(order);
-      // rpoInvoice.put(invoice);
+      rpoInvoice.put(invoice);
       res.flash('success', 'Payment Successful!');
       rpoCharge.put(charge);
   
