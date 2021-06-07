@@ -43,6 +43,8 @@ router.post('/generate-pdf', publicController.generatePdfView);
 // router.get('/add-sender-pdf', publicController.addSenderPdf);
 router.post('/add-sender-pdf', publicController.addSenderPdf);
 
+router.get('/pdf/invoice/:orderNo', publicController.invoicePdf);
+
 router.get('/', publicController.home);
 
 router.get('/what-is-the-uniform-domain-name-dispute-resolution-policy', publicController.udrp);

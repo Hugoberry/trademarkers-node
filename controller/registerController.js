@@ -630,7 +630,7 @@ exports.placeOrder = async function(req, res, next) {
 
   let cartItems = await rpoCartItems.fetchCustomerCartActive(currentUser._id)
   let orderCode = await orderService.createOrderCode();
-  // let invoiceCode = await orderService.createInvoiceCode();
+  let invoiceCode = await orderService.createInvoiceCode();
   let description = "Trademark Order #" + orderCode;
   let amount = await helpers.getCartTotalAmount(cartItems);
 
@@ -658,6 +658,7 @@ exports.placeOrder = async function(req, res, next) {
   
       let order = {
         orderNumber: orderCode,
+        invoiceCode: invoiceCode,
         charge: charge,
         custom: true,
         paid: true,

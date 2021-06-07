@@ -1895,6 +1895,31 @@ exports.assignment = async function(req, res, next) {
   });
 }
 
+exports.invoicePdf = async function(req, res, next) {
+
+  console.log('pdf viewer', req.params.orderNo);
+
+  let orders = await rpoOrder.findOrderNumber(req.params.orderNo);
+  // let users = await rpoUserMongo.getByIdM(orders[0].userId);
+
+  if (orders[0] && orders[0].charge.order_id) {
+    // redirect to php invoice
+    // res.redirect("http://trademarkers.staging.test/customer/invoice/"+orders[0].charge.id+"/download=false&success=true")
+    await pdfService.generateOldInvoice(req.params.orderNo);
+  } else if ( orders[0] && orders[0].cartItems ) {
+    await pdfService.generateInvoice(req.params.orderNo);
+  } else {
+    await pdfService.generateCustomInvoice(req.params.orderNo);
+    // return false
+  }
+
+  
+
+  // console.log("/customer/invoice/{{ $invoice->id }}/download=true&success=true generate? ", generate);
+  next()
+
+}
+
 
 
 
