@@ -98,7 +98,7 @@ exports.selectDeliveryMethod = async function(req, res, next) {
 
   // let trademark = await rpotrademark.updateDetails
 
-  activityService.logger(req.ip, req.originalUrl, req.body.name + " Selected " + req.body.type + " for delivery method ");
+  activityService.logger(req.ip, req.originalUrl, req.body.name + " Selected " + req.body.type + " for delivery method ", req);
 
   let dataDelivery = {
     delivery : {

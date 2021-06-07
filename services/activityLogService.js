@@ -5,13 +5,16 @@ let rpoAction = require('../repositories/actionCode');
 let _variables = require('../config/variables');
 
 let geoip = require('geoip-lite');
+let helpers = require('../helpers')
 
 const { toInteger } = require('lodash');
 let moment = require('moment');
 
-exports.logger = function(ip, page, msg) {
+exports.logger = async function(ip, page, msg, req) {
     // console.log('this', ip);
 
+    let user = await helpers.getLoginUser(req);
+    let name = user && user.name ? user.name : 'guest';
     
 
     // let ip = "207.97.227.239";
@@ -26,6 +29,7 @@ exports.logger = function(ip, page, msg) {
 
         let _data = {
             ip      : ip,
+            user    : name,
             uri     : page,
             country : geo.country,
             city    : geo.city,
@@ -35,7 +39,19 @@ exports.logger = function(ip, page, msg) {
             created_at_formatted: moment().format()
         };
 
-        // console.log(_data);
+        rpoActivity.activity(_data);
+    } else {
+        let _data = {
+            ip      : ip,
+            user    : name,
+            uri     : page,
+            country : '',
+            city    : '',
+            region  : '',
+            activity: msg,
+            created_at: toInteger(moment().format('YYMMDD')),
+            created_at_formatted: moment().format()
+        };
 
         rpoActivity.activity(_data);
     }

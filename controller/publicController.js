@@ -58,7 +58,7 @@ var groupBy = function(xs, key) {
 
 exports.home = async function(req, res, next) {
 
-    activityService.logger(req.ip, req.originalUrl, "Visited Homepage");
+    activityService.logger(req.ip, req.originalUrl, "Visited Homepage", req);
 
     var getClientIp = req.headers['x-real-ip'] || req.connection.remoteAddress;
 
@@ -112,7 +112,7 @@ exports.home = async function(req, res, next) {
 
 exports.about = async function(req, res, next) {
 
-  activityService.logger(req.ip, req.originalUrl, "Visited About Page");
+  activityService.logger(req.ip, req.originalUrl, "Visited About Page", req);
 
   let user = await helpers.getLoginUser(req);
 
@@ -125,7 +125,7 @@ exports.about = async function(req, res, next) {
 
 exports.terms = async function(req, res, next) {
 
-  activityService.logger(req.ip, req.originalUrl, "Visited Terms Page");
+  activityService.logger(req.ip, req.originalUrl, "Visited Terms Page", req);
   let user = await helpers.getLoginUser(req);
 
   res.render('public/terms', { 
@@ -137,7 +137,7 @@ exports.terms = async function(req, res, next) {
 
 exports.privacy = async function(req, res, next) {
 
-  activityService.logger(req.ip, req.originalUrl, "Visited Privacy Page");
+  activityService.logger(req.ip, req.originalUrl, "Visited Privacy Page", req);
 
   res.render('public/privacy', { 
     layout: 'layouts/public-layout-default', 
@@ -148,7 +148,7 @@ exports.privacy = async function(req, res, next) {
 
 exports.register = async function(req, res, next) {
 // console.log('register');
-  activityService.logger(req.ip, req.originalUrl, "Visited registration Page");
+  activityService.logger(req.ip, req.originalUrl, "Visited registration Page", req);
   let user = await helpers.getLoginUser(req)
 
   if ( user ) {
@@ -220,7 +220,7 @@ exports.registerSubmit = async function(req, res, next) {
 
 exports.service = async function(req, res, next) {
 
-  activityService.logger(req.ip, req.originalUrl, "Visited Service Page");
+  activityService.logger(req.ip, req.originalUrl, "Visited Service Page", req);
 
   let countries = await rpoCountries.getAll();
 
@@ -234,7 +234,7 @@ exports.service = async function(req, res, next) {
 
 exports.monitoringService = async function(req, res, next) {
 
-  activityService.logger(req.ip, req.originalUrl, "Visited monitoring Service Page");
+  activityService.logger(req.ip, req.originalUrl, "Visited monitoring Service Page", req);
 
   let countries = await rpoCountries.getAll();
 
@@ -248,7 +248,7 @@ exports.monitoringService = async function(req, res, next) {
 
 exports.quote = async function(req, res, next) {
 
-  activityService.logger(req.ip, req.originalUrl, "Visited Quote Page");
+  activityService.logger(req.ip, req.originalUrl, "Visited Quote Page", req);
 
   let countries = await rpoCountries.getAll();
 
@@ -293,7 +293,7 @@ exports.quote = async function(req, res, next) {
 
 exports.quoteSubmit = async function(req, res, next) {
 
-  activityService.logger(req.ip, req.originalUrl, "Submitted Quote Page");
+  activityService.logger(req.ip, req.originalUrl, "Submitted Quote Page", req);
 
   // let countries = await rpoCountries.getAll();
 
@@ -323,7 +323,7 @@ exports.quoteSubmit = async function(req, res, next) {
 
 exports.cookies = async function(req, res, next) {
 
-  // activityService.logger(req.ip, req.originalUrl, "Visited Cookies Page");
+  activityService.logger(req.ip, req.originalUrl, "Visited Cookies Page", req);
 
   res.render('public/cookies', { 
     layout: 'layouts/public-layout-default', 
@@ -334,7 +334,7 @@ exports.cookies = async function(req, res, next) {
 
 exports.blog = async function(req, res, next) {
 
-  // activityService.logger(req.ip, req.originalUrl, "Visited Blog Page");
+  activityService.logger(req.ip, req.originalUrl, "Visited Blog Page", req);
 
   res.render('public/blog', { 
     layout: 'layouts/public-layout-default', 
@@ -354,7 +354,7 @@ exports.contact = function(req, res, next) {
 
 exports.classes = async function(req, res, next) {
 
-  activityService.logger(req.ip, req.originalUrl, "Visited Classes Page");
+  activityService.logger(req.ip, req.originalUrl, "Visited Classes Page", req);
 
   let classes = await rpoClasses.getAll();
 
@@ -368,7 +368,7 @@ exports.classes = async function(req, res, next) {
 
 exports.resources = async function(req, res, next) {
 
-  // activityService.logger(req.ip, req.originalUrl, "Visited Resources Page");
+  activityService.logger(req.ip, req.originalUrl, "Visited Resources Page", req);
 
   res.render('public/resources', { 
     layout: 'layouts/public-layout-default', 
@@ -379,7 +379,7 @@ exports.resources = async function(req, res, next) {
 
 exports.videos = async function(req, res, next) {
 
-  activityService.logger(req.ip, req.originalUrl, "Visited Videos Page");
+  activityService.logger(req.ip, req.originalUrl, "Visited Videos Page", req);
 
   res.render('public/videos', { 
     layout: 'layouts/public-layout-default', 
@@ -390,7 +390,7 @@ exports.videos = async function(req, res, next) {
 
 exports.prices = async function(req, res, next) {
  
-  activityService.logger(req.ip, req.originalUrl, "Visited Price Page");
+  activityService.logger(req.ip, req.originalUrl, "Visited Price Page", req);
 
   let continents = await rpoContinents.getContinents();
   let continentsFormatted = [];
@@ -456,7 +456,7 @@ exports.prices = async function(req, res, next) {
 
 exports.service_contract = async function(req, res, next) {
 
-  // activityService.logger(req.ip, req.originalUrl, "Visited Service Page");
+  activityService.logger(req.ip, req.originalUrl, "Visited Service Page", req);
 
   res.render('public/service_contract', { 
     layout: 'layouts/public-layout-default', 
@@ -467,7 +467,7 @@ exports.service_contract = async function(req, res, next) {
 
 exports.udrp = async function(req, res, next) {
 
-  // activityService.logger(req.ip, req.originalUrl, "Visited UDRP Page");
+  activityService.logger(req.ip, req.originalUrl, "Visited UDRP Page", req);
 
   res.render('public/udrp', { 
     layout: 'layouts/public-layout-default', 
@@ -478,7 +478,7 @@ exports.udrp = async function(req, res, next) {
 
 exports.countries = async function(req, res, next) {
 
-  activityService.logger(req.ip, req.originalUrl, "Visited Countries Page");
+  activityService.logger(req.ip, req.originalUrl, "Visited Countries Page", req);
 
   let continents = await rpoContinents.getContinents();
   let continentsFormatted = [];
@@ -511,7 +511,7 @@ exports.countries = async function(req, res, next) {
 
 exports.countriesAbbr = async function(req, res, next) {
 
-  activityService.logger(req.ip, req.originalUrl, "Visited Continent "+ req.params.abbr);
+  activityService.logger(req.ip, req.originalUrl, "Visited Continent "+ req.params.abbr, req);
   let abbr = req.params.abbr
   let continents = await rpoContinents.getContinentAbbr(abbr);
 
@@ -525,7 +525,7 @@ exports.countriesAbbr = async function(req, res, next) {
 
 exports.fourthCircuit = async function(req, res, next) {
 
-  activityService.logger(req.ip, req.originalUrl, "Visited 	The Fourth Circuit dismisses Nike’s appeal over injunction by District Court Page");
+  activityService.logger(req.ip, req.originalUrl, "Visited 	The Fourth Circuit dismisses Nike’s appeal over injunction by District Court Page", req);
 
   res.render('public/fourthCircuit', { 
     layout: 'layouts/public-layout-default', 
@@ -538,7 +538,7 @@ exports.fourthCircuit = async function(req, res, next) {
 
 exports.circuitAffirms = async function(req, res, next) {
 
-  activityService.logger(req.ip, req.originalUrl, "Visited 	Federal Circuit affirms TTAB decision on refusal of design registration due to functionality Page");
+  activityService.logger(req.ip, req.originalUrl, "Visited 	Federal Circuit affirms TTAB decision on refusal of design registration due to functionality Page", req);
 
   res.render('public/circuitAffirms', { 
     layout: 'layouts/public-layout-default', 
@@ -591,7 +591,7 @@ exports.redirect = async function(req, res, next) {
     }
     
   } else {
-    activityService.logger(req.ip, req.originalUrl, "Visitor redirected to laravel: " + req.params[0]);
+    activityService.logger(req.ip, req.originalUrl, "Visitor redirected to laravel: " + req.params[0], req);
     let urlPhp = process.env.APP_URL_PHP;
     
     let redirectUrl = (req.params[0] ? req.params[0] : (req.params.action ? req.params.action : null));
@@ -612,7 +612,7 @@ exports.ytVideo = async function(req, res, next) {
 
   let ytId = req.params.ytId;
 
-  activityService.logger(req.ip, req.originalUrl, "Checking YT video " + ytId);
+  activityService.logger(req.ip, req.originalUrl, "Checking YT video " + ytId, req);
 
   res.render('video/index', { 
     layout: 'layouts/public-layout', 
@@ -624,7 +624,7 @@ exports.ytVideo = async function(req, res, next) {
 
 exports.submitContact = async function(req, res, next) {
 
-  activityService.logger(req.ip, req.originalUrl, "Submitted Contact Form");
+  activityService.logger(req.ip, req.originalUrl, "Submitted Contact Form", req);
 
   // filter body to avoid spam
   var urlRE= new RegExp("([a-zA-Z0-9]+://)?([a-zA-Z0-9_]+:[a-zA-Z0-9_]+@)?([a-zA-Z0-9.-]+\\.[A-Za-z]{2,4})(:[0-9]+)?([^ ])+");
@@ -695,7 +695,7 @@ exports.generatePdf = async function(req, res, next) {
   let pdfs = await rpoPdfs.getGeneratedPdfs();
   let senders = await rpoSenders.getSenders();
 
-  activityService.logger(req.ip, req.originalUrl, "Visited pdf generator Page");
+  activityService.logger(req.ip, req.originalUrl, "Visited pdf generator Page", req);
 
   res.render('public/generate_pdf', { 
     layout  : 'layouts/public-layout-default', 
@@ -708,7 +708,7 @@ exports.generatePdf = async function(req, res, next) {
 
 exports.generatePdfView = async function(req, res, next) {
 
-  activityService.logger(req.ip, req.originalUrl, "Generate pdf");
+  activityService.logger(req.ip, req.originalUrl, "Generate pdf", req);
 
   let pdfName = await pdfService.generate(req.body);
   let fullUrl = 'https://' + req.get('host') + '/pdf/' + pdfName;
@@ -1002,7 +1002,7 @@ exports.deliveryMethod = async function(req, res, next) {
 
   if ( trdId ) {
 
-    activityService.logger(req.ip, req.originalUrl, "Customer visited certificate delivery " +trdId);
+    activityService.logger(req.ip, req.originalUrl, "Customer visited certificate delivery " +trdId, req);
 
     trademark = await rpoTrademarksMongo.getBySerial(trdId)
     
@@ -1043,11 +1043,11 @@ exports.deliveryMethod = async function(req, res, next) {
       
 
     } else { // end if trademark
-      activityService.logger(req.ip, req.originalUrl, "Customer tried to visited certificate delivery page but no serial number found");
+      activityService.logger(req.ip, req.originalUrl, "Customer tried to visited certificate delivery page but no serial number found", req);
       res.redirect('/');
     } // end else trademark
   } else {
-    activityService.logger(req.ip, req.originalUrl, "Customer tried to visited certificate delivery page but empty trademark serial");
+    activityService.logger(req.ip, req.originalUrl, "Customer tried to visited certificate delivery page but empty trademark serial", req);
     res.redirect('/');
   }
   // console.log(user[0]);
@@ -1236,7 +1236,7 @@ exports.checkoutDelivery = async function(req, res, next) {
   if (!trademark) {
     // log and redirect to current page
     res.flash('error', 'Sorry!, Something went wrong, try again later.');
-    activityService.logger(req.ip, req.originalUrl, "Failed, Customer tried to checkout certificate delivery with serial number " + req.body.serialNumber);
+    activityService.logger(req.ip, req.originalUrl, "Failed, Customer tried to checkout certificate delivery with serial number " + req.body.serialNumber, req);
     res.redirect("/delivery-method/"+req.body.serialNumber); 
   }
 
@@ -1303,13 +1303,13 @@ exports.checkoutDelivery = async function(req, res, next) {
 
       console.log(trademark[0]);
 
-      activityService.logger(req.ip, req.originalUrl, "Payment successfull "+ orderCode);
+      activityService.logger(req.ip, req.originalUrl, "Payment successfull "+ orderCode, req);
 
       res.redirect("/thank-you/"+orderCode); 
     } else {
       res.flash('error', 'Sorry!, Something went wrong, try again later.');
       
-      activityService.logger(req.ip, req.originalUrl, "Failed, Customer tried to checkout certificate delivery with serial number " + req.body.serialNumber + " Stripe API call failed");
+      activityService.logger(req.ip, req.originalUrl, "Failed, Customer tried to checkout certificate delivery with serial number " + req.body.serialNumber + " Stripe API call failed", req);
       res.redirect("/delivery-method/"+req.body.serialNumber); 
 
       // return with error
@@ -1322,7 +1322,7 @@ exports.checkoutDelivery = async function(req, res, next) {
 
     res.flash('error', 'Sorry!, Something went wrong, try again later.');
       
-    activityService.logger(req.ip, req.originalUrl, "Failed, Customer tried to checkout certificate delivery with serial number " + req.body.serialNumber + " " + err.message);
+    activityService.logger(req.ip, req.originalUrl, "Failed, Customer tried to checkout certificate delivery with serial number " + req.body.serialNumber + " " + err.message, req);
     res.redirect("/delivery-method/"+req.body.serialNumber); 
   }
 
@@ -1337,7 +1337,7 @@ exports.serviceOrderCustom = async function(req, res, next) {
 
   let order = await rpoOrder.findActionCustom('L3P-5T');
 
-  activityService.logger(req.ip, req.originalUrl, "Visited service page L3P-5T");
+  activityService.logger(req.ip, req.originalUrl, "Visited service page L3P-5T", req);
 
   res.locals = {
     siteTitle: "Trademark Search",
@@ -1410,7 +1410,7 @@ exports.checkoutCustom = async function(req, res, next) {
     res.flash('success', 'Payment Successful!');
     rpoCharge.put(charge);
 
-    activityService.logger(req.ip, req.originalUrl, "checkout L3P-5T");
+    activityService.logger(req.ip, req.originalUrl, "checkout L3P-5T", req);
 
     res.redirect("/thank-you/"+orderCode); 
   } else {
@@ -1437,7 +1437,7 @@ exports.serviceOrderCustom2 = async function(req, res, next) {
     keywords: "Trademark Status, trademarkers status",
   };
 
-  activityService.logger(req.ip, req.originalUrl, "Visited service page L3P-6T");
+  activityService.logger(req.ip, req.originalUrl, "Visited service page L3P-6T", req);
   console.log('check');
   res.render("trademark-order/service-order-L3P-6T", { 
     layout  : "layouts/public-layout-interactive", 
@@ -1503,7 +1503,7 @@ exports.checkoutCustom2 = async function(req, res, next) {
     res.flash('success', 'Payment Successful!');
     rpoCharge.put(charge);
 
-    activityService.logger(req.ip, req.originalUrl, "checkout L3P-6T");
+    activityService.logger(req.ip, req.originalUrl, "checkout L3P-6T", req);
 
     res.redirect("/thank-you/"+orderCode); 
   } else {
@@ -1526,7 +1526,7 @@ exports.serviceOrderShow = async function(req, res, next) {
   console.log(req.params.serviceCode);
   let serviceOrder = await rpoServiceAction.findByCode(req.params.serviceCode)
   
-  activityService.logger(req.ip, req.originalUrl, "Visited service page " + req.params.serviceCode);
+  activityService.logger(req.ip, req.originalUrl, "Visited service page " + req.params.serviceCode, req);
 
   res.locals = {
     siteTitle: "Trademark Search",
@@ -1605,7 +1605,7 @@ exports.serviceOrderSubmit = async function(req, res, next) {
     res.flash('success', 'Payment Successful!');
     rpoCharge.put(charge);
 
-    activityService.logger(req.ip, req.originalUrl, "Checkout " + req.params.serviceCode);
+    activityService.logger(req.ip, req.originalUrl, "Checkout " + req.params.serviceCode, req);
 
     res.redirect("/thank-you/"+orderCode); 
   } else {
@@ -1687,7 +1687,7 @@ exports.serviceOrderCustom3 = async function(req, res, next) {
     res.flash('success', 'Payment Successful!');
     rpoCharge.put(charge);
 
-    activityService.logger(req.ip, req.originalUrl, "Checkout " + req.params.serviceCode);
+    activityService.logger(req.ip, req.originalUrl, "Checkout " + req.params.serviceCode, req);
 
     res.redirect("/thank-you/"+orderCode); 
   } else {

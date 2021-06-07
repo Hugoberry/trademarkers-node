@@ -124,7 +124,7 @@ exports.addSupportingDocs = async function(req, res, next) {
   console.log("file",req.files);
   console.log("params",req.params);
 
-  activityService.logger(req.ip, req.originalUrl, "Customer Added Supporting document" );
+  activityService.logger(req.ip, req.originalUrl, "Customer Added Supporting document", req );
 
   let trdId = req.params.id;
 
@@ -155,9 +155,9 @@ exports.addSupportingDocs = async function(req, res, next) {
 
   await req.files.supportingDoc.mv(uploadPath, function(err) {
     if (err) {
-      activityService.logger(req.ip, req.originalUrl, "Failed to upload supporting docs," + err );
+      activityService.logger(req.ip, req.originalUrl, "Failed to upload supporting docs," + err , req );
     } else {
-      activityService.logger(req.ip, req.originalUrl, "Customer Uploaded supporting document," );
+      activityService.logger(req.ip, req.originalUrl, "Customer Uploaded supporting document," , req );
     }
       
   });
@@ -187,7 +187,7 @@ exports.updateCustomerForm = async function(req, res, next) {
     rpoUserMongo.putUser(user[0])
   }
 
-  activityService.logger(req.ip, req.originalUrl, "Customer tried to update details userID: " +user[0].id);
+  activityService.logger(req.ip, req.originalUrl, "Customer tried to update details userID: " +user[0].id, req);
 
   res.render('customer/updateDetailForm', { 
     layout: 'layouts/public-layout-interactive', 

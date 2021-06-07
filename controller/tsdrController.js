@@ -12,7 +12,7 @@ var activityService = require('../services/activityLogService');
 
 exports.index = async function(req, res, next) {
 
-    activityService.logger(req.ip, req.originalUrl, "Visited tsdr serial number " + req.params['serial']);
+    activityService.logger(req.ip, req.originalUrl, "Visited tsdr serial number " + req.params['serial'], req);
 
     let scrape = await crawlerService.fetchTsdr(req.params['serial']);
 

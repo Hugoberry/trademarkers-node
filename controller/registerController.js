@@ -35,7 +35,7 @@ exports.registration = async function(req, res, next) {
   let prices;
   let classes = await rpoTrademarkClasses.getClasses();
 
-  activityService.logger(req.ip, req.originalUrl, "Registration page " + countryName);
+  activityService.logger(req.ip, req.originalUrl, "Registration page " + countryName, req);
 
   if ( countryName ) {
 
@@ -114,7 +114,7 @@ exports.registrationProceed = async function(req, res, next) {
 
   let countries = await rpoCountries.getAll();
 
-  activityService.logger(req.ip, req.originalUrl, "Proceed to Registration in " + countryName);
+  activityService.logger(req.ip, req.originalUrl, "Proceed to Registration in " + countryName, req);
 
   if ( countryName ) {
 
@@ -182,7 +182,7 @@ exports.trademarkProfile = async function(req, res, next) {
 
   let countries = await rpoCountries.getAll();
 
-  activityService.logger(req.ip, req.originalUrl, "Registration Profile ");
+  activityService.logger(req.ip, req.originalUrl, "Registration Profile ", req);
 
   res.render('order/validateProfile', { 
     layout: 'layouts/public-layout-default', 
@@ -215,7 +215,7 @@ exports.validateOrder = async function(req, res, next) {
     // redirect to registration landing
   }
 
-  activityService.logger(req.ip, req.originalUrl, "Validate " + type + " Order");
+  activityService.logger(req.ip, req.originalUrl, "Validate " + type + " Order", req);
 
   let prices = await rpoPrices.findPriceByCountry(req.body.countryId * 1, type);
   let country = await rpoCountries.getById(req.body.countryId * 1);
@@ -270,7 +270,7 @@ exports.addToCart = async function(req, res, next) {
     // redirect to registration landing
   }
 
-  activityService.logger(req.ip, req.originalUrl, "Add to Cart");
+  activityService.logger(req.ip, req.originalUrl, "Add to Cart", req);
 
   let prices = await rpoPrices.findPriceByCountry(req.body.countryId * 1, type);
   let price;
@@ -430,7 +430,7 @@ exports.cart = async function(req, res, next) {
 
   await cartService.validateCartItems(currentUser)
 
-  activityService.logger(req.ip, req.originalUrl, "Visited cart");
+  activityService.logger(req.ip, req.originalUrl, "Visited cart", req);
 
   if (!currentUser) {
     let fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
@@ -568,7 +568,7 @@ exports.checkout = async function(req, res, next) {
   let cartItems;
   let userId;
 
-  activityService.logger(req.ip, req.originalUrl, "Proceed to checkout");
+  activityService.logger(req.ip, req.originalUrl, "Proceed to checkout", req);
 
   if (!currentUser) {
     let fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
@@ -626,7 +626,7 @@ exports.placeOrder = async function(req, res, next) {
     res.redirect("/cart"); 
   }
 
-  activityService.logger(req.ip, req.originalUrl, "Placed Order");
+  activityService.logger(req.ip, req.originalUrl, "Placed Order", req);
 
   let cartItems = await rpoCartItems.fetchCustomerCartActive(currentUser._id)
   let orderCode = await orderService.createOrderCode();
@@ -692,7 +692,7 @@ exports.placeOrder = async function(req, res, next) {
       res.flash('success', 'Payment Successful!');
       rpoCharge.put(charge);
   
-      activityService.logger(req.ip, req.originalUrl, "checkout " + orderCode);
+      activityService.logger(req.ip, req.originalUrl, "checkout " + orderCode, req);
 
       // update cart items to complete
       await cartItems.forEach(async items => {

@@ -10,7 +10,7 @@ var activityService = require('../services/activityLogService');
 
 exports.status = async function(req, res, next) {
 
-    activityService.logger(req.ip, req.originalUrl, "Visited order status " + req.params['id']);
+    activityService.logger(req.ip, req.originalUrl, "Visited order status " + req.params['id'], req);
 
     let order = await rpo.fetchOrder(req.params['id']);
 
