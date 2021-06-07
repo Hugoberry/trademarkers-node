@@ -688,7 +688,7 @@ exports.submitContact = async function(req, res, next) {
     res.redirect("/contact");
   }
 
-}
+} 
 
 exports.generatePdf = async function(req, res, next) {
 
