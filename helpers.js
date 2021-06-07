@@ -55,7 +55,7 @@ exports.getLoginUser = async function(req) {
         }
     }
     catch(e){
-        console.log(e);
+        console.log(e.message);
     }
  
 
@@ -157,7 +157,7 @@ exports.getCartCount = async function(req) {
 
     }
     catch(e){
-        console.log(e);
+        console.log(e.message);
         return 0;
     }
 

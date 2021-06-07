@@ -237,7 +237,7 @@ function validateHashUser(pass, obj, res){
 
     var hash = obj.password;
 
-    console.log(obj);
+    // console.log(obj);
 
     if (!hash) {
 

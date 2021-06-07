@@ -58,7 +58,7 @@ var groupBy = function(xs, key) {
 
 exports.home = async function(req, res, next) {
 
-    // activityService.logger(req.ip, req.originalUrl, "Visited Homepage");
+    activityService.logger(req.ip, req.originalUrl, "Visited Homepage");
 
     var getClientIp = req.headers['x-real-ip'] || req.connection.remoteAddress;
 
@@ -631,35 +631,52 @@ exports.submitContact = async function(req, res, next) {
   
 
 
-  const {valid} = await isEmailValid(req.body.email);
+  // const {valid} = await isEmailValid(req.body.email);
 
-  let trap = req.body.email_confirm
+  let trap = false
 
-  let noWords = req.body.message.split(" ");
+  let message = req.body.message
+  let noWords = message.split(" ");
 
-  // if ( trap || !req.body.message.trim() || req.body.message.match(urlRE) || !valid || noWords.length < 2 ){
-  //   // console.log('found!');
-  //   res.flash('errorContact', 'Sorry, something went wrong, try again later! 1');
-    
-  // } else {
-  //   let mailInfo = await mailService.contact(req.body);
-  //   console.log('test mailing ',mailInfo);
-  //   if (mailInfo && mailInfo.accepted) {
-  //     res.flash('successContact', 'Your Inquiry has been sent!');
-  //   } else {
-  //     res.flash('errorContact', 'Sorry, something went wrong, try again later! 2');
-  //   }
-
-
-  // }
-
-  let mailInfo = await mailService.contact(req.body);
-  console.log('test mailing ',mailInfo);
-  if (mailInfo && mailInfo.accepted) {
-    res.flash('successContact', 'Thank You! Your message has been successfully sent. We’ll get back to you very soon.');
-  } else {
-    res.flash('errorContact', 'Sorry, something went wrong, try again later!');
+  if (  message.includes("sex") ||
+        message.includes("nude") ||
+        message.includes("porn") ||
+        message.includes("Sexy") ||
+        message.includes("penis") ||
+        message.includes("vagina") ||
+        message.includes("fuck") ||
+        message.includes("shit") ||
+        message.includes("bullshit") ||
+        message.includes("http") ||
+        message.includes("https") ||
+        message.includes("www")
+  ){
+    trap = true
   }
+
+  if ( trap || !req.body.message.trim() || req.body.message.match(urlRE) || noWords.length < 2 ){
+    // console.log('found!');
+    res.flash('errorContact', 'Sorry, something went wrong, try again later!');
+    
+  } else {
+    let mailInfo = await mailService.contact(req.body);
+    console.log('test mailing ',mailInfo);
+    if (mailInfo && mailInfo.accepted) {
+      res.flash('successContact', 'Your Inquiry has been sent!');
+    } else {
+      res.flash('errorContact', 'Sorry, something went wrong, try again later! 2');
+    }
+
+
+  }
+
+  // let mailInfo = await mailService.contact(req.body);
+  // console.log('test mailing ',mailInfo);
+  // if (mailInfo && mailInfo.accepted) {
+  //   res.flash('successContact', 'Thank You! Your message has been successfully sent. We’ll get back to you very soon.');
+  // } else {
+  //   res.flash('errorContact', 'Sorry, something went wrong, try again later!');
+  // }
 
   console.log("redirect ",req.body.formLocation);
 
