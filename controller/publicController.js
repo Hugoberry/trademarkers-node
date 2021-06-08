@@ -105,7 +105,7 @@ exports.home = async function(req, res, next) {
       layout: 'layouts/public-layout', 
       title: 'Trademarkers LLC',
       description: '195 Countries and Treaty Regions can provide you with fast, simple, and cost-efficient trademark filing services',
-      keywords: 'Trademarkers, trademark registration, register a trademark, trademark',
+      keywords: 'Trademarkers LLC, trademark registration, register a trademark, trademark, trade mark, register a trade mark, trade mark registration',
       continents: continentsFormatted,
       user: user
     });
