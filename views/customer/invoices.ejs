@@ -1,0 +1,52 @@
+
+
+    <section class="tm-section qa-panel-section">
+      <div class="container h-100">
+        <div class="row h-100 align-items-start">
+          <div class="col-12">
+              <div class="ar-wrap qa-stp">
+                <div class="ar-box stp-row">
+                  <div class="ar-box-head"><h1 class="ar-title">Invoices</h1></div>
+                  <div class="ar-cinfo">
+                    <div class="ar-cname ar-info-line">Customer Name: <span class="ar-value"><%= customer.name %></span></div>
+                    <div class="ar-cno ar-info-line">Customer Email: <span class="ar-value"><%= customer.email %></span></div>
+                    <div class="ar-cno ar-info-line">Customer No: <span class="ar-value"><%= customer.custNo %></span></div>
+                  </div>
+                </div>
+                <div class="ard-wrap stp-row">
+                  <table id="myListDataTable" class="table text-center" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Invoice #</th>
+                            <th>Order #</th>
+                            <th width="150">Total Amount</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      <% if (orders && orders.length > 0) { %>
+                        <% orders.forEach(function(order,key) { 
+                        let invoiceNumber = order.invoiceCode ? order.invoiceCode : (order.charge && order.charge.reference ? order.charge.reference : '')
+                        if (invoiceNumber) {
+                        %>
+                        <tr>
+                          <td><%= invoiceNumber %></td>
+                          <td><%= order.orderNumber %></td>
+                          <td align="right"><%= helpers.getPriceFormatted(order.charge.amount / 100) %></td>
+                          <td><a target="_blank" href="/pdf/invoice/<%= order.orderNumber %>"><i class="fa fa-file-pdf"></i></a></td>
+                        </tr>
+                        <% } }) %>
+                      <% } else { %>
+                        <tr>
+                          <td colspan="3">No Invoice Found</td>
+                        </tr>
+                      <% } %>
+                    </tbody>
+                  </table>
+                  
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </section>

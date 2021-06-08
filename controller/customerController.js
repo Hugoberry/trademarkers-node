@@ -118,6 +118,62 @@ exports.orderDetail = async function(req, res, next) {
   
 } 
 
+exports.invoices = async function(req, res, next) {
+
+  let currentUser = await helpers.getLoginUser(req);
+  let currentData = await rpoUserMongo.getByIdM(currentUser._id)
+  currentData = currentData[0]
+
+  
+  let orders = await rpo.getByUserId(currentData._id)
+  
+
+  res.render('customer/invoices', { 
+    layout: 'layouts/customer-layout-interactive', 
+    title: 'Trademarkers LLC Order Status',
+    customer: currentData,
+    orders: orders,
+    // data: data
+  });
+    
+}
+
+exports.invoiceDetail = async function(req, res, next) {
+
+  let otherServices = await rpoTrademarkAddedService.getByTrademarkId(req.params.id);
+
+  let otherServicesData = {
+    otherServices : otherServices
+  }
+
+  await rpoTmMongo.updateDetails(req.params.id, otherServicesData);
+
+  let trademark = await rpoTmMongo.getById(req.params.id);
+  console.log(trademark);
+
+  if (trademark[0].statusDate) {
+    trademark[0].statusDateFormatted = helpers.convertIntToDate(trademark[0].statusDate);
+  }
+
+  if (trademark[0].publicationDate) {
+    trademark[0].publicationDateFormatted = helpers.convertIntToDate(trademark[0].publicationDate);
+  }
+
+  // res.locals = {
+  //   siteTitle: "Trademark Search",
+  //   description: "Check trademark status",
+  //   keywords: "Trademark Status, trademarkers status",
+  // };
+  
+
+  res.render('customer/orderDetails', { 
+    layout: 'layouts/customer-layout-interactive', 
+    title: 'Trademarkers LLC Order Status',
+    trademark: trademark[0]
+  });
+  
+} 
+
 exports.addSupportingDocs = async function(req, res, next) {
 
   console.log("body",req.body);

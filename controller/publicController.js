@@ -104,6 +104,8 @@ exports.home = async function(req, res, next) {
     res.render('public/index', { 
       layout: 'layouts/public-layout', 
       title: 'Trademarkers LLC',
+      description: '195 Countries and Treaty Regions can provide you with fast, simple, and cost-efficient trademark filing services',
+      keywords: 'Trademarkers, trademark registration, register a trademark, trademark',
       continents: continentsFormatted,
       user: user
     });
@@ -1903,8 +1905,7 @@ exports.invoicePdf = async function(req, res, next) {
   // let users = await rpoUserMongo.getByIdM(orders[0].userId);
 
   if (orders[0] && orders[0].charge.order_id) {
-    // redirect to php invoice
-    // res.redirect("http://trademarkers.staging.test/customer/invoice/"+orders[0].charge.id+"/download=false&success=true")
+
     await pdfService.generateOldInvoice(req.params.orderNo);
   } else if ( orders[0] && orders[0].cartItems ) {
     await pdfService.generateInvoice(req.params.orderNo);
@@ -1914,9 +1915,7 @@ exports.invoicePdf = async function(req, res, next) {
   }
 
   
-
-  // console.log("/customer/invoice/{{ $invoice->id }}/download=true&success=true generate? ", generate);
-  next()
+  res.redirect("/pdf/" + req.params.orderNo.toLowerCase() + ".pdf")
 
 }
 
