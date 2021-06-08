@@ -51,9 +51,12 @@
     "pdf2png-mp2": "^1.0.3",
     "pdfkit": "^0.11.0",
     "puppeteer": "^7.1.0",
+    "sitemap": "^7.0.0",
     "socket.io": "^3.1.2",
     "socketio-jwt": "^4.6.2",
-    "stripe": "^8.137.0"
+    "stream": "0.0.2",
+    "stripe": "^8.137.0",
+    "zlib": "^1.0.5"
   },
   "devDependencies": {
     "nodemon": "^2.0.7"

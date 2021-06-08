@@ -25,6 +25,7 @@ var rpoSouNotifications = require('../repositories/souNotifications');
 var rpoUserMongo = require('../repositories/usersMongo');
 var rpoPrices = require('../repositories/prices');
 var rpoTrademarkClasses = require('../repositories/trademarkClasses');
+var rpoArticles = require('../repositories/articles');
 
 
 var rpoServiceAction = require('../repositories/serviceAction');
@@ -44,6 +45,10 @@ const emailValidator = require('deep-email-validator');
 
 const { toInteger } = require('lodash');
 const { redirect } = require('./customerController');
+
+const { SitemapStream, streamToPromise } = require('sitemap')
+const { createGzip } = require('zlib')
+const { Readable } = require('stream')
 
 
 var groupBy = function(xs, key) {
@@ -338,15 +343,85 @@ exports.cookies = async function(req, res, next) {
 
 exports.blog = async function(req, res, next) {
 
-  activityService.logger(req.ip, req.originalUrl, "Visited Blog Page", req);
+  let searchTerm = '';
+  // let articles;
+
+  if ( req.body.articleName ) {
+    activityService.logger(req.ip, req.originalUrl, "Search Article "+req.body.articleName, req);
+    searchTerm = req.body.articleName;
+  } else {
+    activityService.logger(req.ip, req.originalUrl, "Visited Blog Page", req);
+    
+  }
 
   
 
+  let articles = await rpoArticles.getArticles(searchTerm);
+
   res.render('public/blog', { 
     layout: 'layouts/public-layout-default', 
-    title: 'blog',
+    title: 'Trademarkers LLC | Blog',
+    articles: articles,
     user: await helpers.getLoginUser(req)
   });
+}
+
+exports.blogPost = async function(req, res, next) {
+
+  // activityService.logger(req.ip, req.originalUrl, "Visited Blog Page", req);
+  console.log(req.params.slug);
+
+  let articles = await rpoArticles.getArticleSlug(req.params.slug);
+
+  res.render('public/blogPost', { 
+    layout: 'layouts/public-layout-default', 
+    title: articles[0].post_title+' | Trademarkers LLC',
+    article: articles[0],
+    user: await helpers.getLoginUser(req)
+  });
+}
+
+// FOR SITEMAP VIEW
+exports.blogXML = async function(req, res, next) {
+
+  let sitemap
+
+  res.header('Content-Type', 'application/xml');
+  res.header('Content-Encoding', 'gzip');
+  // if we have a cached entry send it
+  if (sitemap) {
+    res.send(sitemap)
+    return
+  }
+
+  let articles = await rpoArticles.getAllArticles();
+
+  // console.log(articles.length);
+
+  try {
+    const smStream = new SitemapStream({ hostname: 'https://www.trademarkers.com' })
+    const pipeline = smStream.pipe(createGzip())
+
+    // pipe your entries or directly write them.
+    // smStream.write({ url: '/page-1/',  changefreq: 'daily', priority: 0.3 })
+    // smStream.write({ url: '/page-2/',  changefreq: 'monthly',  priority: 0.7 })
+    // smStream.write({ url: '/page-3/'})    // changefreq: 'weekly',  priority: 0.5
+    // smStream.write({ url: '/page-4/',   img: "http://urlTest.com" })
+
+    await articles.forEach(async article => {
+      smStream.write({ url: '/blog/'+article.post_name,  changefreq: 'monthly',  priority: 0.7 })
+    })
+
+    // cache the response
+    streamToPromise(pipeline).then(sm => sitemap = sm)
+    // make sure to attach a write stream such as streamToPromise before ending
+    smStream.end()
+    // stream write the response
+    pipeline.pipe(res).on('error', (e) => {throw e})
+  } catch (e) {
+    console.error(e)
+    res.status(500).end()
+  }
 }
 
 exports.contact = function(req, res, next) {

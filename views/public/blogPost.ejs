@@ -1,0 +1,31 @@
+
+
+<div class="container">
+    <div class="row justify-content-center align-items-center box-bg-container">
+
+		<div class="col-md-12">
+					
+			<h2><%= article.post_title %></h2>
+			<p class="articleDate">Date Published: <%= moment(article.post_date).format('MMM D, YYYY') %></p>
+		</div>
+
+        <div class="col-md-12">
+			
+			<% if (flash.success) { %>
+			<div class="alert alert-success" role="alert">
+				<strong><%= flash.success %></strong>
+			</div>
+			<% } %>
+
+			<% if (flash.error) { %>
+				<div class="alert alert-warning" role="alert">
+					<strong><%= flash.error %></strong>
+				</div>
+			<% } %>
+                    
+		
+			<%- article.post_content %>
+               
+        </div>
+    </div>
+</div>

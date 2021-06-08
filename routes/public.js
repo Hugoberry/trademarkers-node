@@ -115,7 +115,10 @@ router.post('/register', publicController.registerSubmit);
 router.get('/countries', publicController.countries);
 router.get('/region/:abbr', publicController.countriesAbbr);
 
-
+router.get('/blog', publicController.blog);
+router.post('/blog', publicController.blog);
+router.get('/blog/sitemap.xml', publicController.blogXML);
+router.get('/blog/:slug', publicController.blogPost);
 
 router.get('/prices', publicController.prices);
 
@@ -135,7 +138,7 @@ router.get('/:action', publicController.redirect);
 
 router.get('/classes', publicController.classes);
 router.get('/videos', publicController.videos);
-router.get('/blog', publicController.blog);
+
 
 
 module.exports = router;
