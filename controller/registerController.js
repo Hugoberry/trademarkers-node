@@ -91,7 +91,9 @@ exports.registration = async function(req, res, next) {
   // console.log('asd',country);
   res.render('order/registrationLanding', {
     layout: layout, 
-    title: 'registration',
+    title: 'Trademark Registration | Trademarkers LLC',
+    description: 'Trademarkers is a leading international brand protection company that specializes in global trademark registration',
+    keywords: 'Trademark Registration, Trademark Study, Trademark Registration in '+ country[0].name +', register a trademark in '+ country[0].name+', trademark study in '+ country[0].name,
     country: country[0],
     prices: prices,
     classes: classes,
@@ -146,7 +148,9 @@ exports.registrationProceed = async function(req, res, next) {
 
   res.render('order/registration', {
     layout: 'layouts/public-layout-default', 
-    title: 'registration',
+    title: 'Register a Trademark | Trademarkers LLC',
+    description: 'Trademarkers is a leading international brand protection company that specializes in global trademark registration',
+    keywords: 'Trademark Registration in '+ country[0].name +', register a trademark in '+ country[0].name,
     country: country[0],
     price: price,
     classes: classes,

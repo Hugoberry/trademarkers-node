@@ -120,7 +120,9 @@ exports.about = async function(req, res, next) {
 
   res.render('public/about', { 
     layout: 'layouts/public-layout-default', 
-    title: 'About',
+    title: 'Trademarkers LLC | About',
+    description: 'Trademarkers is a leading international brand protection company that specializes in global trademark registration',
+    keywords: 'years of experience in Trademark Registrations, experience in Trademark Registrations, intellectual property attorneys, large businesses trademarking their brands',
     user: user
   });
 }
@@ -1885,11 +1887,11 @@ exports.checkTMApi = async function(req, res, next) {
 
 exports.assignment = async function(req, res, next) {
 
-  res.locals = {
-    siteTitle: "Trademark Search",
-    description: "Check trademark status",
-    keywords: "Trademark Status, trademarkers status",
-  };
+  // res.locals = {
+  //   siteTitle: "Trademark Search",
+  //   description: "Check trademark status",
+  //   keywords: "Trademark Status, trademarkers status",
+  // };
   
   res.render("assignment", { 
     layout  : "layouts/public-layout-assignment", 
