@@ -135,7 +135,7 @@ router.get('/:action', publicController.redirect);
 router.get('/blog', publicController.blog);
 router.get('/classes', publicController.classes);
 router.get('/videos', publicController.videos);
-
+ 
 
 
 module.exports = router;
