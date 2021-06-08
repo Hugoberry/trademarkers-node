@@ -132,10 +132,10 @@ router.get('/:action', publicController.redirect);
 // redirect
 // router.get('*', publicController.redirect);
 
-router.get('/blog', publicController.blog);
+
 router.get('/classes', publicController.classes);
 router.get('/videos', publicController.videos);
- 
+router.get('/blog', publicController.blog);
 
 
 module.exports = router;

@@ -340,6 +340,8 @@ exports.blog = async function(req, res, next) {
 
   activityService.logger(req.ip, req.originalUrl, "Visited Blog Page", req);
 
+  
+
   res.render('public/blog', { 
     layout: 'layouts/public-layout-default', 
     title: 'blog',

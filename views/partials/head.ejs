@@ -4,7 +4,13 @@
 <% } else { %>
     <title>Trademarkers LLC</title>
 <% } %>
+<% if ( typeof description != "undefined" ) { %>
+    <meta name="description" content="<%= description ? description : 'Trademarkers LLC' %>">
+<% } %>
 
+<% if ( typeof description != "undefined" ) { %>
+    <meta name="keywords" content="<%= keywords ? keywords : 'Trademarkers LLC' %>">
+<% } %>
 <!-- Fonts -->
 <link rel="dns-prefetch" href="https://fonts.gstatic.com">
 <!-- <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css"> -->
@@ -18,6 +24,8 @@
 <link rel="stylesheet" href="/bootstrap/dist/css/bootstrap.min.css"> 
 <link rel="stylesheet" href="/stylesheets/style.css"> 
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-15502758-57"></script>
 <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -27,10 +35,3 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 
 
-<% if ( typeof description != "undefined" ) { %>
-    <meta name="description" content="<%= description ? description : 'Trademarkers LLC' %>">
-<% } %>
-
-<% if ( typeof description != "undefined" ) { %>
-    <meta name="keywords" content="<%= keywords ? keywords : 'Trademarkers LLC' %>">
-<% } %>
