@@ -540,6 +540,13 @@ $( document ).ready(function() {
     checkFieldShow( $("#quoteType").val() );
   }
 
+  if ( $("#perPageListing").length ) {
+    $("#perPageListing").change(function(){
+      // alert($(this).val());
+      document.location.href = '/blog/1/'+$(this).val();
+    });
+  }
+
 
 
 // =====================================================

@@ -15,16 +15,59 @@ const connection = mysql.createConnection({
 
 module.exports = {
 
-	getAllArticles: async function ( searchTerm ) {
+	getAllArticles: async function ( ) {
 
 		return new Promise(function(resolve, reject) {
 
 			let query = "SELECT post_name FROM tradewp_posts WHERE post_type='post' AND post_status='publish'"
-			if (searchTerm) {
-				query += "AND post_title like '%"+searchTerm+"%'"
-			}
+			// if (searchTerm) {
+			// 	query += "AND post_title like '%"+searchTerm+"%'"
+			// }
 
 			query += " ORDER BY post_modified DESC"
+
+			connection.query(query,function(err,res,fields) {
+				if (err) {
+					reject(err);
+				} else {
+						resolve(res);
+				}
+			});
+		});
+
+	},
+
+	getTotalCount : async function( ) {
+		return new Promise(function(resolve, reject) {
+
+			let query = {"status" : "Published"};
+
+			let db = conn.getDb();
+			
+			db.collection(_table)
+				.find(query)
+				.count(function(err, result) {
+					
+					if (err) {
+						reject(err);
+					} else {
+						resolve(result);
+					}
+	
+				});
+
+		});
+	},
+
+	getAllArticlesPaginated: async function ( perPage, offset ) {
+
+		return new Promise(function(resolve, reject) {
+
+			let query = "SELECT post_name, post_title, post_date, post_content FROM tradewp_posts WHERE post_type='post' AND post_status='publish'"
+
+			query += " ORDER BY post_modified DESC"
+			query += " LIMIT " + perPage
+			query += " OFFSET " + offset
 
 			connection.query(query,function(err,res,fields) {
 				if (err) {
@@ -59,6 +102,76 @@ module.exports = {
 
 	},
 
+	getAllArticlesPaginatedM : async function( perPage, offset ) {
+		return new Promise(function(resolve, reject) {
+
+			let query = {"status" : "Published"};
+			let fields = { content: 0 };
+
+			let db = conn.getDb();
+			
+			db.collection(_table)
+				.find(query)
+				.skip(offset)
+				.limit(perPage)
+				.sort({"created_at": -1})
+				.toArray(function(err, result) {
+					
+				if (err) {
+					reject(err);
+				} else {
+					resolve(result);
+				}
+
+			});
+
+		});
+	},
+
+	getArticlesM : async function( searchTerm ) {
+		return new Promise(function(resolve, reject) {
+
+			let query = {"title" : {$regex : ".*"+searchTerm+".*", $options: "si" } };
+
+			let db = conn.getDb();
+			
+			db.collection(_table)
+			.find(query)
+			.toArray(function(err, result) {
+					
+				if (err) {
+					reject(err);
+				} else {
+					resolve(result);
+				}
+
+			});
+
+		});
+	},
+
+	getArticleSlugM: async function ( slug ) {
+
+		return new Promise(function(resolve, reject) {
+
+			let query = {"slug" : slug };
+
+			let db = conn.getDb();
+			
+			db.collection(_table).find(query).toArray(function(err, result) {
+					
+				if (err) {
+					reject(err);
+				} else {
+					resolve(result);
+				}
+
+			});
+
+		});
+
+	},
+
 	getArticleSlug: async function ( slug ) {
 
 		return new Promise(function(resolve, reject) {
@@ -73,53 +186,41 @@ module.exports = {
 
 	},
 
-
-	fetchTmByUser: async function ( user_id, sort ) {
-
+	storeArticle : async function(article) {
 		return new Promise(function(resolve, reject) {
 
-			let query = "";
 
-			if (sort) {
-				let sortBy = (sort == 'registered' ? "AND office_status = 'Registered'" : "AND office_status <> 'Registered'");
+			// let db = conn.getDb();
 
-				query = `SELECT * 
-							FROM trademarks 
-							WHERE user_id = ${user_id}
-							AND service = 'Trademark Registration'
-							${sortBy}
-						`;
-			} else {
-				console.log('tet');
-				query = `SELECT * 
-							FROM trademarks 
-							WHERE user_id = '${user_id}'
-							GROUP BY filing_number
-						`;
-			}
-
-			connection.query(query,function(err,res,fields) {
+			conn.getDb().collection(_table).findOne({
+				slug: article.slug
+			}, 
+			function(err, result) {
 				if (err) {
 					reject(err);
-			} else {
-					resolve(res);
-			}
-			});
-		});
+				} else {
+					
+					if (!result) {
+						conn.getDb().collection(_table).insertOne(article, 
+						function(err, res2) {
+							if (err) throw err;
 
+							if (res2) {
+								// mailService.notifyNewAccount(user)
+						        resolve(res2);
+							}
+						});
+					} else {
+						resolve(result);
+
+					}
+
+				}
+			});
+
+
+		});
 	},
 
-	fetchTmCertById: function ( trademark_id ) {
 
-		return new Promise(function(resolve, reject) {
-			connection.query('SELECT * FROM certificates WHERE trademark_id = ?',[trademark_id],function(err,res,fields) {
-				if (err) {
-					reject(err);
-			} else {
-					resolve(res);
-			}
-			});
-		});
-
-	},
 }; 

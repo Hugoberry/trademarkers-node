@@ -5,8 +5,8 @@
 
 		<div class="col-md-12">
 					
-			<h2><%= article.post_title %></h2>
-			<p class="articleDate">Date Published: <%= moment(article.post_date).format('MMM D, YYYY') %></p>
+			<h2><%= article.title %></h2>
+			<p class="articleDate">Date Published: <%= moment(article.created_at_formatted).format('MMM D, YYYY') %></p>
 		</div>
 
         <div class="col-md-12">
@@ -24,8 +24,12 @@
 			<% } %>
                     
 		
-			<%- article.post_content %>
+			<%- article.content %>
                
-        </div>
+		</div>
+		
+		<div class="col-md-12 text-center">
+			<button class="btn btn-primary" onclick="window.history.back()">Back</button>
+		</div>
     </div>
 </div>

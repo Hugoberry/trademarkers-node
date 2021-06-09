@@ -15,17 +15,40 @@
 						<button type="submit">
 							<i class="fa fa-search"></i>
 						</button>
-						<input type="text" class="form-control" name="articleName" placeholder="Search Articles">
+						<input type="text" class="form-control" name="articleName" value="<%= searchTerm %>" placeholder="Search Articles">
 
 					</div>
 				</form>
 			</div>
 
+			
+
 			<h2>Articles</h2>
 			
 		</div>
 
+		<% if (articles.length > 0) { %>
+		
+		<div class="col-md-12">
+			<nav style="display: flex;justify-content: center;">
+				<select id="perPageListing" class="selectPerPage">
+					<option value="10" <%= perPage == 10 ? 'selected' : '' %>>10</option>
+					<option value="20" <%= perPage == 20 ? 'selected' : '' %>>20</option>
+					<option value="50" <%= perPage == 50 ? 'selected' : '' %>>50</option>
+					<option value="100" <%= perPage == 100 ? 'selected' : '' %>>100</option>
+				</select>
+				<ul class="pagination justify-content-end">
+				  <li class="page-item <%= pageNo > 1 ? '' : 'disabled' %>"><a class="page-link" href="/blog/<%= (pageNo - 1) %>/<%= perPage %>">Previous</a></li>
+				  <li class="page-item disabled"><a class="page-link" href="#">Page <%= pageNo %> of <%= pageTotal %></a></li>
+				  <li class="page-item <%= pageTotal > pageNo ? '' : 'disabled' %>"><a class="page-link" href="/blog/<%= (pageNo + 1) %>/<%= perPage %>">Next</a></li>
+				</ul>
+			</nav>
+		</div>
+		<% } %>
+
         <div class="col-md-12">
+
+			
 			
 			<% if (flash.success) { %>
 			<div class="alert alert-success" role="alert">
@@ -42,11 +65,36 @@
                     
 			<ul class="articleList">
 				<% for (var key in articles) { %>
-				<li><a href="/blog/<%= articles[key].post_name %>"><span><%= moment(articles[key].post_date).format('MMM D, YYYY') %></span><%= articles[key].post_title %></a></li>
+				<li><a href="/blog/<%= articles[key].slug %>"><span><%= moment(articles[key].created_at_formatted).format('MMM D, YYYY') %></span><%= articles[key].title %></a></li>
 				<% } %>
 			</ul>
 
+			
+
+			
+			
+
                
-        </div>
+		</div>
+		
+		<% if (articles.length > 0) { %>
+		<div class="col-md-12">
+			<nav style="display: flex;justify-content: center;">
+				<select id="perPageListing" class="selectPerPage">
+					<option value="10" <%= perPage == 10 ? 'selected' : '' %>>10</option>
+					<option value="20" <%= perPage == 20 ? 'selected' : '' %>>20</option>
+					<option value="50" <%= perPage == 50 ? 'selected' : '' %>>50</option>
+					<option value="100" <%= perPage == 100 ? 'selected' : '' %>>100</option>
+				</select>
+				<ul class="pagination justify-content-end">
+					<li class="page-item <%= pageNo > 1 ? '' : 'disabled' %>"><a class="page-link" href="/blog/<%= (pageNo - 1) %>/<%= perPage %>">Previous</a></li>
+					<li class="page-item disabled"><a class="page-link" href="#">Page <%= pageNo %> of <%= pageTotal %></a></li>
+					<li class="page-item <%= pageTotal > pageNo ? '' : 'disabled' %>"><a class="page-link" href="/blog/<%= (pageNo + 1) %>/<%= perPage %>">Next</a></li>
+				</ul>
+			</nav>
+		</div>
+		<% } else { %>
+			<p>Sorry, No Articles Found!</p>
+		<% } %>
     </div>
 </div>

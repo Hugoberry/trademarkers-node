@@ -119,6 +119,7 @@ router.get('/blog', publicController.blog);
 router.post('/blog', publicController.blog);
 router.get('/blog/sitemap.xml', publicController.blogXML);
 router.get('/blog/:slug', publicController.blogPost);
+router.get('/blog/:pageNo/:perPage', publicController.blog);
 
 router.get('/prices', publicController.prices);
 

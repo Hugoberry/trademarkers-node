@@ -343,7 +343,7 @@ exports.cookies = async function(req, res, next) {
 
 exports.blog = async function(req, res, next) {
 
-  let searchTerm = '';
+  let searchTerm = '', pageNo=1, perPage=10;
   // let articles;
 
   if ( req.body.articleName ) {
@@ -351,17 +351,61 @@ exports.blog = async function(req, res, next) {
     searchTerm = req.body.articleName;
   } else {
     activityService.logger(req.ip, req.originalUrl, "Visited Blog Page", req);
-    
   }
 
-  
+  let pageTotal = await rpoArticles.getTotalCount();
+  let articles;
 
-  let articles = await rpoArticles.getArticles(searchTerm);
+  if (searchTerm) {
+    articles = await rpoArticles.getArticlesM(searchTerm);
+  } else {
+    if ( req.params.pageNo ) {
+      pageNo = req.params.pageNo * 1;
+    }
+  
+    if ( req.params.perPage ) {
+      perPage = req.params.perPage * 1
+    }
+
+    articles = await rpoArticles.getAllArticlesPaginatedM( perPage, ((pageNo - 1) * perPage) );
+
+  }
+
+  // let pageTotal = articles.length;
+
+  // console.log(articles.length);
+
+
+  // fetch articles and store to mongo
+  
+  // await articles.forEach(async article => {
+    
+  //   // console.log(article.post_name);
+  //   let articleData = {
+  //     title: article.post_title,
+  //     slug: article.post_name,
+  //     content: article.post_content,
+  //     status: 'Published',
+  //     created_at: toInteger(moment(article.post_date).format('YYMMDD')),
+  //     created_at_formatted: article.post_date,
+  //   }  
+  //   await rpoArticles.storeArticle(articleData);
+
+  // })
+
+  let pTotal = Math.ceil(pageTotal  / perPage)
+
+  console.log(pTotal);
+  // let articles = await rpoArticles.getArticles(searchTerm);
 
   res.render('public/blog', { 
     layout: 'layouts/public-layout-default', 
     title: 'Trademarkers LLC | Blog',
     articles: articles,
+    searchTerm: searchTerm,
+    pageNo: pageNo,
+    perPage: perPage,
+    pageTotal: pTotal,
     user: await helpers.getLoginUser(req)
   });
 }
@@ -369,9 +413,9 @@ exports.blog = async function(req, res, next) {
 exports.blogPost = async function(req, res, next) {
 
   // activityService.logger(req.ip, req.originalUrl, "Visited Blog Page", req);
-  console.log(req.params.slug);
+  // console.log(req.params.slug);
 
-  let articles = await rpoArticles.getArticleSlug(req.params.slug);
+  let articles = await rpoArticles.getArticleSlugM(req.params.slug);
 
   res.render('public/blogPost', { 
     layout: 'layouts/public-layout-default', 
