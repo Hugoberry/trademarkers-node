@@ -122,7 +122,8 @@ router.get('/blog/:slug', publicController.blogPost);
 router.get('/blog/:pageNo/:perPage', publicController.blog);
 
 router.get('/prices', publicController.prices);
-
+router.get('/classes', publicController.classes);
+router.get('/videos', publicController.videos);
 
 router.get('/monitoring-service', publicController.monitoringService);
 router.get('/services', publicController.service);
@@ -137,8 +138,7 @@ router.get('/:action', publicController.redirect);
 // router.get('*', publicController.redirect);
 
 
-router.get('/classes', publicController.classes);
-router.get('/videos', publicController.videos);
+
 
 
 
