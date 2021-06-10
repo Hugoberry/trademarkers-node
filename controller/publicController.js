@@ -422,7 +422,7 @@ exports.blogPost = async function(req, res, next) {
   res.render('public/blogPost', { 
     layout: 'layouts/public-layout-default', 
     title: articles[0].title+' | Trademarkers LLC',
-    description: (articles[0].description ? articles[0].description : '' ),
+    description: articles[0].description ? articles[0].description : '',
     keywords: articles[0].keywords ? articles[0].keywords : articles[0].title,
     article: articles[0],
     user: await helpers.getLoginUser(req)
