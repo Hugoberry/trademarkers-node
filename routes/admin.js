@@ -11,6 +11,7 @@ const countryTrademark = require('../controller/adminCountryController')
 const adminUser = require('../controller/adminUserController')
 const adminPromo = require('../controller/adminPromoCodeController')
 const adminOrder = require('../controller/adminOrderController')
+const adminBlog = require('../controller/adminBlogController')
 
 
 /* GET users listing. */
@@ -70,6 +71,13 @@ router.get('/manage/orders', verify, guardAdmin, adminOrder.index);
 router.get('/manage/orders/view/:id', verify, guardAdmin, adminOrder.show);
 router.get('/manage/orders/edit/:id', verify, guardAdmin, adminOrder.edit);
 router.post('/manage/orders/edit/:id', verify, guardAdmin, adminOrder.editSubmit);
+
+router.get('/manage/articles', verify, guardAdmin, adminBlog.index);
+router.get('/manage/articles/view/:id', verify, guardAdmin, adminBlog.show);
+router.get('/manage/articles/edit/:id', verify, guardAdmin, adminBlog.edit);
+router.post('/manage/articles/edit/:id', verify, guardAdmin, adminBlog.editSubmit);
+router.get('/manage/articles/add', verify, guardAdmin, adminBlog.add);
+router.post('/manage/articles/add', verify, guardAdmin, adminBlog.addSubmit);
 
 
 module.exports = router;

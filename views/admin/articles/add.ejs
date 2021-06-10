@@ -1,0 +1,72 @@
+<div class="col-md-12" style="margin-bottom:20px;">    
+    <h2>Add User
+    </h2>
+
+    <% if (flash.success) { %>
+    <div class="alert alert-success" role="alert">
+        <strong><%= flash.success %></strong>
+    </div>
+    <% } %>
+
+    <% if (flash.error) { %>
+    <div class="alert alert-danger" role="alert">
+        <strong><%= flash.error %></strong>
+    </div>
+    <% } %>
+
+
+
+
+    <form class="row" action="/njs-admin/manage/articles/add" method="post" encType="multipart/form-data">
+
+    
+
+        <div class="col-md-12">
+            <hr>
+
+            <div class="form-group">
+                <label>Title</label>
+                <input type="text" class="form-control" value="<%= flash.title ? flash.title : '' %>" placeholder="" name="title" required>
+            </div>
+
+            <div class="form-group">
+                <label>Status</label>
+                <select class="form-control" name="status">
+                    <option value="Customer">Published</option>
+                    <option value="Draft">Draft</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Short Description (SEO)</label>
+                <textarea class="form-control" name="shortContent" style="min-height:300px"><%= flash.shortContent ? flash.shortContent : '' %></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Keywords (SEO, comma separated)</label>
+                <textarea class="form-control" name="keyword" style="min-height:300px"><%= flash.keyword ? flash.keyword : '' %></textarea>
+            </div>
+
+
+            <div class="form-group">
+                <label>Content</label>
+                <textarea class="form-control" name="content" style="min-height:300px"><%= flash.content ? flash.content : '' %></textarea>
+            </div>
+
+
+
+        </div>
+
+       
+
+        <div class="col-md-12">
+            <p class="text-center">
+                <button type="submit" class="btn btn-primary btn-rounded-primary" style="padding-left:40px;padding-right:40px;">Create</button>
+            </p>
+        </div>
+
+    </form>
+
+</div>
+        
+

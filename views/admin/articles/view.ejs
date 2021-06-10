@@ -1,0 +1,65 @@
+<div class="col-md-12" style="margin-bottom:20px;">    
+    <h2>Article View
+    </h2>
+
+    <% if(article) { %>
+
+    <div class="col-12">
+      <div class="ar-wrap qa-stp">
+        
+        <div class="ard-wrap stp-row">
+
+          <div class="ar-cname ar-info-line">
+            Title: <strong style="text-transform: capitalize;"><%= article.title %></strong>
+          </div>
+
+          <div class="ar-cname ar-info-line">
+            Slug: <strong style="text-transform: capitalize;"><%= article.slug %></strong>
+          </div>
+
+          <div class="ar-cname ar-info-line">
+            Status: <strong style="text-transform: capitalize;"><%= article.status %></strong>
+          </div>
+
+          <div class="ar-cname ar-info-line">
+            Keywords: 
+            <%- article.keyword %>
+          </div>
+
+          <div class="ar-cname ar-info-line">
+            Short Description: 
+            <%- article.shortContent %>
+          </div>
+
+          <div class="ar-cname ar-info-line">
+            Content: 
+            <%- article.content %>
+          </div>
+
+    
+
+ 
+
+
+        </div>
+
+      
+
+
+      </div>
+    </div>
+
+   
+
+    
+
+    <div class="col-md-12">
+      <p class="text-center">
+        <a class="btn btn-primary btn-rounded-primary" style="padding-left:40px;padding-right:40px;" href="/njs-admin/manage/articles/edit/<%= article._id %>">Edit</a>
+      </p>
+    </div>
+
+    <% } %>
+</div>
+        
+

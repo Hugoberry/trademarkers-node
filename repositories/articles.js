@@ -1,7 +1,7 @@
 let _table = process.env.TBLEXT + "articles";
 
 let conn = require('../config/DbConnect');
-
+let ObjectID = require('mongodb').ObjectID;
 // DATABASE CONNECTION
 const mysql = require('mysql');
 const util = require('util');
@@ -14,6 +14,24 @@ const connection = mysql.createConnection({
 });
 
 module.exports = {
+
+	getAll : async function() {
+		return new Promise(function(resolve, reject) {
+
+			
+			
+			conn.getDb().collection(_table).find().toArray(function(err, result) {
+					
+				if (err) {
+					reject(err);
+				} else {
+					resolve(result);
+				}
+
+			});
+
+		});
+	},
 
 	getAllArticles: async function ( ) {
 
@@ -186,6 +204,26 @@ module.exports = {
 
 	},
 
+	getById : async function(id) {
+		return new Promise(function(resolve, reject) {
+
+			let query = { _id: ObjectID(id) };
+
+			let db = conn.getDb();
+			
+			db.collection(_table).find(query).toArray(function(err, result) {
+					
+				if (err) {
+					reject(err);
+				} else {
+					resolve(result);
+				}
+
+			});
+
+		});
+	},
+
 	storeArticle : async function(article) {
 		return new Promise(function(resolve, reject) {
 
@@ -221,6 +259,28 @@ module.exports = {
 
 		});
 	},
+
+	update: async function(id,data) {
+
+        let query = { _id: ObjectID(id) };
+
+		return new Promise(function(resolve, reject) { 
+
+			conn.getDb().collection(_table).updateOne(query,{$set: data }, function(err, result) {
+				if (err) {
+					// console.log('Error updating user: ' + err);
+					// res.send({'error':'An error has occurred'});
+					reject(err)
+				} else {
+					// console.log('' + result + ' document(s) updated');
+					// res.send(result);
+					resolve(result)
+				}
+			});
+
+		});
+
+    }
 
 
 }; 

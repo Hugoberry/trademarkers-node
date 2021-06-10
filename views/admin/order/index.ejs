@@ -18,7 +18,8 @@
     <table id="myListDataTable" class="display" style="width:100%">
         <thead>
             <tr>
-                <th>Code</th>
+                <th>Order Code</th>
+                <th>Invoice Ref.#</th>
                 <th>Total Amount</th>
                 <th># Items</th>
                 <th>Customer</th>
@@ -32,6 +33,7 @@
    
             <tr>
                 <td><%= order.orderNumber %></td>
+                <td><%= order.invoiceNumber ? order.invoiceNumber : (order.charge && order.charge.reference ? order.charge.reference : '') %></td>
                 <td>
                     <%
                     let totalAmount = 0;
@@ -49,9 +51,12 @@
                
                 <td><%= moment(order.created_at_formatted).format('MMM D, YYYY') %></td>
 
-                <td><a href="/njs-admin/manage/orders/view/<%= order._id %>"><i class="fa fa-eye"></i></a></td>
+                <td>
+                    <a href="/njs-admin/manage/orders/view/<%= order._id %>"><i class="fa fa-eye"></i></a>
+                    <a target="_blank" href="/pdf/invoice/<%= order.orderNumber %>"><i class="fa fa-file-pdf"></i></a>
+                </td>
             </tr>
-            <% }) %>
+        <% }) %>
         </tbody>
     </table>
 </div>

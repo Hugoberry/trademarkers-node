@@ -141,15 +141,15 @@ conn.connectToServer( function( err, client ) {
   // notificationCronService.fetchOtherServices();
   // cartService.sendAbandonedCart4hr();
   // RUN EVERYDAY AT 4PM US TIME TO CHECK ABANDONED CART AND ADDED SERVICES
-  cron.schedule('0 0 16 * * *', () => { 
-    cartService.sendAbandonedCart1d();
-    cartService.sendAbandonedCart3d();
-    cartService.sendAbandonedCart1Month();
+  // cron.schedule('0 0 16 * * *', () => { 
+  //   cartService.sendAbandonedCart1d();
+  //   cartService.sendAbandonedCart3d();
+  //   cartService.sendAbandonedCart1Month();
     
-  }, {
-    scheduled: true,
-    timezone: "America/New_York"
-  });
+  // }, {
+  //   scheduled: true,
+  //   timezone: "America/New_York"
+  // });
 
   // oaCronService.sendSOUSummaryNotification();
 

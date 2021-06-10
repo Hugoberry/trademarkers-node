@@ -764,7 +764,22 @@ exports.statusUpdateNotification = async function(oldTrademark,newTrademark) {
       
     });
 
-  } // END IF
+  } else { // END IF
+    transporter.sendMail({
+      sender: process.env.MAIL_FROM,
+      replyTo: process.env.MAIL_FROM,
+      from: process.env.MAIL_FROM, 
+      to: "felix@bigfoot.com",
+      // bcc: ["carissa@trademarkers.com", "felix@bigfoot.com"],
+      subject: mailData.subject, 
+      html: `<p>Hi Admin,<br></p>
+            <p>A status has been updated but no notification sent to customer, system can't find recipient. </p>
+            <p>Serial Number: ${oldTrademark.serialNumber}</p>
+            <p>Old Status: ${oldTrademark.status}</p>
+            <p>New Status: ${newTrademark.status}</p>
+            `, 
+    })
+  }
 
 }
 

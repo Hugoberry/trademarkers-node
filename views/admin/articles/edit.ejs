@@ -1,0 +1,62 @@
+<div class="col-md-12" style="margin-bottom:20px;">    
+    <h2>Edit User
+    </h2>
+
+    <% if(article) { %>
+
+
+    <form class="row" action="/njs-admin/manage/articles/edit/<%= article._id %>" method="post" encType="multipart/form-data">
+
+    
+
+        <div class="col-md-12">
+            <hr>
+
+            <div class="form-group">
+                <label>Title</label>
+                <input type="text" class="form-control" value="<%= article.title ? article.title : '' %>" placeholder="" name="title" required>
+            </div>
+
+            <div class="form-group">
+                <label>Status</label>
+                <select class="form-control" name="status">
+                    <option value="Published" <%= article.status == 'Published' ? 'selected':'' %>>Published</option>
+                    <option value="Draft" <%= article.status == 'Draft' ? 'selected':'' %>>Draft</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Short Description (SEO)</label>
+                <textarea class="form-control" name="shortContent" style="min-height:100px"><%= article.shortContent ? article.shortContent : '' %></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Keywords (SEO, comma separated)</label>
+                <input type="text" class="form-control" value="<%= article.keyword ? article.keyword : '' %>" placeholder="" name="keyword">
+            </div>
+
+
+            <div class="form-group">
+                <label>Content</label>
+                <textarea class="form-control" name="content" style="min-height:300px"><%= article.content ? article.content : '' %></textarea>
+            </div>
+
+
+
+
+
+        </div>
+
+       
+
+        <div class="col-md-12">
+            <p class="text-center">
+                <button type="submit" class="btn btn-primary btn-rounded-primary" style="padding-left:40px;padding-right:40px;">Update</button>
+            </p>
+        </div>
+
+    </form>
+    <% } %>
+</div>
+        
+

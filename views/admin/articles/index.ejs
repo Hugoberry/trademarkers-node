@@ -1,0 +1,39 @@
+<div class="col-md-12" style="margin-bottom:20px;">  
+    <h2>Articles List <a class="ml-3 btn btn-primary" href="/njs-admin/manage/articles/add"><i class="fa fa-plus" style="color:#fff"></i></a></h2>
+
+    <% if (flash.success) { %>
+    <div class="alert alert-success" role="alert">
+        <strong><%= flash.success %></strong>
+    </div>
+    <% } %>
+
+    <% if (flash.error) { %>
+    <div class="alert alert-danger" role="alert">
+        <strong><%= flash.error %></strong>
+    </div>
+    <% } %>
+</div>
+                    
+<div clss="col-md-12">
+    <table id="myListDataTable" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Slug</th>
+                <th>Date Created</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        <% articles.forEach(function(article,key) {  %>
+   
+            <tr>
+                <td><%= article.title %></td>
+                <td><%= article.slug %></td>
+                <td><%= moment(article.created_at_formatted).format('MMM D, YYYY') %></td>
+                <td><a href="/njs-admin/manage/articles/view/<%= article._id %>"><i class="fa fa-pen"></i></a></td>
+            </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>

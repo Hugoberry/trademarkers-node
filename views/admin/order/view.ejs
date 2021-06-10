@@ -8,12 +8,12 @@
 
           <div class="form-group">
               <label>Customer Name</label>
-              <input type="text" class="form-control" value="<%= order.user.name %>" placeholder="" name="notes" disabled>
+              <input type="text" class="form-control" value="<%= order.user ? order.user.name : '' %>" placeholder="" name="notes" disabled>
           </div>
 
           <div class="form-group">
               <label>Customer Email</label>
-              <input type="text" class="form-control" value="<%= order.user.email %>" placeholder="" name="discountType" disabled>
+              <input type="text" class="form-control" value="<%= order.user ? order.user.email : '' %>" placeholder="" name="discountType" disabled>
           </div>
 
           
@@ -27,7 +27,8 @@
                 </tr>
             </thead>
             <tbody>
-            <% order.cartItems.forEach(function(item,key) {  %>
+                
+            <% if (order.cartItems) { order.cartItems.forEach(function(item,key) {  %>
        
                 <tr>
                     <td><%= item.name ? item.name : item.word_mark %></td>
@@ -36,7 +37,7 @@
                     <td>$<%= item.amount ? item.amount : item.price %></td>
 
                 </tr>
-                <% }) %>
+            <% }) } %>
             </tbody>
         </table>
 

@@ -1,4 +1,5 @@
 var rpo = require('../repositories/orders');
+var rpoUsers = require('../repositories/usersMongo');
 
 const multer = require('multer');
 const path = require('path');
@@ -28,6 +29,14 @@ exports.show = async function(req, res, next) {
   let id = req.params['id'];
 
   let orders = await rpo.getById(id);
+
+  if (orders[0] && !orders[0].user) {
+    if (orders[0].userId) {
+      let users = await rpoUsers.getByIdM(orders[0].userId)
+      rpo.update(orders[0]._id, {user:users[0]})
+      orders[0].user = users[0]
+    }
+  }
 
   
   res.render('admin/order/view', {

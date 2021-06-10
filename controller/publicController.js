@@ -395,7 +395,7 @@ exports.blog = async function(req, res, next) {
 
   let pTotal = Math.ceil(pageTotal  / perPage)
 
-  console.log(pTotal);
+  // console.log(pTotal);
   // let articles = await rpoArticles.getArticles(searchTerm);
 
   res.render('public/blog', { 
@@ -417,9 +417,13 @@ exports.blogPost = async function(req, res, next) {
 
   let articles = await rpoArticles.getArticleSlugM(req.params.slug);
 
+
+
   res.render('public/blogPost', { 
     layout: 'layouts/public-layout-default', 
-    title: articles[0].post_title+' | Trademarkers LLC',
+    title: articles[0].title+' | Trademarkers LLC',
+    description: (articles[0].description ? articles[0].description : '' ),
+    keywords: articles[0].keywords ? articles[0].keywords : articles[0].title,
     article: articles[0],
     user: await helpers.getLoginUser(req)
   });

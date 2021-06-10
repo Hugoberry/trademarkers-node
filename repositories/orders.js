@@ -237,5 +237,25 @@ module.exports = {
 			});
 			
 		});
-	}
+	},
+
+	update: async function(id,data) {
+
+		return new Promise(function(resolve, reject) {
+
+			let query = { _id: ObjectID(id) };
+
+			conn.getDb().collection(_table).updateOne(query,{$set: data }, function(err, result) {
+				if (result) {
+			
+					resolve(result)
+				} else {
+		
+					reject(err);
+				}
+			});
+
+		});
+
+	},
 }; 
