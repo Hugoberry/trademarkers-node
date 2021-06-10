@@ -150,7 +150,7 @@
 
 						<div class="col-12">
 							<div class="form-group mt-2">
-								<input type="submit" name="ncLgnFormSubmit" id="NcLgnFormSubmit" class="btn btn-solid-lg btn-blue" value="Pay $<%= totalAmount %>">
+								<input type="submit" name="ncLgnFormSubmit" id="NcLgnFormSubmit" class="btn btn-solid-lg btn-blue" value="Pay <%= formatter.format(totalAmount) %>">
 							</div>
 						</div>
 					</div>
