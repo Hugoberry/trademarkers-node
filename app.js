@@ -128,15 +128,22 @@ conn.connectToServer( function( err, client ) {
   // oppositionCronService.generateDomainEmail();
   // oppositionCronService.sendEvent();
 
-  pdfService.generateInvoice("8Q2T-4C")
+  // pdfService.generateInvoice("8Q2T-4C")
   // CRON JOB SCHEDULER =========== >>
   
   // cartService.testMail();
   // RUN EVERY 1 HR TO CHECK ABANDONED CART 
-  cron.schedule('0 0 */1 * * *', () => {
-    cartService.sendAbandonedCart4hr();
-    notificationCronService.fetchOtherServices();
-  });
+  // if ( process.env.ENVIRONMENT != "dev" ) {
+  //   cron.schedule('0 0 */1 * * *', () => {
+  //     cartService.sendAbandonedCart4hr();
+  //     notificationCronService.fetchOtherServices();
+  //   });
+
+  //   cron.schedule('0 0 */1 * * *', () => {
+  //     // cartService.sendAbandonedCart4hr();
+  //     notificationCronService.fetchOtherServices();
+  //   });
+  // }
 
   // notificationCronService.fetchOtherServices();
   // cartService.sendAbandonedCart4hr();
@@ -182,6 +189,14 @@ conn.connectToServer( function( err, client ) {
       oaCronService.sendSOUSummaryNotification();
     });
 
+    cron.schedule('0 0 */1 * * *', () => {
+      cartService.sendAbandonedCart4hr();
+    });
+
+    cron.schedule('0 0 10 * * *', () => {
+      notificationCronService.fetchOtherServices();
+    });
+
   }
   
 
@@ -208,7 +223,7 @@ conn.connectToServer( function( err, client ) {
   app.use(function(err, req, res, next) {
     // set locals, only providing error in development
     res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
+    res.locals.error = req.app.get('env') === 'dev' ? err : {};
 
     // render the error page
     res.status(err.status || 500);
