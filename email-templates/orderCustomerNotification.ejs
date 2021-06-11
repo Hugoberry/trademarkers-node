@@ -761,12 +761,12 @@
         <tr>
             <td colspan="5"><strong>Total Amount in US $ </strong></td>
                 
-            <td class="amount"><strong>$<%= (totalAmount * 1.00) %></strong></td>
+            <td class="amount"><strong><%= formatter.format(totalAmount) %></strong></td>
 
         </tr>
 		<tr>
             <td colspan="5"><strong>Less Payment (Stripe)</strong></td>
-            <td class="amount"><strong>$<%= (totalAmount * 1.00) %></strong></td>
+            <td class="amount"><strong><%= formatter.format(totalAmount) %></strong></td>
         </tr>
 		<tr>
             <td colspan="5"><strong>Balance</strong></td>
@@ -838,7 +838,7 @@
 			<tr>
 				<td>Trademarkers LLC Service</td>
 				<td><%= order.paymentDescription %></td>
-				<td><%= (order.charge.amount / 100 * 1.00) %></td>
+				<td><%= formatter.format((order.charge.amount / 100)) %></td>
 
 			</tr>
 
@@ -849,12 +849,12 @@
 			<tr>
 				<td colspan="2"><strong>Total Amount in US $ </strong></td>
 					
-				<td class="amount"><strong>$<%= (order.charge.amount / 100 * 1.00) %></strong></td>
+				<td class="amount"><strong><%= formatter.format((order.charge.amount / 100)) %></strong></td>
 	
 			</tr>
 			<tr>
 				<td colspan="2"><strong>Less Payment (Stripe)</strong></td>
-				<td class="amount"><strong>$<%= (order.charge.amount / 100 * 1.00) %></strong></td>
+				<td class="amount"><strong><%= formatter.format((order.charge.amount / 100)) %></strong></td>
 			</tr>
 			<tr>
 				<td colspan="2"><strong>Balance</strong></td>
@@ -1434,7 +1434,7 @@ Now that you're no longer completely new to Trademark questions, make sure to le
 <br>
 <a data-saferedirecturl="https://www.google.com/url?hl=en&q=http://www.bookdepository.com/contactus?utm_source%3DSV-Footer%26utm_medium%3Demail-Service%26utm_term%3DContact-us%26utm_content%3DFooter-links%26utm_campaign%3DOrder-dispatch&source=gmail&ust=1503720524267000&usg=AFQjCNH73hNtB1XpWOoS42JExfYgT9va_A" href="https://trademarkers.com/contact" target="_blank" title="Contact Us">Contact us</a> | <a data-saferedirecturl="https://www.google.com/url?hl=en&q=http://www.bookdepository.com/help/topic/HelpId/20/Our-privacy-policy?utm_source%3DSV-Footer%26utm_medium%3Demail-Service%26utm_term%3DPrivacy-Policy%26utm_content%3DFooter-links%26utm_campaign%3DOrder-dispatch&source=gmail&ust=1503720524267000&usg=AFQjCNFa0t4UX6ocun367uAsudKrkWahHQ" href="<%= process.env.APP_URL %>/privacy" target="_blank" title="Privacy Policy">Privacy policy</a><br>
 <br>
-<em>Copyright © 2019 TradeMarkers LLC, All rights reserved.</em>
+<em>Copyright © 2021 TradeMarkers LLC, All rights reserved.</em>
                         </td>
                     </tr>
                 </tbody></table>

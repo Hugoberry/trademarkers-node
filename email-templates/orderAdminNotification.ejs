@@ -375,7 +375,7 @@
                           <% } %>
                           <% if ( order.cartItems ) { 
                             if (order.cartItems[0] && order.cartItems[0].promoCode) {%>
-                              Promo Code: <%= order.cartItems[0].promoCode %>
+                              <br>Promo Code: <%= order.cartItems[0].promoCode %>
                           <% } %>
                             
                             <table border="0" cellpadding="0" cellspacing="0" height="100%" class="tbl-content-orders" >
@@ -404,6 +404,10 @@
                                   <td>$<%= item.price %> <i><%= item.promoCode ? '(-$'+item.discountAmount+')' : '' %></i></td>
                                 </tr>
                               <% }) %>
+                              <tr>
+                                <th colspan="3">Total Amount</th>
+                                <th><%= formatter.format(totalAmount) %></th>
+                              </tr>
                             </table>
   
                           <% } else if (order.content) { %>
