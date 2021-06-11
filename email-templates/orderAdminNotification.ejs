@@ -404,12 +404,12 @@
                                   <td><%= item.country.name %></td>
                                   <td><%= item.serviceType %></td>
                                   <td><%= item.word_mark ? item.word_mark : item.mark %></td>
-                                  <td>$<%= item.price %> <i><%= item.promoCode ? '(-$'+item.discountAmount.toFixed(2)+')' : '' %></i></td>
+                                  <td align="right">$<%= item.price %> <i><%= item.promoCode ? '(-$'+item.discountAmount.toFixed(2)+')' : '' %></i></td>
                                 </tr>
                               <% }) %>
                               <tr>
                                 <th colspan="3">Total Amount</th>
-                                <th>$<%= totalAmount.toFixed(2) %></th>
+                                <th align="right">$<%= totalAmount.toFixed(2) %></th>
                               </tr>
                             </table>
   
@@ -428,7 +428,7 @@
                                   <td><%= order.content.serviceType %></td>
                                   <td><%= order.content.word_mark ? order.content.word_mark : order.content.mark %></td>
                                   <td><%= order.content.serialNumber %></td>
-                                  <td>$<%= order.content.delivery.amount %></td>
+                                  <td align="right">$<%= order.content.delivery.amount %></td>
                                 </tr>
                               
                             </table>
