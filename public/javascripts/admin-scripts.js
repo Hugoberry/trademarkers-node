@@ -28,10 +28,14 @@ $( document ).ready(function() {
     }
   });
 
-
+  var adminDataTable = $("#dataTableAdmin").DataTable({
+    "order": [[ 7, "desc" ]], //or asc 
+    "columnDefs" : [{"targets":7, "type":"numeric"}],
+  });
 
   if ( $("#myListDataTable").length ) {
     var tempTable = $("#myListDataTable").DataTable();
+    
 
     tempTable.on('change',  '[name="markLead"]', function(){
       // alert(this.checked);

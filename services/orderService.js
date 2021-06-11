@@ -36,7 +36,7 @@ exports.createInvoiceCode = async function() {
   let flag = true;
   for(;flag;){
 
-    code = makeid(4) + '-' + makeid(2); 
+    code = makeid(3) + '-' + makeid(6); 
     let order = await rpoInvoice.findInvoiceNumber(code);
 
     if (order.length <= 0) flag = false;

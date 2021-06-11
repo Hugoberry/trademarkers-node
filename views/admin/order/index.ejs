@@ -15,7 +15,7 @@
 </div>
                     
 <div clss="col-md-12">
-    <table id="myListDataTable" class="display" style="width:100%">
+    <table id="dataTableAdmin" class="display" style="width:100%">
         <thead>
             <tr>
                 <th>Order Code</th>
@@ -33,7 +33,7 @@
    
             <tr>
                 <td><%= order.orderNumber %></td>
-                <td><%= order.invoiceNumber ? order.invoiceNumber : (order.charge && order.charge.reference ? order.charge.reference : '') %></td>
+                <td><%= order.invoiceCode ? order.invoiceCode : (order.charge && order.charge.reference ? order.charge.reference : '') %></td>
                 <td>
                     <%
                     let totalAmount = 0;
