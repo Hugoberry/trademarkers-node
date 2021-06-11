@@ -35,7 +35,7 @@
 					<td><%= cartItems[i].country ? cartItems[i].country.name : '' %></td>
 					<td><%= cartItems[i].serviceType ? cartItems[i].serviceType : '' %></td>
 					<td><%= cartItems[i].word_mark ? cartItems[i].word_mark : '' %></td>
-					<td><%= formatter.format(cartItems[i].price) %> <i><%= cartItems[i].discountAmount ? '(-$'+cartItems[i].discountAmount+')' : '' %></i></td>
+					<td><%= formatter.format(cartItems[i].price) %> <i><%= '(-'+formatter.format(cartItems[i].discountAmount) + ')' %></i></td>
 				</tr>
 			<% }} %>
 

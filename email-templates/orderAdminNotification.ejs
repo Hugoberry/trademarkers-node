@@ -401,12 +401,12 @@
                                   <td><%= item.country.name %></td>
                                   <td><%= item.serviceType %></td>
                                   <td><%= item.word_mark ? item.word_mark : item.mark %></td>
-                                  <td>$<%= item.price %> <i><%= item.promoCode ? '(-$'+item.discountAmount+')' : '' %></i></td>
+                                  <td>$<%= item.price %> <i><%= item.promoCode ? '(-$'+item.discountAmount.toFixed(2)+')' : '' %></i></td>
                                 </tr>
                               <% }) %>
                               <tr>
                                 <th colspan="3">Total Amount</th>
-                                <th><%= formatter.format(totalAmount) %></th>
+                                <th>$<%= totalAmount.toFixed(2) %></th>
                               </tr>
                             </table>
   

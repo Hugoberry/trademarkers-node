@@ -751,7 +751,7 @@
           <td><%= item.type %></td>
           <td><%= item.class %></td>
           <td><%= item.country.name %></td>
-          <td>$<%= item.price %> <i><%= item.promoCode ? '(-$'+item.discountAmount+')' : '' %></i></td>
+          <td>$<%= item.price %> <i><%= item.promoCode ? '(-$'+item.discountAmount.toFixed(2)+')' : '' %></i></td>
         </tr>
       	<% }) %>
     
@@ -761,12 +761,12 @@
         <tr>
             <td colspan="5"><strong>Total Amount in US $ </strong></td>
                 
-            <td class="amount"><strong><%= formatter.format(totalAmount) %></strong></td>
+            <td class="amount"><strong>$<%= totalAmount.toFixed(2) %></strong></td>
 
         </tr>
 		<tr>
             <td colspan="5"><strong>Less Payment (Stripe)</strong></td>
-            <td class="amount"><strong><%= formatter.format(totalAmount) %></strong></td>
+            <td class="amount"><strong>$<%= totalAmount.toFixed(2) %></strong></td>
         </tr>
 		<tr>
             <td colspan="5"><strong>Balance</strong></td>
@@ -838,7 +838,7 @@
 			<tr>
 				<td>Trademarkers LLC Service</td>
 				<td><%= order.paymentDescription %></td>
-				<td><%= formatter.format((order.charge.amount / 100)) %></td>
+				<td>$<%= (order.charge.amount / 100).toFixed(2) %></td>
 
 			</tr>
 
@@ -849,12 +849,12 @@
 			<tr>
 				<td colspan="2"><strong>Total Amount in US $ </strong></td>
 					
-				<td class="amount"><strong><%= formatter.format((order.charge.amount / 100)) %></strong></td>
+				<td class="amount"><strong>$<%= (order.charge.amount / 100).toFixed(2) %></strong></td>
 	
 			</tr>
 			<tr>
 				<td colspan="2"><strong>Less Payment (Stripe)</strong></td>
-				<td class="amount"><strong><%= formatter.format((order.charge.amount / 100)) %></strong></td>
+				<td class="amount"><strong>$<%= (order.charge.amount / 100).toFixed(2) %></strong></td>
 			</tr>
 			<tr>
 				<td colspan="2"><strong>Balance</strong></td>
