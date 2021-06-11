@@ -177,8 +177,10 @@ exports.getCartTotalAmount = async function(cartItems) {
                 if (element.status == "active") 
                 total += (element.price - (element.discountAmount ? element.discountAmount : 0))
             });
+            // total += 0.355034;
+            // console.log(total.toFixed(2));
     
-            resolve(total);
+            resolve(total.toFixed(2));
         } else {
             resolve(0);
         }
