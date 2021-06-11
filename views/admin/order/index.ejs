@@ -49,7 +49,7 @@
                 <td><%= order.user ? order.user.name : '' %></td>
                 <td><%= order.paid ? 'Paid' : 'Unpaid' %></td>
                
-                <td><%= moment(order.created_at_formatted).format('MMM D, YYYY') %></td>
+                <td data-sort="<%= moment(order.created_at_formatted).unix() %>"><%= moment(order.created_at_formatted).format('MMM D, YYYY') %></td>
 
                 <td>
                     <a href="/njs-admin/manage/orders/view/<%= order._id %>"><i class="fa fa-eye"></i></a>

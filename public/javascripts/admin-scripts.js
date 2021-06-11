@@ -34,7 +34,7 @@ $( document ).ready(function() {
     var tempTable = $("#myListDataTable").DataTable();
 
     tempTable.on('change',  '[name="markLead"]', function(){
-      alert(this.checked);
+      // alert(this.checked);
       let value = this.checked;
       $.ajax({
         url: "/api/v1/olead/update",
