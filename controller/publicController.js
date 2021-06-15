@@ -426,9 +426,9 @@ exports.blogPost = async function(req, res, next) {
 
   res.render('public/blogPost', { 
     layout: 'layouts/public-layout-default', 
-    title: articles[0].title+' | Trademarkers LLC',
-    description: articles[0].description ? articles[0].description : '',
-    keywords: articles[0].keywords ? articles[0].keywords : articles[0].title,
+    title: (articles[0] ? articles[0].title : '') +' | Trademarkers LLC',
+    description: articles[0] && articles[0].description ? articles[0].description : '',
+    keywords: articles[0] && articles[0].keywords ? articles[0].keywords : articles[0].title,
     article: articles[0],
     user: await helpers.getLoginUser(req)
   });
@@ -447,9 +447,9 @@ exports.blogXML = async function(req, res, next) {
     return
   }
 
-  let articles = await rpoArticles.getAllArticles();
+  let articles = await rpoArticles.getAllSlug();
 
-  // console.log(articles.length);
+  // console.log(articles);
 
   try {
     const smStream = new SitemapStream({ hostname: 'https://www.trademarkers.com' })
@@ -462,7 +462,7 @@ exports.blogXML = async function(req, res, next) {
     // smStream.write({ url: '/page-4/',   img: "http://urlTest.com" })
 
     await articles.forEach(async article => {
-      smStream.write({ url: '/blog/'+article.post_name,  changefreq: 'monthly',  priority: 0.7 })
+      smStream.write({ url: '/blog/'+article.slug,  changefreq: 'daily',  priority: 0.7 })
     })
 
     // cache the response

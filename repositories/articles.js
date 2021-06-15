@@ -20,7 +20,25 @@ module.exports = {
 
 			
 			
-			conn.getDb().collection(_table).find().toArray(function(err, result) {
+			conn.getDb().collection(_table).find({},{ sort: { created_at:1 }}).limit(1).toArray(function(err, result) {
+					
+				if (err) {
+					reject(err);
+				} else {
+					resolve(result);
+				}
+
+			});
+
+		});
+	},
+
+	getAllSlug : async function() {
+		return new Promise(function(resolve, reject) {
+
+			
+			
+			conn.getDb().collection(_table).find({},{ fields : { slug:1 } }).toArray(function(err, result) {
 					
 				if (err) {
 					reject(err);
