@@ -243,11 +243,11 @@ We provide a helpful Class Search tool, which allows you to easily determine the
 							</label>
 							
 							<select class="form-control" name="filed" id="filed">
-								<option value="no" selected> No</option>
-								<option value="yes"> Yes</option>         
+								<option value="no" <%= trademarkStore ? '' : 'selected' %> > No</option>
+								<option value="yes" <%= trademarkStore ? 'selected' : '' %> > Yes</option>         
 							</select>
 
-							<div id="claim_priority" style="display: none;">
+							<div id="claim_priority" class="<%= trademarkStore ? '' : 'hideBlock' %>" >
 								<span> Then you may want to <b>Claim Priority</b></span>
 								<div style="text-align: left;" class="alert alert-info" role="alert">
 									<p>     
@@ -272,7 +272,7 @@ We provide a helpful Class Search tool, which allows you to easily determine the
 
 								<select class="form-control" name="priority" id="priority">
 									<option value="no"> No</option>
-									<option value="yes"> Yes</option>         
+									<option value="yes" <%= trademarkStore ? 'selected' : '' %> > Yes</option>         
 								</select>
 							</div>
 
@@ -281,7 +281,7 @@ We provide a helpful Class Search tool, which allows you to easily determine the
 					</div>
 				</div>
 
-				<div id="yes_priority" style="display: none;">
+				<div id="yes_priority" class="<%= trademarkStore ? '' : 'hideBlock' %>" >
 
 					<div class="form-group row">
 						<div class="col-md-12">
@@ -293,7 +293,7 @@ We provide a helpful Class Search tool, which allows you to easily determine the
 								<select class="form-control" name="origin" id="origin">
 									<option value=""> - </option>
 									<% countries.forEach(country => { %>
-										<option value="<%= country.name %>">
+										<option value="<%= country.name %>" <%= trademarkStore && country.abbr == 'EM' ? 'selected' : '' %> >
 											<%= country.name %>
 										</option>
 									<% }) %>   
@@ -311,7 +311,7 @@ We provide a helpful Class Search tool, which allows you to easily determine the
 								<label for="commerce">
 									<b> Date</b></i>
 								</label>
-								<input class="form-control" value="" type="date" name="originDate" id="originDate" >
+								<input class="form-control" value="<%= trademarkStore ? trademarkStore.receivedate : '' %>" type="date" name="originDate" id="originDate" >
 							</div>
 						</div>
 						</div>
@@ -324,7 +324,7 @@ We provide a helpful Class Search tool, which allows you to easily determine the
 								<label for="commerce">
 									<b> Trademark Number</b></i>
 								</label>
-								<input class="form-control" type="text" name="originTm" id="originTm" >
+								<input class="form-control" type="text" value="<%= trademarkStore ? trademarkStore.number : '' %>" name="originTm" id="originTm" >
 							</div>
 						</div>
 						</div>
