@@ -91,7 +91,7 @@ exports.createActionCodeCampaign = async function(data,campaign) {
 
   }
 
-  let data = null
+  // let data = null
 
   // make logic for old action with campaign
   
