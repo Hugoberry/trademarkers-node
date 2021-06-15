@@ -89,7 +89,7 @@ exports.validateCartItems = async function(user) {
   let promoCode = await helpers.getCartCode(cartItems)
 
   let promoCodes = await rpoPromoCode.getByCode(promoCode)
-
+console.log("promo codes", promoCode,promoCodes);
   if ( promoCodes.length > 0 ) {
 
     let isValid = false;
@@ -140,6 +140,30 @@ exports.validateCartItems = async function(user) {
     }
     
 
+  }
+
+  if (promoCode) {
+    // has code 
+    await cartItems.forEach(async items => {
+      
+      if (items.discountAmountType == "action" && items.discountExpiry) {
+
+        let expiry = moment(items.discountExpiry).format('YYYY-MM-DD')
+				let now = moment().format('YYYY-MM-DD')
+        if ( moment(expiry).diff(moment(now), "day") < 0 ) {
+          // removed expired promo from action
+          console.log('remove discount');
+          let promoData = {
+            promoCode : '',
+            discountAmount : 0
+          }
+          await rpoCartItems.update(items._id, promoData)
+        }
+
+        
+      }
+      
+    })
   }
 
 

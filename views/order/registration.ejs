@@ -68,7 +68,7 @@ Combined Mark: one trademark, which contains verbal elements as well as design e
 					<div class="form-box">
 						<div class="form-check">
 							<label class="form-box-container" for="word_mark"><b>Trademark</b></label>
-							<input type="text" name="word_mark" class="form-control" id="word_mark" placeholder="Enter word mark" value="" required autofocus>
+							<input type="text" name="word_mark" class="form-control" id="word_mark" placeholder="Enter word mark" value="<%= trademarkStore ? trademarkStore.name : '' %>" required autofocus>
 						</div>
 					</div>
 					</div>
@@ -157,9 +157,19 @@ We provide a helpful Class Search tool, which allows you to easily determine the
 
 							<!-- populate selected classes here -->
 							<table id="listClasses" class="table" style="">
+								<% if (trademarkStore && trademarkStore.gs && trademarkStore.gs.defaultValue && trademarkStore.gs.defaultValue.values  ) { %>
+									<% trademarkStore.gs.defaultValue.values.forEach(function(TMclass,key) { %>
+									<tr>
+										<td><%= TMclass.number %></td>
+										<td><input id="class<%= TMclass.number %>" value="<%= TMclass.value %>" type="text" class="form-control classDescriptions" name="description" placeholder="Enter Goods/Services on this trademark" data-id="<%= TMclass.number %>"></td>
+										<td></td>
+										<td class="text-center"> <i data-class-number="35" class="fa fa-trash btnRemoveClass"></i></td>
+									</tr>
+									<% }) %>
+								<% } %>
 							</table>
 
-
+							<% if (!trademarkStore) { %>
 							<p class="btn-add-class btn btn-primary btn-rounded-primary-light">+ Select trademark class</p>
 							<div class="show-pop">
 								<div class="contain-select-class">
@@ -174,6 +184,7 @@ We provide a helpful Class Search tool, which allows you to easily determine the
 								
 								</div>
 							</div>
+							<% } %>
 
 						</div>
 
@@ -185,7 +196,7 @@ We provide a helpful Class Search tool, which allows you to easily determine the
 									type="checkbox" 
 									id="class<%= i %>" 
 									value="<%= i %>" 
-									name="class">
+									name="class" <%= trademarkStore && trademarkStore.niceclasses.includes(i+'') ? "checked":"" %>>
 							<% } %>
 						</div>
 

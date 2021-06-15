@@ -21,6 +21,9 @@ var corsOptionsDelegate = function (req, callback) {
 
 const publicController = require('../controller/publicController')
 const registerController = require('../controller/registerController')
+const actionCodesController = require('../controller/actionCodesController')
+
+const {verify} = require('../controller/middleware');
 
 var router = express.Router();
 
@@ -100,9 +103,9 @@ router.get('/trademark-assignment', publicController.assignment)
   router.post('/validate-order', registerController.validateOrder);    
   router.post('/trademark-profile', registerController.trademarkProfile);    
   router.post('/add-to-cart', registerController.addToCart);    
-  router.get('/cart', registerController.cart);    
-  router.post('/cart/add-promo', registerController.addCartPromo);    
-  router.post('/cart/remove-promo', registerController.removeCartPromo);    
+  router.get('/cart', verify,registerController.cart);    
+  router.post('/cart/add-promo', verify, registerController.addCartPromo);    
+  router.post('/cart/remove-promo', verify,registerController.removeCartPromo);    
   router.get('/checkout', registerController.checkout);    
   router.post('/placeorder', registerController.placeOrder);    
 // }
@@ -130,6 +133,11 @@ router.get('/services', publicController.service);
 router.get('/quote', publicController.quote);
 router.get('/quote/:type', publicController.quote);
 router.post('/quote/submit', publicController.quoteSubmit);
+
+
+
+router.get('/:actioncodes', actionCodesController.actionCodes);
+router.get('/order/:actioncodes', actionCodesController.actionCodes);
 
 router.get('/:actionCode/:type', publicController.codeLanding)
 // action

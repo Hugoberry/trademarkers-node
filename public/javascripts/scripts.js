@@ -223,6 +223,14 @@ $( document ).ready(function() {
     }
   });    
 
+  $("#customerPassword").keypress(function(e){
+
+    if(e.which == 13) {
+      $("#btn-add-to-cart").trigger("click");
+    }
+
+  });
+
   $("#btn-add-to-cart").click(function(){
 
     var submitFlag = true;
@@ -471,6 +479,7 @@ $( document ).ready(function() {
   })
 
   // PROFILE SCRIPT FORM VALIDATE
+
   $("#nature").change(function(){
     // alert($(this).val());
     if ($(this).val() == "Individual") {

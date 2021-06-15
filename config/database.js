@@ -15,10 +15,15 @@ var mysqlConnection = mysql.createConnection({
 
 // DB Connect
 const mongoConnection = mongoose.createConnection(_variables.mongoURL, _variables.mongoOptions);
+const mongoConnectionEU = mongoose.createConnection(_variables.mongoURLEU, _variables.mongoOptions);
 
 // 
 mongoConnection
     .then(() => console.log('Mongo Database is connected successfully !'))
+    .catch(err => console.log(err));
+
+mongoConnectionEU
+    .then(() => console.log('Mongo EU Database is connected successfully !'))
     .catch(err => console.log(err));
 
 mysqlConnection.connect(function(err) {

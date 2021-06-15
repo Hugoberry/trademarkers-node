@@ -1,0 +1,186 @@
+<% if (flash.success) { %>
+<div class="alert alert-success" role="alert">
+	<strong><%= flash.success %></strong>
+</div>
+<% } %>
+
+<% if (flash.error) { %>
+	<div class="alert alert-warning" role="alert">
+	<strong><%= flash.error %></strong>
+	</div>
+<% } %>
+
+<% if (trademark) { %>
+<section class="tm-section qa-panel-section">
+	<div class="container h-100">
+		<div class="row h-100 align-items-start">
+		<div class="col-12">
+			<div class="ar-wrap qa-stp">
+				<div class="row" style="margin-bottom:30px">
+					<div class="col-md-8">
+						<div class="ar-box stp-row">
+					
+							<div class="ar-box-head"><h1>Trademark: <%= trademark.name %></h1></div>
+							<div class="ar-cinfo">
+								<div class="ar-cname ar-info-line">Status: <span class="ar-value" style="text-transform: capitalize;"><%= trademark.status %></span></div>
+								<div class="ar-cname ar-info-line">Status Date: <span class="ar-value"><%= moment(trademark.currentStatusDate).format('MMM D, YYYY') %></span></div>
+								<div class="ar-cname ar-info-line">Expiry Date: <span class="ar-value"><%= moment(trademark.expirydate).format('MMM D, YYYY') %></span></div>
+								<div class="ar-cname ar-info-line">Filing Date: <span class="ar-value"><%= moment(trademark.filingdate).format('MMM D, YYYY') %></span></div>
+								<div class="ar-cname ar-info-line">Basis: <span class="ar-value"><%= trademark.basis %></span></div>
+							</div>
+		
+							
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="ar-box stp-row">
+							<%
+								let expiry = moment(action.res.discountDateFormatted).format('YYYY-MM-DD')
+								let now = moment().format('YYYY-MM-DD')
+							%>
+							<% if ( moment(expiry).diff(moment(now), "day") >= 0 ) { %>
+							<h4 class="text-center">Register in <%= country.name %> And Get <%= action.res.discount %>% Discount Until <%= moment(action.res.discountDateFormatted).format('MMM D, YYYY') %></h4>
+							<% } else { %>
+							<h4 class="text-center">Register in <%= country.name %> </h4>
+							<% } %>
+							<p class="text-center"><a class="btn btn-primary" href="/trademark-registration-in-<%= country.name.replace(/\s/g, '_').toLowerCase() %>-proceed">Register in <%= country.name %> Now</a></p>
+						</div>
+					</div>
+				</div>
+				
+				<% if( trademark.gs && trademark.gs.defaultValue ) { %>
+				<div class="ard-wrap stp-row">
+					<div class="ar-cname ar-info-line" data-bs-toggle="collapse" href="#classList" role="button" aria-expanded="true" aria-controls="classList">Class(es) >></div>
+					<div class="collapse show" id="classList">
+						<div class="card card-body">
+						<table class="table">
+							<tr>
+								<th style="width:50px">Class</th>
+								<th>Description</th>
+							</tr>
+						<% trademark.gs.defaultValue.values.forEach(function(TMclass,key) { %>
+						<tr>
+							<td><%= TMclass.number %></td>
+							<td><%= TMclass.value %></td>
+						</tr>
+						<% }) %>
+						</table>
+						</div>
+					</div>
+				</div>
+				<% } %>
+
+				
+				<% if( trademark.oppositions && trademark.oppositions.length ) { %>
+				<div class="ard-wrap stp-row">
+					<div class="ar-cname ar-info-line" data-bs-toggle="collapse" href="#oppositionsList" role="button" aria-expanded="true" aria-controls="oppositionsList">Oppositions >></div>
+					<div class="ar-cname ar-info-line">Opposition Start Date: <span class="ar-value"><%= moment(trademark.oppositionStartDate).format('MMM D, YYYY') %></span></div>
+					<div class="ar-cname ar-info-line">Opposition End Date: <span class="ar-value"><%= moment(trademark.oppositionEndDate).format('MMM D, YYYY') %></span></div>
+					
+					<div class="collapse show" id="oppositionsList">
+						<div class="card card-body">
+						<table class="table">
+							<tr>
+								<th style="width:130px">Date</th>
+								<th>Grounds</th>
+								<th>Language</th>
+								<th>Number</th>
+								<th>Status</th>
+							</tr>
+						<% trademark.oppositions.forEach(function(oppositions,key) { %>
+						<tr>
+							<td><%= moment(oppositions.date).format('MMM D, YYYY') %></td>
+							<td><%= oppositions.grounds %></td>
+							<td><%= oppositions.language %></td>
+							<td><%= oppositions.number %></td>
+							<td><%= oppositions.status %></td>
+						</tr>
+						<% }) %>
+						</table>
+						</div>
+					</div>
+				</div>
+				<% } %>
+
+				<div class="ard-wrap stp-row">
+					<% if( trademark.publications && trademark.publications.length > 0 ) { %>
+						<div class="ar-cname ar-info-line" data-bs-toggle="collapse" href="#publicationDocs" role="button" aria-expanded="true" aria-controls="publicationDocs">Publications >></div>
+						<div class="collapse show" id="publicationDocs">
+							<div class="card card-body">
+							<table class="table">
+							<% trademark.publications.forEach(function(publication,key) { %>
+							<tr>
+								<td><%= publication.bulletinNumber %></td>
+								<td><%= publication.section %></td>
+								<td><%= publication.descriptionSection %></td>
+								<td><%= moment(publication.date).format('MMM D, YYYY') %></td>
+								<td><a href="https://euipo.europa.eu/<%= publication.bulletinUrl %>" target="_blank">View</a></td>
+								
+								
+							</tr>
+							<% }) %>
+							</table>
+							</div>
+						</div>
+					<% } %>
+				</div>
+				<div class="ard-wrap stp-row">
+					<% if( trademark.applicants && trademark.applicants.length > 0 ) { %>
+						<div class="ar-cname ar-info-line" data-bs-toggle="collapse" href="#applicantDocs" role="button" aria-expanded="true" aria-controls="applicantDocs">Applicant >></div>
+						<div class="collapse show" id="applicantDocs">
+							<div class="card card-body">
+							<table class="table">
+								
+								<% trademark.applicants.forEach(function(applicant,key) { %>
+									<tr>
+									<th>Type</th>
+									<td><%= applicant.userType %></td>
+									</tr>
+									<tr>
+									<th>Name</th>
+									<td><%= applicant.name %></td>
+									</tr>
+									<% if(applicant.contactPreferenceIndicator) { %>
+									<tr>
+										<th>Number</th>
+										<td><%= applicant.number %></td>
+									</tr>
+									<% } %>
+									<tr>
+									<th>Address</th>
+									<td>
+										Street: <%= applicant.address.street %></br>
+										Post Code: <%= applicant.address.postcode %></br>
+										City: <%= applicant.address.city %></br>
+										Postal Address: <%= applicant.address.postalAddress %></br>
+									</td>
+									</tr>
+
+								<% }) %>
+								</tr>
+							</table>
+							</div>
+						</div>
+					<% } %>
+
+	
+				</div>
+
+
+				
+		</div>
+		</div>
+	</div>
+</section>
+<% } else { %>
+<section class="tm-section qa-panel-section">
+	<div class="container h-100">
+		<div class="row h-100 align-items-start">
+			<div class="col-12">
+				<p>Sorry, Record not found!</p>
+			</div>
+		</div>
+	</div>
+</section>
+<% } %>
+  

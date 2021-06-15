@@ -132,6 +132,25 @@ module.exports = {
 		});
 	},
 
+	getByAbbr : async function(abbr) {
+		return new Promise(function(resolve, reject) {
+
+			
+			let query = { abbr: abbr };
+			
+			conn.getDb().collection(_table).find(query).collation().toArray(function(err, result) {
+					
+				if (err) {
+					reject(err);
+				} else {
+					resolve(result);
+				}
+
+			});
+
+		});
+	},
+
 	getByNameMySQL : async function(name) {
 		return new Promise(function(resolve, reject) {
 

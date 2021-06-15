@@ -75,6 +75,31 @@ exports.createActionCode = async function(related_data,url) {
   
 }
 
+exports.createActionCodeCampaign = async function(data,campaign) {
+
+  // let code = makeid(2) + '-' + makeid(4) + '-' + makeid(1);
+  let code = '';
+  // console.log(code);
+
+  let flag = true;
+  for(;flag;){
+
+    code = makeid(2) + '-' + makeid(4) + '-' + makeid(1); 
+    let action = await rpoAction.getAction(code);
+
+    if (action.length <= 0) flag = false;
+
+  }
+
+  let data = null
+
+  // make logic for old action with campaign
+  
+
+  return data;
+  
+}
+
 
 function makeid(length) {
   var result           = '';

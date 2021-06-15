@@ -22,7 +22,7 @@ module.exports = {
 
 			
 			
-			conn.getDb().collection(_table).find().toArray(function(err, result) {
+			conn.getDb().collection(_table).find().sort( { "created_at_formatted": 1 } ).toArray(function(err, result) {
 					
 				if (err) {
 					reject(err);

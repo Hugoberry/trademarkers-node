@@ -41,7 +41,7 @@
 						<th><%= cartItems[i].type ? cartItems[i].type : '' %></th>
 						<th><%= cartItems[i].word_mark ? cartItems[i].word_mark : '' %></th>
 						<th><%= cartItems[i].class ? cartItems[i].class : '' %></th>
-						<th><%= formatter.format(cartItems[i].price) %> <i><%= hasCode ? '(-'+formatter.format(cartItems[i].discountAmount) + ')' : '' %></i></th>
+						<th><%= formatter.format(cartItems[i].price) %> <i><%= hasCode && cartItems[i].discountAmount ? '(-'+formatter.format(cartItems[i].discountAmount) + ')' : '' %></i></th>
 						<th><span class="removeCartItem" data-id="<%= cartItems[i]._id %>"><i class="fa fa-trash"></i></span></th>
 
 					</tr>

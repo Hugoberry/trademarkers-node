@@ -38,10 +38,18 @@
                         <div class="form-group row">
                             <span style="padding-left: 15px;"> Nature </span>
                             <div class="col-md-12">
-								<select id="nature" name="nature" class="form-control">
-                                    <option value="Individual" <%= (user ? (user.nature == "Individual" ? "checked":"") : "") %>> Individual</option>
-                                    <option value="Company" <%= (user ? (user.nature == "Company" ? "checked":"") : "") %>> Company</option>
-                                </select>
+                                <% if (trademarkStore) { %>
+                                    <select id="nature" name="nature" class="form-control">
+                                        <option value="Individual" <%= trademarkStore.applicants[0].legal != "Legal entity" ? "selected":"" %>> Individual</option>
+                                        <option value="Company" <%= trademarkStore.applicants[0].legal == "Legal entity" ? "selected":"" %>> Company</option>
+                                    </select>
+                                <% } else { %>
+                                    <select id="nature" name="nature" class="form-control">
+                                        <option value="Individual" <%= (user ? (user.nature == "Individual" ? "selected":"") : "") %>> Individual</option>
+                                        <option value="Company" <%= (user ? (user.nature == "Company" ? "selected":"") : "") %>> Company</option>
+                                    </select>
+                                <% } %>
+								
                             </div>
                         </div>
 						</div>
@@ -49,16 +57,16 @@
 
 
                     <div id="company_block" class="col-md-6">
-                        <div class="form-group row" style="display:none">
+                        <div class="form-group row <%= trademarkStore && trademarkStore.applicants[0].legal != "Legal entity" ? 'hideBlock' : ''%>" >
                             <span style="padding-left: 15px;"> Company Name </span>
                             <div class="col-md-12">
-                                <input id="company" type="text" class="form-control" name="company" value="<%= ( user ? (user.company) : "") %>"  >
+                                <input id="company" type="text" class="form-control" name="company" value="<%= ( user ? (user.company) : (trademarkStore ? trademarkStore.applicants[0].orga : '' ) ) %>"  >
                             </div>
                         </div>
                     </div>
 
                     <!-- Company ADDRESS INFORMATION HERE -->
-                    <div id="wrap-company-address" class="col-md-12" style="display:none"><div class="row">
+                    <div id="wrap-company-address" class="col-md-12 <%= trademarkStore && trademarkStore.applicants[0].legal != "Legal entity" ? 'hideBlock' : ''%>" ><div class="row">
 
                     <div class="col-md-12">
                         <div class="form-group row">
@@ -76,7 +84,7 @@
 									<option value="">-</option>
                                     <% countries.forEach(country => { %>
                                         <% if(country.name) { %>
-                                        <option value="<%= country.name %>" <%= (user ? (user.country == country.name ? "selected" : "") : "") %>> <%= country.name %></option>
+                                        <option value="<%= country.name %>" <%= (user ? (user.country == country.name ? "selected" : "") : (trademarkStore && trademarkStore.applicants[0].address.countryCode == (country.abbr + 'country') ? 'selected' : '' )) %>> <%= country.name %></option>
                                         <% } %>
                                     <% }) %>
                                 </select>
@@ -89,7 +97,7 @@
                         <div class="form-group row">
                             <span style="padding-left: 15px;"> Address </span>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="companyStreet" value="<%= (user ? user.street : "") %>">
+                                <input type="text" class="form-control" name="companyStreet" value="<%= (user ? user.street : (trademarkStore ? trademarkStore.applicants[0].address.street : '') ) %>">
                             </div>
                         </div>
                     </div>
@@ -98,7 +106,7 @@
                         <div class="form-group row">
                             <span style="padding-left: 15px;"> <label id="city-label">City</label> </span>
                             <div class="col-md-12">
-                                <input id="city" type="text" class="form-control" name="companyCity" value="<%= (user ? user.city : "") %>">
+                                <input id="city" type="text" class="form-control" name="companyCity" value="<%= (user ? user.city : (trademarkStore ? trademarkStore.applicants[0].address.city : '')) %>">
                             </div>
                         </div>
                     </div>
@@ -107,7 +115,7 @@
                         <div class="form-group row">
                             <span style="padding-left: 15px;"> <label id="state-label">State/Province</label> </span>
                             <div class="col-md-12">
-                                <input id="state" type="text" class="form-control" name="companyState" value="<%= (user ? user.state : "") %>">
+                                <input id="state" type="text" class="form-control" name="companyState" value="<%= (user ? user.state : (trademarkStore ? trademarkStore.applicants[0].address.state : '') ) %>">
                             </div>
                         </div>
                     </div>
@@ -116,7 +124,7 @@
                         <div class="form-group row">
                             <span style="padding-left: 15px;"> <label id="postal-label">Postal Code</label></span>
                             <div class="col-md-12">
-                                <input id="zip_code" type="text" pattern="[0-9]*" class="form-control" name="companyZipCode" value="<%= (user ? user.zipCode : "") %>" >
+                                <input id="zip_code" type="text" pattern="[0-9]*" class="form-control" name="companyZipCode" value="<%= (user ? user.zipCode : (trademarkStore ? trademarkStore.applicants[0].address.postcode : '') ) %>" >
                             </div>
                         </div>
                     </div>
@@ -132,7 +140,7 @@
                     <div id="nature-label" class="col-md-12">
                         <div class="form-group row">
                             <div class="col-md-12">
-                                <h4>Client Information</h4>
+                                <h4><%= trademarkStore && trademarkStore.applicants[0].legal != "Legal entity" ? 'Client Information' : 'Contact Person' %></h4>
                             </div>
                         </div>
                     </div>
@@ -141,7 +149,7 @@
                         <div class="form-group row">
                             <span style="padding-left: 15px;"> First Name </span>
                             <div class="col-md-12">
-                                <input id="first_name" type="text" class="form-control" name="fname" value="<%= (user ? user.firstName : "") %>" >
+                                <input id="first_name" type="text" class="form-control" name="fname" value="<%= (user ? user.firstName : (trademarkStore && trademarkStore.representatives[0] ? trademarkStore.representatives[0].firstName : '') ) %>" >
                             </div>
                         </div>
                     </div>
@@ -150,7 +158,7 @@
                         <div class="form-group row">
                             <span style="padding-left: 15px;"> Last Name </span>
                             <div class="col-md-12">
-                                <input id="name" type="text" class="form-control" name="lname" value="<%= (user ? user.lastName : "") %>" >
+                                <input id="name" type="text" class="form-control" name="lname" value="<%= (user ? user.lastName : (trademarkStore ? trademarkStore.representatives[0].lastName : '') ) %>" >
                             </div>
                         </div>
                     </div>
@@ -159,7 +167,7 @@
                         <div class="form-group row">
                             <span style="padding-left: 15px;">Email Address <b class="asterisk">*</b></span>
                             <div class="col-md-12">
-                                <input id="email" type="text" class="form-control" name="email" value="<%= (user ? user.email : "") %>" 
+                                <input id="email" type="text" class="form-control" name="email" value="<%= (user ? user.email : (trademarkStore ? trademarkStore.representatives[0].contactInfo.email[0] : '') ) %>" 
                                 required>
                             </div>
                         </div>
@@ -169,7 +177,7 @@
                         <div class="form-group row">
                             <span style="padding-left: 15px;"> Phone Number</span>
                             <div class="col-md-12">
-                                <input id="phone" type="text" class="form-control" name="phone" pattern="[0-9]*" value="<%= (user ? user.phone : "") %>">
+                                <input id="phone" type="text" class="form-control" name="phone" pattern="[0-9]*" value="<%= (user ? user.phone : '' ) %>">
                             </div>
                         </div>
                     </div>
@@ -219,7 +227,7 @@
 									<option value="">-</option>
                                     <% countries.forEach(country => { %>
                                         <% if(country.name) { %>
-                                        <option value="<%= country.name %>" <%= (user ? (user.country == country.name ? "selected" : "") : "") %>> <%= country.name %></option>
+                                        <option value="<%= country.name %>" <%= (user ? (user.country == country.name ? "selected" : "") : (trademarkStore && trademarkStore.representatives[0].address.countryCode == (country.abbr + 'country') ? 'selected' : '' ) ) %>> <%= country.name %></option>
                                         <% } %>
                                     <% }) %>
                                 </select>
@@ -232,7 +240,7 @@
                         <div class="form-group row">
                             <span style="padding-left: 15px;"> Address </span>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="repStreet" value="<%= (user ? user.street : "") %>">
+                                <input type="text" class="form-control" name="repStreet" value="<%= (user ? user.street : (trademarkStore ? trademarkStore.representatives[0].address.street : '') ) %>">
                             </div>
                         </div>
                     </div>
@@ -241,7 +249,7 @@
                         <div class="form-group row">
                             <span style="padding-left: 15px;"> <label id="city-label">City</label> </span>
                             <div class="col-md-12">
-                                <input id="city" type="text" class="form-control" name="repCity" value="<%= (user ? user.city : "") %>">
+                                <input id="city" type="text" class="form-control" name="repCity" value="<%= (user ? user.city : (trademarkStore ? trademarkStore.representatives[0].address.city : '') ) %>">
                             </div>
                         </div>
                     </div>
@@ -250,7 +258,7 @@
                         <div class="form-group row">
                             <span style="padding-left: 15px;"> <label id="state-label">State/Province</label> </span>
                             <div class="col-md-12">
-                                <input id="state" type="text" class="form-control" name="repState" value="<%= (user ? user.state : "") %>">
+                                <input id="state" type="text" class="form-control" name="repState" value="<%= (user ? user.state : (trademarkStore ? trademarkStore.representatives[0].address.state : '')) %>">
                             </div>
                         </div>
                     </div>
@@ -259,7 +267,7 @@
                         <div class="form-group row">
                             <span style="padding-left: 15px;"> <label id="postal-label">Postal Code</label></span>
                             <div class="col-md-12">
-                                <input id="zip_code" type="text" class="form-control" name="repZipCode" value="<%= (user ? user.zipCode : "") %>" >
+                                <input id="zip_code" type="text" class="form-control" name="repZipCode" value="<%= (user ? user.zipCode : (trademarkStore ? trademarkStore.representatives[0].address.postcode : '') ) %>" >
                             </div>
                         </div>
                     </div>

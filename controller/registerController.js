@@ -2,6 +2,7 @@
 const stripe = require("stripe")(process.env.PAYTEST);
 const jwt = require('jsonwebtoken');
 var bcrypt = require('bcrypt');
+let store = require('store')
 
 var rpoTrademarkClasses = require('../repositories/trademarkClasses');
 var rpoCountries = require('../repositories/countries');
@@ -86,6 +87,8 @@ exports.registration = async function(req, res, next) {
     res.redirect("/countries"); 
   }
 
+
+
   
 
   // console.log('asd',country);
@@ -112,7 +115,10 @@ exports.registrationProceed = async function(req, res, next) {
   let country;
   let classes = await rpoTrademarkClasses.getClasses();
 
-  // console.log("here");
+  
+  
+
+  // console.log("store", actionStore, trademarkStore);
 
   let countries = await rpoCountries.getAll();
 
@@ -129,6 +135,29 @@ exports.registrationProceed = async function(req, res, next) {
 
     
   }
+
+  let actionStore;
+  let trademarkStore;
+
+  if (store.get('action')) {
+    actionStore = store.get('action').action;
+    trademarkStore = store.get('action').trademark;
+    // console.log("store", action);
+
+    if (actionStore && actionStore.res.regCountry == country[0].abbr) {
+      store.set('action', 
+        { 
+          action: actionStore,
+          trademark: trademarkStore
+        }
+      );
+    } else {
+      actionStore = null;
+      trademarkStore = null;
+      store.remove('action');
+    }
+  }
+  
 
   let prices = await rpoPrice.findPriceByCountry(country[0].id,serviceType);
   let price;
@@ -156,6 +185,8 @@ exports.registrationProceed = async function(req, res, next) {
     classes: classes,
     serviceType: serviceType,
     countries: countries,
+    actionStore: actionStore,
+    trademarkStore: trademarkStore,
     user: await helpers.getLoginUser(req)
   });
 }
@@ -186,6 +217,26 @@ exports.trademarkProfile = async function(req, res, next) {
 
   let countries = await rpoCountries.getAll();
 
+  let actionStore;
+  let trademarkStore;
+
+  if (store.get('action')) {
+    actionStore = store.get('action').action;
+    trademarkStore = store.get('action').trademark;
+    // console.log("store", action);
+
+    if (actionStore && actionStore.res.regCountry == countries[0].abbr) {
+      store.set('action', 
+        { 
+          action: actionStore,
+          trademark: trademarkStore
+        }
+      );
+    }
+  }
+
+  console.log("actions", actionStore);
+
   activityService.logger(req.ip, req.originalUrl, "Registration Profile ", req);
 
   res.render('order/validateProfile', { 
@@ -193,6 +244,7 @@ exports.trademarkProfile = async function(req, res, next) {
     title: 'confirmation',
     data: req.body,
     countries:countries,
+    trademarkStore: trademarkStore,
     user: await helpers.getLoginUser(req)
   });
 }
@@ -218,11 +270,30 @@ exports.validateOrder = async function(req, res, next) {
   } else {
     // redirect to registration landing
   }
+  
 
   activityService.logger(req.ip, req.originalUrl, "Validate " + type + " Order", req);
 
   let prices = await rpoPrices.findPriceByCountry(req.body.countryId * 1, type);
   let country = await rpoCountries.getById(req.body.countryId * 1);
+
+  let actionStore;
+  let trademarkStore;
+
+  if (store.get('action')) {
+    actionStore = store.get('action').action;
+    trademarkStore = store.get('action').trademark;
+    // console.log("store", action);
+
+    if (actionStore && actionStore.res.regCountry == country[0].abbr) {
+      store.set('action', 
+        { 
+          action: actionStore,
+          trademark: trademarkStore
+        }
+      );
+    }
+  }
   
   let price;
 
@@ -302,6 +373,24 @@ exports.addToCart = async function(req, res, next) {
   let amount = helpers.calculatePrice(dataPrice);
   let currentUser = await helpers.getLoginUser(req)
   let newInsertedUser;
+
+  let actionStore;
+  let trademarkStore;
+
+  if (store.get('action')) {
+    actionStore = store.get('action').action;
+    trademarkStore = store.get('action').trademark;
+    // console.log("store", action);
+
+    if (actionStore && actionStore.res.regCountry == country[0].abbr) {
+      store.set('action', 
+        { 
+          action: actionStore,
+          trademark: trademarkStore
+        }
+      );
+    }
+  }
 
   // console.log(amount);
 
@@ -414,6 +503,24 @@ exports.addToCart = async function(req, res, next) {
   data.fax = req.body.fax;
   data.position = req.body.position;
   data.country = req.body.country;
+
+  if (actionStore) {
+    let disExp = helpers.convertIntToDate(actionStore.res.discountExp)
+
+    let expiry = moment(disExp).format('YYYY-MM-DD')
+    let now = moment().format('YYYY-MM-DD')
+        
+    if ( moment(expiry).diff(moment(now), "day") >= 0 ) {
+      data.discountAmount = amount * (actionStore.res.discount / 100);
+      data.discountAmountType = 'action';
+      data.discountExpiry = helpers.convertIntToDate(actionStore.res.discountExp);
+      data.actionCode = actionStore._id;
+      data.promoCode = actionStore.code;
+    }
+
+    store.remove('action');
+    
+  }
 
   data.status = 'active';
   data.created_at = toInteger(moment().format('YYMMDD'));

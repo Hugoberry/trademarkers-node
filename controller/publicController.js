@@ -27,6 +27,8 @@ var rpoPrices = require('../repositories/prices');
 var rpoTrademarkClasses = require('../repositories/trademarkClasses');
 var rpoArticles = require('../repositories/articles');
 
+var rpoEuipo = require('../repositories/euipo');
+
 
 var rpoServiceAction = require('../repositories/serviceAction');
 
@@ -62,6 +64,9 @@ var groupBy = function(xs, key) {
 
 
 exports.home = async function(req, res, next) {
+
+  // let tet = await rpoEuipo.getAll();
+  // console.log('eu',tet);
 
     activityService.logger(req.ip, req.originalUrl, "Visited Homepage", req);
 
