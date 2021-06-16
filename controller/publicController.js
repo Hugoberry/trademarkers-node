@@ -349,7 +349,6 @@ exports.cookies = async function(req, res, next) {
 exports.blog = async function(req, res, next) {
 
   let searchTerm = '', pageNo=1, perPage=10;
-  // let articles;
 
   if ( req.body.articleName ) {
     activityService.logger(req.ip, req.originalUrl, "Search Article "+req.body.articleName, req);
@@ -358,14 +357,13 @@ exports.blog = async function(req, res, next) {
     activityService.logger(req.ip, req.originalUrl, "Visited Blog Page", req);
   }
 
-  // let pageTotal = await rpoArticles.getTotalCount();
   let allArticles = await rpoArticles.getTotalCount();
-  console.log(allArticles);
   
   let articles;
 
   if (searchTerm) {
     articles = await rpoArticles.getArticlesM(searchTerm);
+    allArticles = articles.length
   } else {
     if ( req.params.pageNo ) {
       pageNo = req.params.pageNo * 1;
@@ -380,31 +378,7 @@ exports.blog = async function(req, res, next) {
   }
 
   let pageTotal = allArticles;
-
-  // console.log(articles.length);
-
-
-  // fetch articles and store to mongo
-  
-  // await articles.forEach(async article => {
-    
-  //   // console.log(article.post_name);
-  //   let articleData = {
-  //     title: article.post_title,
-  //     slug: article.post_name,
-  //     content: article.post_content,
-  //     status: 'Published',
-  //     created_at: toInteger(moment(article.post_date).format('YYMMDD')),
-  //     created_at_formatted: article.post_date,
-  //   }  
-  //   await rpoArticles.storeArticle(articleData);
-
-  // })
-
   let pTotal = Math.ceil(pageTotal  / perPage)
-
-  // console.log(pTotal);
-  // let articles = await rpoArticles.getArticles(searchTerm);
 
   res.render('public/blog', { 
     layout: 'layouts/public-layout-default', 

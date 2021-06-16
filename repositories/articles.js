@@ -161,12 +161,12 @@ module.exports = {
 		return new Promise(function(resolve, reject) {
 
 			let query = {"status" : "Published"};
-			let fields = { content: 0 };
+			let field = { fields : { content:0 } };
 
 			let db = conn.getDb();
 			
 			db.collection(_table)
-				.find(query)
+				.find(query, field)
 				.skip(offset)
 				.limit(perPage)
 				.sort({"created_at": -1})
@@ -187,11 +187,12 @@ module.exports = {
 		return new Promise(function(resolve, reject) {
 
 			let query = {"title" : {$regex : ".*"+searchTerm+".*", $options: "si" } };
+			let field = { fields : { content:0 } };
 
 			let db = conn.getDb();
 			
 			db.collection(_table)
-			.find(query)
+			.find(query,field)
 			.toArray(function(err, result) {
 					
 				if (err) {
