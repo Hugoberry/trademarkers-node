@@ -95,11 +95,12 @@ module.exports = {
 		return new Promise(function(resolve, reject) {
 
 			let query = {"status" : "Published"};
+			let field = { fields : { status:1 } };
 
 			let db = conn.getDb();
 			
 			db.collection(_table)
-				.find(query)
+				.find(query, field)
 				.count(function(err, result) {
 					
 					if (err) {
