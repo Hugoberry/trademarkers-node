@@ -11,15 +11,17 @@ let moment = require('moment');
 let store = require('store')
 const { toInteger } = require('lodash');
 
+var activityService = require('../services/activityLogService');
 
 exports.actionCodes = async function(req, res, next) {
 
   let actions = await rpo.findByCode(req.params.actioncodes);
-
   let action = actions[0]
+
   if (action && action.res) {
     // res.flash('actionCode', action);
     // action found process 
+    activityService.logger(req.ip, req.originalUrl, "Visited Action Page "+ req.params.actioncodes, req);
     
     let euipoRec = await rpoEuipo.findByCode(action.res.no);
     let countries = await rpoCountry.getByAbbr(action.res.regCountry)

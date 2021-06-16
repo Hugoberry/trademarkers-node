@@ -126,6 +126,9 @@ router.get('/blog/:pageNo/:perPage', publicController.blog);
 
 router.get('/prices', publicController.prices);
 router.get('/classes', publicController.classes);
+router.get('/classes/:id', publicController.classesId);
+router.get('/class_descriptions', publicController.classDescription);
+router.post('/class_descriptions', publicController.classDescription);
 router.get('/videos', publicController.videos);
 
 router.get('/monitoring-service', publicController.monitoringService);

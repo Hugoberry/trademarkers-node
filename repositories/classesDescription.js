@@ -1,4 +1,4 @@
-let _table = process.env.TBLEXT + "classes";
+let _table = process.env.TBLEXT + "class_descriptions";
 let conn = require('../config/DbConnect');
 
 // dirty connection MYSQL
@@ -15,7 +15,7 @@ module.exports = {
     getAll : async function() {
         
         return new Promise(function(resolve, reject) {
-			connection.query('SELECT * FROM trademark_classes',function(err,res,fields) {
+			connection.query('SELECT * FROM class_descriptions',function(err,res,fields) {
 				if (err) {
 					reject(err);
 			} else {
@@ -29,21 +29,7 @@ module.exports = {
 	getAllSearch : async function(searchTerm) {
         
         return new Promise(function(resolve, reject) {
-			connection.query('SELECT * FROM class_descriptions WHERE description like "%_'+searchTerm+'_%"',function(err,res,fields) {
-				if (err) {
-					reject(err);
-			} else {
-					resolve(res);
-			}
-			});
-		});
-        
-	},
-
-	getAllSearchId : async function(searchTerm) {
-        
-        return new Promise(function(resolve, reject) {
-			connection.query('SELECT * FROM class_descriptions WHERE trademark_class_id = '+searchTerm,function(err,res,fields) {
+			connection.query('SELECT * FROM class_descriptions where description like %?%',searchTerm,function(err,res,fields) {
 				if (err) {
 					reject(err);
 			} else {

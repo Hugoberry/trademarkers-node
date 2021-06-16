@@ -477,6 +477,46 @@ exports.classes = async function(req, res, next) {
   });
 }
 
+exports.classesId = async function(req, res, next) {
+
+  console.log(req.params.id);
+ 
+  activityService.logger(req.ip, req.originalUrl, "Search Class " + req.params.id, req);
+
+  let classes = await rpoClasses.getAllSearchId((req.params.id * 1));
+
+
+
+  res.render('public/classesDescription', { 
+    layout: 'layouts/public-layout-default', 
+    title: 'Trademark Class Descriptions',
+    classes: classes,
+    searchTerm: req.body.desc,
+    user: await helpers.getLoginUser(req)
+  });
+}
+
+exports.classDescription = async function(req, res, next) {
+
+  // console.log(req.body);
+  if (!req.body.desc) {
+    res.redirect('/classes');
+  }
+  activityService.logger(req.ip, req.originalUrl, "Search Class " + req.body.desc, req);
+
+  let classes = await rpoClasses.getAllSearch(req.body.desc);
+
+
+
+  res.render('public/classesDescription', { 
+    layout: 'layouts/public-layout-default', 
+    title: 'Trademark Class Descriptions',
+    classes: classes,
+    searchTerm: req.body.desc,
+    user: await helpers.getLoginUser(req)
+  });
+}
+
 exports.resources = async function(req, res, next) {
 
   activityService.logger(req.ip, req.originalUrl, "Visited Resources Page", req);
@@ -702,7 +742,7 @@ exports.redirect = async function(req, res, next) {
     }
     
   } else {
-    activityService.logger(req.ip, req.originalUrl, "Visitor redirected to laravel: " + req.params[0], req);
+    // activityService.logger(req.ip, req.originalUrl, "Visitor redirected to laravel: " + req.params[0], req);
     let urlPhp = process.env.APP_URL_PHP;
     
     let redirectUrl = (req.params[0] ? req.params[0] : (req.params.action ? req.params.action : null));

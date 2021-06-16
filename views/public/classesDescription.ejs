@@ -6,23 +6,27 @@
 
 			<div class="form-group row">
 				<div class="col-md-12">
-					<input type="text" class="form-control search-service" name="desc" required autofocus placeholder="Search your services/goods">
+					<input type="text" class="form-control search-service" name="desc" required autofocus placeholder="Search your services/goods" value="<%= searchTerm %>">
 				</div>
 			</div>
 		</form>
+		<% if( classes.length > 0 ) { %>
 		<table class="table tbl-service">
 			<tbody>
 				<% for (var key in classes) { %>
 				<tr>
 					<td> 
-						<a href="/classes/<%= classes[key].id %>">Class <%= classes[key].id %></a>
+						<a href="/classes/<%= classes[key].trademark_class_id %>">Class <%= classes[key].trademark_class_id %></a>
 					</td>
 					
-					<td> <b><%= classes[key].name %></b> </td>
+					<td> <b><%= classes[key].description %></b> </td>
 				</tr>
 				<% } %>
 			</tbody>
 		</table>
+		<% } else { %>
+			<p class="text-center">Sorry, No records found!</p>
+		<% } %>
 
         </div>
     </div>
