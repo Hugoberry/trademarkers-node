@@ -1,0 +1,76 @@
+<div class="col-md-12" style="margin-bottom:20px;">    
+    <h2>Add EU Action
+    </h2>
+
+    <% if (flash.success) { %>
+    <div class="alert alert-success" role="alert">
+        <strong><%= flash.success %></strong>
+    </div>
+    <% } %>
+
+    <% if (flash.error) { %>
+    <div class="alert alert-danger" role="alert">
+        <strong><%= flash.error %></strong>
+    </div>
+    <% } %>
+
+
+
+
+    <form class="row" action="/njs-admin/manage/euactions/add" method="post" encType="multipart/form-data">
+
+    
+
+        <div class="col-md-12">
+            <hr>
+
+            <div class="form-group">
+                <label>Source</label>
+                <select class="form-control" name="source">
+                    <option value="EUIPO">EUIPO</option>
+                    <option value="USPTO">USPTO</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Serial Number</label>
+                <input type="text" class="form-control" value="" placeholder="" name="no" required>
+            </div>
+
+            <div class="form-group">
+                <label>Discount</label>
+                <input type="number" class="form-control" value="" placeholder="" name="discount" required>
+            </div>
+
+            <div class="form-group">
+                <label>Discount Expiry Date</label>
+                <input type="date" class="form-control" value="" placeholder="" name="discountExp" required>
+            </div>
+
+            <div class="form-group">
+                <label>Country to Register</label>
+                <select class="form-control" name="regCountry" required>
+                    <% countries.forEach(function(country,key) {  %>
+                        <option value="<%= country.abbr %>"><%= country.name %></option>
+                    <% }) %>
+                </select>
+            </div>
+
+
+
+
+        </div>
+
+       
+
+        <div class="col-md-12">
+            <p class="text-center">
+                <button type="submit" class="btn btn-primary btn-rounded-primary" style="padding-left:40px;padding-right:40px;">Create</button>
+            </p>
+        </div>
+
+    </form>
+
+</div>
+        
+

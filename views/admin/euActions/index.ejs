@@ -1,0 +1,46 @@
+<div class="col-md-12" style="margin-bottom:20px;">  
+    <h2>EUIPO Action Code List <a class="ml-3 btn btn-primary" href="/njs-admin/manage/euactions/add"><i class="fa fa-plus" style="color:#fff"></i></a></h2>
+
+    <% if (flash.success) { %>
+    <div class="alert alert-success" role="alert">
+        <strong><%= flash.success %></strong>
+    </div>
+    <% } %>
+
+    <% if (flash.error) { %>
+    <div class="alert alert-danger" role="alert">
+        <strong><%= flash.error %></strong>
+    </div>
+    <% } %>
+</div>
+                    
+<div clss="col-md-12">
+    <table id="myListDataTable" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Action Code</th>
+                <th>Country to Register</th>
+                <th>Discount</th>
+                <th>Discount Expiry Date</th>
+                <th>Date Created</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        <% actionCodes.forEach(function(action,key) {  %>
+   
+            <tr>
+                <td><%= action.code %></td>
+                <td><%= action.res.regCountry %></td>
+                <td><%= action.res.discount %></td>
+                <td><%= action.res.discountExp %></td>
+                <td><%= moment(action.created_at_formatted).format('MMM D, YYYY') %></td>
+                <td>
+                    <a href="/njs-admin/manage/euactions/view/<%= action._id %>"><i class="fa fa-eye"></i></a>
+                    <a href="/njs-admin/manage/euactions/edit/<%= action._id %>"><i class="fa fa-pen"></i></a>
+                </td>
+            </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>

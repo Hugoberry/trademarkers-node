@@ -12,6 +12,7 @@ const adminUser = require('../controller/adminUserController')
 const adminPromo = require('../controller/adminPromoCodeController')
 const adminOrder = require('../controller/adminOrderController')
 const adminBlog = require('../controller/adminBlogController')
+const adminEuActions = require('../controller/adminEuActionsController')
 
 
 /* GET users listing. */
@@ -78,6 +79,13 @@ router.get('/manage/articles/edit/:id', verify, guardAdmin, adminBlog.edit);
 router.post('/manage/articles/edit/:id', verify, guardAdmin, adminBlog.editSubmit);
 router.get('/manage/articles/add', verify, guardAdmin, adminBlog.add);
 router.post('/manage/articles/add', verify, guardAdmin, adminBlog.addSubmit);
+
+router.get('/manage/euactions', verify, guardAdmin, adminEuActions.index);
+router.get('/manage/euactions/view/:id', verify, guardAdmin, adminEuActions.show);
+router.get('/manage/euactions/edit/:id', verify, guardAdmin, adminEuActions.edit);
+router.post('/manage/euactions/edit/:id', verify, guardAdmin, adminEuActions.editSubmit);
+router.get('/manage/euactions/add', verify, guardAdmin, adminEuActions.add);
+router.post('/manage/euactions/add', verify, guardAdmin, adminEuActions.addSubmit);
 
 
 module.exports = router;

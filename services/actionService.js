@@ -1,4 +1,5 @@
 let rpoAction = require('../repositories/actionCode');
+let rpoActions = require('../repositories/actionCodes');
 
 exports.createActionCode = async function(related_data,url) {
 
@@ -97,6 +98,31 @@ exports.createActionCodeCampaign = async function(data,campaign) {
   
 
   return data;
+  
+}
+
+exports.createActionCodeEU = async function(data,campaign) {
+
+  // let code = makeid(2) + '-' + makeid(4) + '-' + makeid(1);
+  let code = '';
+  // console.log(code);
+
+  let flag = true;
+  for(;flag;){
+
+    code = makeid(1) + '-' + makeid(3) + '-' + makeid(2); 
+    let action = await rpoActions.findByCode(code);
+
+    if (action.length <= 0) flag = false;
+
+  }
+
+  // let data = null
+
+  // make logic for old action with campaign
+  
+
+  return code;
   
 }
 

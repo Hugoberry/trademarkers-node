@@ -13,7 +13,7 @@ exports.index = async function(req, res, next) {
 
   // console.log(db.mongoConnection);
 
-  let articles = await rpo.getAll();
+  let articles = await rpo.getAllNotContent();
   
   res.render('admin/articles/', { 
     layout: 'layouts/admin-layout', 

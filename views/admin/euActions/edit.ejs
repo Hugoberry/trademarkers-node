@@ -1,0 +1,65 @@
+<div class="col-md-12" style="margin-bottom:20px;">    
+    <h2>Edit Action Code
+    </h2>
+
+    <% if(actionCode) { %>
+
+
+    <form class="row" action="/njs-admin/manage/euactions/edit/<%= actionCode._id %>" method="post" encType="multipart/form-data">
+
+    
+
+        <div class="col-md-12">
+            <hr>
+
+            <div class="form-group">
+                <label>Source</label>
+                <select class="form-control" name="source">
+                    <option value="EUIPO" <%= actionCode.res.source == 'EUIPO' ? 'selected':'' %> >EUIPO</option>
+                    <option value="USPTO" <%= actionCode.res.source == 'USPTO' ? 'selected':'' %> >USPTO</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Serial Number</label>
+                <input type="text" class="form-control" value="<%= actionCode.res.no %>" placeholder="" name="no" required>
+            </div>
+
+            <div class="form-group">
+                <label>Discount</label>
+                <input type="number" class="form-control" value="<%= actionCode.res.discount %>" placeholder="" name="discount" required>
+            </div>
+
+            <div class="form-group">
+                <label>Discount Expiry Date</label>
+                <input type="date" class="form-control" value="<%= actionCode.res.discountExp %>" placeholder="" name="discountExp" required>
+            </div>
+
+            <div class="form-group">
+                <label>Country to Register</label>
+                <select class="form-control" name="regCountry" required>
+                    <% countries.forEach(function(country,key) {  %>
+                        <option value="<%= country.abbr %>" <%= actionCode.res.regCountry == country.abbr ? 'selected':'' %>><%= country.name %></option>
+                    <% }) %>
+                </select>
+            </div>
+
+
+
+
+
+        </div>
+
+       
+
+        <div class="col-md-12">
+            <p class="text-center">
+                <button type="submit" class="btn btn-primary btn-rounded-primary" style="padding-left:40px;padding-right:40px;">Update</button>
+            </p>
+        </div>
+
+    </form>
+    <% } %>
+</div>
+        
+

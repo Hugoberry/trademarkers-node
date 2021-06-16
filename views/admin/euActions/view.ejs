@@ -1,0 +1,50 @@
+<div class="col-md-12" style="margin-bottom:20px;">    
+    <h2>Action Code View
+    </h2>
+
+    <% if(actionCode) { %>
+
+    <div class="col-12">
+      <div class="ar-wrap qa-stp">
+        
+        <div class="ard-wrap stp-row">
+
+          <div class="ar-cname ar-info-line">
+            Action Code: <strong style="text-transform: capitalize;"><%= actionCode.code %></strong>
+          </div>
+
+          <div class="ar-cname ar-info-line">
+            Discount: <strong style="text-transform: capitalize;"><%= actionCode.res.discount %>%</strong>
+          </div>
+
+          <div class="ar-cname ar-info-line">
+            Discount Expiry Date: <strong style="text-transform: capitalize;"><%= actionCode.res.discountExp %></strong>
+          </div>
+
+          <div class="ar-cname ar-info-line">
+            Country to register: <strong style="text-transform: capitalize;"><%= actionCode.res.regCountry %></strong>
+          </div>
+
+       
+        </div>
+
+      
+
+
+      </div>
+    </div>
+
+   
+
+    
+
+    <div class="col-md-12">
+      <p class="text-center">
+        <a class="btn btn-primary btn-rounded-primary" style="padding-left:40px;padding-right:40px;" href="/njs-admin/manage/euactions/">Back</a>
+      </p>
+    </div>
+
+    <% } %>
+</div>
+        
+
