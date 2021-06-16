@@ -358,7 +358,10 @@ exports.blog = async function(req, res, next) {
     activityService.logger(req.ip, req.originalUrl, "Visited Blog Page", req);
   }
 
-  let pageTotal = await rpoArticles.getTotalCount();
+  // let pageTotal = await rpoArticles.getTotalCount();
+  let allArticles = await rpoArticles.getTotalCount();
+  console.log(allArticles);
+  
   let articles;
 
   if (searchTerm) {
@@ -376,7 +379,7 @@ exports.blog = async function(req, res, next) {
 
   }
 
-  // let pageTotal = articles.length;
+  let pageTotal = allArticles;
 
   // console.log(articles.length);
 
