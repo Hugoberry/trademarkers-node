@@ -15,6 +15,8 @@
           <th>Mark</th>
           <th>Service</th>
           <th>Type</th>
+          <th>Class</th>
+          <th>Country</th>
           <th>Color Claim</th>
           <th>Commerce</th>
           <th>Priority</th>
@@ -25,7 +27,7 @@
         <tr>
           <td><%= trademark.orderCode %></td>
           <td><%= trademark.mark %></td>
-          <td><%= trademark.serviceType %></td>
+          <td>Trademark <span style="text-transform: capitalize;"><%= trademark.serviceType %></span></td>
           <td>
             <% let typeFormat; 
               if( trademark.type ) { 
@@ -41,7 +43,23 @@
                 typeFormat = ''
               }
             } %>
-            <%= typeFormat %></td>
+            <%= typeFormat %>
+            <% if(trademark.logoPic) { %>
+              <a target="_blank" href="/uploads/<%= trademark.logoPic %>"><img style="max-height:20px" src="/uploads/<%= trademark.logoPic %>"></a>
+            <% } %>
+          </td>
+          <td>
+            <% if ( Array.isArray(trademark.class) ) { %>
+              <% for (var key in trademark.class) { %>
+                <%= trademark.class[key] %> - <%= trademark.description[key] %><br>
+              <% } %>
+            <% } else { %>
+              <%= trademark.class %> - <%= trademark.description %>
+            <% } %>
+          </td>
+          <td>
+            <%= trademark.country %>
+          </td>
           <td><%= trademark.colorClaim == 'yes' ?  (trademark.colorClaimText ? trademark.colorClaimText : 'yes') : 'no' %></td>
           <td><%= trademark.commerce %></td>
           <td>

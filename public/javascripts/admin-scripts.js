@@ -33,6 +33,11 @@ $( document ).ready(function() {
     "columnDefs" : [{"targets":7, "type":"numeric"}],
   });
 
+  var adminDataTableTrademarks = $("#dataTableTrademarks").DataTable({
+    "order": [[ 0, "desc" ]], //or asc 
+    "columnDefs" : [{"targets":0, "type":"numeric"}],
+  });
+
   if ( $("#myListDataTable").length ) {
     var tempTable = $("#myListDataTable").DataTable();
     

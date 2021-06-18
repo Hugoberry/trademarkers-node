@@ -15,14 +15,16 @@
 </div>
                     
 <div class="col-md-12">
-    <table id="myListDataTable" class="display" style="width:100%">
+    <table id="dataTableTrademarks" class="display" style="width:100%">
         <thead>
             <tr>
+                <th>Order Ref</th>
                 <th>Mark</th>
+                <th>Service Type</th>
                 <th>Serial Number</th>
-                <th>Registration Number</th>
                 <th>Status</th>
                 <th>Status date</th>
+                <th>Date Ordered</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -30,11 +32,13 @@
         <% trademarks.forEach(function(trademark,key) { if(trademark.mark) { %>
    
             <tr>
+                <td data-sort="<%= moment(trademark.created_at_formatted).unix() %>"><%= trademark.orderCode %></td>
                 <td><%= trademark.mark %></td>
+                <td>Trademark <span style="text-transform: capitalize;"><%= trademark.serviceType %></span></td>
                 <td><%= trademark.serialNumber %></td>
-                <td><%= trademark.registrationNumber %></td>
                 <td><%= trademark.status %></td>
                 <td><%= trademark.statusDate %></td>
+                <td><%= moment(trademark.created_at_formatted).format('MMM D, YYYY') %></td>
                 <td>
                     <a href="/njs-admin/manage/trademark/view/<%= trademark._id %>"><i class="fa fa-eye"></i></a>
                     <a href="/njs-admin/manage/trademark/edit/<%= trademark._id %>"><i class="fa fa-pen"></i></a>
