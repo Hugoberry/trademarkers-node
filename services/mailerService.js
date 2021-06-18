@@ -347,7 +347,8 @@ exports.sendNOA = async function(mailData) {
 exports.sendOrderNotification = async function(order) {
 
   order.datePurchased = moment(order.created_at_formatted).format('MMM D, YYYY');
-  // return;
+  
+  // ADMIN NOTIFICATION
   ejs.renderFile(__dirname+"/../email-templates/orderAdminNotification.ejs", { order: order }, async function (err, data) {
     if (err) {
         console.log(err);
@@ -357,8 +358,8 @@ exports.sendOrderNotification = async function(order) {
           sender: process.env.MAIL_FROM,
           replyTo: process.env.MAIL_FROM,
           from: process.env.MAIL_FROM, 
-          to: "info@trademarkers.com",
-          bcc: ["carissa@trademarkers.com", "felix@bigfoot.com"],
+          to: "felix@bigfoot.com",
+          // bcc: ["carissa@trademarkers.com", "felix@bigfoot.com"],
           // to: "felix@bigfoot.com",
           // bcc: ["carissa@trademarkers.com", "felix@bigfoot.com"],
           subject: "New order | " + order.charge.description, 
@@ -372,6 +373,7 @@ exports.sendOrderNotification = async function(order) {
     
   });
 
+  // CUSTOMER NOTIFICATION
   ejs.renderFile(__dirname+"/../email-templates/orderCustomerNotification.ejs", { order: order }, async function (err, data) {
     if (err) {
         console.log(err);
@@ -388,7 +390,7 @@ exports.sendOrderNotification = async function(order) {
         replyTo: process.env.MAIL_FROM,
         from: process.env.MAIL_FROM, 
         to: to,
-        bcc: ["felix@bigfoot.com"],
+        // bcc: ["felix@bigfoot.com"],
         // to: "felix@bigfoot.com",
         // bcc: ["carissa@trademarkers.com", "felix@bigfoot.com"],
         subject: "TradeMarkers LLC " + order.orderNumber, 
@@ -400,6 +402,51 @@ exports.sendOrderNotification = async function(order) {
     }
     
   });
+
+  // ORDER DETAILS CONFIRMATION NOTIFICATION
+  if ( order.cartItems ) {
+    order.cartItems.forEach(item => {
+      if (item.serviceType == "registration" || item.serviceType == "study") {
+        // SEND EMAIL CONFIRMATION
+        // if ( item.filed == 'yes' && item.priority == 'yes' ) {
+        //   // send 3rd layout
+        // } else if ( item.filed == 'yes' ) {
+        //   // send 2nd layout
+        // } else { 
+        // }
+
+        ejs.renderFile(__dirname+"/../email-templates/orderCustomerConfirmationNotification.ejs", { item: item, order: order }, async function (err, data) {
+          if (err) {
+              console.log(err);
+          } else {
+            
+            let to = order.user ? order.user.email : order.custEmail;
+      
+            if (order.user && order.user.secondaryEmail) {
+              to = order.user.secondaryEmail;
+            }
+            
+            let mainOptions = {
+              sender: process.env.MAIL_FROM,
+              replyTo: process.env.MAIL_FROM,
+              from: process.env.MAIL_FROM, 
+              to: to,
+              bcc: ["felix@bigfoot.com"],
+              // to: "felix@bigfoot.com",
+              // bcc: ["info@trademarkers.com", "carissa@trademarkers.com", "felix@bigfoot.com"],
+              subject: `Update on Your US Trademark Application: (${item.word_mark}) – (${order.orderNumber}) - Order Confirmation`, 
+              html: data
+            };
+      
+            transporter.sendMail(mainOptions);
+      
+          }
+          
+        });
+
+      }
+    })
+  }
 
 }
 
@@ -789,8 +836,8 @@ exports.notifyAdmin = async function(mailData) {
     sender: process.env.MAIL_FROM,
     replyTo: process.env.MAIL_FROM,
     from: process.env.MAIL_FROM, 
-    to: "info@trademarkers.com",
-    bcc: ["carissa@trademarkers.com", "felix@bigfoot.com"],
+    to: "felix@bigfoot.com",
+    // bcc: ["carissa@trademarkers.com", "felix@bigfoot.com"],
     subject: mailData.subject, 
     html: "<p>Hi Admin,<br></p>"+mailData.message, 
   });
