@@ -358,8 +358,8 @@ exports.sendOrderNotification = async function(order) {
           sender: process.env.MAIL_FROM,
           replyTo: process.env.MAIL_FROM,
           from: process.env.MAIL_FROM, 
-          to: "felix@bigfoot.com",
-          // bcc: ["carissa@trademarkers.com", "felix@bigfoot.com"],
+          to: "info@trademarkers.com",
+          bcc: ["carissa@trademarkers.com", "felix@bigfoot.com"],
           // to: "felix@bigfoot.com",
           // bcc: ["carissa@trademarkers.com", "felix@bigfoot.com"],
           subject: "New order | " + order.charge.description, 
@@ -390,7 +390,7 @@ exports.sendOrderNotification = async function(order) {
         replyTo: process.env.MAIL_FROM,
         from: process.env.MAIL_FROM, 
         to: to,
-        // bcc: ["felix@bigfoot.com"],
+        bcc: ["felix@bigfoot.com"],
         // to: "felix@bigfoot.com",
         // bcc: ["carissa@trademarkers.com", "felix@bigfoot.com"],
         subject: "TradeMarkers LLC " + order.orderNumber, 
@@ -406,7 +406,7 @@ exports.sendOrderNotification = async function(order) {
   // ORDER DETAILS CONFIRMATION NOTIFICATION
   if ( order.cartItems ) {
     order.cartItems.forEach(item => {
-      if (item.serviceType == "registration" || item.serviceType == "study") {
+      if ( item.serviceType == "registration" || item.serviceType == "study" ) {
         // SEND EMAIL CONFIRMATION
         // if ( item.filed == 'yes' && item.priority == 'yes' ) {
         //   // send 3rd layout
@@ -431,9 +431,9 @@ exports.sendOrderNotification = async function(order) {
               replyTo: process.env.MAIL_FROM,
               from: process.env.MAIL_FROM, 
               to: to,
-              bcc: ["felix@bigfoot.com"],
+              // bcc: ["felix@bigfoot.com", "carissa@trademarkers.com"],
               // to: "felix@bigfoot.com",
-              // bcc: ["info@trademarkers.com", "carissa@trademarkers.com", "felix@bigfoot.com"],
+              bcc: ["info@trademarkers.com", "carissa@trademarkers.com", "felix@bigfoot.com"],
               subject: `Update on Your US Trademark Application: (${item.word_mark}) – (${order.orderNumber}) - Order Confirmation`, 
               html: data
             };

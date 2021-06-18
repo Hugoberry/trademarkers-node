@@ -374,17 +374,19 @@
 						 <td align="left" style="padding:0;Margin:0;padding-top:20px;" mc:edit="block_6">
 						<% if (item.serviceType == 'study') { %>
 							<p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:16px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;">
-								Thank you for ordering a Trademark Study in <%= item.country.name %>. Please confirm that all the details that we got from your order form are correct before we proceed with the trademark application process.
-							</p>
+								Thank you for ordering a Trademark Study with the <%= item.country.agency_short %> (<%= item.country.name %>). <br><br>
+								
+								In order to avoid any delays and additional fees, we kindly ask you to confirm that all the details in your order form are correct. Please confirm the information below by responding to this email: 
+								</p>
 						<% } else { %>
 							<p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:16px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;">
-							Thank you for ordering a Trademark Application in <%= item.country.name %>. Please confirm that all
-							the details that we received from your order form are correct and process the payment so
-							that we can proceed with the trademark application process.
+							Thank you for ordering a Trademark Application with the <%= item.country.agency_short %> (<%= item.country.name %>). <br><br>
+							
+							In order to avoid any delays and additional fees, we kindly ask you to confirm that all the details in your order form are correct. Please confirm the information below by responding to this email: 
 							</p>
 						<% } %>
 
-						 <ul>
+						 <ul style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:16px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;">
 							<li>Contact Name: <%= item.fname %> <%= item.lname %></li>
 							<li>Phone: <%= item.phone %></li>
 							<li>Fax: <%= item.fax %></li>
@@ -449,8 +451,9 @@
 						</ul>
 						<br>
 						<br>
-						<p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:16px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;">
-							Best Regards,
+						<p style="margin:0 0 20px 0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:16px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;">
+							Best Regards,<br><br>
+							Trademarkers LLC
 						</p>
 						</td> 
                         
