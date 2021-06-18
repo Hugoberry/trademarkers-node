@@ -1,0 +1,50 @@
+<div class="col-md-12" style="margin-bottom:20px;">    
+    <h2>Action Code View
+    </h2>
+
+    <% if(video) { %>
+
+    <div class="col-12">
+      <div class="ar-wrap qa-stp">
+        
+        <div class="ard-wrap stp-row">
+
+          <div class="ar-cname ar-info-line">
+            Title: <strong style="text-transform: capitalize;"><%= video.title %></strong>
+          </div>
+
+          <div class="ar-cname ar-info-line">
+            Slug: <strong style="text-transform: capitalize;"><%= video.slug %>%</strong>
+          </div>
+
+          <div class="ar-cname ar-info-line">
+            Description: <strong style="text-transform: capitalize;"><%= video.description %></strong>
+          </div>
+
+          <div class="ar-cname ar-info-line">
+            Youtube ID: <strong style="text-transform: capitalize;"><%= video.youtubeId %></strong>
+          </div>
+
+       
+        </div>
+
+      
+
+
+      </div>
+    </div>
+
+   
+
+    
+
+    <div class="col-md-12">
+      <p class="text-center">
+        <a class="btn btn-primary btn-rounded-primary" style="padding-left:40px;padding-right:40px;" href="/njs-admin/manage/videos/">Back</a>
+      </p>
+    </div>
+
+    <% } %>
+</div>
+        
+

@@ -74,9 +74,6 @@ module.exports = {
 		return new Promise(function(resolve, reject) {
 
 			let query = "SELECT post_name FROM tradewp_posts WHERE post_type='post' AND post_status='publish'"
-			// if (searchTerm) {
-			// 	query += "AND post_title like '%"+searchTerm+"%'"
-			// }
 
 			query += " ORDER BY post_modified DESC"
 

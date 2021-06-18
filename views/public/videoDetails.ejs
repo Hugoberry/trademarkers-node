@@ -1,0 +1,54 @@
+<div class="container">
+    <div class="row justify-content-center box-bg-container">
+
+        <div class="col-md-9">
+            <div class="row">
+                <div class="col-md-12" style="text-align: center;">
+                    <p style="font-size: 30px;"><%= video.title %></p>
+                    <div class="card">
+                        <div class="card-body">       
+                            <div class="wrap-vid">
+                                <div class="embed-responsive embed-responsive-16by9">
+                                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/<%= video.youtubeId %>" allowfullscreen></iframe>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12" style="margin-top: 20px;">
+                    <div class="card">
+                        <div class="card-body">
+                            <%- video.description %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="row">
+                <div class="col-md-11" style=" visibility: hidden; background-color: #eae4e4; height: 90px; margin-bottom: 20px;">
+                </div>
+
+                <% videos.forEach(function(vid,key) { if (vid.slug != video.slug ) { %>
+                    <div class="col-md-12" style="position: relative; left: 0; top: 0; margin-bottom: 10px;">
+                        <a href="/videos/<%= vid.slug %>">
+
+                            <img src="https://img.youtube.com/vi/<%= vid.youtubeId %>/hqdefault.jpg" width="100%" alt="" style="position: relative;">
+                            <img src="/images/video.png" width="30%" style="position: absolute; bottom: 60px; left: 33%">
+                        </a>
+
+                        <a href="/videos/<%= vid.slug %>"> 
+                            <%= vid.title %>
+                        </a>
+                    </div>
+                <% } }) %>
+
+                <div class="col-md-12" style="text-align: center; margin-top: 20px;">
+                    <a href="/videos" class="btn btn-danger"> Show more</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -101,20 +101,6 @@ exports.addSubmit = async function(req, res, next) {
     res.redirect('/njs-admin/manage/articles/');
   }
 
-  // let articleData = {
-  //   name: req.body.lname + ", " + req.body.fname,
-  //   firstName:req.body.fname,
-  //   lastName:req.body.lname,
-  //   email: req.body.email,
-  //   secondaryEmail: req.body.email,
-  //   password: hash,
-  //   custNo: custNo,
-  //   created_at: toInteger(moment().format('YYMMDD')),
-  //   created_at_formatted: moment().format()
-  // }
-
-  // await rpo.storeArticle(articleData);
-
   
   next()
   

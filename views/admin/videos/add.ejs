@@ -1,0 +1,63 @@
+<div class="col-md-12" style="margin-bottom:20px;">    
+    <h2>Add Youtube Video
+    </h2>
+
+    <% if (flash.success) { %>
+    <div class="alert alert-success" role="alert">
+        <strong><%= flash.success %></strong>
+    </div>
+    <% } %>
+
+    <% if (flash.error) { %>
+    <div class="alert alert-danger" role="alert">
+        <strong><%= flash.error %></strong>
+    </div>
+    <% } %>
+
+
+
+
+    <form class="row" action="/njs-admin/manage/videos/add" method="post" encType="multipart/form-data">
+
+    
+
+        <div class="col-md-12">
+            <hr>
+
+            <div class="form-group">
+                <label>Title</label>
+                <input type="text" class="form-control" value="" placeholder="" name="title" required>
+            </div>
+
+            <div class="form-group">
+                <label>Youtube ID</label>
+                <input type="text" class="form-control" value="" placeholder="" name="youtubeId" required>
+                
+            </div>
+
+            <div class="form-group">
+                <label>Description</label>
+                <textarea class="form-control" name="description" required></textarea>
+            </div>
+
+
+
+
+
+        </div>
+
+       
+
+        <div class="col-md-12">
+            <p class="text-center">
+                <button type="submit" class="btn btn-primary btn-rounded-primary" style="padding-left:40px;padding-right:40px;">Create</button>
+            </p>
+        </div>
+
+    </form>
+
+
+
+</div>
+        
+

@@ -26,6 +26,7 @@ var rpoUserMongo = require('../repositories/usersMongo');
 var rpoPrices = require('../repositories/prices');
 var rpoTrademarkClasses = require('../repositories/trademarkClasses');
 var rpoArticles = require('../repositories/articles');
+var rpoVideos = require('../repositories/videos');
 
 var rpoEuipo = require('../repositories/euipo');
 
@@ -532,10 +533,45 @@ exports.videos = async function(req, res, next) {
 
   activityService.logger(req.ip, req.originalUrl, "Visited Videos Page", req);
 
+  let videos = await rpoVideos.getAll()
+
   res.render('public/videos', { 
     layout: 'layouts/public-layout-default', 
     title: 'resources',
-    user: await helpers.getLoginUser(req)
+    user: await helpers.getLoginUser(req),
+    videos: videos
+  });
+}
+
+exports.videos = async function(req, res, next) {
+
+  activityService.logger(req.ip, req.originalUrl, "Visited Videos Page", req);
+
+  let videos = await rpoVideos.getAll()
+
+  res.render('public/videos', { 
+    layout: 'layouts/public-layout-default', 
+    title: 'resources',
+    user: await helpers.getLoginUser(req),
+    videos: videos
+  });
+}
+
+exports.videoDetails = async function(req, res, next) {
+
+  
+
+  let video = await rpoVideos.getVideosSlug(req.params.slug)
+  let videos = await rpoVideos.getAll5()
+
+  activityService.logger(req.ip, req.originalUrl, "Watched Video " + video[0].title, req);
+
+  res.render('public/videoDetails', { 
+    layout: 'layouts/public-layout-default', 
+    title: 'resources',
+    user: await helpers.getLoginUser(req),
+    video: video[0],
+    videos: videos
   });
 }
 

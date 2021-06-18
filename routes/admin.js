@@ -13,6 +13,7 @@ const adminPromo = require('../controller/adminPromoCodeController')
 const adminOrder = require('../controller/adminOrderController')
 const adminBlog = require('../controller/adminBlogController')
 const adminEuActions = require('../controller/adminEuActionsController')
+const adminVideos = require('../controller/adminVideosController')
 
 
 /* GET users listing. */
@@ -86,6 +87,15 @@ router.get('/manage/euactions/edit/:id', verify, guardAdmin, adminEuActions.edit
 router.post('/manage/euactions/edit/:id', verify, guardAdmin, adminEuActions.editSubmit);
 router.get('/manage/euactions/add', verify, guardAdmin, adminEuActions.add);
 router.post('/manage/euactions/add', verify, guardAdmin, adminEuActions.addSubmit);
+
+router.get('/manage/videos', verify, guardAdmin, adminVideos.index);
+router.get('/manage/videos/view/:id', verify, guardAdmin, adminVideos.show);
+router.get('/manage/videos/edit/:id', verify, guardAdmin, adminVideos.edit);
+router.post('/manage/videos/edit/:id', verify, guardAdmin, adminVideos.editSubmit);
+router.get('/manage/videos/add', verify, guardAdmin, adminVideos.add);
+router.post('/manage/videos/add', verify, guardAdmin, adminVideos.addSubmit);
+router.get('/manage/videos/delete/:id', verify, guardAdmin, adminVideos.deleteRecord);
+
 
 
 module.exports = router;

@@ -130,6 +130,7 @@ router.get('/classes/:id', publicController.classesId);
 router.get('/class_descriptions', publicController.classDescription);
 router.post('/class_descriptions', publicController.classDescription);
 router.get('/videos', publicController.videos);
+router.get('/videos/:slug', publicController.videoDetails);
 
 router.get('/monitoring-service', publicController.monitoringService);
 router.get('/services', publicController.service);
