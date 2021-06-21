@@ -404,49 +404,41 @@ exports.sendOrderNotification = async function(order) {
   });
 
   // ORDER DETAILS CONFIRMATION NOTIFICATION
-  if ( order.cartItems ) {
-    order.cartItems.forEach(item => {
-      if ( item.serviceType == "registration" || item.serviceType == "study" ) {
-        // SEND EMAIL CONFIRMATION
-        // if ( item.filed == 'yes' && item.priority == 'yes' ) {
-        //   // send 3rd layout
-        // } else if ( item.filed == 'yes' ) {
-        //   // send 2nd layout
-        // } else { 
-        // }
-
-        ejs.renderFile(__dirname+"/../email-templates/orderCustomerConfirmationNotification.ejs", { item: item, order: order }, async function (err, data) {
-          if (err) {
-              console.log(err);
-          } else {
+  // if ( order.cartItems ) {
+  //   order.cartItems.forEach(item => {
+  //     if ( item.serviceType == "registration" || item.serviceType == "study" ) {
+        
+  //       // SEND EMAIL CONFIRMATION
+  //       ejs.renderFile(__dirname+"/../email-templates/orderCustomerConfirmationNotification.ejs", { item: item, order: order }, async function (err, data) {
+  //         if (err) {
+  //             console.log(err);
+  //         } else {
             
-            let to = order.user ? order.user.email : order.custEmail;
+  //           let to = order.user ? order.user.email : order.custEmail;
       
-            if (order.user && order.user.secondaryEmail) {
-              to = order.user.secondaryEmail;
-            }
+  //           if (order.user && order.user.secondaryEmail) {
+  //             to = order.user.secondaryEmail;
+  //           }
             
-            let mainOptions = {
-              sender: process.env.MAIL_FROM,
-              replyTo: process.env.MAIL_FROM,
-              from: process.env.MAIL_FROM, 
-              to: to,
-              // bcc: ["felix@bigfoot.com", "carissa@trademarkers.com"],
-              // to: "felix@bigfoot.com",
-              bcc: ["info@trademarkers.com", "carissa@trademarkers.com", "felix@bigfoot.com"],
-              subject: `Update on Your US Trademark Application: (${item.word_mark}) – (${order.orderNumber}) - Order Confirmation`, 
-              html: data
-            };
+  //           let mainOptions = {
+  //             sender: process.env.MAIL_FROM,
+  //             replyTo: process.env.MAIL_FROM,
+  //             from: process.env.MAIL_FROM, 
+  //             to: to,
+  //             bcc: ["info@trademarkers.com", "carissa@trademarkers.com", "felix@bigfoot.com"],
+  //             subject: `Update on Your ${item.country.abbr} Trademark Application: (${item.word_mark}) – (${order.orderNumber}) - Order Confirmation`, 
+  //             html: data
+  //           };
       
-            transporter.sendMail(mainOptions);
+  //           transporter.sendMail(mainOptions);
       
-          }
+  //         }
           
-        });
+  //       });
 
-      }
-    })
-  }
+  //     }
+  //   })
+  // }
 
 }
 
