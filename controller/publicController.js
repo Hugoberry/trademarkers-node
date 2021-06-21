@@ -420,10 +420,10 @@ exports.blogXML = async function(req, res, next) {
   res.header('Content-Type', 'application/xml');
   res.header('Content-Encoding', 'gzip');
   // if we have a cached entry send it
-  if (sitemap) {
-    res.send(sitemap)
-    return
-  }
+  // if (sitemap) {
+  //   res.send(sitemap)
+  //   return
+  // }
 
   let articles = await rpoArticles.getAllSlug();
 
