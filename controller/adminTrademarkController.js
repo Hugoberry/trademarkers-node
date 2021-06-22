@@ -266,7 +266,9 @@ exports.editSubmit = async function(req, res, next) {
   let otherServicesData = {
     otherServices : otherServices,
     serialNumber: req.body.serialNumber,
-    delivery: delivery
+    delivery: delivery,
+    dueDate: req.body.dueDate,
+    status: req.body.statusUpdate,
   }
 
   await rpo.updateDetails(id, otherServicesData);
