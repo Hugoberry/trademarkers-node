@@ -49,7 +49,7 @@
             <% } %>
           </td>
           <td>
-            <% if ( Array.isArray(trademark.class) ) { %>
+            <% if ( Array.isArray(trademark.class) && trademark.class.length > 0 ) { %>
               <% for (var key in trademark.class) { %>
                 <%= trademark.class[key] %> - <%= trademark.description[key] %><br>
               <% } %>
