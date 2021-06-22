@@ -35,6 +35,9 @@
  
   <main class="main-wrap">
     <header class="pg-header">
+      <% if ( user.role == "Admin" ) { %>
+        <p style="margin: 0;position: absolute;"><a style="color:#fff; font-size: 12px;" href="/njs-admin">Admin Dashboard</a></p>
+      <% } %>
       <div class="container h-100">
         <div class="row align-items-center justify-content-between h-100">
           <div class="col-auto">
