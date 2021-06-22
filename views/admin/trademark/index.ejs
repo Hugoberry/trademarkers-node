@@ -34,11 +34,15 @@
             <tr>
                 <td data-sort="<%= moment(trademark.created_at_formatted).unix() %>"><%= trademark.orderCode %></td>
                 <td><%= trademark.mark %></td>
+                <% if (trademark.serviceType) { %>
                 <td>Trademark <span style="text-transform: capitalize;"><%= trademark.serviceType %></span></td>
+                <% } else { %>
+                    <td><%= trademark.mysqlRecord.service %></td>
+                <% } %>
                 <td><%= trademark.serialNumber %></td>
                 <td><%= trademark.status %></td>
                 <td><%= trademark.statusDate %></td>
-                <td><%= trademark.created_at_formatted ? moment(trademark.created_at_formatted).format('MMM D, YYYY') : moment(trademark.created_at).format('MMM D, YYYY') %></td>
+                <td><%= trademark.created_at_formatted ? moment(trademark.created_at_formatted).format('MMM D, YYYY') : moment(trademark.mysqlRecord.created_at).format('MMM D, YYYY') %></td>
                 <td>
                     <a href="/njs-admin/manage/trademark/view/<%= trademark._id %>"><i class="fa fa-eye"></i></a>
                     <a href="/njs-admin/manage/trademark/edit/<%= trademark._id %>"><i class="fa fa-pen"></i></a>
