@@ -5,18 +5,29 @@
       <div class="col-md-12">
           <hr>
 
-
+            <%
+            let customer;
+            let email;
+            let details;
+            if ( order.user ) {
+                customer = order.user.name
+                email = order.user.email
+            } else if ( order.charge && order.charge.metadata ) {
+                email = order.charge.metadata.customer
+                details = order.charge.metadata.description
+            }
+            %>
           <div class="form-group">
               <label>Customer Name</label>
-              <input type="text" class="form-control" value="<%= order.user ? order.user.name : '' %>" placeholder="" name="notes" disabled>
+              <input type="text" class="form-control" value="<%= customer %>" placeholder="" name="notes" disabled>
           </div>
 
           <div class="form-group">
               <label>Customer Email</label>
-              <input type="text" class="form-control" value="<%= order.user ? order.user.email : '' %>" placeholder="" name="discountType" disabled>
+              <input type="text" class="form-control" value="<%= email %>" placeholder="" name="discountType" disabled>
           </div>
 
-          
+          <% if (order.cartItems) { %>
           <table class="table">
             <thead>
                 <tr>
@@ -28,7 +39,7 @@
             </thead>
             <tbody>
                 
-            <% if (order.cartItems) { order.cartItems.forEach(function(item,key) {  %>
+            <% order.cartItems.forEach(function(item,key) {  %>
        
                 <tr>
                     <td><%= item.name ? item.name : item.word_mark %></td>
@@ -37,9 +48,14 @@
                     <td>$<%= item.amount ? item.amount : item.price %></td>
 
                 </tr>
-            <% }) } %>
+            <% }) %>
             </tbody>
         </table>
+        <% } %>
+
+        <% if (details) { %>
+            <p><%= details %></p>
+        <% } %>
 
 
       </div>

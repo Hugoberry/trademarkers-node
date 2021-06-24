@@ -32,31 +32,57 @@
         <% orders.forEach(function(order,key) {  %>
    
             <tr>
-                <td data-sort="<%= moment(order.created_at_formatted).unix() %>"><%= order.orderNumber %></td>
+                <%
+                let createdAtDate;
+
+                if (order.created_at_formatted) {
+                    createdAtDate = order.created_at_formatted
+                } else if ( order.updated_at ) {
+                    createdAtDate = order.updated_at
+                } else if ( order.charge ) {
+                    createdAtDate = order.charge.created
+                }
+                %>
+                <td data-sort="<%= moment(createdAtDate).unix() %>"><%= order.orderNumber %></td>
                 <td><%= order.invoiceCode ? order.invoiceCode : (order.charge && order.charge.reference ? order.charge.reference : '') %></td>
                 <td>
                     <%
                     let totalAmount = 0;
-                    if (order.charge && order.charge.amount) {
+                    if (order.charge && order.charge.amount && !order.charge.order_id) {
                         totalAmount = order.charge.amount / 100
-                    } else if(order.charge && order.charge.order_id) {
-
+                    } else if(order.charge && order.charge.amount && order.charge.order_id) {
+                        totalAmount = order.charge.amount
+                    } else if ( order.total_amount ) {
+                        totalAmount = order.total_amount
                     }
                     %>
-                    $<%= order.charge && order.charge.amount ? (order.charge.amount / 100) : '' %>
+                    <%= helpers.getPriceFormatted(totalAmount) %>
                 </td>
-                <td><%= order.cartItems ? order.cartItems.length : '-' %></td>
-                <td><%= order.user ? order.user.name : '' %></td>
-                <td><%= order.paid ? 'Paid' : 'Unpaid' %></td>
+                <td><%= order.cartItems ? order.cartItems.length : '1' %></td>
+                <% 
+                    let customer;
+                    let description;
+                    if ( order.user ) {
+                        customer = order.user.name
+                    
+                    } else if ( order.action && order.action.user ) {
+                        customer = order.action.user.name
+                    } else if ( order.charge && order.charge.metadata ) {
+                        customer = order.charge.metadata.customer
+                        description = order.charge.metadata.description
+                    }
+                %>
+                <td><%= customer %></td>
+                <td><%= order.paid ? 'Paid' : (order.charge && order.charge.amount_captured ? 'Paid' : 'Unpaid') %></td>
                
-                <td ><%= moment(order.created_at_formatted).format('MMM D, YYYY') %></td>
+                <td ><%= moment(createdAtDate).format('MMM D, YYYY') %></td>
 
                 <td>
                     <a href="/njs-admin/manage/orders/view/<%= order._id %>"><i class="fa fa-eye"></i></a>
                     <a target="_blank" href="/pdf/invoice/<%= order.orderNumber %>"><i class="fa fa-file-pdf"></i></a>
                 </td>
             </tr>
-        <% }) %>
+        <%  }) %>
         </tbody>
     </table>
 </div>

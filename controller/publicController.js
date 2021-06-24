@@ -116,7 +116,7 @@ exports.home = async function(req, res, next) {
       layout: 'layouts/public-layout', 
       title: 'Trademarkers LLC',
       description: '195 Countries and Treaty Regions can provide you with fast, simple, and cost-efficient trademark filing services',
-      keywords: 'Trademarkers LLC, trademark registration, register a trademark, trademark, trade mark, register a trade mark, trade mark registration',
+      keywords: 'Trademarkers LLC, trademark registration, register a trademark, trademark, trade mark, register a trade mark, trade mark registration, Trademark Attorneys, experience in Trademark Registrations, What is a Trademark',
       continents: continentsFormatted,
       user: user
     });
@@ -172,7 +172,7 @@ exports.register = async function(req, res, next) {
   // console.log('passed');
   res.render('public/register', { 
     layout: 'layouts/public-layout-default', 
-    title: 'service',
+    title: 'Trademark Registration Service',
     user: user
   });
 }
@@ -691,6 +691,8 @@ exports.countries = async function(req, res, next) {
   res.render('public/countries', { 
     layout: 'layouts/public-layout-default', 
     title: 'Trademark Registration Countries',
+    description: 'Trademarkers is a leading international brand protection company that specializes in global trademark registration',
+    keywords: 'trademark registration, register a trademark',
     continents: continentsFormatted,
     user: await helpers.getLoginUser(req)
   });
@@ -865,7 +867,7 @@ exports.submitContact = async function(req, res, next) {
   //   res.flash('errorContact', 'Sorry, something went wrong, try again later!');
   // }
 
-  console.log("redirect ",req.body.formLocation);
+  // console.log("redirect ",req.body.formLocation);
 
   if ( req.body.formLocation && req.body.formLocation == 'home' ) {
     console.log('home');

@@ -159,6 +159,71 @@ exports.getOldOrders = async function(obj) {
 
 }
 
+exports.fixOrderRecords = async function() {
+  let orders = await rpoOrder.getAll()
+
+  for (var i = 0; i < orders.length; i++) {
+
+    if ( !orders[i].cartItems && orders[i].charge && orders[i].charge.order_id ) {
+      
+      let user = await rpoUserMongo.getByIdM(orders[i].userId)
+      let trademarks = await rpoTrademarksMysql.fetchTmByOrder(orders[i].charge.order_id);
+      // let invoice = await rpoInvoice.fetchByOrderIdMysql(orders[i].id);
+
+      let data = {
+        user : user[0],
+        cartItems: trademarks,
+        created_at: orders[i].charge.created_at,
+        created_at_formatted: orders[i].charge.created_at
+      }
+
+      rpoOrder.update(orders[i]._id,data);
+
+    } else if (orders[i].userId && !orders[i].user ) {
+
+      let user = await rpoUserMongo.getByIdM(orders[i].userId)
+
+      let data = {
+        user : user[0],
+      }
+
+      if ( orders[i].cartItems[0] && orders[i].cartItems[0].user ) {
+        data.user = orders[i].cartItems[0].user
+      }
+    
+      rpoOrder.update(orders[i]._id,data);
+
+    } else if (!orders[i].charge) {
+      // console.log(orders[i].orderNumber);
+    } else if ( orders[i].charge && !orders[i].charge.amount && orders[i].charge.amount_captured && orders[i].cartItems  ) {
+
+      let data = {
+        charge : orders[i].charge
+      }
+
+      data.charge.amount = orders[i].charge.amount_captured;
+      rpoOrder.update(orders[i]._id,data);
+
+    } else if ( orders[i].charge && orders[i].charge.amount && orders[i].cartItems  ) {
+      // get total amount 
+      let totalAmount = 0;
+      for (var t = 0; t < orders[i].cartItems.length; t++) {
+        totalAmount += orders[i].cartItems[t].amount
+      }
+
+      let data = {
+        charge : orders[i].charge
+      }
+
+      data.charge.amount = totalAmount;
+      rpoOrder.update(orders[i]._id,data);
+    }
+
+  }
+
+  // console.log(orders);
+}
+
 exports.syncOrders = async function() {
 
   let users = await rpoUserMysql.getUsers();
@@ -268,6 +333,8 @@ exports.syncOrders = async function() {
 
   
 }
+
+
 
 
 function makeid(length) {

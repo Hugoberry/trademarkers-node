@@ -202,7 +202,7 @@ conn.connectToServer( function( err, client ) {
   }
   
 
-  // orderService.syncOrders()
+  // orderService.fixOrderRecords()
 
   // FOR TEST
   // cron.schedule('*/5 6-10 */16 * * mon-fri', () => {
