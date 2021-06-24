@@ -15,12 +15,12 @@
 </div>
                     
 <div clss="col-md-12">
-    <table id="myListDataTable" class="display" style="width:100%">
+    <table id="dataTableTrademarks" class="display" style="width:100%">
         <thead>
             <tr>
                 <th>Title</th>
                 <th>Slug</th>
-                <th>Date Created</th>
+                <th style="width:130px">Date Created</th>
                 <th></th>
             </tr>
         </thead>
@@ -28,7 +28,13 @@
         <% articles.forEach(function(article,key) {  %>
    
             <tr>
-                <td><%= article.title %></td>
+                <%
+                let dateCreated;
+                if( article.created_at_formatted ) {
+                    dateCreated = article.created_at_formatted
+                }
+                %>
+                <td data-sort="<%= moment(dateCreated).unix() %>"><%= article.title %></td>
                 <td><%= article.slug %></td>
                 <td><%= moment(article.created_at_formatted).format('MMM D, YYYY') %></td>
                 <td><a href="/njs-admin/manage/articles/view/<%= article._id %>"><i class="fa fa-pen"></i></a></td>
