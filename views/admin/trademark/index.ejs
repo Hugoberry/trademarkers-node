@@ -19,6 +19,7 @@
         <thead>
             <tr>
                 <th>Order Ref</th>
+                <th>Representative</th>
                 <th>Country</th>
                 <th>Mark</th>
                 <th>Service Type</th>
@@ -35,13 +36,18 @@
             <tr>
                 <%
                 let dateCreated;
+                let searched = false;
                 if( trademark.created_at_formatted ) {
                     dateCreated = trademark.created_at_formatted
                 } else if (trademark.mysqlRecord && trademark.mysqlRecord.created_at) {
                     dateCreated = trademark.mysqlRecord.created_at
+                } else if (trademark.lastCrawled) {
+                    dateCreated = trademark.lastCrawled
+                    searched = true
                 }
                 %>
                 <td data-sort="<%= moment(dateCreated).unix() %>"><%= trademark.orderCode %></td>
+                <td><%= trademark.nature == "Individual" ? trademark.fname + " " + trademark.lname : trademark.company %></td>
                 <td><%= trademark.country %></td>
                 <td><%= trademark.mark %></td>
                 <% if (trademark.serviceType) { %>
@@ -52,7 +58,7 @@
                 <td><%= trademark.serialNumber %></td>
                 <td><%= trademark.status == 'Others' ? trademark.otherStatus : trademark.status %></td>
                 <td><%= trademark.dueDate ? moment(trademark.dueDate).format('MMM D, YYYY') : '-' %></td>
-                <td><%= dateCreated ? moment(dateCreated).format('MMM D, YYYY') : '-' %></td>
+                <td><%= searched ? 'Searched': dateCreated ? moment(dateCreated).format('MMM D, YYYY') : '-' %></td>
                 <td>
                     <a href="/njs-admin/manage/trademark/view/<%= trademark._id %>"><i class="fa fa-eye"></i></a>
                     <a href="/njs-admin/manage/trademark/edit/<%= trademark._id %>"><i class="fa fa-pen"></i></a>
