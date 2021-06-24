@@ -1,0 +1,62 @@
+<div class="col-md-12" style="margin-bottom:20px;">    
+    <h2>Action Code View
+    </h2>
+
+    <% if(activity) { %>
+
+    <div class="col-12">
+      <div class="ar-wrap qa-stp">
+        
+        <div class="ard-wrap stp-row">
+
+          <div class="ar-cname ar-info-line">
+            IP Address: <strong style="text-transform: capitalize;"><%= activity.ip %></strong>
+          </div>
+
+          <div class="ar-cname ar-info-line">
+            User: <strong style="text-transform: capitalize;"><%= activity.user %>%</strong>
+          </div>
+
+          <div class="ar-cname ar-info-line">
+            URL: <strong style="text-transform: capitalize;"><%= activity.uri %>%</strong>
+          </div>
+
+          <div class="ar-cname ar-info-line">
+            City: <strong style="text-transform: capitalize;"><%= activity.city %></strong>
+          </div>
+
+          <div class="ar-cname ar-info-line">
+            Region: <strong style="text-transform: capitalize;"><%= activity.region %></strong>
+          </div>
+
+          <div class="ar-cname ar-info-line">
+            Country: <strong style="text-transform: capitalize;"><%= activity.country %></strong>
+          </div>
+
+          <div class="ar-cname ar-info-line">
+            Activity: <strong style="text-transform: capitalize;"><%= activity.activity %></strong>
+          </div>
+
+       
+        </div>
+
+      
+
+
+      </div>
+    </div>
+
+   
+
+    
+
+    <div class="col-md-12">
+      <p class="text-center">
+        <a class="btn btn-primary btn-rounded-primary" style="padding-left:40px;padding-right:40px;" href="/njs-admin/manage/videos/">Back</a>
+      </p>
+    </div>
+
+    <% } %>
+</div>
+        
+

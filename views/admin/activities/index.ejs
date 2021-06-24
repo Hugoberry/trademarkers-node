@@ -1,0 +1,46 @@
+<div class="col-md-12" style="margin-bottom:20px;">  
+    <h2>Youtube Videos List <a class="ml-3 btn btn-primary" href="/njs-admin/manage/videos/add"><i class="fa fa-plus" style="color:#fff"></i></a></h2>
+
+    <% if (flash.success) { %>
+    <div class="alert alert-success" role="alert">
+        <strong><%= flash.success %></strong>
+    </div>
+    <% } %>
+
+    <% if (flash.error) { %>
+    <div class="alert alert-danger" role="alert">
+        <strong><%= flash.error %></strong>
+    </div>
+    <% } %>
+</div>
+                    
+<div clss="col-md-12">
+    <table id="myListDataTable" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>IP Address</th>
+                <th>User</th>
+                <th>URL</th>
+                <th>Activity</th>
+                <th>Date Created</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        <% activities.forEach(function(activity,key) {  %>
+   
+            <tr>
+                <td><%= activity.ip %></td>
+                <td><%= activity.user %></td>
+                <td><%= activity.uri %></td>
+                <td><%= activity.activity %></td>
+                <td><%= moment(activity.created_at_formatted).format('MMM D, YYYY') %></td>
+                <td>
+                    <a href="/njs-admin/manage/activities/view/<%= activity._id %>"><i class="fa fa-eye"></i></a>
+                    <a href="/njs-admin/manage/activities/delete/<%= activity._id %>"><i class="fa fa-trash"></i></a>
+                </td>
+            </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>

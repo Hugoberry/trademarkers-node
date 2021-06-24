@@ -399,7 +399,7 @@
 							<%
 							let applicant;
 							let applicantAddress;
-							let citizenship;
+					
 								if (item.nature == "Individual") {
 									applicant = item.fname + " " + item.lname
 									applicantAddress = item.repStreet + ", " + item.repCity + ", " + item.repState + ", " + item.repZipCode + ", " + item.repCountry
@@ -410,7 +410,7 @@
 							%>
 							<li>Applicant: <%= applicant %></li>
 							<li>Applicant Address: <%= applicantAddress %></li>
-							<li>Incorporation/Citizenship:</li>
+						
 
 							<li>Use in Commerce: <%= item.commerce %></li>
 							<li>Color Claim: <%= item.colorClaim %> <%= item.colorClaimText ? ' - '+item.colorClaimText : '' %></li>

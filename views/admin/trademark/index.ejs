@@ -18,16 +18,17 @@
     <table id="dataTableTrademarks" class="display" style="width:100%">
         <thead>
             <tr>
-                <th>Order Ref</th>
-                <th>Representative</th>
-                <th>Country</th>
-                <th>Mark</th>
-                <th>Service Type</th>
-                <th>Serial Number</th>
-                <th>Status</th>
-                <th>Due date</th>
                 <th>Date Ordered</th>
+                <th>Client</th>
+                <th>Service</th>
+                <th>Trademark</th>
+                <th>Country</th>
+                <th>Order Ref</th>
+                <th>Status</th>
                 <th>Action</th>
+                <th>Due date</th>
+                <th>Serial Number</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -46,19 +47,22 @@
                     searched = true
                 }
                 %>
-                <td data-sort="<%= moment(dateCreated).unix() %>"><%= trademark.orderCode %></td>
-                <td><%= trademark.nature == "Individual" ? trademark.fname + " " + trademark.lname : trademark.company %></td>
-                <td><%= trademark.country %></td>
-                <td><%= trademark.mark %></td>
+                <td data-sort="<%= moment(dateCreated).unix() %>"><%= searched ? 'Searched': dateCreated ? moment(dateCreated).format('MMM D, YYYY') : '-' %></td>
+                <td><%= trademark.user ? trademark.user.name : '-' %></td>
+
                 <% if (trademark.serviceType) { %>
-                <td>Trademark <span style="text-transform: capitalize;"><%= trademark.serviceType %></span></td>
+                    <td>Trademark <span style="text-transform: capitalize;"><%= trademark.serviceType %></span></td>
                 <% } else { %>
                     <td><%= trademark.mysqlRecord ? trademark.mysqlRecord.service : '' %></td>
                 <% } %>
-                <td><%= trademark.serialNumber %></td>
+                <td><%= trademark.mark %></td>
+                <td><%= trademark.country %></td>
+                <td><%= trademark.orderCode %></td>
                 <td><%= trademark.status == 'Others' ? trademark.otherStatus : trademark.status %></td>
+                <td><%= trademark.documents ? trademark.documents[0].label : '-' %></td>
                 <td><%= trademark.dueDate ? moment(trademark.dueDate).format('MMM D, YYYY') : '-' %></td>
-                <td><%= searched ? 'Searched': dateCreated ? moment(dateCreated).format('MMM D, YYYY') : '-' %></td>
+                <td><%= trademark.serialNumber %></td>
+
                 <td>
                     <a href="/njs-admin/manage/trademark/view/<%= trademark._id %>"><i class="fa fa-eye"></i></a>
                     <a href="/njs-admin/manage/trademark/edit/<%= trademark._id %>"><i class="fa fa-pen"></i></a>

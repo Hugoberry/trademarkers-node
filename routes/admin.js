@@ -14,6 +14,7 @@ const adminOrder = require('../controller/adminOrderController')
 const adminBlog = require('../controller/adminBlogController')
 const adminEuActions = require('../controller/adminEuActionsController')
 const adminVideos = require('../controller/adminVideosController')
+const adminActivities = require('../controller/adminActivitiesController')
 
 
 /* GET users listing. */
@@ -95,6 +96,11 @@ router.post('/manage/videos/edit/:id', verify, guardAdmin, adminVideos.editSubmi
 router.get('/manage/videos/add', verify, guardAdmin, adminVideos.add);
 router.post('/manage/videos/add', verify, guardAdmin, adminVideos.addSubmit);
 router.get('/manage/videos/delete/:id', verify, guardAdmin, adminVideos.deleteRecord);
+
+router.get('/manage/activities', verify, guardAdmin, adminActivities.index);
+router.get('/manage/activities/view/:id', verify, guardAdmin, adminActivities.show);
+router.get('/manage/activities/delete/:id', verify, guardAdmin, adminActivities.deleteRecord);
+
 
 
 

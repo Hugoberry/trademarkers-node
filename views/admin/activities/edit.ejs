@@ -1,0 +1,63 @@
+<div class="col-md-12" style="margin-bottom:20px;">    
+    <h2>Edit Action Code
+    </h2>
+
+    <% if(video) { %>
+
+
+    <form class="row" action="/njs-admin/manage/videos/edit/<%= video._id %>" method="post" encType="multipart/form-data">
+
+    
+
+        <div class="col-md-12">
+            <hr>
+
+            <div class="col-md-12">
+                <hr>
+    
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" class="form-control" value="<%= video.title %>" placeholder="" name="title" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Slug</label>
+                    <input type="text" class="form-control" value="<%= video.slug %>" placeholder="" name="slug" disabled>
+                </div>
+    
+                <div class="form-group">
+                    <label>Youtube ID</label>
+                    <input type="text" class="form-control" value="<%= video.youtubeId %>" placeholder="" name="youtubeId" required>
+                    
+                </div>
+    
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea class="form-control" name="description" required><%= video.description %></textarea>
+                </div>
+    
+    
+    
+    
+    
+            </div>
+
+
+
+
+
+        </div>
+
+       
+
+        <div class="col-md-12">
+            <p class="text-center">
+                <button type="submit" class="btn btn-primary btn-rounded-primary" style="padding-left:40px;padding-right:40px;">Update</button>
+            </p>
+        </div>
+
+    </form>
+    <% } %>
+</div>
+        
+
