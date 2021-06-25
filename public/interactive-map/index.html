@@ -98,24 +98,7 @@
 <script type="text/javascript" src="js/map.js"></script>
 <script type="text/javascript" src="js/main.js"></script>
 
-<?php
-$targ = 'EM';
-if (isset($_GET['c'])) {
-  $cont = file_get_contents('./js/data.json');
-  $data = json_decode($cont, true);
-  $arg = strtolower($_GET['c']);
-  $arg = str_replace(' ', '-', $arg);
-  foreach ($data as $k => $v) {
-    $n = strtolower($v['name']);
-    $n = str_replace(' ', '-', $n);
-    if ($n == $arg) {
-      $targ = $k;
-      break;
-    }
-  }
-}
-echo "<script type='text/javascript'>map.startWithFeature('$targ')</script>";
-?>
+<script type="text/javascript">map.startWithFeature('EM')</script>
 
 </body>
 </html>
