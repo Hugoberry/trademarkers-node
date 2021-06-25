@@ -27,7 +27,7 @@
     p,br { clear: both; }
     #navbar { position:absolute; width:40%; left:30%; top:1em; display:none; }
     #navbar input[type=text] { font-size:1.5em; }
-    #popup { position:absolute; left:20%; top:20%; width:60%; height:60%; scale:0; display:none; }
+    #popup { position:absolute; left:20%; top:20%; width:60%; height:60%; scale(0); display:none; }
     #canvas, #canvas2, #low, #medium { border:0; margin:0; position:absolute; overflow:hidden; background:transparent; }
     #content, #speech { display:none; box-sizing:border-box; position:absolute; width:100%; }
     #speech { min-width:12em; max-height:40vh; }
@@ -98,7 +98,8 @@
 <script type="text/javascript" src="js/map.js"></script>
 <script type="text/javascript" src="js/main.js"></script>
 
-<script type="text/javascript">map.startWithFeature('EM')</script>
+
+<script type="text/javascript">map.startWithFeature('BE')</script>
 
 </body>
 </html>
