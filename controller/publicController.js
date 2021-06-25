@@ -985,7 +985,7 @@ exports.codeLanding = async function(req, res, next) {
 
   let title = "", layout = "layouts/public-layout-default";
   let classArr = [];
-  let render = 'trademark-order/register';
+  let render;
 
   let casesMysql = null, trademarkMysql = null, trademark = null;
 
@@ -1032,11 +1032,13 @@ exports.codeLanding = async function(req, res, next) {
     case 'trademark-registration' :
       title = "Trademark Registration"
       layout = 'layouts/public-layout-default'
+      render = 'trademark-order/register';
     break;
 
     case 'trademark-study' :
       title = "Trademark Study"
       layout = 'layouts/public-layout-default'
+      render = 'trademark-order/register';
     break;
 
     case 'recommendation' :
@@ -1159,22 +1161,28 @@ exports.codeLanding = async function(req, res, next) {
   //   keywords: "Trademark Status, trademarkers status",
   // };
 
-  res.render(render, { 
-    layout  : layout, 
-    title   : title,
-    countries: countries,
-    classes: classes,
-    action : action,
-    classArr: classArr,
-    tkey: process.env.PAYK,
-    trademark: trademark,
-    user: await helpers.getLoginUser(req),
-    secretAmountDecode: secretAmountDecode,
-    secretDescription: secretDescription,
-    secretCustomer: secretCustomer,
-    code: type
+  if (render) {
+    res.render(render, { 
+      layout  : layout, 
+      title   : title,
+      countries: countries,
+      classes: classes,
+      action : action,
+      classArr: classArr,
+      tkey: process.env.PAYK,
+      trademark: trademark,
+      user: await helpers.getLoginUser(req),
+      secretAmountDecode: secretAmountDecode,
+      secretDescription: secretDescription,
+      secretCustomer: secretCustomer,
+      code: type
+  
+    });
+  } else {
+    next();
+  }
 
-  });
+  
 
   // res.send()
 
