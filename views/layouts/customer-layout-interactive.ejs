@@ -35,7 +35,7 @@
  
   <main class="main-wrap">
     <header class="pg-header">
-      <% if ( user.role == "Admin" ) { %>
+      <% if ( typeof user != "undefined" && user.role == "Admin" ) { %>
         <p style="margin: 0;position: absolute;"><a style="color:#fff; font-size: 12px;" href="/njs-admin">Admin Dashboard</a></p>
       <% } %>
       <div class="container h-100">
