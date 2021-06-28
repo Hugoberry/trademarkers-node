@@ -152,7 +152,7 @@ class MapViewer {
   }
   
   fetchMap(file, name, delayed) {
-    console.log(file);
+    console.log("this here",file, name, delayed);
     let map = this;
     map.requested ++;
     var xmlhttp = new XMLHttpRequest();
@@ -173,7 +173,7 @@ class MapViewer {
     if (this.flags[code])
       return;
     let file = `flags/${code.toLowerCase()}.svg`;
-    console.log(file);
+    console.log('176',file);
     let img = new Image();
     this.flags[code] = img;
     var xmlhttp = new XMLHttpRequest();
@@ -197,7 +197,7 @@ class MapViewer {
     }
     if (this.text[id]) return;
     let file = `text/${id.toLowerCase()}.html`;
-    console.log(file);
+    console.log('200',file);
     let map = this;
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
@@ -212,7 +212,7 @@ class MapViewer {
   }
   
   fetchData(file) {
-    console.log(file);
+    console.log('215',file);
     let map = this;
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
@@ -918,6 +918,8 @@ class MapViewer {
     let ctx = canvas.getContext("2d");
     let w = canvas.width;
     let h = canvas.height;
+    // console.log(w,h);
+    feat = {};
 
     let feat2 = {
       "type": "Feature",
@@ -1103,7 +1105,9 @@ class MapViewer {
     if (id == "HK" ) {
       feat = feat2
     }
-    
+    // feat = feat2
+    // console.log(feat, feat2);
+    // return;
     let fadeoutbg = ratio;
     let extrusion = 0;
     let fadeinflag = 0;
