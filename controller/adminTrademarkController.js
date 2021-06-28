@@ -147,17 +147,19 @@ exports.editSubmit = async function(req, res, next) {
         
       } else {
         // add record
-        let serviceData = {
-          trademarkId: id,
-          addAmount: req.body.addAmount[key],
-          addAmountDescription: req.body.addAmountDescription[key],
-          status: 'unPaid',
-          isMailed: 'no',
-          created_at: toInteger(moment().format('YYMMDD')),
-          created_at_formatted: moment().format()
+        if ( req.body.addAmount && req.body.addAmountDescription) {
+          let serviceData = {
+            trademarkId: id,
+            addAmount: req.body.addAmount[key],
+            addAmountDescription: req.body.addAmountDescription[key],
+            status: 'unPaid',
+            isMailed: 'no',
+            created_at: toInteger(moment().format('YYMMDD')),
+            created_at_formatted: moment().format()
+          }
+          console.log('add service', key);
+          await rpoAddedServices.put(serviceData);
         }
-        console.log('add service', key);
-        await rpoAddedServices.put(serviceData);
       }
   
       
@@ -176,17 +178,20 @@ exports.editSubmit = async function(req, res, next) {
       await rpoAddedServices.updateDetails(req.body.serviceId,serviceData);
 
     } else {
-      let serviceData = {
-        trademarkId: id,
-        addAmount: req.body.addAmount,
-        addAmountDescription: req.body.addAmountDescription,
-        status: 'unPaid',
-        isMailed: 'no',
-        created_at: toInteger(moment().format('YYMMDD')),
-        created_at_formatted: moment().format()
+      if ( req.body.addAmount && req.body.addAmountDescription) {
+        let serviceData = {
+          trademarkId: id,
+          addAmount: req.body.addAmount,
+          addAmountDescription: req.body.addAmountDescription,
+          status: 'unPaid',
+          isMailed: 'no',
+          created_at: toInteger(moment().format('YYMMDD')),
+          created_at_formatted: moment().format()
+        }
+        // console.log('add service', key);
+        await rpoAddedServices.put(serviceData);
       }
-      // console.log('add service', key);
-      await rpoAddedServices.put(serviceData);
+      
     }
 
     

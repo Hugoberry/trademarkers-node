@@ -21,19 +21,23 @@ exports.fetchOtherServices = async function() {
 
   await addedServices.forEach(async addedService => {
     // console.log(addedService);
-    let mark = await rpotrademarks.getById(addedService.trademarkId);
-    let user = await rpoUsers.getByIdM(mark[0].userId);
-    // console.log(user);
+    if (addedService.addAmount && addedService.addAmountDescription) {
 
-    let mailData = {
-      user : user[0],
-      mark : mark[0],
-      service : addedService
+      let mark = await rpotrademarks.getById(addedService.trademarkId);
+      let user = await rpoUsers.getByIdM(mark[0].userId);
+      // console.log(user);
+
+      let mailData = {
+        user : user[0],
+        mark : mark[0],
+        service : addedService
+      }
+
+      mailService.notifyAddedService(mailData);
+
+      rpoAddedServices.updateDetails(addedService._id, {isMailed : 'yes'})
     }
-
-    mailService.notifyAddedService(mailData);
-
-    rpoAddedServices.updateDetails(addedService._id, {isMailed : 'yes'})
+    
 
   });
 
