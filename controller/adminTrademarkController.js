@@ -207,51 +207,40 @@ exports.editSubmit = async function(req, res, next) {
     let ext = certificate.name.match(/\.[0-9a-z]+$/i)[0]
 
     uploadPath = __dirname + '/../public/uploads/certificate/' + certificate.md5 + ext.toLowerCase();
-
+    console.log(uploadPath);
     await certificate.mv(uploadPath, function(err) {
       if (err) {
         console.log("error", err);
-        res.flash('error', 'Something went wrong!');
+        res.flash('error', 'Something went wrong, file failed to upload!');
       } else {
         console.log("uploaded pdf");
         res.flash('success', 'File uploaded!');
+
+        // UPDATE COLLECTION
+        certificate.addedDate = toInteger(moment().format('YYMMDD'))
+        certificate.ext = ext
+        certificate.customName = certificate.md5 + ext.toLowerCase()
+
+        // check if user
+        
+
+        let data = {
+          certificate: certificate,
+          certificatePath: uploadPath
+        }
+
+        await rpo.updateDetails(id, data);
+
+        // wait for the updates
+        await new Promise(resolve => setTimeout(resolve, 5000));
+
+        mailService.sendCertificateNotification(trademark[0])
       }
         
     });
 
-    // UPDATE COLLECTION
-    certificate.addedDate = toInteger(moment().format('YYMMDD'))
-    certificate.ext = ext
-    certificate.customName = certificate.md5 + ext.toLowerCase()
-
-    // check if user
-     
-
-    let data = {
-      certificate: certificate,
-      certificatePath: uploadPath
-    }
-
     
-    // let user
 
-    // if (trademark && trademark[0].mysqlRecord) {
-    //   user = await rpoUser.getUserByIdMysql(trademark[0].mysqlRecord.user_id)
-
-    //   await rpoUser.putUser(user[0])
-    //   trademark[0].user = user[0]
-    // }
-
-    await rpo.updateDetails(id, data);
-
-    // let trademarkUpdated = await rpo.getById(id);
-
-    // wait for the updates
-    await new Promise(resolve => setTimeout(resolve, 5000));
-
-    mailService.sendCertificateNotification(trademark[0])
-
-    // res.flash('success', 'Updated successfully!');
   }
 
   // check delivery updates

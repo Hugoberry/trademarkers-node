@@ -1057,7 +1057,7 @@ exports.codeLanding = async function(req, res, next) {
         noClick: (action.tracking ? action.tracking.length : 0)
       }
       let souRec = await rpoSouNotifications.findBySerial(action.serialNumber)
-
+// console.log(action);
       await rpoSouNotifications.updateDetails(souRec[0]._id, souData);
 
     break;
