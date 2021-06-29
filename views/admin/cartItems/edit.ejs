@@ -1,0 +1,262 @@
+<div class="col-md-12" style="margin-bottom:20px;">    
+    <h2>Edit Cart Item
+    </h2>
+  
+    <% if (flash.success) { %>
+    <div class="alert alert-success" role="alert">
+        <strong><%= flash.success %></strong>
+    </div>
+    <% } %>
+  
+    <% if (flash.error) { %>
+    <div class="alert alert-danger" role="alert">
+        <strong><%= flash.error %></strong>
+    </div>
+    <% } %>
+  
+  
+  
+  
+    <form class="row" action="/njs-admin/manage/cart-items/edit/<%= item._id %>" method="post" encType="multipart/form-data">
+  
+    
+  
+        <div class="col-md-12">
+            <hr>
+  
+            <div class="form-group">
+                <label>Customer <span style="color:red">*</span></label>
+                <select class="form-control" name="userId" required>
+                    <option value="">-</option>
+                    <% users.forEach(function(user,key) {  %>
+                    <option value="<%= user._id %>" <%= item.userId == user._id ? "selected":"" %> ><%= user.email %></option>
+                    <% }) %>
+                </select>
+            </div>
+  
+            <div class="form-group">
+                <label>Service <span style="color:red">*</span></label>
+                <select class="form-control" name="serviceType" required>
+                    <option value="">-</option>
+                    <option value="study" <%= item.serviceType == 'study' ? "selected":"" %> >Trademark Study</option>
+                    <option value="registration" <%= item.serviceType == 'registration' ? "selected":"" %>>Trademark Registration</option>
+                    <option value="monitoring" <%= item.serviceType == 'monitoring' ? "selected":"" %>>Trademark Monitoring</option>
+                    <option value="Other Services" <%= item.serviceType == 'Other Services' ? "selected":"" %>>Other Services</option>
+                </select>
+            </div>
+  
+            <div class="form-group">
+                <label>Country <span style="color:red">*</span></label>
+                <select class="form-control" name="country" required>
+                    <option value="">-</option>
+                    <% countries.forEach(function(country,key) {  %>
+                    <option value="<%= country._id %>" <%= item.country.name == country.name ? "selected":"" %> ><%= country.name %></option>
+                    <% }) %>
+                </select>
+            </div>
+  
+            <div class="form-group">
+                <label>Price($) <span style="color:red">*</span></label>
+                <input type="number" class="form-control" value="<%= item.price %>" name="price" required >
+            </div>
+  
+            <div class="form-group">
+                <label>Trademark <span style="color:red">*</span></label>
+                <input type="text" class="form-control" value="<%= item.word_mark %>" name="word_mark" required >
+            </div>
+  
+            <!-- <div class="form-group">
+                <label>Trademark Serial - (For monitoring service only)</label>
+                <input type="text" class="form-control" value="" name="word_mark" >
+            </div> -->
+  
+            <div class="form-group">
+                <label>Trademark Type</label>
+                <select class="form-control" name="type">
+                    <option value="word" <%= item.type == 'word' ? "selected":"" %> >Word-Only</option>
+                    <option value="logo" <%= item.type == 'logo' ? "selected":"" %> >Design-Only or Stylized Word-Only (Figurative)</option>
+                    <option value="lword" <%= item.type == 'lword' ? "selected":"" %> >Combined Word and Design</option>
+                </select>
+            </div>
+  
+            <div class="form-group">
+                <label><b>Upload Photo (jpeg, jpg, png)</b></label>
+                <input type="file" class="form-control" name="logo_pic" class="form-control" id="logo_pic" >
+            </div>
+  
+            <div class="form-group" >
+                <label><b>Color Claim</b></label>
+                
+  
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="colorClaim" id="yesClaim" value="yes" <%= item.colorClaim == 'yes' ? "checked":"" %> >
+                    <label for="yesClaim">
+                        Yes
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="colorClaim" id="noClaim" value="no" <%= item.colorClaim == 'no' ? "checked":"" %>>
+                    <label for="noClaim">
+                        No
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-control" type="text" name="colorClaimText" placeholder="Color" value="<%= item.colorClaimText %>" >
+                </div>
+  
+            </div>
+  
+  
+            <div class="form-group">
+                <label>Classes / Description</label>
+                <%
+                let classArr = []
+                let classStringValue="";
+
+                if ( Array.isArray(item.class) ) {
+                    for( let c=0; c < item.class.length; c++ ) {
+                        classArr.push( item.class[c] +"|"+ item.description[c] )
+                    }
+
+                    classStringValue = classArr.join(';')
+                } else {
+                    classStringValue = item.class +"|"+ item.description
+                }
+                
+                %>
+                <textarea name="class" class="form-control" placeholder="ex. 1|description;2|description"><%= classStringValue %></textarea>
+            </div>
+  
+            <div class="form-group">
+                <label>Nature</label>
+                <select class="form-control" name="nature">
+                    <option value="Individual" <%= item.nature == "Individual" ? "selected":"" %> >Individual</option>
+                    <option value="Company" <%= item.nature == "Company" ? "selected":"" %> >Company</option>
+                </select>
+            </div>
+  
+            
+            <h4>Company Profile</h4>
+            <hr>
+  
+            <div class="form-group">
+                <label>Company Name</label>
+                <input type="text" class="form-control" value="<%= item.company %>" name="company" >
+            </div>
+  
+            <div class="form-group">
+                <label>Company Country</label>
+                <select class="form-control" name="companyCountry">
+                    <option value="">-</option>
+                    <% countries.forEach(function(country,key) {  %>
+                    <option value="<%= country.name %>" <%= item.companyCountry == country.name ? "selected":"" %> ><%= country.name %></option>
+                    <% }) %>
+                </select>
+            </div>
+  
+            <div class="form-group">
+                <label>Company Street</label>
+                <input type="text" class="form-control" value="<%= item.companyStreet %>" name="companyStreet" >
+            </div>
+  
+            <div class="form-group">
+                <label>Company City</label>
+                <input type="text" class="form-control" value="<%= item.companyCity %>" name="companyCity" >
+            </div>
+  
+            <div class="form-group">
+                <label>Company State</label>
+                <input type="text" class="form-control" value="<%= item.companyState %>" name="companyState" >
+            </div>
+  
+            <div class="form-group">
+                <label>Company Postal Code</label>
+                <input type="text" class="form-control" value="<%= item.companyZipCode %>" name="companyZipCode" >
+            </div>
+  
+            <h4>Applicant/Client Profile</h4>
+            <hr>
+  
+            <div class="form-group">
+                <label>Applicant/Rep First Name</label>
+                <input type="text" class="form-control" value="<%= item.fname %>" name="fname" >
+            </div>
+  
+            <div class="form-group">
+                <label>Applicant/Rep Last Name</label>
+                <input type="text" class="form-control" value="<%= item.lname %>" name="lname" >
+            </div>
+  
+            <div class="form-group">
+                <label>Applicant/Rep Phone No.</label>
+                <input type="text" class="form-control" value="<%= item.phone %>" name="phone" >
+            </div>
+  
+            <div class="form-group">
+                <label>Applicant/Rep Fax No.</label>
+                <input type="text" class="form-control" value="<%= item.fax %>" name="fax" >
+            </div>
+  
+            <div class="form-group">
+                <label>Applicant/Rep Nationality</label>
+                <input type="text" class="form-control" value="<%= item.nationality %>" name="nationality" >
+            </div>
+  
+            <div class="form-group">
+                <label>Applicant/Rep Position</label>
+                <input type="text" class="form-control" value="<%= item.position %>" name="position" >
+            </div>
+  
+            <div class="form-group">
+                <label>Applicant/Rep Street</label>
+                <input type="text" class="form-control" value="<%= item.companyStreet %>" name="companyStreet" >
+            </div>
+  
+            <div class="form-group">
+                <label>Applicant/Rep City</label>
+                <input type="text" class="form-control" value="<%= item.companyCity %>" name="companyCity" >
+            </div>
+  
+            <div class="form-group">
+                <label>Applicant/Rep State</label>
+                <input type="text" class="form-control" value="<%= item.companyState %>" name="companyState" >
+            </div>
+  
+            <div class="form-group">
+                <label>Applicant/Rep Postal Code</label>
+                <input type="text" class="form-control" value="<%= item.companyZipCode %>" name="companyZipCode" >
+            </div>
+  
+            <div class="form-group">
+                <label>Applicant/Rep Country</label>
+                <select class="form-control" name="repCountry">
+                    <option value="">-</option>
+                    <% countries.forEach(function(country,key) {  %>
+                    <option value="<%= country.name %>" <%= item.repCountry == country.name ? "selected":"" %>><%= country.name %></option>
+                    <% }) %>
+                </select>
+            </div>
+  
+            
+  
+            
+  
+            
+  
+  
+        </div>
+  
+       
+  
+        <div class="col-md-12">
+            <p class="text-center">
+                <button type="submit" class="btn btn-primary btn-rounded-primary" style="padding-left:40px;padding-right:40px;">Update</button>
+            </p>
+        </div>
+  
+    </form>
+  
+  </div>
+        
+  
+  

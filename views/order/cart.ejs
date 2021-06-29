@@ -37,8 +37,8 @@
 					<tr>
 						<th><input type="checkbox" class="updateCartStatus" name="status" data-cart-id="<%= cartItems[i]._id %>" data-cart-status="<%= cartItems[i].status %>" <%= cartItems[i].status == "active" ? "checked" : "" %> ></th>
 						<th><%= cartItems[i].country.name ? cartItems[i].country.name : cartItems[i].country %></th>
-						<th><%= cartItems[i].serviceType ? cartItems[i].serviceType : '' %></th>
-						<th><%= cartItems[i].type ? cartItems[i].type : '' %></th>
+						<th><%= cartItems[i].serviceType ? helpers.formatTextMongoValue(cartItems[i].serviceType) : '' %></th>
+						<th><%= cartItems[i].type ? helpers.formatTextMongoValue(cartItems[i].type) : '' %></th>
 						<th><%= cartItems[i].word_mark ? cartItems[i].word_mark : '' %></th>
 						<th><%= cartItems[i].class ? cartItems[i].class : '' %></th>
 						<th><%= formatter.format(cartItems[i].price) %> <i><%= hasCode && cartItems[i].discountAmount ? '(-'+formatter.format(cartItems[i].discountAmount) + ')' : '' %></i></th>

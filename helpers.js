@@ -290,4 +290,29 @@ exports.fetchUsersFromCartList = async function(items) {
     // })
 } 
 
+exports.formatTextMongoValue = function(txt) {
+
+    switch (txt) {
+        case 'study':
+            return "Trademark Study"
+
+        case 'registration':
+            return "Trademark Registration"
+
+        case 'monitoring':
+            return "Trademark Monitoring"
+
+        case 'word':
+            return "Word-Only"
+
+        case 'logo':
+            return "Design-Only or Stylized Word-Only (Figurative)"
+
+        case 'lword':
+            return "Combined Word and Design"
+        default:
+            return txt
+    }
+}
+
 

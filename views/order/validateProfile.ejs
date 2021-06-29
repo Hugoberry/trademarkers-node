@@ -145,7 +145,7 @@
                         </div>
                     </div>
                     
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="form-group row">
                             <span style="padding-left: 15px;"> First Name </span>
                             <div class="col-md-12">
@@ -154,7 +154,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="form-group row">
                             <span style="padding-left: 15px;"> Last Name </span>
                             <div class="col-md-12">
@@ -163,7 +163,9 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6">
+                    
+
+                    <div class="col-md-4">
                         <div class="form-group row">
                             <span style="padding-left: 15px;">Email Address <b class="asterisk">*</b></span>
                             <div class="col-md-12">
@@ -173,7 +175,16 @@
                         </div>
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-4">
+                        <div class="form-group row">
+                            <span style="padding-left: 15px;"> Nationality </span>
+                            <div class="col-md-12">
+                                <input id="name" type="text" class="form-control" name="nationality" value="<%= (user ? user.nationality : (trademarkStore ? trademarkStore.representatives[0].nationality : '') ) %>" >
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
                         <div class="form-group row">
                             <span style="padding-left: 15px;"> Phone Number</span>
                             <div class="col-md-12">
@@ -182,7 +193,7 @@
                         </div>
                     </div>
 
-                    <div id="fax-block" class="col-md-3">
+                    <div id="fax-block" class="col-md-4">
                         <div class="form-group row">
                             <span style="padding-left: 15px;"> Fax</span>
                             <div class="col-md-12">

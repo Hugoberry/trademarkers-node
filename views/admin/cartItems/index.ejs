@@ -1,0 +1,66 @@
+<div class="col-md-12" style="margin-bottom:20px;">  
+    <h2>Cart Item List <a class="ml-3 btn btn-primary" href="/njs-admin/manage/cart-items/add"><i class="fa fa-plus" style="color:#fff"></i></a></h2>
+
+    <% if (flash.success) { %>
+    <div class="alert alert-success" role="alert">
+        <strong><%= flash.success %></strong>
+    </div>
+    <% } %>
+
+    <% if (flash.error) { %>
+    <div class="alert alert-danger" role="alert">
+        <strong><%= flash.error %></strong>
+    </div>
+    <% } %>
+</div>
+                    
+<div clss="col-md-12">
+    <table id="dataTableTrademarks" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Customer</th>
+                <th>Country</th>
+                <th>Service</th>
+                <th>Type</th>
+                <th>Mark</th>
+                <th>Class</th>
+                <th>Price</th>
+                <th>Date Created</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        <% items.forEach(function(item,key) {  %>
+   
+           
+
+            <tr>
+                <%
+                let hasCode = false, promoCode="";
+                let dateCreated;
+                if( item.created_at_formatted ) {
+                    dateCreated = item.created_at_formatted
+                }
+
+                if ( item.promoCode ) {
+                    hasCode = true
+                    promoCode = item.promoCode
+                }
+                %>
+                <td data-sort="<%= moment(dateCreated).unix() %>"><%= item.user.name ? item.user.name : '-' %></td>
+                <td><%= item.country.name ? item.country.name : item.country %></td>
+                <td><%= item.serviceType ? item.serviceType : '' %></td>
+                <td><%= item.type ? item.type : '' %></td>
+                <td><%= item.word_mark ? item.word_mark : '' %></td>
+                <td><%= item.class ? item.class : '' %></td>
+                <td><%= formatter.format(item.price) %> <i><%= hasCode && item.discountAmount ? '(-'+formatter.format(item.discountAmount) + ')' : '' %></i></td>
+                <td><%= moment(item.created_at_formatted).format('MMM D, YYYY') %></td>
+                <td><%= item.status %></td>
+                <td><a href="/njs-admin/manage/cart-items/edit/<%= item._id %>"><i class="fa fa-pen"></i></a></td>
+
+            </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>

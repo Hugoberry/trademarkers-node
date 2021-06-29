@@ -1,0 +1,245 @@
+<div class="col-md-12" style="margin-bottom:20px;">    
+  <h2>Add Cart Item
+  </h2>
+
+  <% if (flash.success) { %>
+  <div class="alert alert-success" role="alert">
+      <strong><%= flash.success %></strong>
+  </div>
+  <% } %>
+
+  <% if (flash.error) { %>
+  <div class="alert alert-danger" role="alert">
+      <strong><%= flash.error %></strong>
+  </div>
+  <% } %>
+
+
+
+
+  <!-- <form class="row" action="/njs-admin/manage/cart-items/add" method="post" encType="multipart/form-data"> -->
+
+  
+
+      <div class="col-md-12">
+          <hr>
+
+          <div class="form-group">
+              <label>Customer <span style="color:red">*</span></label>
+              <select class="form-control" name="userId" required>
+                  <option value="">-</option>
+                  <% users.forEach(function(user,key) {  %>
+                  <option value="<%= user._id %>"><%= user.email %></option>
+                  <% }) %>
+              </select>
+          </div>
+
+          <div class="form-group">
+              <label>Service</label>
+              <select class="form-control" name="serviceType">
+                  <option value="study">Trademark Study</option>
+                  <option value="registration">Trademark Registration</option>
+                  <option value="monitoring">Trademark Monitoring</option>
+                  <option value="Other Services">Other Services</option>
+              </select>
+          </div>
+
+          <div class="form-group">
+              <label>Country <span style="color:red">*</span></label>
+              <select class="form-control" name="country" required>
+                  <option value="">-</option>
+                  <% countries.forEach(function(country,key) {  %>
+                  <option value="<%= country._id %>"><%= country.name %></option>
+                  <% }) %>
+              </select>
+          </div>
+
+          <div class="form-group">
+              <label>Price($) <span style="color:red">*</span></label>
+              <input type="number" class="form-control" value="" name="price" required >
+          </div>
+
+          <div class="form-group">
+              <label>Trademark <span style="color:red">*</span></label>
+              <input type="text" class="form-control" value="" name="word_mark" required >
+          </div>
+
+          <!-- <div class="form-group">
+              <label>Trademark Serial - (For monitoring service only)</label>
+              <input type="text" class="form-control" value="" name="word_mark" >
+          </div> -->
+
+          <div class="form-group">
+              <label>Trademark Type</label>
+              <select class="form-control" name="type">
+                  <option value="word">Word-Only</option>
+                  <option value="logo">Design-Only or Stylized Word-Only (Figurative)</option>
+                  <option value="lword">Combined Word and Design</option>
+              </select>
+          </div>
+
+          <div class="form-group">
+              <label><b>Upload Photo (jpeg, jpg, png)</b></label>
+              <input type="file" class="form-control" name="logo_pic" class="form-control" id="logo_pic" >
+          </div>
+
+          <div class="form-group" >
+              <label><b>Color Claim</b></label>
+              
+
+              <div class="form-check">
+                  <input class="form-check-input" type="radio" name="colorClaim" id="yesClaim" value="yes" >
+                  <label for="yesClaim">
+                      Yes
+                  </label>
+              </div>
+              <div class="form-check">
+                  <input class="form-check-input" type="radio" name="colorClaim" id="noClaim" value="no" checked>
+                  <label for="noClaim">
+                      No
+                  </label>
+              </div>
+              <div class="form-check">
+                  <input class="form-control" type="text" name="colorClaimText" placeholder="Color" value="" >
+              </div>
+
+          </div>
+
+
+          <div class="form-group">
+              <label>Classes / Description</label>
+              <textarea name="class" class="form-control" placeholder="ex. 1|description;2|description"></textarea>
+          </div>
+
+          <div class="form-group">
+              <label>Nature</label>
+              <select class="form-control" name="nature">
+                  <option value="Individual">Individual</option>
+                  <option value="Company">Company</option>
+              </select>
+          </div>
+
+          
+          <h4>Company Profile</h4>
+          <hr>
+
+          <div class="form-group">
+              <label>Company Name</label>
+              <input type="text" class="form-control" value="" name="company" >
+          </div>
+
+          <div class="form-group">
+              <label>Company Country</label>
+              <select class="form-control" name="companyCountry">
+                  <option value="">-</option>
+                  <% countries.forEach(function(country,key) {  %>
+                  <option value="<%= country.name %>"><%= country.name %></option>
+                  <% }) %>
+              </select>
+          </div>
+
+          <div class="form-group">
+              <label>Company Street</label>
+              <input type="text" class="form-control" value="" name="companyStreet" >
+          </div>
+
+          <div class="form-group">
+              <label>Company City</label>
+              <input type="text" class="form-control" value="" name="companyCity" >
+          </div>
+
+          <div class="form-group">
+              <label>Company State</label>
+              <input type="text" class="form-control" value="" name="companyState" >
+          </div>
+
+          <div class="form-group">
+              <label>Company Postal Code</label>
+              <input type="text" class="form-control" value="" name="companyZipCode" >
+          </div>
+
+          <h4>Applicant/Client Profile</h4>
+          <hr>
+
+          <div class="form-group">
+              <label>Applicant/Rep First Name</label>
+              <input type="text" class="form-control" value="" name="fname" >
+          </div>
+
+          <div class="form-group">
+              <label>Applicant/Rep Last Name</label>
+              <input type="text" class="form-control" value="" name="lname" >
+          </div>
+
+          <div class="form-group">
+              <label>Applicant/Rep Phone No.</label>
+              <input type="text" class="form-control" value="" name="phone" >
+          </div>
+
+          <div class="form-group">
+              <label>Applicant/Rep Fax No.</label>
+              <input type="text" class="form-control" value="" name="fax" >
+          </div>
+
+          <div class="form-group">
+              <label>Applicant/Rep Nationality</label>
+              <input type="text" class="form-control" value="" name="nationality" >
+          </div>
+
+          <div class="form-group">
+              <label>Applicant/Rep Position</label>
+              <input type="text" class="form-control" value="" name="position" >
+          </div>
+
+          <div class="form-group">
+              <label>Applicant/Rep Street</label>
+              <input type="text" class="form-control" value="" name="companyStreet" >
+          </div>
+
+          <div class="form-group">
+              <label>Applicant/Rep City</label>
+              <input type="text" class="form-control" value="" name="companyCity" >
+          </div>
+
+          <div class="form-group">
+              <label>Applicant/Rep State</label>
+              <input type="text" class="form-control" value="" name="companyState" >
+          </div>
+
+          <div class="form-group">
+              <label>Applicant/Rep Postal Code</label>
+              <input type="text" class="form-control" value="" name="companyZipCode" >
+          </div>
+
+          <div class="form-group">
+              <label>Applicant/Rep Country</label>
+              <select class="form-control" name="repCountry">
+                  <option value="">-</option>
+                  <% countries.forEach(function(country,key) {  %>
+                  <option value="<%= country.name %>"><%= country.name %></option>
+                  <% }) %>
+              </select>
+          </div>
+
+          
+
+          
+
+          
+
+
+      </div>
+
+     
+
+      <div class="col-md-12">
+          <p class="text-center">
+              <button type="submit" class="btn btn-primary btn-rounded-primary" style="padding-left:40px;padding-right:40px;">Create</button>
+          </p>
+      </div>
+
+  <!-- </form> -->
+
+</div>
+      
+

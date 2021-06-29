@@ -15,6 +15,7 @@ const adminBlog = require('../controller/adminBlogController')
 const adminEuActions = require('../controller/adminEuActionsController')
 const adminVideos = require('../controller/adminVideosController')
 const adminActivities = require('../controller/adminActivitiesController')
+const adminCartItems = require('../controller/adminCartItemController')
 
 
 /* GET users listing. */
@@ -100,6 +101,14 @@ router.get('/manage/videos/delete/:id', verify, guardAdmin, adminVideos.deleteRe
 router.get('/manage/activities', verify, guardAdmin, adminActivities.index);
 router.get('/manage/activities/view/:id', verify, guardAdmin, adminActivities.show);
 router.get('/manage/activities/delete/:id', verify, guardAdmin, adminActivities.deleteRecord);
+
+router.get('/manage/cart-items', verify, guardAdmin, adminCartItems.index);
+router.get('/manage/cart-items/edit/:id', verify, guardAdmin, adminCartItems.edit);
+router.post('/manage/cart-items/edit/:id', verify, guardAdmin, adminCartItems.editSubmit);
+router.get('/manage/cart-items/add', verify, guardAdmin, adminCartItems.add);
+router.post('/manage/cart-items/add', verify, guardAdmin, adminCartItems.addSubmit);
+// router.get('/manage/cart-items/delete/:id', verify, guardAdmin, adminCartItems.deleteRecord);
+
 
 
 
