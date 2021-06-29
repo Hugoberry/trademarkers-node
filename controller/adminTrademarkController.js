@@ -130,6 +130,12 @@ exports.editSubmit = async function(req, res, next) {
     }
     console.log("fetched user", user);
     trademark[0].user = user
+
+    let userData = {
+      user : user
+    }
+
+    rpo.updateDetails(trademark[0]._id, userData)
   }
 
   if (Array.isArray(req.body.addAmount)) {

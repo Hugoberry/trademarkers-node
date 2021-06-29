@@ -1259,7 +1259,7 @@ exports.deliveryMethod = async function(req, res, next) {
     trademark: trademark[0],
     pngName: pngName,
     pdfName: pdfName,
-    user: user[0]
+    user: user[0] ? user[0] : trademark[0].user
   });
 
 
