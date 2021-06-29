@@ -123,12 +123,12 @@ exports.editSubmit = async function(req, res, next) {
   if (trademark[0].mysqlRecord && !trademark[0].user) {
     console.log('no user found!');
     let user = await rpoUserMongo.getById(trademark[0].mysqlRecord.user_id)
-
+    user = user[0]
     if ( !user ) {
       user = await rpoUser.getUserByID(trademark[0].mysqlRecord.user_id)
     }
-    console.log("fetched user", user[0]);
-    trademark[0].user = user[0]
+    console.log("fetched user", user);
+    trademark[0].user = user
   }
 
   if (Array.isArray(req.body.addAmount)) {
