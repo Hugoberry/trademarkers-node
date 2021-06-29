@@ -126,6 +126,7 @@ exports.editSubmit = async function(req, res, next) {
     user = user[0]
     if ( !user ) {
       user = await rpoUser.getUserByID(trademark[0].mysqlRecord.user_id)
+      user = user[0]
     }
     console.log("fetched user", user);
     trademark[0].user = user
