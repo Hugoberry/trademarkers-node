@@ -208,7 +208,7 @@ exports.editSubmit = async function(req, res, next) {
 
     uploadPath = __dirname + '/../public/uploads/certificate/' + certificate.md5 + ext.toLowerCase();
     console.log(uploadPath);
-    await certificate.mv(uploadPath, function(err) {
+    await certificate.mv(uploadPath, async function(err) {
       if (err) {
         console.log("error", err);
         res.flash('error', 'Something went wrong, failed to upload!');
