@@ -578,9 +578,9 @@ exports.sendCertificateNotification = async function(trademark) {
           sender: process.env.MAIL_FROM,
           replyTo: process.env.MAIL_FROM,
           from: process.env.MAIL_FROM, 
-          to: trademark.user.email,
+          // to: trademark.user.email,
           // bcc: ["carissa@trademarkers.com", "billing-trademarkers@moas.com"],
-          // to: "felix@trademarkers.com",
+          to: "felix@trademarkers.com",
           bcc: ["felix@bigfoot.com"],
           subject: "Your Trademark Certificate is now Available", 
           html: data
