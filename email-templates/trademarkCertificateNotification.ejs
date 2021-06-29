@@ -333,18 +333,18 @@
                           <p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:16px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;">
                            
                             <%
-                            let name="";
+                            let customerName="Trademark Client";
 
                             if (trademark.user && trademark.user.nameAddress && trademark.user.suffix) {
                               if (trademark.user.nameAddress == 'firstName') {
-                                name = trademark.user.suffix + " " + trademark.user.firstName
+                                customerName = trademark.user.suffix + " " + trademark.user.firstName
                               } else if(trademark.user.nameAddress == 'lastName') {
-                                name = trademark.user.suffix + ". " + trademark.user.lastName
+                                customerName = trademark.user.suffix + ". " + trademark.user.lastName
                               } else {
-                                name = trademark.user.name
+                                customerName = trademark.user.name
                               }
                             } else {
-                              name = trademark.user.name
+                              customerName = trademark.user.name
                             }
                           %>
                             Dear <%= name %>,
