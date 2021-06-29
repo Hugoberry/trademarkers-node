@@ -335,7 +335,7 @@
                             <%
                             let name="";
 
-                            if (trademark.user.nameAddress && trademark.user.suffix) {
+                            if (trademark.user && trademark.user.nameAddress && trademark.user.suffix) {
                               if (trademark.user.nameAddress == 'firstName') {
                                 name = trademark.user.suffix + " " + trademark.user.firstName
                               } else if(trademark.user.nameAddress == 'lastName') {
