@@ -1216,35 +1216,35 @@ exports.deliveryMethod = async function(req, res, next) {
         pngName = pdfName
  
 
-        var input   = __dirname + "/../public/uploads/certificate/" + pdfName;
-        console.log("creating png");
-        pdf2img.setOptions({
-          type: 'png',                                // png or jpg, default jpg
-          size: 1024,                                 // default 1024
-          density: 600,                               // default 600
-          outputdir: __dirname + path.sep + '../public/pdf/png', // output folder, default null (if null given, then it will create folder name same as file name)
-          outputname: pngName,                         // output file name, dafault null (if null given, then it will create image name same as input name)
-          page: null,                                 // convert selected page, default null (if null given, then it will convert all pages)
-          quality: 100                                // jpg compression quality, default: 100
-        });
+        // var input   = __dirname + "/../public/uploads/certificate/" + pdfName;
+        // console.log("creating png");
+        // pdf2img.setOptions({
+        //   type: 'png',                                // png or jpg, default jpg
+        //   size: 1024,                                 // default 1024
+        //   density: 600,                               // default 600
+        //   outputdir: __dirname + path.sep + '../public/pdf/png', // output folder, default null (if null given, then it will create folder name same as file name)
+        //   outputname: pngName,                         // output file name, dafault null (if null given, then it will create image name same as input name)
+        //   page: null,                                 // convert selected page, default null (if null given, then it will convert all pages)
+        //   quality: 100                                // jpg compression quality, default: 100
+        // });
 
         // console.log(input);
         
-        let gen = await pdf2img.convert(input, function(err, info) {
-          console.log("gen png");
-          if (err) return err;
-          else return info;
-        });
+        // let gen = await pdf2img.convert(input, function(err, info) {
+        //   console.log("gen png");
+        //   if (err) return err;
+        //   else return info;
+        // });
         
-        console.log(gen);
+        // console.log(gen);
       
 
     } else { // end if trademark
-      activityService.logger(req.ip, req.originalUrl, "Customer tried to visited certificate delivery page but no serial number found", req);
+      activityService.logger(req.ip, req.originalUrl, "Customer tried to visit certificate delivery page but no serial number found", req);
       res.redirect('/');
     } // end else trademark
   } else {
-    activityService.logger(req.ip, req.originalUrl, "Customer tried to visited certificate delivery page but empty trademark serial", req);
+    activityService.logger(req.ip, req.originalUrl, "Customer tried to visit certificate delivery page but empty trademark serial", req);
     res.redirect('/');
   }
   // console.log(user[0]);
