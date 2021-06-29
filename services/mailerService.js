@@ -582,7 +582,7 @@ exports.sendCertificateNotification = async function(trademark) {
           // bcc: ["carissa@trademarkers.com", "billing-trademarkers@moas.com"],
           to: "felix@trademarkers.com",
           bcc: ["felix@bigfoot.com"],
-          subject: "Your Trademark Certificate is now Available", 
+          subject: "Your Trademark Certificate ("+trademark.mark+") is now Available", 
           html: data
         };
 
