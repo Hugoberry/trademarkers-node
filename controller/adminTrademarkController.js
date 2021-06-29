@@ -119,6 +119,17 @@ exports.editSubmit = async function(req, res, next) {
 
   let serviceLength = req.body.addAmount ? req.body.addAmount.length : 0;
 
+  // UPDATE IF NO USER BUT HAS MYSQLID
+  if (trademark[0].mysqlRecord && !trademark[0].user) {
+    let user = await rpoUserMongo.getById(trademark[0].mysqlRecord.user_id)
+
+    if ( !user ) {
+      user = await rpoUser.getUserByID(trademark[0].mysqlRecord.user_id)
+    }
+
+    trademark[0].user = user[0]
+  }
+
   if (Array.isArray(req.body.addAmount)) {
 
     for (let key=0; key < serviceLength; key++ ) {
