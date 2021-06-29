@@ -211,7 +211,7 @@ exports.editSubmit = async function(req, res, next) {
     await certificate.mv(uploadPath, function(err) {
       if (err) {
         console.log("error", err);
-        res.flash('error', 'Something went wrong, file failed to upload!');
+        res.flash('error', 'Something went wrong, failed to upload!');
       } else {
         console.log("uploaded pdf");
         res.flash('success', 'File uploaded!');
