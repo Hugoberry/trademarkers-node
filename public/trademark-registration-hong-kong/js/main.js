@@ -12,9 +12,11 @@ var low = document.getElementById("low");
 var medium = document.getElementById("medium");
 var svgs = { low: low, medium: medium };
 
+var urls = window.location.href.split('/');
+
 var map = new MapViewer();
 map.fetchData("js/data.json");
-map.fetchMap("js/low.geo.json", "low", false);
+map.fetchMap("geo/low.geo.json", "low", false);
 map.fetchText("country", false, false);
 map.fetchText("noservice", false, false);
 map.setCanvas(canvas, canvas2);
@@ -72,3 +74,19 @@ window.addEventListener("popstate", function(e) {
     e.preventDefault();
   }
 });
+
+
+let targ = "EM";
+let c = urls[urls.length - 1];
+c = c.toLowerCase();
+c = c.replace(/\s/g, '-');
+for (let k in map.data) {
+  let n = map.data[k].name;
+  n = n.toLowerCase();
+  n = n.replace(/\s/g, '-');
+  if (n == c) {
+    targ = k;
+    break;
+  }
+}
+map.startWithFeature(targ);
