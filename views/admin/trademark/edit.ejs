@@ -107,11 +107,34 @@
                     </div>
                 
 
-                  
+                    <div class="col-md-12  mt-3">
+                      <label>Registration Number</label>
+                      <input type="text" class="form-control" value="<%= trademark.registrationNumber %>" placeholder="" name="registrationNumber" >
+                    </div>
+
+                    <div class="col-md-12  mt-3">
+                      <label>Registration Date</label>
+                      <input type="date" class="form-control" value="<%= trademark.registrationDate %>" placeholder="" name="registrationDate" >
+                    </div>
+
+                    <div class="col-md-12  mt-3">
+                      <label>Filing Date</label>
+                      <input type="date" class="form-control" value="<%= trademark.filingDate %>" placeholder="" name="filingDate" >
+                    </div>
 
                     <div class="col-md-12  mt-3">
                         <label>Due Date</label>
                         <input type="date" class="form-control" value="<%= trademark.dueDate %>" placeholder="" name="dueDate" >
+                    </div>
+
+                    <div class="col-md-12  mt-3">
+                      <label>Attorney</label>
+                      <select class="form-control" name="attorneyId">
+                        <option value="">-</option>
+                        <% atty.forEach(function(attorney,key) { %>
+                          <option value="<%= attorney._id %>" <%= trademark.attorney && trademark.attorney.email == attorney.email ? "selected":"" %> ><%= attorney.name %></option>
+                        <% }) %>
+                      </select>
                     </div>
 
                 </div>
@@ -191,10 +214,28 @@
                 </div>
 
                 </div>
+
+                <div class="col-md-12 mt-5">
+                  <label>Notes</label>
+                  <textarea class="form-control" name="notes"><%= trademark.notes %></textarea>
+                </div>
+
+                <div class="col-md-12 mt-5">
+                  
+                  <label>Comments</label>
+                  <% if ( trademark.comments && trademark.comments.length > 0 ) { %>
+                    <ul>
+                      <% trademark.comments.forEach(function(comment,key) { %>
+                        <li><span><%= comment.alias %>: </span><%= comment.message %></li>
+                      <% }) %>
+                    </ul>
+                    <% } %>
+                  <textarea class="form-control" name="comments"></textarea>
+                </div>
         
                 
 
-                <div class="col-md-12">
+                <div class="col-md-12 mt-3">
                     <p class="text-center">
                         <button type="submit" class="btn btn-primary btn-rounded-primary" style="padding-left:40px;padding-right:40px;">Update</button>
                     </p>

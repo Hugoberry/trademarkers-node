@@ -2,6 +2,8 @@ var rpo = require('../repositories/mongoTrademarks');
 var rpoAddedServices = require('../repositories/trademarkAddedServices');
 var rpoUser = require('../repositories/users');
 var rpoUserMongo = require('../repositories/usersMongo');
+var rpoAtty = require('../repositories/attorneys');
+var rpoComments = require('../repositories/comments');
 
 var mailService = require('../services/mailerService');
 var crawlerService = require('../services/crawlerService');
@@ -9,6 +11,7 @@ var crawlerService = require('../services/crawlerService');
 const multer = require('multer');
 const path = require('path');
 
+var helpers = require('../helpers');
 let moment = require('moment');
 const { toInteger } = require('lodash');
 
@@ -87,6 +90,8 @@ exports.edit = async function(req, res, next) {
 
   let trademarks = await rpo.getById(id);
 
+  let atty = await rpoAtty.getAll()
+
 
 
 
@@ -105,7 +110,8 @@ exports.edit = async function(req, res, next) {
   res.render('admin/trademark/edit', { 
     layout: 'layouts/admin-layout', 
     title: 'Admin Dashboard',
-    trademark: trademarks[0]
+    trademark: trademarks[0],
+    atty: atty
   });
     
 }
@@ -274,14 +280,55 @@ exports.editSubmit = async function(req, res, next) {
     delivery.status = req.body.delivery_status
     delivery.trackingNumber = req.body.delivery_tracking
   }
+
+  let comments= trademark[0].comments ? trademark[0].comments : []
+  if (req.body.comments) {
+    let authUser = await helpers.getLoginUser(req)
+    let commentData = {
+      trademarkId: trademark[0]._id,
+      userId: authUser._id,
+      authUser: authUser,
+      alias: "Trademarkers LLC",
+      message: req.body.comments,
+      created_at: toInteger(moment().format('YYMMDD')),
+      created_at_formatted: moment().format()
+    }
+
+    await rpoComments.put(commentData)
+    comments.push(commentData)
+  }
+
+  
+  
   
 
   let otherServicesData = {
     otherServices : otherServices,
     serialNumber: req.body.serialNumber,
+    registrationNumber: req.body.registrationNumber,
+    registrationDate: req.body.registrationDate,
+    filingDate: req.body.filingDate,
     delivery: delivery,
     dueDate: req.body.dueDate,
     status: req.body.statusUpdate,
+    notes: req.body.notes,
+    comments: comments
+  }
+
+  if (req.body.attorneyId) {
+    
+    
+
+    let attorney = await rpoAtty.getById(req.body.attorneyId);
+
+    if ( !trademark[0].attorney ) {
+      // SEND EMAIL NOTIFICATION HERE
+    }
+
+    if (attorney[0]) {
+      otherServicesData.attyId = attorney[0]._id
+      otherServicesData.attorney = attorney[0]
+    }
   }
 
   await rpo.updateDetails(id, otherServicesData);

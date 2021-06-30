@@ -15,12 +15,14 @@
 </div>
                     
 <div clss="col-md-12">
-    <table id="myListDataTable" class="display" style="width:100%">
+    <table id="dataTableTrademarks" class="display" style="width:100%">
         <thead>
             <tr>
+                <th>Login Link</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Role</th>
+                <th>Date Created</th>
                 <th></th>
             </tr>
         </thead>
@@ -28,9 +30,20 @@
         <% users.forEach(function(user,key) {  %>
    
             <tr>
-                <td><%= user.name %></td>
+                <%
+                let dateCreated;
+                if( user.created_at_formatted ) {
+                    dateCreated = user.created_at_formatted
+                } else {
+                    dateCreated = moment(user.created_at).format()
+                }
+                %>
+                <td data-sort="<%= moment(dateCreated).unix() %>"><%= helpers.encodeChars(user.password) %>/<%= helpers.encodeChars(user.email) %></td>
+                
+                <td ><%= user.name %></td>
                 <td><%= user.email %></td>
                 <td><%= user.role ? user.role : 'Customer' %></td>
+                <td><%= moment(dateCreated).format('MMM D, YYYY') %></td>
                 <td><a href="/njs-admin/manage/user/view/<%= user._id %>"><i class="fa fa-pen"></i></a></td>
             </tr>
             <% }) %>

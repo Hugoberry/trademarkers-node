@@ -18,6 +18,7 @@
     <table id="myListDataTable" class="display" style="width:100%">
         <thead>
             <tr>
+                <th>Rep ID</th>
                 <th>Name</th>
                 <th>Address</th>
                 <th>Email</th>
@@ -31,7 +32,8 @@
         <% lists.forEach(function(list,key) {  %>
    
             <tr>
-                <td data-sort="<%= moment(list.created_at).unix() %>"><%= list.name %></td>
+                <td data-sort="<%= moment(list.created_at).unix() %>"><%= list.representativeId %></td>
+                <td><%= list.name %></td>
                 
                 <%
                 let address=[]

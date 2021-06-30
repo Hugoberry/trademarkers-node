@@ -351,7 +351,7 @@ exports.loginApi = async function(req, res, next) {
             // rpoUsers.putUser(obj);
 
     }
-    res.redirect('/home'); 
+    res.redirect('/customers'); 
     next()
 }
 
