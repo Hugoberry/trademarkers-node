@@ -1,0 +1,66 @@
+<div class="col-md-12" style="margin-bottom:20px;">  
+    <h2>Attorneys List <a class="ml-3 btn btn-primary" href="/njs-admin/manage/attorneys/add"><i class="fa fa-plus" style="color:#fff"></i></a></h2>
+
+    <% if (flash.success) { %>
+    <div class="alert alert-success" role="alert">
+        <strong><%= flash.success %></strong>
+    </div>
+    <% } %>
+
+    <% if (flash.error) { %>
+    <div class="alert alert-danger" role="alert">
+        <strong><%= flash.error %></strong>
+    </div>
+    <% } %>
+</div>
+                    
+<div clss="col-md-12">
+    <table id="myListDataTable" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Email</th>
+                <th>Contact</th>
+                <th>Jurisdictoin</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        <% lists.forEach(function(list,key) {  %>
+   
+            <tr>
+                <td data-sort="<%= moment(list.created_at).unix() %>"><%= list.name %></td>
+                
+                <%
+                let address=[]
+                if (list.street) {
+                    address.push(list.street)
+                }
+                if (list.city) {
+                    address.push(list.city)
+                }
+                if (list.state) {
+                    address.push(list.state)
+                }
+                if (list.postalCode) {
+                    address.push(list.postalCode)
+                }
+                if (list.country) {
+                    address.push(list.country)
+                }
+                %>
+                <td><%= address.join(', ') %></td>
+                <td><%= list.email %></td>
+                <td><%= list.contact %></td>
+                <td><%= list.jurisdiction %></td>
+                <td><%= list.status %></td>
+
+                <td><a href="/njs-admin/manage/attorneys/edit/<%= list._id %>"><i class="fa fa-pen"></i></a>
+                <a href="/njs-admin/manage/attorneys/delete/<%= list._id %>"><i class="fa fa-trash"></i></a></td>
+            </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>

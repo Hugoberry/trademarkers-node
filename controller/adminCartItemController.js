@@ -215,6 +215,18 @@ exports.editSubmit = async function(req, res, next) {
 
 }
 
+exports.deleteRecord = async function(req, res, next) {
+
+  // console.log(req.body);
+
+  let result = await rpo.remove(req.params.id)
+
+  console.log("res", result);
+  res.flash('success', 'Deleted successfully!');
+  res.redirect('/njs-admin/manage/cart-items/');
+
+}
+
 exports.deleteService = async function(req, res, next) {
 
   // console.log(req.body);

@@ -1,0 +1,103 @@
+<div class="col-md-12" style="margin-bottom:20px;">    
+    <h2>Edit (<%= list.name %>)
+    </h2>
+
+
+
+
+    <form class="row" action="/njs-admin/manage/attorneys/edit/<%= list._id %>" method="post" encType="multipart/form-data">
+
+    
+
+        <div class="col-md-12">
+            <hr>
+
+            <div class="form-group">
+                <label>First Name</label>
+                
+                <input type="hidden" class="form-control" value="<%= list.name %>" name="name">
+                <input type="text" class="form-control" value="<%= list.fname %>" name="fname" required>
+            </div>
+
+            <div class="form-group">
+                <label>Last Name</label>
+                <input type="text" class="form-control" value="<%= list.lname %>" name="lname" required>
+            </div>
+
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" class="form-control" value="<%= list.email %>" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label>Contact Number</label>
+                <input type="text" class="form-control" value="<%= list.contact %>" name="contact" required>
+            </div>
+
+            <div class="form-group">
+                <label>Firm</label>
+                <input type="text" class="form-control" value="<%= list.firm %>" name="firm" required>
+            </div>
+
+            <div class="form-group">
+                <label>Jurisdiction</label>
+                <input type="text" class="form-control" value="<%= list.jurisdiction %>" name="jurisdiction" required>
+            </div>
+
+            <div class="form-group">
+                <label>Street</label>
+                <input type="text" class="form-control" value="<%= list.street %>" name="street" required>
+            </div>
+
+            <div class="form-group">
+                <label>City</label>
+                <input type="text" class="form-control" value="<%= list.city %>" name="city" required>
+            </div>
+
+            <div class="form-group">
+                <label>State</label>
+                <input type="text" class="form-control" value="<%= list.state %>" name="state" required>
+            </div>
+
+            <div class="form-group">
+                <label>Postal Code</label>
+                <input type="text" class="form-control" value="<%= list.postalCode %>" name="postalCode" required>
+            </div>
+
+            <div class="form-group">
+                <label>Country</label>
+                <select class="form-control" name="country">
+                    <option value="">-</option>
+                    <% countries.forEach(function(country,key) {  %>
+                    <option value="<%= country.name %>" <%= list.country == country.name ? "selected":"" %> ><%= country.name %></option>
+                    <% }) %>
+                </select>
+            </div>
+            
+
+
+            <div class="form-group">
+                <label>Status</label>
+                <select class="form-control" name="status" required>
+                    <option value="Active" <%= list.status == "Active" ? "selected":"" %> >Active</option>
+                    <option value="Inactive" <%= list.status == "Inactive" ? "selected":"" %> >Inactive</option>
+                </select>
+            </div>
+
+
+
+        </div>
+
+       
+
+        <div class="col-md-12">
+            <p class="text-center">
+                <button type="submit" class="btn btn-primary btn-rounded-primary" style="padding-left:40px;padding-right:40px;">Update</button>
+            </p>
+        </div>
+
+    </form>
+
+</div>
+        
+

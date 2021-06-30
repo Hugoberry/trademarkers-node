@@ -1,0 +1,59 @@
+<div class="col-md-12" style="margin-bottom:20px;">    
+  <h2>View Promo Code
+  </h2>
+
+      <div class="col-md-12">
+          <hr>
+
+          <div class="form-group">
+              <label>Name</label>
+              <input type="text" class="form-control" value="<%= code.name %>" placeholder="" name="name" disabled>
+          </div>
+
+          <div class="form-group">
+              <label>Notes</label>
+              <input type="text" class="form-control" value="<%= code.notes %>" placeholder="" name="notes" disabled>
+          </div>
+
+          <div class="form-group">
+              <label>Discount Amount Type</label>
+              <input type="text" class="form-control" value="<%= code.discountType %>" placeholder="" name="discountType" disabled>
+          </div>
+
+          <div class="form-group">
+              <label>Discount Amount</label>
+              <input type="number" class="form-control" value="<%= code.discountAmount %>" placeholder="" name="discountAmount" disabled>
+          </div>
+
+          <div class="form-group">
+              <label>Start Date</label>
+              <input type="date" class="form-control" value="<%= code.startDate %>" name="startDate" disabled>
+          </div>
+
+          <div class="form-group">
+              <label>End Date</label>
+              <input type="date" class="form-control" value="<%= code.endDate %>" name="endDate" disabled>
+          </div>
+
+          <div class="form-group">
+              <label>Status</label>
+              <input type="text" class="form-control" value="<%= code.status %>" name="status" disabled>
+          </div>
+
+
+
+      </div>
+
+     
+
+      <div class="col-md-12">
+          <p class="text-center">
+            <a class="btn btn-primary btn-rounded-primary" href="/njs-admin/manage/promo/edit/<%= code._id%>">Edit</a>
+          </p>
+      </div>
+
+
+
+</div>
+      
+

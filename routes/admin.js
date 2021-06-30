@@ -16,6 +16,7 @@ const adminEuActions = require('../controller/adminEuActionsController')
 const adminVideos = require('../controller/adminVideosController')
 const adminActivities = require('../controller/adminActivitiesController')
 const adminCartItems = require('../controller/adminCartItemController')
+const adminAttorneys = require('../controller/adminAttorneysController')
 
 
 /* GET users listing. */
@@ -107,8 +108,15 @@ router.get('/manage/cart-items/edit/:id', verify, guardAdmin, adminCartItems.edi
 router.post('/manage/cart-items/edit/:id', verify, guardAdmin, adminCartItems.editSubmit);
 router.get('/manage/cart-items/add', verify, guardAdmin, adminCartItems.add);
 router.post('/manage/cart-items/add', verify, guardAdmin, adminCartItems.addSubmit);
-// router.get('/manage/cart-items/delete/:id', verify, guardAdmin, adminCartItems.deleteRecord);
+router.get('/manage/cart-items/delete/:id', verify, guardAdmin, adminCartItems.deleteRecord);
 
+
+router.get('/manage/attorneys', verify, guardAdmin, adminAttorneys.index);
+router.get('/manage/attorneys/edit/:id', verify, guardAdmin, adminAttorneys.edit);
+router.post('/manage/attorneys/edit/:id', verify, guardAdmin, adminAttorneys.editSubmit);
+router.get('/manage/attorneys/add', verify, guardAdmin, adminAttorneys.add);
+router.post('/manage/attorneys/add', verify, guardAdmin, adminAttorneys.addSubmit);
+router.get('/manage/attorneys/delete/:id', verify, guardAdmin, adminAttorneys.deleteRecord);
 
 
 
