@@ -310,6 +310,16 @@ exports.formatTextMongoValue = function(txt) {
 
         case 'lword':
             return "Combined Word and Design"
+            
+        case 'active':
+            return "Active"
+
+        case 'complete':
+            return "Complete"
+            
+        case 'inactive':
+            return "Inactive"
+
         default:
             return txt
     }

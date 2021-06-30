@@ -118,9 +118,10 @@
                             </div>
                                 <input type="hidden" name="trdId" id="trdId" value="<%= trademark._id %>">
                                 <input type="hidden" name="trdName" id="trdName" value="<%= trademark.mark %>">
-                                <input type="hidden" name="strClass" id="strClass" value="<%= trademark.class %>">
+                                <input type="hidden" name="strClass" id="strClass" value="<%= trademark.class ? trademark.class : (trademark.mysqlRecord && trademark.mysqlRecord.classes ? trademark.mysqlRecord.classes : '' ) %>">
                                 <input type="hidden" name="trdSer" id="trdSer" value="<%= trademark.serialNumber %>">
                                 <input type="hidden" name="userEmail" id="userEmail" value="<%= trademark.user.email %>">
+                                <input type="hidden" name="userName" id="userName" value="<%= trademark.user.name %>">
                           </fieldset>
 
                           <div class="form-group">

@@ -117,18 +117,18 @@ exports.selectDeliveryMethod = async function(req, res, next) {
 
   let mailData = {
     to: req.body.userEmail,
-    name: req.body.name,
+    name: req.body.userName,
     subject: "Certificate Delivery Method | " + req.body.trdName,
-    message: `<p>Customer (${req.body.name}) selected ${req.body.type} for his trademark certificate</p><p>Name: ${req.body.name}<br>Address: ${req.body.address}</p>`
+    message: `<p>Customer (${req.body.userName}) selected ${req.body.type} for his trademark certificate</p><p>Name: ${req.body.name}<br>Address: ${req.body.address}</p>`
   }
 
   mailService.notifyAdmin(mailData)
 
   mailData.subject = `Trademark Certificate Delivery Method | ${req.body.trdName}`
   mailData.message = `<p>Thank you for selecting ${req.body.type} as the delivery method in sending your Registration Certificate of (${req.body.trdName}) in Class (${req.body.strClass}) with Serial No. ${req.body.trdSer}</p>
-                      <p>Name: ${req.body.name}<br>Address: ${req.body.address}</p>
+                      <p>Name: ${req.body.name}<br>Address: ${req.body.address}<br>Contact: ${req.body.contact}</p>
                       <p></p>
-                      <p>Please expect delivery within 2-3 weeks time. <br><br><br>Thank you.<br><br>NiFAEM Entertainment Inc.<br>2006 East Azalea Avenue<br>Baker LA 70714</p>`
+                      <p>Please expect delivery within 2-3 weeks time. <br><br><br>Thank you.<br><br>Trademarkers LLC</p>`
   mailService.notifyCustomer(mailData)
 
   // console.log(req.body);

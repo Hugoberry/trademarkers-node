@@ -50,13 +50,13 @@
                 %>
                 <td data-sort="<%= moment(dateCreated).unix() %>"><%= item.user.name ? item.user.name : '-' %></td>
                 <td><%= item.country.name ? item.country.name : item.country %></td>
-                <td><%= item.serviceType ? item.serviceType : '' %></td>
-                <td><%= item.type ? item.type : '' %></td>
+                <td><%= item.serviceType ? helpers.formatTextMongoValue(item.serviceType) : '' %></td>
+                <td><%= item.type ? helpers.formatTextMongoValue(item.type) : '' %></td>
                 <td><%= item.word_mark ? item.word_mark : '' %></td>
                 <td><%= item.class ? item.class : '' %></td>
                 <td><%= formatter.format(item.price) %> <i><%= hasCode && item.discountAmount ? '(-'+formatter.format(item.discountAmount) + ')' : '' %></i></td>
                 <td><%= moment(item.created_at_formatted).format('MMM D, YYYY') %></td>
-                <td><%= item.status %></td>
+                <td><%= helpers.formatTextMongoValue(item.status) %></td>
                 <td><a href="/njs-admin/manage/cart-items/edit/<%= item._id %>"><i class="fa fa-pen"></i></a></td>
 
             </tr>
