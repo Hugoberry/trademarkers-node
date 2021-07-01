@@ -23,6 +23,7 @@ var rpoCharge = require('../repositories/charges');
 var rpoOrder = require('../repositories/orders');
 var rpoSouNotifications = require('../repositories/souNotifications');
 var rpoUserMongo = require('../repositories/usersMongo');
+var rpoUserMysql = require('../repositories/users');
 var rpoPrices = require('../repositories/prices');
 var rpoTrademarkClasses = require('../repositories/trademarkClasses');
 var rpoArticles = require('../repositories/articles');
@@ -231,6 +232,170 @@ exports.registerSubmit = async function(req, res, next) {
 
 
   res.redirect("/customer/profile"); 
+}
+
+exports.forgotPassword = async function(req, res, next) {
+  // console.log('register');
+    activityService.logger(req.ip, req.originalUrl, "Reset Password Page", req);
+    let user = await helpers.getLoginUser(req)
+  
+    if ( user ) {
+      res.redirect("/customer")
+    }
+    // console.log('passed');
+    res.render('public/forgot-password', { 
+      layout: 'layouts/public-layout-default', 
+      title: 'Trademarkers LLC | Reset Password',
+      user: user
+    });
+}
+
+exports.forgotPasswordSubmit = async function(req, res, next) {
+
+
+  console.log(req.body);
+
+  // FETCH USER IN MYSQL OR MONGO IF FOUND THEN SEND RESET LINK
+  let user = await rpoUserMongo.findUser(req.body.email)
+  let migrate = true;
+
+  if (!user) {
+    migrate = false;
+    user = await rpoUserMysql.getUserByEmail(req.body.email)
+  }
+
+  if (user && user[0]) {
+    // SEND EMAIL WITH RESET PASSWORD
+    let mailData = {
+      to: user[0].email,
+      name: user[0].name,
+      subject: "Reset Password Notification",
+      message: `<p>You are receiving this email because we received a password reset request for your account.</p>
+                <p>This password reset link will expire in 60 minutes. <a href="${process.env.APP_URL}/reset-password/${helpers.encodeChars(user[0].password)}/${helpers.encodeChars(user[0].email)}">Reset Password</a></p>
+                <p>If you did not request a password reset, no further action is required.</p>
+                <br>
+                <p>Regards,</p>
+                <p>TradeMarkers</p>
+                `
+    }
+
+    // if migrate false 
+    // add record to mongo
+    if (!migrate) {
+      
+      user[0].migrate = false;
+      let flag = true
+      for ( ; flag; ) {
+          custNo = "CU-" + helpers.makeid(4)
+
+          let dataCustomer = await rpoUserMongo.findUserNo(custNo)
+          // console.log("check user", dataCustomer.length );
+          if ( dataCustomer.length <= 0 ) {
+              flag = false
+          }
+      }
+      user[0].custNo = custNo
+
+
+      let storedUser = await rpoUserMysql.putUser(user[0])
+      user[0]._id = storedUser.insertedId;
+    }
+
+    let expiryData = {
+      resetExpiryDate : moment().add(1, "hours").format()
+    }
+
+    await rpoUserMongo.updateUser(user[0]._id, expiryData)
+    
+
+    mailService.notifyCustomer(mailData)
+
+    res.flash('success', 'A reset password link has been sent to your email!');
+    res.redirect("/forgot-password")
+  } else {
+    // SEND ERROR AND ASK TO REGISTER
+    res.flash('error', 'Email does not exist!');
+    res.redirect("/forgot-password")
+  }
+
+}
+
+exports.forgotPasswordResetForm = async function(req, res, next) {
+  // console.log('register');
+    activityService.logger(req.ip, req.originalUrl, "Reset Password Form", req);
+    let user = await helpers.getLoginUser(req)
+  
+    if ( user ) {
+      res.redirect("/customer")
+    }
+
+    user = await rpoUserMongo.findUser(req.params.email)
+    // console.log("user f", req.params.email);
+    if (!user) {
+      user = await rpoUserMysql.getUserByEmail(req.body.email)
+    }
+
+    if ( user && user[0] ) {
+      // check user expiry date with reset password
+      // console.log(moment(user[0].resetExpiryDate).format("hh:mm:ss"), moment(user[0].resetExpiryDate).diff(moment(),"minutes") );
+      if ( moment(user[0].resetExpiryDate).format("hh:mm:ss"), moment(user[0].resetExpiryDate).diff(moment(),"minutes") < 0 ) {
+        res.flash('error', 'Reset password expired!');
+        res.redirect("/forgot-password")
+      }
+
+      if ( req.params.old != user[0].password ) {
+        res.flash('error', 'Reset password expired!');
+        res.redirect("/forgot-password")
+      }
+    }
+    // console.log('passed');
+    res.render('public/reset-password', { 
+      layout: 'layouts/public-layout-default', 
+      title: 'Trademarkers LLC | Reset Password',
+      user: user[0]
+    });
+}
+
+exports.forgotPasswordResetFormSubmit = async function(req, res, next) {
+  // console.log('register');
+    // activityService.logger(req.ip, req.originalUrl, "Reset Password Form", req);
+    let user = await helpers.getLoginUser(req)
+  
+    if ( user ) {
+      res.redirect("/customer")
+    }
+
+    user = await rpoUserMongo.getByIdM(req.body.userId)
+    // console.log("user f", req.params.email);
+    if (!user) {
+      res.flash('error', 'Sorry, Account not found!');
+      res.redirect("/forgot-password")
+    }
+
+    if ( req.body.newPassword != req.body.newPasswordConfirm ) {
+      res.flash('error', 'Sorry, Password mismatch!');
+      res.redirect("/reset-password/"+ helpers.encodeChars(user[0].password) +"/" + helpers.encodeChars(user[0].email))
+    }
+
+    if ( user && user[0] ) {
+      
+      activityService.logger(req.ip, req.originalUrl, user[0].name + " successfully reset password", req);
+      // update password
+      var hash = bcrypt.hashSync(req.body.newPassword, 10); 
+      hash = hash.replace("$2b$", "$2y$");
+
+      let data = {
+        password : hash
+      }
+
+      await rpoUserMongo.updateUser(user[0]._id, data)
+
+      helpers.setLoginUser(res,user[0])
+
+      res.redirect("/customer/profile"); 
+
+    }
+
 }
 
 exports.service = async function(req, res, next) {

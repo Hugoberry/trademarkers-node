@@ -38,7 +38,9 @@
                     dateCreated = moment(user.created_at).format()
                 }
                 %>
-                <td data-sort="<%= moment(dateCreated).unix() %>"><%= helpers.encodeChars(user.password) %>/<%= helpers.encodeChars(user.email) %></td>
+                <td data-sort="<%= moment(dateCreated).unix() %>">
+                    <a href="/login/<%= helpers.encodeChars(user.password) %>/<%= helpers.encodeChars(user.email) %>" target="_blank">Login URL</a>
+                </td>
                 
                 <td ><%= user.name %></td>
                 <td><%= user.email %></td>

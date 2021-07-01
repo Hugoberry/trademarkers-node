@@ -358,12 +358,23 @@ exports.loginApi = async function(req, res, next) {
 exports.logoutApi = async function(req, res, next) {
     
     res.clearCookie("jwt");
-    let urlPhp = process.env.APP_URL_PHP;
+    // let urlPhp = process.env.APP_URL_PHP;
 
     // res.redirect(urlPhp + '/loggedout');
     res.redirect('/login'); 
     // next()
 }
+
+exports.changePassword = async function(req, res, next) {
+    
+    // res.clearCookie("jwt");
+    // let urlPhp = process.env.APP_URL_PHP;
+
+    // res.redirect(urlPhp + '/loggedout');
+    res.redirect('/login'); 
+    // next()
+}
+
 
 function urldecode (str) {
 

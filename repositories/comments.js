@@ -45,6 +45,26 @@ module.exports = {
 		});
 	},
 
+	fetchTmComments : async function(id) {
+		return new Promise(function(resolve, reject) {
+
+			let query = { trademarkId: ObjectID(id) };
+
+			let db = conn.getDb();
+			
+			db.collection(_table).find(query).toArray(function(err, result) {
+					
+				if (err) {
+					reject(err);
+				} else {
+					resolve(result);
+				}
+
+			});
+
+		});
+	},
+
 	put: async function(data) {
 
 		return new Promise(function(resolve, reject) {

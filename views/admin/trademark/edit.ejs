@@ -224,9 +224,9 @@
                   
                   <label>Comments</label>
                   <% if ( trademark.comments && trademark.comments.length > 0 ) { %>
-                    <ul>
+                    <ul class="comment-list">
                       <% trademark.comments.forEach(function(comment,key) { %>
-                        <li><span><%= comment.alias %>: </span><%= comment.message %></li>
+                        <li><span class="alias"><%= comment.alias %> <span class="alias-date"><%= moment(comment.created_at_formatted).format('MMM D, YYYY') %></span></span><span class="message"><%= comment.message %></span></li>
                       <% }) %>
                     </ul>
                     <% } %>

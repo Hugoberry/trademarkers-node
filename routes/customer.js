@@ -12,6 +12,7 @@ router.post('/TC-:id-7C/submit', verifiedEmail,controller.updateCustomerFormSubm
 router.get('/orders', verifiedEmail,controller.orders);
 router.get('/orders/:id', verifiedEmail,controller.orderDetail);
 router.post('/orders/:id', verifiedEmail,controller.addSupportingDocs);
+router.post('/orders/comment/:id', verifiedEmail,controller.addComment);
 
 router.get('/invoices', verifiedEmail,controller.invoices);
 

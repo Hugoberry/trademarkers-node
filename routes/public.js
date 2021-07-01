@@ -113,6 +113,11 @@ router.get('/trademark-assignment', publicController.assignment)
 router.get('/register', publicController.register);
 router.post('/register', publicController.registerSubmit);
 
+router.get('/forgot-password', publicController.forgotPassword);
+router.post('/forgot-password', publicController.forgotPasswordSubmit);
+router.get('/reset-password/:old/:email', publicController.forgotPasswordResetForm);
+router.post('/reset-password/:old/:email', publicController.forgotPasswordResetFormSubmit);
+
 
 // on dev
 router.get('/countries', publicController.countries);

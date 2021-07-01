@@ -11,6 +11,7 @@ var rpoTrademarkAddedService = require('../repositories/trademarkAddedServices')
 var rpoCountry = require('../repositories/countries');
 var rpoUser = require('../repositories/users');
 var rpoUserMongo = require('../repositories/usersMongo');
+var rpoComments = require('../repositories/comments');
 
 var helpers = require('../helpers');
 
@@ -90,10 +91,18 @@ exports.orderDetail = async function(req, res, next) {
     otherServices : otherServices
   }
 
+  let comments = await rpoComments.fetchTmComments(req.params.id);
+
+  // console.log(comments);
+  otherServicesData.comments = comments
+
   await rpoTmMongo.updateDetails(req.params.id, otherServicesData);
 
+  // DELAY 2 SEC
+  await new Promise(resolve => setTimeout(resolve, 2000));
+
   let trademark = await rpoTmMongo.getById(req.params.id);
-  console.log(trademark);
+  // console.log(trademark);
 
   if (trademark[0].statusDate) {
     trademark[0].statusDateFormatted = helpers.convertIntToDate(trademark[0].statusDate);
@@ -176,9 +185,9 @@ exports.invoiceDetail = async function(req, res, next) {
 
 exports.addSupportingDocs = async function(req, res, next) {
 
-  console.log("body",req.body);
-  console.log("file",req.files);
-  console.log("params",req.params);
+  // console.log("body",req.body);
+  // console.log("file",req.files);
+  // console.log("params",req.params);
 
   activityService.logger(req.ip, req.originalUrl, "Customer Added Supporting document", req );
 
@@ -424,12 +433,43 @@ exports.verifyAccount = async function(req, res, next) {
     res.redirect("/customer/verify"); 
   }
 
-  // res.render('customer/verifyEmail', { 
-  //   title: 'Customer',
-  //   user: await helpers.getLoginUser(req)
-  // });
+
 
 }
 
-// http://localhost:4200/customer/verify-account/60a4d9865f3f7052445c551f
+exports.addComment = async function(req, res, next) {
+
+  let trademark = await rpoTmMongo.getById(req.params.id)
+  let user = await helpers.getLoginUser(req)
+
+  console.log('this',req.body);
+  activityService.logger(req.ip, req.originalUrl, "Customer Added Comment on ", req );
+
+  // let comments= trademark[0].comments ? trademark[0].comments : []
+  if (req.body.message) {
+    
+    let commentData = {
+      trademarkId: trademark[0]._id,
+      userId: user._id,
+      authUser: user,
+      alias: user.name,
+      message: req.body.message,
+      created_at: toInteger(moment().format('YYMMDD')),
+      created_at_formatted: moment().format()
+    }
+
+    await rpoComments.put(commentData)
+
+    res.flash('success', 'Comment Added!');
+    // comments.push(commentData)
+  } else {
+    res.flash('error', 'Please add comment');
+  }
+
+  res.redirect('/customer/orders/'+trademark[0]._id);
+
+}
+
+
+
 

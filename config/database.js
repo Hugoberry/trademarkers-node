@@ -31,5 +31,5 @@ mysqlConnection.connect(function(err) {
     console.log('MySQL Database is connected successfully !');
 });
   
-module.exports = mysqlConnection;
+// module.exports = mysqlConnection;
 module.exports = mongoConnection;

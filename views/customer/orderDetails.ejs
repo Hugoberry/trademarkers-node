@@ -276,6 +276,47 @@
 
                 </div>
 
+                <div class="ard-wrap stp-row">
+
+                  <div class="ar-box-head"><h3>Comments</h3></div>
+
+                  <div id="supportDocumentList" class="">
+                    <table class="table">
+                  
+                      <% if( trademark.comments && trademark.comments.length > 0 ) { %>
+                        <% trademark.comments.forEach(function(comments,key) { %>
+                        <tr>
+                          <td style="width:100px"><%= comments.alias %> 
+                              <span style="display: block;font-size: 12px;font-style: italic;color: #a2a0a0;"><%= moment(comments.created_at_formatted).format('MMM D, YYYY') %></span>
+                          </td>
+                          <td><%= comments.message %></td>
+                        </tr>
+                        <% }) %>
+                      <% } else { %>
+                        <tr>
+                          <td><p>No comments found!</p></td>
+                        </tr>
+                      <% } %>
+                    </table>
+
+                  </div>
+
+                  <form action="/customer/orders/comment/<%= trademark._id %>" method="post" encType="multipart/form-data">
+
+                    <div class="input-group">
+                      <span class="input-group-text">Message</span>
+                      <textarea class="form-control" aria-label="With textarea" name="message" required></textarea>
+                    </div>
+
+                    <div class="col-auto text-center">
+                      <button type="submit" class="btn btn-primary mt-3">Add Comment</button>
+                    </div>
+
+                  </form>
+               
+
+                </div>
+
 
               </div>
           </div>
