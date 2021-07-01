@@ -290,6 +290,26 @@
       </div>
     </div>
 
+    <div class="col-md-12 mt-5">
+      <div class="card mt-3">
+        <h4 class="m-2">Notes</h4>
+        <pre class="m-2"><%= trademark.notes %></pre>
+      </div>
+    </div>
+
+    <div class="col-md-12 mt-5">
+      <div class="card mt-3">
+      <h4 class="m-2">Comments</h4>
+      <% if ( trademark.comments && trademark.comments.length > 0 ) { %>
+        <ul class="comment-list m-2">
+          <% trademark.comments.forEach(function(comment,key) { %>
+            <li><span class="alias"><%= comment.alias %> <span class="alias-date"><%= moment(comment.created_at_formatted).format('MMM D, YYYY') %></span></span><span class="message"><%= comment.message %></span></li>
+          <% }) %>
+        </ul>
+        <% } %>
+      </div>
+    </div>
+
     
 
     
