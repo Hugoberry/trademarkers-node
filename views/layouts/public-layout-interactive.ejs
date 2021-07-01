@@ -240,6 +240,22 @@ $( document ).ready(function() {
   //   return false;
   // });
 
+  $("#payCard").click(function(){
+    $("#payCard").addClass("btn-blue")
+    $("#payInvoice").removeClass("btn-blue")
+    // $("#paymentMethod").val("Stripe")
+    $("#payment-form").show();
+    $("#payment-form-invoice").hide();
+  })
+
+  $("#payInvoice").click(function(){
+    $("#payInvoice").addClass("btn-blue")
+    $("#payCard").removeClass("btn-blue")
+    // $("#paymentMethod").val("Invoice")
+    $("#payment-form").hide();
+    $("#payment-form-invoice").show();
+  })
+
   
 
 });

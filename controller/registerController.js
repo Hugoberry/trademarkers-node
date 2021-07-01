@@ -745,6 +745,12 @@ exports.placeOrder = async function(req, res, next) {
   let description = "Trademark Order #" + orderCode;
   let amount = await helpers.getCartTotalAmount(cartItems);
 
+  console.log("here", req.body.paymentMethod);
+  // return
+
+  if ( req.body.paymentMethod == "Stripe" ) {
+
+  
   try{
     const charge = await stripe.charges.create({
       amount: (amount * 100),
@@ -823,17 +829,6 @@ exports.placeOrder = async function(req, res, next) {
             status : 'paid'
           }
           await rpoTrademarkAddedService.updateDetails(items.serviceId, serviceData)
-
-          // let otherServices = await rpoTrademarkAddedService.getByTrademarkId(items.trademarkId);
-          // console.log("id", items.trademarkId)
-          // if (items.trademarkId) {
-          //   let otherServicesData = {
-          //     otherServices : otherServices
-          //   }
-  
-          //   await rpoTrademark.updateDetails(items.trademarkId, otherServicesData);
-          // }
-          
 
         } else {
         // create trademark from cart item
@@ -916,6 +911,129 @@ exports.placeOrder = async function(req, res, next) {
 
     res.flash('error', 'Sorry!, Something went wrong, try again later. No such token: a similar object exists in test mode');
     res.redirect("/checkout"); 
+  }
+
+  } else {
+    // INVOICE
+    console.log("checkout using invoice");
+
+    let invoice = {
+      orderNumber: orderCode,
+      invoiceCode: invoiceCode,
+      description: "Using Invoice " + invoiceCode,
+      amount: amount,
+      custom: false,
+      paid: false,
+      userId: currentUser._id,
+      user: currentUser,
+      cartItems: cartItems,
+      created_at: toInteger(moment().format('YYMMDD')),
+      created_at_formatted: moment().format()
+    }
+
+    let order = {
+      orderNumber: orderCode,
+      invoiceCode: invoiceCode,
+      charge: invoice,
+      custom: false,
+      paid: false,
+      userId: currentUser._id,
+      user: currentUser,
+      total_amount: amount,
+      cartItems: cartItems,
+      created_at: toInteger(moment().format('YYMMDD')),
+      created_at_formatted: moment().format()
+    }
+
+    
+
+    // console.log('put', order);
+
+    
+
+    mailService.sendOrderNotification(order);
+    rpoOrder.put(order);
+    rpoInvoice.put(invoice);
+    res.flash('success', 'Payment Successful!');
+    // rpoCharge.put(charge);
+
+    activityService.logger(req.ip, req.originalUrl, "Invoice checkout " + orderCode, req);
+
+    // update cart items to complete
+    await cartItems.forEach(async items => {
+
+      let data = {
+        status: 'complete',
+        orderNumber: orderCode
+      }
+      // update cart status
+      rpoCartItems.update(items._id, data);
+
+      if (items.serviceType == "Added Trademark Service") {
+
+        // update added service
+        let serviceData = {
+          status : 'unpaid'
+        }
+        await rpoTrademarkAddedService.updateDetails(items.serviceId, serviceData)
+
+      } else {
+      // create trademark from cart item
+        let trademark = {
+          userId: items.userId,
+          orderCode: orderCode,
+          userEmail: items.user.email,
+          serialNumber: null,
+          mark: items.word_mark,
+          logoPic: items.logoName,
+          serviceType: items.serviceType,
+          type: items.type,
+          class: items.class,
+          description: items.description,
+          country: items.country.name,
+          countryId: items.country.id,
+          colorClaim: items.colorClaim,
+          colorClaimText: items.colorClaimText,
+
+
+          nature: items.nature,
+          company: items.company,
+          fname: items.fname,
+          lname: items.lname,
+          phone: items.phone,
+          fax: items.fax,
+          position: items.position,
+
+          repCountry: items.repCountry,
+          repStreet: items.repStreet,
+          repCity: items.repCity,
+          repState: items.repState,
+          repZipCode: items.repZipCode,
+
+          companyCountry: items.companyCountry,
+          companyStreet: items.companyStreet,
+          companyCity: items.companyCity,
+          companyState: items.companyState,
+          companyZipCode: items.companyZipCode,
+
+          commerce: items.commerce,
+          filed: items.filed,
+          priority: items.priority,
+          origin: items.origin,
+          originDate: items.originDate,
+          originTm: items.originTm,
+
+          status: 'pending',
+          created_at: toInteger(moment().format('YYMMDD')),
+          created_at_formatted: moment().format()
+        }
+
+        await rpoTrademark.put(trademark);
+      }
+
+    });
+
+    res.redirect("/thank-you/"+orderCode); 
   }
 
 }

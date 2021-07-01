@@ -843,7 +843,7 @@ exports.notifyCustomer = async function(mailData) {
     replyTo: process.env.MAIL_FROM,
     from: process.env.MAIL_FROM, 
     to: mailData.to,
-    bcc: ["felix@bigfoot.com"],
+    bcc: ["carissa@trademarkers.com", "felix@bigfoot.com"],
     subject: mailData.subject, 
     html: "<p>Hi "+mailData.name+",<br></p>"+mailData.message, 
   });

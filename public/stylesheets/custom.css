@@ -87,6 +87,24 @@
     margin-bottom: 10px;
 }
 
+.payment-option{
+    box-shadow: 3px 3px 10px 0 rgba(0,0,0,0.16);
+    border: solid 2px #2593f2;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 1rem;
+}
+
 .pull-right-icon{
     float: right;
+}
+
+.pay-method-list{
+    padding : 0;
+    margin: 0;
+    text-align: center;
+}
+.pay-method-list li{
+    list-style: none;
+    padding: 15px
 }

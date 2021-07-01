@@ -763,7 +763,8 @@
                 
             <td align="right" class="amount"><strong>$<%= totalAmount.toFixed(2) %></strong></td>
 
-        </tr>
+		</tr>
+		<% if (order.paid) { %>
 		<tr>
             <td colspan="5"><strong>Less Payment (Stripe)</strong></td>
             <td align="right" class="amount"><strong>$<%= totalAmount.toFixed(2) %></strong></td>
@@ -771,7 +772,17 @@
 		<tr>
             <td colspan="5"><strong>Balance</strong></td>
             <td align="right" class="amount"><strong>$0.00</strong></td>
-        </tr>
+		</tr>
+		<% } else { %>
+		<tr>
+			<td colspan="5"><strong>Less Payment (Invoice)</strong></td>
+			<td align="right" class="amount"><strong>$0.00</strong></td>
+		</tr>
+		<tr>
+			<td colspan="5"><strong>Balance</strong></td>
+			<td align="right" class="amount"><strong>$<%= totalAmount.toFixed(2) %></strong></td>
+		</tr>
+		<% } %>
     </tfoot>
 
 	

@@ -116,7 +116,7 @@ exports.generateInvoice = async function(orderNumber) {
 
             let path = './public/pdf/'+orders[0].orderNumber.toLowerCase()+'.pdf'
 
-            if (!fs.existsSync(path)) {
+            if (!fs.existsSync(path) || true ) {
 
                 console.log('exec');
 
@@ -148,22 +148,26 @@ exports.generateInvoice = async function(orderNumber) {
                 .fontSize(13)
                 .text(`| Bill To. ${orders[0].user.name}`, leftSpace, verticalSpace);
 
-                doc.fontSize (8.5);
+                doc.fontSize (8);
 
 
                 let email='', address=''
-
+           
                 if ( orders[0].charge.metadata ) {
                     email = orders[0].charge.receipt_email
                     address = orders[0].charge.metadata.customerAddress
+                } else if ( orders[0].user ) {
+            
+                    email = orders[0].user.email ? orders[0].user.email : email
+                    address = orders[0].user.address ? orders[0].user.address : address
                 }
-
+              
                 verticalSpace += 20
                 doc.text (`E, ${email}`, leftSpace + 50, verticalSpace );
                 
                 if (address) {
                     verticalSpace += 15
-                    doc.text (`A, ${orders[0].charge.metadata.customerAddress}`, leftSpace + 50, verticalSpace );
+                    doc.text (`A, ${address}`, leftSpace + 50, verticalSpace );
 
                 }
                 
@@ -242,7 +246,7 @@ exports.generateInvoice = async function(orderNumber) {
                         "$"+orders[0].cartItems[i].price
                     );
 
-                    verticalSpace += 20
+                    verticalSpace += 30
                     generateHr(doc, verticalSpace);
 
                     // ITEM BODY END

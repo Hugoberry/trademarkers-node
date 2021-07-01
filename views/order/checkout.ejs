@@ -4,7 +4,7 @@
 
 	<% if (cartItems.length) { %>
 
-	<div class="col-md-12">
+	<div class="col-md-12 mt-3">
 
 		<h2>Checkout</h2>
 
@@ -20,38 +20,58 @@
 		</div>
 		<% } %>
 
-		<table class="table">
-			<tr>
-				<th>#</th>
-				<th>Country</th>
-				<th>Service</th>
-				<th>Mark</th>
-				<th>Price</th>
-			</tr>
-			<% let cartCount = 0; %>
-			<% for(let i=0; i < cartItems.length; i++) { if(cartItems[i].status == "active") { cartCount++; %>
+		<div class="row">
+		<div class="col-md-9">
+			<table class="table">
 				<tr>
-					<td><%= (i + 1) %></td>
-					<td><%= cartItems[i].country ? cartItems[i].country.name : '' %></td>
-					<td><%= cartItems[i].serviceType ? helpers.formatTextMongoValue(cartItems[i].serviceType) : '' %></td>
-					<td><%= cartItems[i].word_mark ? cartItems[i].word_mark : '' %></td>
-					<td><%= formatter.format(cartItems[i].price) %> <i><%= cartItems[i].discountAmount ? '(-'+formatter.format(cartItems[i].discountAmount) + ')' : '' %></i></td>
+					<th>#</th>
+					<th>Country</th>
+					<th>Service</th>
+					<th>Mark</th>
+					<th>Price</th>
 				</tr>
-			<% }} %>
+				<% let cartCount = 0; %>
+				<% for(let i=0; i < cartItems.length; i++) { if(cartItems[i].status == "active") { cartCount++; %>
+					<tr>
+						<td><%= (i + 1) %></td>
+						<td><%= cartItems[i].country ? cartItems[i].country.name : '' %></td>
+						<td><%= cartItems[i].serviceType ? helpers.formatTextMongoValue(cartItems[i].serviceType) : '' %></td>
+						<td><%= cartItems[i].word_mark ? cartItems[i].word_mark : '' %></td>
+						<td><%= formatter.format(cartItems[i].price) %> <i><%= cartItems[i].discountAmount ? '(-'+formatter.format(cartItems[i].discountAmount) + ')' : '' %></i></td>
+					</tr>
+				<% }} %>
+	
+				<tr>
+					<td colspan="3"></td>
+					<th class="text-right">Total Quantity:</th>
+					<th><%= cartCount %></th>
+				</tr>
+	
+				<tr>
+					<td colspan="3"></td>
+					<th class="text-right">Total Amount:</th>
+					<th><%= formatter.format(totalAmount) %></th>
+				</tr>
+	
+			</table>
+		</div>
 
-			<tr>
-				<td colspan="3"></td>
-				<th class="text-right">Total Quantity:</th>
-				<th><%= cartCount %></th>
-			</tr>
+		<div class="col-md-3">
+			<div class="payment-option">
+				<h6 class="text-center">Payment Method:</h6>
+				<ul class="pay-method-list">
+					<li>
+						<button id="payCard" class="btn btn-solid-lg btn-blue">Pay with Card</button>
+					</li>
+					<li>
+						<button id="payInvoice" class="btn btn-solid-lg ">Pay via Invoice</button>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
 
-			<tr>
-				<td colspan="3"></td>
-				<th class="text-right">Total Amount:</th>
-				<th><%= formatter.format(totalAmount) %></th>
-			</tr>
-
-		</table>
+		
 
 	</div>
 
@@ -150,11 +170,25 @@
 
 						<div class="col-12">
 							<div class="form-group mt-2">
+								<input type="hidden" value="Stripe" name="paymentMethod">
 								<input type="submit" name="ncLgnFormSubmit" id="NcLgnFormSubmit" class="btn btn-solid-lg btn-blue" value="Pay <%= formatter.format(totalAmount) %>">
 							</div>
 						</div>
 					</div>
 				</form>
+
+				<form class="cc-form-self" action="/placeorder" method="post" id="payment-form-invoice" style="display:none">
+					<div class="row">
+						<div class="col-12">
+							<div class="form-group mt-2">
+								<input type="hidden" value="Invoice" name="paymentMethod">
+								<input type="submit" name="ncLgnFormSubmit" id="NcLgnFormSubmit" class="btn btn-solid-lg btn-blue" value="Pay Via Invoice <%= formatter.format(totalAmount) %>">
+							</div>
+						</div>
+					</div>
+					
+				</form>
+
 			</div></div>
 		</div>
 	</div>
