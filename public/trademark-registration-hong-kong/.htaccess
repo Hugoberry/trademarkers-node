@@ -1,0 +1,7 @@
+<IfModule mod_rewrite.c>
+Options +FollowSymlinks
+
+RewriteEngine on 
+RewriteRule ^trademark-registration-(.*)$ map/$1
+
+</IfModule>

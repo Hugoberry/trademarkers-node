@@ -12,7 +12,10 @@ var low = document.getElementById("low");
 var medium = document.getElementById("medium");
 var svgs = { low: low, medium: medium };
 
-var urls = window.location.href.split('/');
+//var urls = window.location.href.split('/');
+//var url = urls[urls.length - 1];
+var url = window.location.href.match(/trademark-registration-(.+)/i);
+if (url) url = url[1];
 
 var map = new MapViewer();
 map.fetchData("js/data.json");
@@ -68,16 +71,18 @@ search.addEventListener("keydown", function(e) {
   }
 });
 
+/*
 window.addEventListener("popstate", function(e) {
   if (e.state) {
     map.selectFeature(e.state.selected);
     e.preventDefault();
   }
 });
+*/
 
 
 let targ = "EM";
-let c = urls[urls.length - 1];
+let c = url;
 c = c.toLowerCase();
 c = c.replace(/\s/g, '-');
 for (let k in map.data) {

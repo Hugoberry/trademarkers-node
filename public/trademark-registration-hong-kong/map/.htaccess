@@ -4,5 +4,6 @@ Options +FollowSymlinks
 RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ index.php?c=$1 [NC,L]
+RewriteRule ^([^/]+) ? [L] 
+
 </IfModule>

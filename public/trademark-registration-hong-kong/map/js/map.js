@@ -1,5 +1,3 @@
-const sea = "#fff";
-const dark = "#888";
 const land = "#ccc";
 const blue = "#448";
 const green = "#484";
@@ -225,7 +223,8 @@ class MapViewer {
           v.ISO = k;
           v.iso = k.toLowerCase();
           v.NAME = v.name.toUpperCase();
-          v.url = v.name.replaceAll(/\s/g, '-');
+          v.url = "trademark-registration-"+v.name.replaceAll(/\s/g, '-').toLowerCase();
+          //v.url = v.name.replaceAll(/\s/g, '-');
           // path to top
           let path = [];
           let d = v;
@@ -470,16 +469,14 @@ class MapViewer {
   
   updateURL() {
     let title = "Trademark Registration Worldwide";
-    let url = "./";
+    //let url = "./";
     let targ = this.selected;
     if (targ && this.data[targ]) {
       let d = this.data[targ];
       title = `Trademark Registration in ${d.name}`;
-      url = d.url;
+      //url = d.url;
     }
-    //let map = this;
-    //window.history.replaceState({ "selected": targ }, title, url);
-    window.history.pushState({ "selected":targ }, title, url);
+    //window.history.pushState({ "selected":targ }, title, url);
     document.title = title;
   }
   
