@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en-us">
+<head>
+  <base href="/map/">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,user-scalable=no">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>World Map</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="container" oncontextmenu="event.preventDefault()">
+  <div id="interactive">
+    <svg id="low"></svg>
+    <svg id="medium"></svg>
+    <canvas id="canvas"></canvas>
+  </div>
+  <div id="content">
+    <div id="left" class="panel"></div>
+    <div id="center" class="panel"></div>
+    <div id="right" class="panel"></div>
+  </div>
+  <div id="overlay">
+    <canvas id="canvas2" style="pointer-events:none;"></canvas>
+    <div id="speech" class="speechbox">
+      <a href="javascript:map.presenter.hide();" class="float-right">
+        <img id="close" src="img/close.png" class="small icon" />
+      </a>
+      <span id="message"></span>
+      <img id="tail" src="img/tail.png" style="z-index:10; height:2em; position:absolute;" />
+    </div>
+  </div>
+</div>
+
+<div id="navbar" class="box">
+  <input id="search" type="text" placeholder="Trademark search..." class="full" autocomplete="off" />
+  <div id="results" class="gray pad"></div>
+</div>
+
+<div id="popup" class="box">
+</div>
+
+<script type="text/javascript" src="js/math.js"></script>
+<script type="text/javascript" src="js/canvas.js"></script>
+<script type="text/javascript" src="js/map.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+
+</body>
+</html>
