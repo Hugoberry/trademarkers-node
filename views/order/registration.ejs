@@ -4,7 +4,7 @@ let serviceTypeCamel = serviceType.charAt(0).toUpperCase() + serviceType.slice(1
 <h1 class="h1-heading"><span>Trademark <%= serviceTypeCamel %> in <%= country.name %></span></h1>
 <div class="container">
     <div class="row justify-content-center box-bg-container">
-
+		<% if ( price.initial_cost  > 0) { %> 
         <div class="col-md-12">
 
             <div class="row" >
@@ -351,6 +351,9 @@ We provide a helpful Class Search tool, which allows you to easily determine the
 			<input id="logo_initial_cost" type="hidden" value="<%= price.logo_initial_cost %>">
 			<input id="logo_additional_cost" type="hidden" value="<%= price.logo_additional_cost %>">
                
-        </div>
+		</div>
+		<% } else { %>
+			<p>Sorry, This Service is not Available right now.</p>
+		<% } %>
     </div>
 </div>

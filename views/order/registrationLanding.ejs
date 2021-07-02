@@ -167,10 +167,10 @@
 									First Class
 								</td>
 								<td class="text-right"> 
-									<%= ( price.initial_cost <= 0 ? 'Free' : helpers.getPriceFormatted(price.initial_cost) ) %>
+									<%= ( price.initial_cost ? helpers.getPriceFormatted(price.initial_cost)  : "" ) %>
 								</td>
 								<td class="text-right"> 
-									<%= ( price.logo_initial_cost <= 0 ? 'Free' : helpers.getPriceFormatted(price.logo_initial_cost) ) %>
+									<%= ( price.logo_initial_cost ? helpers.getPriceFormatted(price.logo_initial_cost) : "" ) %>
 								</td>
 							</tr>
 							<tr>
@@ -178,10 +178,10 @@
 									Each Additional Class
 								</td>
 								<td class="text-right"> 
-									<%= (price.additional_cost <= 0 ? 'Free' : helpers.getPriceFormatted(price.additional_cost)) %>
+									<%= (price.additional_cost ? helpers.getPriceFormatted(price.additional_cost) : "" ) %>
 								</td>
 								<td class="text-right"> 
-									<%= (price.logo_additional_cost <= 0 ? 'Free' : helpers.getPriceFormatted(price.logo_additional_cost) ) %>
+									<%= (price.logo_additional_cost ? helpers.getPriceFormatted(price.logo_additional_cost) : "" ) %>
 								</td>
 							</tr>
 
@@ -433,46 +433,46 @@
 							price['service_type'] == 'Registration' ||
 							price['service_type'] == 'Certificate' ) { %>
 						
-							<tr>
-								<td class="gray text-center" rowspan="2"> 
-									<% if ( price['service_type']  == "Study" ) { %>
-										Step 1
-									<% } else if ( price['service_type']  == "Registration" ) { %>
-										Step 2
-									<% } else if ( price['service_type']  == "Certificate" ) { %>
-										Step 3
-									<% } %>
-								</td>
-								<td rowspan="2">
-									<% if ( price['service_type']  == "Study" ) { %>
-										Trademark<br>Comprehensive Study
-									<% } else if ( price['service_type']  == "Registration" ) { %>
-										Trademark<br>Registration Request
-									<% } else if ( price['service_type']  == "Certificate" ) { %>
-										Trademark<br>Certificate Request *
-									<% } %>
-								</td>
-								<td class="gray"> 
-									First Class
-								</td>
-								<td class="text-right"> 
-									<%= ( price.initial_cost <= 0 ? 'Free' : helpers.getPriceFormatted(price.initial_cost) ) %>
-								</td>
-								<td class="text-right"> 
-									<%= ( price.logo_initial_cost <= 0 ? 'Free' : helpers.getPriceFormatted(price.logo_initial_cost) ) %>
-								</td>
-							</tr>
-							<tr>
-								<td class="gray"> 
-									Each Additional Class
-								</td>
-								<td class="text-right"> 
-									<%= (price.additional_cost <= 0 ? 'Free' : helpers.getPriceFormatted(price.additional_cost)) %>
-								</td>
-								<td class="text-right"> 
-									<%= (price.logo_additional_cost <= 0 ? 'Free' : helpers.getPriceFormatted(price.logo_additional_cost) ) %>
-								</td>
-							</tr>
+								<tr>
+									<td class="no-right gray text-center" rowspan="2"> 
+										<% if ( price['service_type']  == "Study" ) { %>
+											Step 1
+										<% } else if ( price['service_type']  == "Registration" ) { %>
+											Step 2
+										<% } else if ( price['service_type']  == "Certificate" ) { %>
+											Step 3
+										<% } %>
+									</td>
+									<td class="no-left" rowspan="2">
+										<% if ( price['service_type']  == "Study" ) { %>
+											Trademark<br>Comprehensive Study
+										<% } else if ( price['service_type']  == "Registration" ) { %>
+											Trademark<br>Registration Request
+										<% } else if ( price['service_type']  == "Certificate" ) { %>
+											Trademark<br>Certificate Request
+										<% } %>
+									</td>
+									<td class="gray"> 
+										First Class
+									</td>
+									<td class="text-right"> 
+										<%= ( price.initial_cost ? helpers.getPriceFormatted(price.initial_cost)  : "Free" ) %>
+									</td>
+									<td class="text-right"> 
+										<%= ( price.logo_initial_cost ? helpers.getPriceFormatted(price.logo_initial_cost) : "Free" ) %>
+									</td>
+								</tr>
+								<tr>
+									<td class="gray"> 
+										Each Additional Class
+									</td>
+									<td class="text-right"> 
+										<%= (price.additional_cost ? helpers.getPriceFormatted(price.additional_cost) : "Free" ) %>
+									</td>
+									<td class="text-right"> 
+										<%= (price.logo_additional_cost ? helpers.getPriceFormatted(price.logo_additional_cost) : "Free" ) %>
+									</td>
+								</tr>
 
 						
 						<% } %>
