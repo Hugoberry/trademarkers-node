@@ -19,6 +19,7 @@
                         <tr>
                             <th>Invoice #</th>
                             <th>Order #</th>
+                            <th>Status</th>
                             <th width="150">Total Amount</th>
                             <th></th>
                         </tr>
@@ -32,7 +33,8 @@
                         <tr>
                           <td><%= invoiceNumber %></td>
                           <td><%= order.orderNumber %></td>
-                          <td align="right"><%= helpers.getPriceFormatted(order.charge.amount / 100) %></td>
+                          <td ><%= order.paid ? "Paid" : "Unpaid" %></td>
+                          <td align="right"><%= order.charge.amount_captured ? helpers.getPriceFormatted(order.charge.amount / 100) : helpers.getPriceFormatted(order.charge.amount) %></td>
                           <td><a target="_blank" href="/pdf/invoice/<%= order.orderNumber %>"><i class="fa fa-file-pdf"></i></a></td>
                         </tr>
                         <% } }) %>

@@ -206,7 +206,7 @@ exports.generateInvoice = async function(orderNumber) {
                     
                     for(let i = 0; i < orders[0].cartItems.length; i++) {
                     // ITEM BODY
-                    verticalSpace += 20
+                    verticalSpace += 30
                     generateHr(doc, verticalSpace);
                     doc.font("Helvetica");
 
@@ -215,11 +215,11 @@ exports.generateInvoice = async function(orderNumber) {
                     let tmType = 'Design-Only or Stylized Word-Only (Figurative)'
 
                     if (orders[0].cartItems[i].type == "lword") {
-                        tmType = 'Combined Word and \nDesign - ' + orders[0].cartItems[i].word_mark
+                        tmType = 'Combined Word \nand Design:\n ' + orders[0].cartItems[i].word_mark
                     } else if ( orders[0].cartItems[i].type == "word" ) {
-                        tmType = 'Word-Only - \n' + orders[0].cartItems[i].word_mark
+                        tmType = 'Word-Only: \n' + orders[0].cartItems[i].word_mark
                     } else {
-                        tmType = 'Design-Only or Stylized \nWord-Only (Figurative) - ' + orders[0].cartItems[i].word_mark
+                        tmType = 'Design-Only or Stylized \nWord-Only (Figurative):\n ' + orders[0].cartItems[i].word_mark
                     }
                     // let result = ""
                     // while (tmType.length > 0) {
@@ -246,12 +246,26 @@ exports.generateInvoice = async function(orderNumber) {
                         "$"+orders[0].cartItems[i].price
                     );
 
-                    verticalSpace += 30
-                    generateHr(doc, verticalSpace);
+                    if (orders[0].cartItems[i].type == "lword") {
+                        verticalSpace += 10
+                    } else if ( orders[0].cartItems[i].type == "word" ) {
+                        verticalSpace += 0
+                    } else {
+                        verticalSpace += 10
+                    }
+
+                    
 
                     // ITEM BODY END
                     }
 
+                    verticalSpace += 30
+                    generateHr(doc, verticalSpace);
+
+                }
+
+                if ( orders[0].cartItems.length < 4 ) {
+                    verticalSpace += (4 - orders[0].cartItems.length) * 70;
                 }
           
 
