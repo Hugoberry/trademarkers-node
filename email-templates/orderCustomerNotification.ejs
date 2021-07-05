@@ -911,7 +911,11 @@
                         
                         <td valign="top" class="mcnTextContent" style="padding-top:0; padding-right:18px; padding-bottom:9px; padding-left:18px;">
                         
-                            Make sure to visit your account to keep your contact information up-to-date.
+							Make sure to visit your account to keep your contact information up-to-date.
+							<% if (!order.paid) { %>
+							<br>
+							To download a copy of your invoice, please visit your account.
+							<% } %>
                         </td>
                     </tr>
                 </tbody></table>

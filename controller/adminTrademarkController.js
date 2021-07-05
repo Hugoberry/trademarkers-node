@@ -4,9 +4,12 @@ var rpoUser = require('../repositories/users');
 var rpoUserMongo = require('../repositories/usersMongo');
 var rpoAtty = require('../repositories/attorneys');
 var rpoComments = require('../repositories/comments');
+var rpoCountries = require('../repositories/countries')
+var rpoAdminActivity = require('../repositories/adminActivityLog')
 
 var mailService = require('../services/mailerService');
 var crawlerService = require('../services/crawlerService');
+var activityLog = require('../services/adminActivityLogService');
 
 const multer = require('multer');
 const path = require('path');
@@ -44,7 +47,9 @@ exports.show = async function(req, res, next) {
 
   let trademarks = await rpo.getById(id);
 
-
+  let trademarkLogs = await rpoAdminActivity.getLogs('trademarks',id)
+  trademarks[0].logs = trademarkLogs
+  // console.log("logs", trademarkLogs);
   // CHECK SERIAL NUMBER IF FOUND THEN FETCH UPDATED DATA FROM TSDR
   if ( trademarks[0].serialNumber ) {
  
@@ -68,6 +73,8 @@ exports.show = async function(req, res, next) {
 exports.edit = async function(req, res, next) {
 
   let id = req.params['id'];
+
+  let countries = await rpoCountries.getAll();
 
   // fetch trademark added services
   let otherServices = await rpoAddedServices.getByTrademarkId(id);
@@ -111,7 +118,8 @@ exports.edit = async function(req, res, next) {
     layout: 'layouts/admin-layout', 
     title: 'Admin Dashboard',
     trademark: trademarks[0],
-    atty: atty
+    atty: atty,
+    countries: countries
   });
     
 }
@@ -298,12 +306,54 @@ exports.editSubmit = async function(req, res, next) {
     comments.push(commentData)
   }
 
+  if (req.body.class) {
+    let classes=[];
+    let description=[];
+    var classDescription = req.body.class.split(";");
+
+    for(let c=0; c < classDescription.length; c++ ){
+
+      let classArr = classDescription[c].trim().split("|");
+      classes.push(classArr[0].trim());
+      description.push(classArr[1].trim());
+    }
+
+    req.body.class = classes
+    req.body.description = description
+
+  }
+
   
   
   
 
   let otherServicesData = {
     otherServices : otherServices,
+    class: req.body.class,
+    description: req.body.description,
+    mark: req.body.mark,
+    serviceType: req.body.serviceType,
+    country: req.body.country,
+    type: req.body.type,
+    colorClaim: req.body.colorClaim,
+    colorClaimText: req.body.colorClaimText,
+    company: req.body.company,
+    companyCountry: req.body.companyCountry,
+    companyStreet: req.body.companyStreet,
+    companyCity: req.body.companyCity,
+    companyState: req.body.companyState,
+    companyZipCode: req.body.companyZipCode,
+    fname: req.body.fname,
+    lname: req.body.lname,
+    phone: req.body.phone,
+    fax: req.body.fax,
+    nationality: req.body.nationality,
+    position: req.body.position,
+    repStreet: req.body.repStreet,
+    repCity: req.body.repCity,
+    repState: req.body.repState,
+    repZipCode: req.body.repZipCode,
+    repCountry: req.body.repCountry,
     serialNumber: req.body.serialNumber,
     registrationNumber: req.body.registrationNumber,
     registrationDate: req.body.registrationDate,
@@ -330,6 +380,44 @@ exports.editSubmit = async function(req, res, next) {
       otherServicesData.attorney = attorney[0]
     }
   }
+
+  if ( req.files && req.files.logo_pic ) {  
+
+    let uploadPath;
+    let logo_pic;
+    let logoName;
+
+    // updload file
+    logoName = toInteger(moment().format('YYMMDDHHMMSS')) + '-' + req.files.logo_pic.name;
+    req.body.logoName = logoName;
+    logo_pic = req.files.logo_pic;
+    uploadPath = __dirname + '/../public/uploads/' + logoName;
+    // console.log(logo_pic);
+    // req.body.logoName = logoName;
+
+    otherServicesData.logoName = logoName
+
+    // Use the mv() method to place the file somewhere on your server
+    logo_pic.mv(uploadPath, function(err) {
+     
+        
+    });
+
+  }
+
+  // store log update on trademark
+  let adminUser = await helpers.getLoginUser(req)
+  let messageLog = "Updated trademark record"
+
+
+  let activityData = {
+    message: messageLog,
+    obj: trademark[0],
+    objId: trademark[0]._id,
+    objType: 'trademarks'
+  }
+  
+  activityLog.logger(activityData, req);
 
   await rpo.updateDetails(id, otherServicesData);
 

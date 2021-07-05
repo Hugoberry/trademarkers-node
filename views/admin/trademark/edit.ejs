@@ -28,23 +28,10 @@
                 <tr>
                   <td><%= trademark.orderCode %></td>
                   <td><%= trademark.mark %></td>
-                  <td>Trademark <span style="text-transform: capitalize;"><%= trademark.serviceType %></span></td>
+                  <td><%= helpers.formatTextMongoValue(trademark.serviceType) %></td>
                   <td>
-                    <% let typeFormat; 
-                      if( trademark.type ) { 
-                      
-                      
-                      if (trademark.type == 'word') {
-                        typeFormat = 'Word Only'
-                      } else if(trademark.type == 'logo') {
-                        typeFormat = 'Design-Only or Stylized Word-Only (Figurative)'
-                      } else if(trademark.type == 'lword') {
-                        typeFormat = 'Combined Word and Design'
-                      } else {
-                        typeFormat = ''
-                      }
-                    } %>
-                    <%= typeFormat %>
+                    
+                    <%= helpers.formatTextMongoValue(trademark.type) %>
                     <% if(trademark.logoPic) { %>
                       <a target="_blank" href="/uploads/<%= trademark.logoPic %>"><img style="max-height:20px" src="/uploads/<%= trademark.logoPic %>"></a>
                     <% } %>
@@ -85,6 +72,87 @@
                 <div class="col-md-12">
 
                     <div class="col-md-12  mt-5">
+                      <label>Word Mark</label>
+                      <input type="text" class="form-control" value="<%= trademark.mark %>" name="mark" >
+                    </div>
+
+                    <div class="col-md-12  mt-3">
+                      <label>Classes / Description</label>
+                      <%
+                      let classArr = []
+                      let classStringValue="";
+      
+                      if ( Array.isArray(trademark.class) ) {
+                          for( let c=0; c < trademark.class.length; c++ ) {
+                              classArr.push( trademark.class[c] +"|"+ trademark.description[c] )
+                          }
+      
+                          classStringValue = classArr.join(';')
+                      } else {
+                          classStringValue = trademark.class +"|"+ trademark.description
+                      }
+                      
+                      %>
+                      <textarea name="class" class="form-control" placeholder="ex. 1|description;2|description"><%= classStringValue %></textarea>
+                    </div>
+
+                    <div class="col-md-12  mt-3">
+                      <label>Service</label>
+                      <select class="form-control" name="serviceType" required>
+                          <option value="study" <%= trademark.serviceType == 'study' ? "selected":"" %> >Trademark Study</option>
+                          <option value="registration" <%= trademark.serviceType == 'registration' ? "selected":"" %>>Trademark Registration</option>
+                          <option value="monitoring" <%= trademark.serviceType == 'monitoring' ? "selected":"" %>>Trademark Monitoring</option>
+                          <option value="Other Services" <%= trademark.serviceType == 'Other Services' ? "selected":"" %>>Other Services</option>
+                      </select>
+                    </div>
+
+                    <div class="col-md-12  mt-3">
+                      <label>Country</label>
+                      <select class="form-control" name="country" required>
+                          <option value="">-</option>
+                          <% countries.forEach(function(country,key) {  %>
+                          <option value="<%= country.name %>" <%= trademark.country == country.name ? "selected":"" %> ><%= country.name %></option>
+                          <% }) %>
+                      </select>
+                    </div>
+
+                    <div class="col-md-12  mt-3">
+                      <label>Trademark Type</label>
+                      <select class="form-control" name="type">
+                          <option value="word" <%= trademark.type == 'word' ? "selected":"" %> >Word-Only</option>
+                          <option value="logo" <%= trademark.type == 'logo' ? "selected":"" %> >Design-Only or Stylized Word-Only (Figurative)</option>
+                          <option value="lword" <%= trademark.type == 'lword' ? "selected":"" %> >Combined Word and Design</option>
+                      </select>
+                    </div>
+          
+                    <div class="col-md-12  mt-3">
+                        <label><b>Upload Photo (jpeg, jpg, png)</b></label>
+                        <input type="file" class="form-control" name="logo_pic" class="form-control" id="logo_pic" >
+                    </div>
+          
+                    <div class="col-md-12  mt-3">
+                        <label><b>Color Claim</b></label>
+                        
+          
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="colorClaim" id="yesClaim" value="yes" <%= trademark.colorClaim == 'yes' ? "checked":"" %> >
+                            <label for="yesClaim">
+                                Yes
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="colorClaim" id="noClaim" value="no" <%= trademark.colorClaim == 'no' ? "checked":"" %>>
+                            <label for="noClaim">
+                                No
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-control" type="text" name="colorClaimText" placeholder="Color" value="<%= trademark.colorClaimText %>" >
+                        </div>
+          
+                    </div>
+
+                    <div class="col-md-12  mt-3">
                         <label>Serial Number</label>
                         <input type="text" class="form-control" value="<%= trademark.serialNumber %>" placeholder="" name="serialNumber" aria-describedby="serialNUmberLabel">
                     </div>
@@ -137,7 +205,104 @@
                       </select>
                     </div>
 
+                    <div class="col-md-12  mt-3">
+                      <label>Company Name</label>
+                      <input type="text" class="form-control" value="<%= trademark.company %>" name="company" >
+                    </div>
+          
+                    <div class="col-md-12  mt-3">
+                        <label>Company Country</label>
+                        <select class="form-control" name="companyCountry">
+                            <option value="">-</option>
+                            <% countries.forEach(function(country,key) {  %>
+                            <option value="<%= country.name %>" <%= trademark.companyCountry == country.name ? "selected":"" %> ><%= country.name %></option>
+                            <% }) %>
+                        </select>
+                    </div>
+          
+                    <div class="col-md-12  mt-3">
+                        <label>Company Street</label>
+                        <input type="text" class="form-control" value="<%= trademark.companyStreet %>" name="companyStreet" >
+                    </div>
+          
+                    <div class="col-md-12  mt-3">
+                        <label>Company City</label>
+                        <input type="text" class="form-control" value="<%= trademark.companyCity %>" name="companyCity" >
+                    </div>
+          
+                    <div class="col-md-12  mt-3">
+                        <label>Company State</label>
+                        <input type="text" class="form-control" value="<%= trademark.companyState %>" name="companyState" >
+                    </div>
+          
+                    <div class="col-md-12  mt-3">
+                        <label>Company Postal Code</label>
+                        <input type="text" class="form-control" value="<%= trademark.companyZipCode %>" name="companyZipCode" >
+                    </div>  
+
+                    <div class="col-md-12  mt-3">
+                      <label>Applicant/Rep First Name</label>
+                      <input type="text" class="form-control" value="<%= trademark.fname %>" name="fname" >
+                    </div>
+          
+                    <div class="col-md-12  mt-3">
+                        <label>Applicant/Rep Last Name</label>
+                        <input type="text" class="form-control" value="<%= trademark.lname %>" name="lname" >
+                    </div>
+          
+                    <div class="col-md-12  mt-3">
+                        <label>Applicant/Rep Phone No.</label>
+                        <input type="text" class="form-control" value="<%= trademark.phone %>" name="phone" >
+                    </div>
+          
+                    <div class="col-md-12  mt-3">
+                        <label>Applicant/Rep Fax No.</label>
+                        <input type="text" class="form-control" value="<%= trademark.fax %>" name="fax" >
+                    </div>
+          
+                    <div class="col-md-12  mt-3">
+                        <label>Applicant/Rep Nationality</label>
+                        <input type="text" class="form-control" value="<%= trademark.nationality %>" name="nationality" >
+                    </div>
+          
+                    <div class="col-md-12  mt-3">
+                        <label>Applicant/Rep Position</label>
+                        <input type="text" class="form-control" value="<%= trademark.position %>" name="position" >
+                    </div>
+          
+                    <div class="col-md-12  mt-3">
+                        <label>Applicant/Rep Street</label>
+                        <input type="text" class="form-control" value="<%= trademark.repStreet %>" name="repStreet" >
+                    </div>
+          
+                    <div class="col-md-12  mt-3">
+                        <label>Applicant/Rep City</label>
+                        <input type="text" class="form-control" value="<%= trademark.repCity %>" name="repCity" >
+                    </div>
+          
+                    <div class="col-md-12  mt-3">
+                        <label>Applicant/Rep State</label>
+                        <input type="text" class="form-control" value="<%= trademark.repState %>" name="repState" >
+                    </div>
+          
+                    <div class="col-md-12  mt-3">
+                        <label>Applicant/Rep Postal Code</label>
+                        <input type="text" class="form-control" value="<%= trademark.repZipCode %>" name="repZipCode" >
+                    </div>
+          
+                    <div class="col-md-12  mt-3">
+                        <label>Applicant/Rep Country</label>
+                        <select class="form-control" name="repCountry">
+                            <option value="">-</option>
+                            <% countries.forEach(function(country,key) {  %>
+                            <option value="<%= country.name %>" <%= trademark.repCountry == country.name ? "selected":"" %>><%= country.name %></option>
+                            <% }) %>
+                        </select>
+                    </div>
+
                 </div>
+
+                
 
                 <!-- <div class="col-md-12 form-group"> -->
 
@@ -179,7 +344,7 @@
                 <div class="col-md-12 mt-5">
                 <div class="col-md-12">
 
-                    <div class="form-group">
+                    <div class="col-md-12  mt-3">
                         <label>Add Additional Fee(s) <span class="containerAddFeesBtn"><i class="fa fa-plus"></i></span></label>
                         <div id="containerAddFees" class="containerAddFees">
 
@@ -216,21 +381,25 @@
                 </div>
 
                 <div class="col-md-12 mt-5">
-                  <label>Notes</label>
-                  <textarea class="form-control" name="notes"><%= trademark.notes %></textarea>
+                  <div class="col-md-12">
+                    <label>Notes</label>
+                    <textarea class="form-control" name="notes"><%= trademark.notes %></textarea>
+                  </div>
                 </div>
 
                 <div class="col-md-12 mt-5">
+                  <div class="col-md-12">
                   
-                  <label>Comments</label>
-                  <% if ( trademark.comments && trademark.comments.length > 0 ) { %>
-                    <ul class="comment-list">
-                      <% trademark.comments.forEach(function(comment,key) { %>
-                        <li><span class="alias"><%= comment.alias %> <span class="alias-date"><%= moment(comment.created_at_formatted).format('MMM D, YYYY') %></span></span><span class="message"><%= comment.message %></span></li>
-                      <% }) %>
-                    </ul>
-                    <% } %>
-                  <textarea class="form-control" name="comments"></textarea>
+                    <label>Comments</label>
+                    <% if ( trademark.comments && trademark.comments.length > 0 ) { %>
+                      <ul class="comment-list">
+                        <% trademark.comments.forEach(function(comment,key) { %>
+                          <li><span class="alias"><%= comment.alias %> <span class="alias-date"><%= moment(comment.created_at_formatted).format('MMM D, YYYY') %></span></span><span class="message"><%= comment.message %></span></li>
+                        <% }) %>
+                      </ul>
+                      <% } %>
+                    <textarea class="form-control" name="comments"></textarea>
+                  </div>
                 </div>
         
                 
