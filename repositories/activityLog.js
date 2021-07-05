@@ -47,10 +47,10 @@ module.exports = {
 		return new Promise(function(resolve, reject) {
 
 			let query = { created_at_formatted: { 
-				$gte : moment().subtract("5", "days").format()
+				$gte : moment().subtract("3", "days").format()
 			} }
 
-			let field = { fields : { user:1, uri: 1, activity: 1, created_at_formatted: 1 } };
+			let field = { fields : { ip: 1, user:1, uri: 1, activity: 1, created_at_formatted: 1 } };
 			
 			conn.getDb().collection(_table).find(query, field).toArray(function(err, result) {
 					
