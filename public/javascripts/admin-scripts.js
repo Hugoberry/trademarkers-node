@@ -36,17 +36,17 @@ $( document ).ready(function() {
   var adminDataTableTrademarks = $("#dataTableTrademarks").DataTable({
     "order": [[ 0, "desc" ]], //or asc 
     "columnDefs" : [{"targets":0, "type":"numeric"}],
-    // dom: 'Bfrtip',
-    //     buttons: [
-    //       {
-    //         extend: 'csv',
-    //         text: 'Download CSV'
-    //       },
-    //       {
-    //         extend: 'print',
-    //         text: 'Print Data'
-    //       }
-    //     ]
+    dom: 'Bfrtip',
+        buttons: [
+          {
+            extend: 'csv',
+            text: 'Download CSV'
+          },
+          {
+            extend: 'print',
+            text: 'Print Data'
+          }
+        ]
   });
 
   if ( $("#myListDataTable").length ) {
