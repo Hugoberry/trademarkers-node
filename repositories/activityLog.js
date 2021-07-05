@@ -52,7 +52,10 @@ module.exports = {
 
 			let field = { fields : { ip: 1, user:1, uri: 1, activity: 1, created_at_formatted: 1 } };
 			
-			conn.getDb().collection(_table).find(query, field).toArray(function(err, result) {
+			conn.getDb().collection(_table)
+				.find(query, field)
+				.sort({"created_at": -1})
+				.toArray(function(err, result) {
 					
 				if (err) {
 					reject(err);
