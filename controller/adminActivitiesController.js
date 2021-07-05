@@ -16,7 +16,7 @@ exports.index = async function(req, res, next) {
 
   // console.log(db.mongoConnection);
 
-  let activities = await rpo.getAll();
+  let activities = await rpo.getAllLatest();
 
   
   res.render('admin/activities/', { 

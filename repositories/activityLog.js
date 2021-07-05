@@ -3,6 +3,8 @@ let conn = require('../config/DbConnect');
 
 let ObjectID = require('mongodb').ObjectID;
 
+let moment = require('moment');
+
 // dirty connection MYSQL
 const mysql = require('mysql');
 const connection = mysql.createConnection({
@@ -29,6 +31,26 @@ module.exports = {
 			
 			
 			conn.getDb().collection(_table).find().toArray(function(err, result) {
+					
+				if (err) {
+					reject(err);
+				} else {
+					resolve(result);
+				}
+
+			});
+
+		});
+	},
+
+	getAllLatest : async function() {
+		return new Promise(function(resolve, reject) {
+
+			let query = { created_at_formatted: { 
+				$gte : moment().subtract("1", "weeks").format()
+			} }
+			
+			conn.getDb().collection(_table).find(query).toArray(function(err, result) {
 					
 				if (err) {
 					reject(err);
