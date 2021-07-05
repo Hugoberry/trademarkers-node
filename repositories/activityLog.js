@@ -47,7 +47,7 @@ module.exports = {
 		return new Promise(function(resolve, reject) {
 
 			let query = { created_at_formatted: { 
-				$gte : moment().subtract("1", "weeks").format()
+				$gte : moment().subtract("5", "days").format()
 			} }
 
 			let field = { fields : { user:1, uri: 1, activity: 1, created_at_formatted: 1 } };
