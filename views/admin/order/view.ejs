@@ -60,6 +60,25 @@
 
       </div>
 
+      <div class="col-md-12 mt-5">
+        <div class="card mt-3">
+        <h4 class="m-2">Activity Logs</h4>
+        <% if ( order.logs && order.logs.length > 0 ) { %>
+          <ul class="comment-list m-2">
+            <% order.logs.forEach(function(logs,key) { %>
+              <li><span style="font-style:italic; padding-right:10px"><%= moment(logs.created_at_formatted).format('MMM D, YYYY hh:mm:ss') %></span><span style="font-weight: 600;"><%= logs.user %></span></li>
+            <% }) %>
+          </ul>
+          <% } %>
+        </div>
+      </div>
+
+      <div class="col-md-12">
+        <p class="text-center mt-3">
+          <a class="btn btn-primary" style="padding-left:40px;padding-right:40px;" href="/njs-admin/manage/orders/edit/<%= order._id %>">Edit</a>
+        </p>
+      </div>
+
     
 
 

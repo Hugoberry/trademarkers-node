@@ -316,7 +316,7 @@
       <% if ( trademark.logs && trademark.logs.length > 0 ) { %>
         <ul class="comment-list m-2">
           <% trademark.logs.forEach(function(logs,key) { %>
-            <li><span style="font-style:italic; padding-right:10px"><%= moment(logs.created_at_formatted).format('MMM D, YYYY HH:MM') %></span><span style="font-weight: 600;"><%= logs.user %></span></li>
+            <li><span style="font-style:italic; padding-right:10px"><%= moment(logs.created_at_formatted).format('MMM D, YYYY hh:mm:ss') %></span><span style="font-weight: 600;"><%= logs.user %></span></li>
           <% }) %>
         </ul>
         <% } %>

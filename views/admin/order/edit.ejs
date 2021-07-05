@@ -1,72 +1,106 @@
 <div class="col-md-12" style="margin-bottom:20px;">    
-    <h2>Edit Promo Code (<%= code.code %>)
+    <h2>Edit Order #<%= order.orderNumber %>
     </h2>
+  
+        <div class="col-md-12">
+            <hr>
+  
+              <%
+              let customer;
+              let email;
+              let details;
+              if ( order.user ) {
+                  customer = order.user.name
+                  email = order.user.email
+              } else if ( order.charge && order.charge.metadata ) {
+                  email = order.charge.metadata.customer
+                  details = order.charge.metadata.description
+              }
+              %>
+            <div class="form-group">
+                <label>Customer Name</label>
+                <input type="text" class="form-control" value="<%= customer %>" placeholder="" name="notes" disabled>
+            </div>
+  
+            <div class="form-group">
+                <label>Customer Email</label>
+                <input type="text" class="form-control" value="<%= email %>" placeholder="" name="discountType" disabled>
+            </div>
+  
+            <% if (order.cartItems) { %>
+            <table class="table">
+              <thead>
+                  <tr>
+                      <th>Mark</th>
+                      <th>Service</th>
+                      <th>Type</th>
+                      <th>Amount</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  
+              <% order.cartItems.forEach(function(item,key) {  %>
+         
+                  <tr>
+                      <td><%= item.name ? item.name : item.word_mark %></td>
+                      <td><%= item.service ? item.service : 'Trademark '+item.serviceType %></td>
+                      <td><%= item.type %></td>
+                      <td>$<%= item.amount ? item.amount : item.price %></td>
+  
+                  </tr>
+              <% }) %>
+              </tbody>
+          </table>
+          <% } %>
+  
+          <% if (details) { %>
+              <p><%= details %></p>
+          <% } %>
+  
+  
+        </div>
 
-
-
-
-    <form class="row" action="/njs-admin/manage/promo/edit/<%= code._id %>" method="post" encType="multipart/form-data">
+        <form class="row" action="/njs-admin/manage/orders/edit/<%= order._id %>" method="post" encType="multipart/form-data">
 
     
 
-        <div class="col-md-12">
-            <hr>
-
-            <div class="form-group">
-                <label>Name</label>
-                <input type="text" class="form-control" value="<%= code.name %>" placeholder="" name="name">
+            <div class="col-md-12">
+                <hr>
+    
+                <div class="form-group">
+                    <label>Payment Method</label>
+                    <select class="form-control" name="paymentMethod" required>
+                        <option value="Stripe" <%= order.paymentMethod == "Stripe" ? 'selected':'' %> >Stripe</option>
+                        <option value="Invoice" <%= order.paymentMethod == "Invoice" ? 'selected':'' %> >Invoice</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <select class="form-control" name="paid" required>
+                        <option value="true" <%= order.paid ? 'selected':'' %> >Paid</option>
+                        <option value="false" <%= !order.paid ? 'selected':'' %> >Unpaid</option>
+                    </select>
+                </div>
+    
+    
+    
             </div>
-
-            <div class="form-group">
-                <label>Notes</label>
-                <input type="text" class="form-control" value="<%= code.notes %>" placeholder="" name="notes">
+    
+           
+    
+            <div class="col-md-12">
+                <p class="text-center">
+                    <button type="submit" class="btn btn-primary btn-rounded-primary" style="padding-left:40px;padding-right:40px;">Update</button>
+                </p>
             </div>
-
-            <div class="form-group">
-                <label>Discount Amount Type</label>
-                <select class="form-control" name="discountType">
-                    <option value="Percentage" <%= code.discountType == "Percentage" ? "selected":"" %> >Percentage</option>
-                    <option value="Fixed Amount" <%= code.discountType == "Fixed Amount" ? "selected":"" %> >Fixed Amount</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Discount Amount</label>
-                <input type="number" class="form-control" value="<%= code.discountAmount %>" placeholder="" name="discountAmount">
-            </div>
-
-            <div class="form-group">
-                <label>Start Date</label>
-                <input type="date" class="form-control" value="<%= code.startDate %>" name="startDate">
-            </div>
-
-            <div class="form-group">
-                <label>End Date</label>
-                <input type="date" class="form-control" value="<%= code.endDate %>" name="endDate">
-            </div>
-
-            <div class="form-group">
-                <label>Status</label>
-                <select class="form-control" name="status">
-                    <option value="Active" <%= code.status == "Active" ? "selected" : "" %> >Active</option>
-                    <option value="Inactive" <%= code.status == "Inactive" ? "selected" : "" %> >Inactive</option>
-                </select>
-            </div>
-
-
-
-        </div>
-
-       
-
-        <div class="col-md-12">
-            <p class="text-center">
-                <button type="submit" class="btn btn-primary btn-rounded-primary" style="padding-left:40px;padding-right:40px;">Update</button>
-            </p>
-        </div>
-
-    </form>
-
-</div>
+    
+        </form>
+  
+      
+  
+  
+  
+  </div>
         
-
+  
+  

@@ -1,5 +1,7 @@
 var rpo = require('../repositories/orders');
 var rpoUsers = require('../repositories/usersMongo');
+var rpoAdminActivity = require('../repositories/adminActivityLog')
+var activityLog = require('../services/adminActivityLogService');
 
 const multer = require('multer');
 const path = require('path');
@@ -38,6 +40,10 @@ exports.show = async function(req, res, next) {
     }
   }
 
+  let logs = await rpoAdminActivity.getLogs('orders',id)
+
+  orders[0].logs = logs
+
   
   res.render('admin/order/view', {
     layout: 'layouts/admin-layout', 
@@ -47,84 +53,18 @@ exports.show = async function(req, res, next) {
     
 }
 
-exports.add = async function(req, res, next) {
 
-  let id = req.params['id'];
-
-  let user = await rpo.getByIdM(id);
-  
-  res.render('admin/user/add', { 
-    layout: 'layouts/admin-layout', 
-    title: 'Admin Dashboard',
-    user: user[0]
-  });
-    
-}
-
-exports.addSubmit = async function(req, res, next) {
-
-  // let id = req.params['id'];
-  // let country = await rpo.getByIdM(id);
-
-  // let addData = req.body;
-
-  var hash = bcrypt.hashSync(req.body.password, 10); 
-
-  hash = hash.replace("$2b$", "$2y$");
-
-  let flag = true
-  let custNo = ""
-
-  for ( ; flag; ) {
-      custNo = "CU-" + helpers.makeid(4)
-
-      let dataCustomer = await rpo.findUserNo(custNo)
-      // console.log("check user", dataCustomer.length );
-      if ( dataCustomer.length <= 0 ) {
-          flag = false
-      }
-  }
-
-  let checkEmail = await rpo.findUser(req.body.email)
-
-  if ( checkEmail.length > 0 ) {
-    res.flash('error', 'Email Already Exist!');
-    res.redirect('/njs-admin/manage/user/');
-  } else {
-    let userData = {
-      name: req.body.lname + ", " + req.body.fname,
-      firstName:req.body.fname,
-      lastName:req.body.lname,
-      email: req.body.email,
-      secondaryEmail: req.body.email,
-      password: hash,
-      custNo: custNo,
-      created_at: toInteger(moment().format('YYMMDD')),
-      created_at_formatted: moment().format()
-    }
-  
-    await rpo.putUser(userData);
-  
-    res.flash('success', 'Added successfully!');
-    res.redirect('/njs-admin/manage/user/');
-  }
-
-  
-  next()
-  
-
-}
 
 exports.edit = async function(req, res, next) {
 
   let id = req.params['id'];
 
-  let user = await rpo.getByIdM(id);
+  let order = await rpo.getById(id);
   
-  res.render('admin/user/edit', { 
+  res.render('admin/order/edit', { 
     layout: 'layouts/admin-layout', 
     title: 'Admin Dashboard',
-    user: user[0]
+    order: order[0]
   });
     
 }
@@ -132,15 +72,29 @@ exports.edit = async function(req, res, next) {
 exports.editSubmit = async function(req, res, next) {
 
   let id = req.params['id'];
-  // let country = await rpo.getByIdM(id);
+  let order = await rpo.getById(id);
 
-  let updateData = req.body;
+  let updateData = {
+    paid : req.body.paid == "true" ? true : false,
+    paymentMethod: req.body.paymentMethod
+  }
 
+  let messageLog = "Updated order record"
+  let activityData = {
+    message: messageLog,
+    obj: order[0],
+    objId: order[0]._id,
+    objType: 'orders'
+  }
+  
+  activityLog.logger(activityData, req);
 
-  await rpo.updateUser(id, updateData);
+  await rpo.update(id, updateData);
+
+  
 
   res.flash('success', 'Updated successfully!');
-  res.redirect('/njs-admin/manage/user/');
+  res.redirect('/njs-admin/manage/orders/');
 
 }
 

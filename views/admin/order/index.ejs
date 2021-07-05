@@ -23,9 +23,10 @@
                 <th>Total Amount</th>
                 <th># Items</th>
                 <th>Customer</th>
+                <th>Payment Method</th>
                 <th>Status</th>
                 <th>Date Created</th>
-                <th></th>
+                <th style="width:100px"></th>
             </tr>
         </thead>
         <tbody>
@@ -48,9 +49,9 @@
                 <td>
                     <%
                     let totalAmount = 0;
-                    if (order.charge && order.charge.amount && !order.charge.order_id) {
+                    if (order.charge && order.charge.amount_captured ) {
                         totalAmount = order.charge.amount / 100
-                    } else if(order.charge && order.charge.amount && order.charge.order_id) {
+                    } else if(order.charge && order.charge.amount ) {
                         totalAmount = order.charge.amount
                     } else if ( order.total_amount ) {
                         totalAmount = order.total_amount
@@ -73,12 +74,14 @@
                     }
                 %>
                 <td><%= customer %></td>
+                <td><%= order.paymentMethod ? order.paymentMethod : 'Stripe' %></td>
                 <td><%= order.paid ? 'Paid' : (order.charge && order.charge.amount_captured ? 'Paid' : 'Unpaid') %></td>
                
                 <td ><%= moment(createdAtDate).format('MMM D, YYYY') %></td>
 
                 <td>
                     <a href="/njs-admin/manage/orders/view/<%= order._id %>"><i class="fa fa-eye"></i></a>
+                    <a href="/njs-admin/manage/orders/edit/<%= order._id %>"><i class="fa fa-pen"></i></a>
                     <a target="_blank" href="/pdf/invoice/<%= order.orderNumber %>"><i class="fa fa-file-pdf"></i></a>
                 </td>
             </tr>

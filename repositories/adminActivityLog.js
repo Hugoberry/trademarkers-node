@@ -30,7 +30,7 @@ module.exports = {
 
 			let query = { "objId" : ObjectID(id), "objType" : type };
 			
-			conn.getDb().collection(_table).find(query).toArray(function(err, result) {
+			conn.getDb().collection(_table).find(query).sort({ created_at_formatted : -1 }).toArray(function(err, result) {
 					
 				if (err) {
 					reject(err);
